@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 23 Bulan Mei 2020 pada 09.08
+-- Waktu pembuatan: 23 Bulan Mei 2020 pada 10.12
 -- Versi server: 10.1.37-MariaDB
 -- Versi PHP: 7.3.1
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `tb_admin` (
-  `id_admin` varchar(10) NOT NULL,
+  `id_admin` int(11) NOT NULL,
   `nama_admin` varchar(50) NOT NULL,
   `username_admin` varchar(20) NOT NULL,
   `password_admin` text NOT NULL,
@@ -47,9 +47,9 @@ CREATE TABLE `tb_admin` (
 --
 
 CREATE TABLE `tb_detail_transaksi` (
-  `id_detail_transaksi` varchar(10) NOT NULL,
-  `id_transaksi` varchar(10) NOT NULL,
-  `id_produk` varchar(10) NOT NULL,
+  `id_detail_transaksi` int(11) NOT NULL,
+  `id_transaksi` int(11) NOT NULL,
+  `id_produk` int(11) NOT NULL,
   `jumlah_produk` int(11) NOT NULL,
   `jumlah_harga` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -66,7 +66,7 @@ CREATE TABLE `tb_informasi` (
   `isi_informasi` text NOT NULL,
   `gambar` text NOT NULL,
   `status_informasi` enum('aktif','tidak aktif','','') NOT NULL,
-  `id_umkm` varchar(10) NOT NULL
+  `id_umkm` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -76,7 +76,7 @@ CREATE TABLE `tb_informasi` (
 --
 
 CREATE TABLE `tb_kategori_produk` (
-  `id_kategori_produk` varchar(10) NOT NULL,
+  `id_kategori_produk` int(11) NOT NULL,
   `nama_kategori_produk` varchar(50) NOT NULL,
   `keterangan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -88,7 +88,7 @@ CREATE TABLE `tb_kategori_produk` (
 --
 
 CREATE TABLE `tb_kategori_umkm` (
-  `id_kategori_umkm` varchar(10) NOT NULL,
+  `id_kategori_umkm` int(11) NOT NULL,
   `nama_kategori_umkm` varchar(50) NOT NULL,
   `keterangan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -100,7 +100,7 @@ CREATE TABLE `tb_kategori_umkm` (
 --
 
 CREATE TABLE `tb_konsumen` (
-  `id_konsumen` varchar(10) NOT NULL,
+  `id_konsumen` int(11) NOT NULL,
   `username_konsumen` varchar(20) NOT NULL,
   `password_konsumen` text NOT NULL,
   `email_konsumen` varchar(50) NOT NULL,
@@ -123,7 +123,7 @@ CREATE TABLE `tb_market` (
   `nama_market` varchar(50) NOT NULL,
   `alamat_market` text NOT NULL,
   `link_market` varchar(255) NOT NULL,
-  `id_umkm` varchar(10) NOT NULL
+  `id_umkm` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -139,7 +139,7 @@ CREATE TABLE `tb_portofolio` (
   `keterangan` text NOT NULL,
   `alamat` text NOT NULL,
   `tanggal` date NOT NULL,
-  `id_umkm` varchar(10) NOT NULL
+  `id_umkm` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -149,13 +149,13 @@ CREATE TABLE `tb_portofolio` (
 --
 
 CREATE TABLE `tb_produk` (
-  `id_produk` varchar(10) NOT NULL,
+  `id_produk` int(11) NOT NULL,
   `nama_produk` varchar(50) NOT NULL,
   `foto_produk` text NOT NULL,
   `deskripsi_produk` text NOT NULL,
   `harga_produk` int(11) NOT NULL,
-  `id_umkm` varchar(10) NOT NULL,
-  `id_kategori_produk` varchar(10) NOT NULL
+  `id_umkm` int(11) NOT NULL,
+  `id_kategori_produk` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -180,8 +180,8 @@ CREATE TABLE `tb_slide` (
 --
 
 CREATE TABLE `tb_transaksi` (
-  `id_transaksi` varchar(10) NOT NULL,
-  `id_konsumen` varchar(10) NOT NULL,
+  `id_transaksi` int(11) NOT NULL,
+  `id_konsumen` int(11) NOT NULL,
   `total_harga` int(11) NOT NULL,
   `bukti_pembayaran` text NOT NULL,
   `tanggal_transaksi` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -195,7 +195,7 @@ CREATE TABLE `tb_transaksi` (
 --
 
 CREATE TABLE `tb_umkm` (
-  `id_umkm` varchar(10) NOT NULL,
+  `id_umkm` int(11) NOT NULL,
   `username_umkm` varchar(20) NOT NULL,
   `password_umkm` text NOT NULL,
   `email_umkm` varchar(50) NOT NULL,
@@ -204,7 +204,7 @@ CREATE TABLE `tb_umkm` (
   `deskripsi_umkm` text NOT NULL,
   `nomor_telp_umkm` varchar(15) NOT NULL,
   `tanggal_join` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `id_kategori_umkm` varchar(10) NOT NULL,
+  `id_kategori_umkm` int(11) NOT NULL,
   `status_umkm` enum('aktif','tidak aktif','','') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -223,8 +223,8 @@ ALTER TABLE `tb_admin`
 --
 ALTER TABLE `tb_detail_transaksi`
   ADD PRIMARY KEY (`id_detail_transaksi`),
-  ADD KEY `id_produk` (`id_produk`),
-  ADD KEY `id_transaksi` (`id_transaksi`);
+  ADD KEY `id_transaksi` (`id_transaksi`),
+  ADD KEY `id_produk` (`id_produk`);
 
 --
 -- Indeks untuk tabel `tb_informasi`
@@ -271,7 +271,7 @@ ALTER TABLE `tb_portofolio`
 ALTER TABLE `tb_produk`
   ADD PRIMARY KEY (`id_produk`),
   ADD KEY `id_umkm` (`id_umkm`),
-  ADD KEY `tb_produk_ibfk_1` (`id_kategori_produk`);
+  ADD KEY `id_kategori_produk` (`id_kategori_produk`);
 
 --
 -- Indeks untuk tabel `tb_slide`
@@ -294,6 +294,58 @@ ALTER TABLE `tb_umkm`
   ADD KEY `id_kategori_umkm` (`id_kategori_umkm`);
 
 --
+-- AUTO_INCREMENT untuk tabel yang dibuang
+--
+
+--
+-- AUTO_INCREMENT untuk tabel `tb_admin`
+--
+ALTER TABLE `tb_admin`
+  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `tb_detail_transaksi`
+--
+ALTER TABLE `tb_detail_transaksi`
+  MODIFY `id_detail_transaksi` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `tb_kategori_produk`
+--
+ALTER TABLE `tb_kategori_produk`
+  MODIFY `id_kategori_produk` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `tb_kategori_umkm`
+--
+ALTER TABLE `tb_kategori_umkm`
+  MODIFY `id_kategori_umkm` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `tb_konsumen`
+--
+ALTER TABLE `tb_konsumen`
+  MODIFY `id_konsumen` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `tb_produk`
+--
+ALTER TABLE `tb_produk`
+  MODIFY `id_produk` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `tb_transaksi`
+--
+ALTER TABLE `tb_transaksi`
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `tb_umkm`
+--
+ALTER TABLE `tb_umkm`
+  MODIFY `id_umkm` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
@@ -301,8 +353,8 @@ ALTER TABLE `tb_umkm`
 -- Ketidakleluasaan untuk tabel `tb_detail_transaksi`
 --
 ALTER TABLE `tb_detail_transaksi`
-  ADD CONSTRAINT `tb_detail_transaksi_ibfk_1` FOREIGN KEY (`id_produk`) REFERENCES `tb_produk` (`id_produk`),
-  ADD CONSTRAINT `tb_detail_transaksi_ibfk_2` FOREIGN KEY (`id_transaksi`) REFERENCES `tb_transaksi` (`id_transaksi`);
+  ADD CONSTRAINT `tb_detail_transaksi_ibfk_1` FOREIGN KEY (`id_transaksi`) REFERENCES `tb_transaksi` (`id_transaksi`),
+  ADD CONSTRAINT `tb_detail_transaksi_ibfk_2` FOREIGN KEY (`id_produk`) REFERENCES `tb_produk` (`id_produk`);
 
 --
 -- Ketidakleluasaan untuk tabel `tb_informasi`
@@ -326,8 +378,8 @@ ALTER TABLE `tb_portofolio`
 -- Ketidakleluasaan untuk tabel `tb_produk`
 --
 ALTER TABLE `tb_produk`
-  ADD CONSTRAINT `tb_produk_ibfk_1` FOREIGN KEY (`id_kategori_produk`) REFERENCES `tb_kategori_produk` (`id_kategori_produk`),
-  ADD CONSTRAINT `tb_produk_ibfk_2` FOREIGN KEY (`id_umkm`) REFERENCES `tb_umkm` (`id_umkm`);
+  ADD CONSTRAINT `tb_produk_ibfk_1` FOREIGN KEY (`id_umkm`) REFERENCES `tb_umkm` (`id_umkm`),
+  ADD CONSTRAINT `tb_produk_ibfk_2` FOREIGN KEY (`id_kategori_produk`) REFERENCES `tb_kategori_produk` (`id_kategori_produk`);
 
 --
 -- Ketidakleluasaan untuk tabel `tb_transaksi`
