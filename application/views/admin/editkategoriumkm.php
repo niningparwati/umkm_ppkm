@@ -9,12 +9,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Kategori Produk
+        Kategori UMKM
         <small>Control panel</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"> Kategori Produk</li>
+        <li class="active"> Kategori UMKM</li>
+          <li class="active"> Edit Kategori UMKM</li>
       </ol>
     </section>
 
@@ -26,19 +27,20 @@
           <!-- general form elements -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Tambah Kategori Produk</h3>
+              <h3 class="box-title">Edit Kategori UMKM</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form" action="<?=base_url()?>Admin/createKategoriProduk" method="POST">
+            <form role="form" action="<?=base_url()?>Admin/updateKategoriUMKM" method="POST">
               <div class="box-body">
                 <div class="form-group">
+                  <input type="hidden" name="id_kategori_umkm" value="<?php echo $kategori->id_kategori_umkm ?>">
                   <label for="exampleInputEmail1">Nama Kategori</label>
-                  <input type="text" name="nama" class="form-control" placeholder="Nama Kategori">
+                  <input type="text" class="form-control" name="nama" placeholder="Nama Kategori" value="<?php echo $kategori->nama_kategori_umkm ?>">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Keterangan</label>
-                  <textarea name="keterangan" rows="8" cols="80" class="form-control"></textarea>
+                  <textarea name="keterangan" rows="8" cols="80" class="form-control"><?php echo $kategori->keterangan ?></textarea>
                 </div>
               </div>
               <!-- /.box-body -->
@@ -51,45 +53,6 @@
       </div>
     </div>
       <!-- /.row -->
-      <div class="box">
-        <div class="box-header">
-          <h3 class="box-title">Data Kategori Produk</h3>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-          <table id="example1" class="table table-bordered table-striped">
-            <thead>
-            <tr>
-              <th>No.</th>
-              <th>Nama Kategori</th>
-              <th>Aksi</th>
-            </tr>
-            </thead>
-            <tbody>
-              <?php
-              $n = 1;
-              foreach ($kategori as $k): ?>
-            <tr>
-              <td><?php echo $n++ ?></td>
-              <td><?php echo $k->nama_kategori_produk ?></td>
-                  <td><?php echo $k->keterangan ?></td>
-              <td>
-                <a href="<?= base_url()?>Admin/pilihKategoriProduk/<?=$k->id_kategori_produk ?>">
-                  <button class="btn btn-warning">
-                      <div><i class="fa fa-fw fa-pencil"></i>Edit</div>
-                  </button>
-                </a>
-                <a class="btn btn-danger" data-toggle="modal" href="#" data-target="#hapus<?=$k->id_kategori_produk?>">
-                    <i class="fa fa-fw fa-trash"></i> Hapus
-                </a>
-              </td>
-            </tr>
-          <?php endforeach; ?>
-          </tbody>
-          </table>
-        </div>
-        <!-- /.box-body -->
-      </div>
     </section>
     <!-- /.content -->
   </div>
@@ -101,7 +64,7 @@
 
 <!-- ini bagian buka hapus -->
 <?php foreach ($kategori as $s) { ?>
-<div class="modal fade" id="hapus<?=$s->id_kategori_produk?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
+<div class="modal fade" id="hapus<?=$s->id_kategori_umkm?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
 <div class="modal-dialog" role="document">
  <div class="modal-content">
    <div class="modal-header">
@@ -111,11 +74,11 @@
      </button>
    </div>
    <div class="modal-body">
-     <p>Anda Yakin Akan Menghapus <?= $s->nama_kategori_produk ?>?</p>
+     <p>Anda Yakin Akan Menghapus <?= $s->nama_kategori_umkm ?>?</p>
    </div>
    <div class="modal-footer justify-content-between">
      <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
-     <a href="<?= site_url()?>Admin/hapusKategoriProduk/<?= $s->id_kategori_produk ?>" class="btn btn-danger">Iya</a>
+     <a href="<?= site_url()?>Admin/hapusKategoriUMKM/<?= $s->id_kategori_umkm ?>" class="btn btn-danger">Iya</a>
    </div>
  </div>
  <!-- /.modal-content -->

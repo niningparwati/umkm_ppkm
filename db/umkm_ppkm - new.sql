@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2020 at 11:55 AM
+-- Generation Time: May 26, 2020 at 09:04 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.3
 
@@ -128,6 +128,13 @@ CREATE TABLE `tb_kontak` (
   `instagram` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `tb_kontak`
+--
+
+INSERT INTO `tb_kontak` (`id_kontak`, `email`, `alamat`, `telepon`, `website`, `facebook`, `instagram`) VALUES
+(1, 'umkmppkm@gmail.com', 'Telkom University', '08123456700', 'umkmppkm.com', 'UMKM PPKM', 'umkmppkm.id');
+
 -- --------------------------------------------------------
 
 --
@@ -181,7 +188,7 @@ CREATE TABLE `tb_produk` (
 --
 
 CREATE TABLE `tb_slide` (
-  `id_slide` varchar(10) NOT NULL,
+  `id_slide` int(10) NOT NULL,
   `judul` varchar(255) NOT NULL,
   `gambar` text NOT NULL,
   `deskripsi` text NOT NULL,
@@ -353,13 +360,19 @@ ALTER TABLE `tb_konsumen`
 -- AUTO_INCREMENT for table `tb_kontak`
 --
 ALTER TABLE `tb_kontak`
-  MODIFY `id_kontak` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_kontak` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tb_produk`
 --
 ALTER TABLE `tb_produk`
   MODIFY `id_produk` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tb_slide`
+--
+ALTER TABLE `tb_slide`
+  MODIFY `id_slide` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_transaksi`

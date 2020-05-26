@@ -39,26 +39,18 @@
             </tr>
             </thead>
             <tbody>
+              <?php
+              $n = 1;
+              foreach ($informasi as $i) { ?>
             <tr>
-              <td>Trident</td>
-              <td>Internet
-                Explorer 4.0
-              </td>
-              <td>1</td>
-              <td>2</td>
-              <td>3</td>
-              <td>4</td>
-              <!-- <td>
-                <a href="<?= base_url()?>Admin/Edit/<?// $value->id_user ?>">
-                  <button class="btn btn-warning">
-                      <div><i class="fa fa-fw fa-pencil"></i>Edit</div>
-                  </button>
-                </a>
-                <a class="btn btn-danger" data-toggle="modal" href="#" data-target="#hapus<? //$value->id_user?>">
-                    <i class="fa fa-fw fa-trash"></i> Hapus
-                </a>
-              </td> -->
+              <td><?php echo $n++ ?></td>
+              <td><?php echo $i->judul_informasi ?></td>
+              <td><?php echo $i->isi_informasi ?></td>
+              <td><?php echo $i->gambar ?></td>
+              <td><?php echo $i->status_informasi ?></td>
+              <td><?php echo $i->id_umkm ?></td>
             </tr>
+          <?php } ?>
           </tbody>
           </table>
         </div>

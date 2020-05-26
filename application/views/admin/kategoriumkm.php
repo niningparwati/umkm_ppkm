@@ -30,11 +30,15 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form">
+            <form role="form" action="<?=base_url()?>Admin/createKategoriUMKM" method="POST">
               <div class="box-body">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Nama Kategori</label>
-                  <input type="text" class="form-control" placeholder="Nama Kategori">
+                  <input type="text" class="form-control" name="nama" placeholder="Nama Kategori">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Keterangan</label>
+                  <textarea name="keterangan" rows="8" cols="80" class="form-control"></textarea>
                 </div>
               </div>
               <!-- /.box-body -->
@@ -58,26 +62,30 @@
             <tr>
               <th>No.</th>
               <th>Nama Kategori</th>
+              <th>Keterangan</th>
               <th>Aksi</th>
             </tr>
             </thead>
             <tbody>
+              <?php
+              $n = 1;
+              foreach ($kategori as $k): ?>
             <tr>
-              <td>Trident</td>
-              <td>Internet
-                Explorer 4.0
-              </td>
+              <td><?php echo $n++ ?></td>
+              <td><?php echo $k->nama_kategori_umkm ?></td>
+                  <td><?php echo $k->keterangan ?></td>
               <td>
-                <a href="<?= base_url()?>Admin/Edit/<?// $value->id_user ?>">
+                <a href="<?= base_url()?>Admin/pilihKategoriUMKM/<?=$k->id_kategori_umkm ?>">
                   <button class="btn btn-warning">
                       <div><i class="fa fa-fw fa-pencil"></i>Edit</div>
                   </button>
                 </a>
-                <a class="btn btn-danger" data-toggle="modal" href="#" data-target="#hapus<? //$value->id_user?>">
+                <a class="btn btn-danger" data-toggle="modal" href="#" data-target="#hapus<?=$k->id_kategori_umkm?>">
                     <i class="fa fa-fw fa-trash"></i> Hapus
                 </a>
               </td>
             </tr>
+          <?php endforeach; ?>
           </tbody>
           </table>
         </div>
@@ -91,3 +99,29 @@
   <?php $this->load->view('admin/footer') ?>
 </div>
 <!-- ./wrapper -->
+
+<!-- ini bagian buka hapus -->
+<?php foreach ($kategori as $s) { ?>
+<div class="modal fade" id="hapus<?=$s->id_kategori_umkm?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
+<div class="modal-dialog" role="document">
+ <div class="modal-content">
+   <div class="modal-header">
+     <h4 class="modal-title" id="ExampleModalLabel">Konfirmasi Hapus</h4>
+     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+     </button>
+   </div>
+   <div class="modal-body">
+     <p>Anda Yakin Akan Menghapus <?= $s->nama_kategori_umkm ?>?</p>
+   </div>
+   <div class="modal-footer justify-content-between">
+     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
+     <a href="<?= site_url()?>Admin/hapusKategoriUMKM/<?= $s->id_kategori_umkm ?>" class="btn btn-danger">Iya</a>
+   </div>
+ </div>
+ <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<?php } ?>

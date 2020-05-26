@@ -40,17 +40,19 @@
             </tr>
             </thead>
             <tbody>
+              <?php
+              $n = 1;
+              foreach ($portofolio as $p): ?>
             <tr>
-              <td>Trident</td>
-              <td>Internet
-                Explorer 4.0
-              </td>
-              <td>1</td>
-              <td>2</td>
-              <td>3</td>
-              <td>4</td>
-              <td>5</td>
+              <td><?php echo $n++ ?></td>
+              <td><?php echo $p->judul_portofolio ?></td>
+              <td><?php echo $p->foto_portofolio ?></td>
+              <td><?php echo $p->keterangan ?></td>
+              <td><?php echo $p->alamat ?></td>
+              <td><?php echo $p->tanggal ?></td>
+              <td><?php echo $p->id_umkm ?></td>
             </tr>
+          <?php endforeach; ?>
           </tbody>
           </table>
         </div>

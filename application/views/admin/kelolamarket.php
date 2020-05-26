@@ -38,15 +38,17 @@
             </tr>
             </thead>
             <tbody>
+              <?php
+              $n = 1;
+              foreach ($market as $m): ?>
             <tr>
-              <td>Trident</td>
-              <td>Internet
-                Explorer 4.0
-              </td>
-              <td>1</td>
-              <td>2</td>
-              <td>3</td>
+              <td><?php echo $n++ ?></td>
+              <td><?php echo $m->nama_market ?></td>
+              <td><?php echo $m->alamat_market ?></td>
+              <td><?php echo $m->link_market ?></td>
+              <td><?php echo $m->id_umkm ?></td>
             </tr>
+          <?php endforeach; ?>
           </tbody>
           </table>
         </div>

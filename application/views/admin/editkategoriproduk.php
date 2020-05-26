@@ -15,6 +15,7 @@
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active"> Kategori Produk</li>
+        <li class="active"> Edit Kategori Produk</li>
       </ol>
     </section>
 
@@ -26,19 +27,20 @@
           <!-- general form elements -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Tambah Kategori Produk</h3>
+              <h3 class="box-title">Edit Kategori Produk</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form" action="<?=base_url()?>Admin/createKategoriProduk" method="POST">
+            <form role="form" action="<?=base_url()?>Admin/updateKategoriProduk" method="POST">
               <div class="box-body">
                 <div class="form-group">
+                  <input type="hidden" name="id_kategori_produk" value="<?php echo $kategori->id_kategori_produk ?>">
                   <label for="exampleInputEmail1">Nama Kategori</label>
-                  <input type="text" name="nama" class="form-control" placeholder="Nama Kategori">
+                  <input type="text" name="nama" class="form-control" placeholder="Nama Kategori" value="<?php echo $kategori->nama_kategori_produk ?>">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Keterangan</label>
-                  <textarea name="keterangan" rows="8" cols="80" class="form-control"></textarea>
+                  <textarea name="keterangan" rows="8" cols="80" class="form-control"><?php echo $kategori->keterangan ?></textarea>
                 </div>
               </div>
               <!-- /.box-body -->
@@ -51,45 +53,6 @@
       </div>
     </div>
       <!-- /.row -->
-      <div class="box">
-        <div class="box-header">
-          <h3 class="box-title">Data Kategori Produk</h3>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-          <table id="example1" class="table table-bordered table-striped">
-            <thead>
-            <tr>
-              <th>No.</th>
-              <th>Nama Kategori</th>
-              <th>Aksi</th>
-            </tr>
-            </thead>
-            <tbody>
-              <?php
-              $n = 1;
-              foreach ($kategori as $k): ?>
-            <tr>
-              <td><?php echo $n++ ?></td>
-              <td><?php echo $k->nama_kategori_produk ?></td>
-                  <td><?php echo $k->keterangan ?></td>
-              <td>
-                <a href="<?= base_url()?>Admin/pilihKategoriProduk/<?=$k->id_kategori_produk ?>">
-                  <button class="btn btn-warning">
-                      <div><i class="fa fa-fw fa-pencil"></i>Edit</div>
-                  </button>
-                </a>
-                <a class="btn btn-danger" data-toggle="modal" href="#" data-target="#hapus<?=$k->id_kategori_produk?>">
-                    <i class="fa fa-fw fa-trash"></i> Hapus
-                </a>
-              </td>
-            </tr>
-          <?php endforeach; ?>
-          </tbody>
-          </table>
-        </div>
-        <!-- /.box-body -->
-      </div>
     </section>
     <!-- /.content -->
   </div>

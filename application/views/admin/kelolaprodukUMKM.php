@@ -36,20 +36,23 @@
               <th>Deskripsi Produk</th>
               <th>Harga Produk</th>
               <th>ID UMKM</th>
-              <th>Nama Kategori</th>
+              <th>Kategori</th>
             </tr>
             </thead>
             <tbody>
+              <?php
+              $n = 1;
+              foreach ($produk as $p): ?>
             <tr>
-              <td>Trident</td>
-              <td>Internet
-                Explorer 4.0
-              </td>
-              <td>1</td>
-              <td>2</td>
-              <td>3</td>
-              <td>4</td>
+              <td><?php echo $n++ ?></td>
+              <td><?php  echo $p->nama_produk ?></td>
+              <td><img src="<?=base_url()?>uploads/foto_produk/<?=$p->foto_produk?>" width="120px" alt=""> <?php echo $p->foto_produk ?></td>
+              <td><?php echo $p->deskripsi_produk ?></td>
+              <td><?php echo $p->harga_produk ?></td>
+              <td><?php echo $p->id_umkm ?></td>
+              <td><?php echo $p->id_kategori_produk ?></td>
             </tr>
+          <?php endforeach; ?>
           </tbody>
           </table>
         </div>

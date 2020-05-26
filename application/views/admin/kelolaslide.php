@@ -25,7 +25,7 @@
         <div class="box-header">
           <h3 class="box-title">Data Slide</h3>
           <br><br>
-          <a href="<?= base_url()?>Admin/Edit/<?// $value->id_user ?>">
+          <a href="<?= base_url()?>Admin/tambahSlide">
             <button class="btn btn-primary">
                 <div><i class="fa fa-fw fa-plus"></i>Tambah Slide</div>
             </button>
@@ -42,32 +42,32 @@
               <th>Gambar Slide</th>
               <th>URL</th>
               <th>Status</th>
-              <th>ID Admin</th>
               <th>Aksi</th>
             </tr>
             </thead>
             <tbody>
+              <?php
+              $n = 1;
+              foreach ($slide as $s): ?>
             <tr>
-              <td>Trident</td>
-              <td>Internet
-                Explorer 4.0
-              </td>
-              <td>1</td>
-              <td>2</td>
-              <td>3</td>
-              <td>4</td>
-              <td>5</td>
+              <td><?php echo $n++ ?></td>
+              <td><?php echo $s->judul ?></td>
+              <td><?php echo $s->deskripsi ?></td>
+              <td> <img src="<?=base_url()?>uploads/foto_slide/<?php echo $s->gambar ?>" width="200px" alt=""> </td>
+              <td><?php echo $s->url ?></td>
+              <td><?php echo $s->status ?></td>
               <td>
-                <a href="<?= base_url()?>Admin/Edit/<?// $value->id_user ?>">
+                <a href="<?= base_url()?>Admin/pilihSlide/<?=$s->id_slide ?>">
                   <button class="btn btn-warning">
                       <div><i class="fa fa-fw fa-pencil"></i>Edit</div>
                   </button>
                 </a>
-                <a class="btn btn-danger" data-toggle="modal" href="#" data-target="#hapus<? //$value->id_user?>">
+                <a class="btn btn-danger" data-toggle="modal" href="#" data-target="#hapus<?=$s->id_slide?>">
                     <i class="fa fa-fw fa-trash"></i> Hapus
                 </a>
               </td>
             </tr>
+              <?php endforeach; ?>
           </tbody>
           </table>
         </div>
@@ -81,3 +81,29 @@
   <?php $this->load->view('admin/footer') ?>
 </div>
 <!-- ./wrapper -->
+
+<!-- ini bagian buka hapus -->
+<?php foreach ($slide as $s) { ?>
+<div class="modal fade" id="hapus<?=$s->id_slide?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
+<div class="modal-dialog" role="document">
+ <div class="modal-content">
+   <div class="modal-header">
+     <h4 class="modal-title" id="ExampleModalLabel">Konfirmasi Hapus</h4>
+     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+     </button>
+   </div>
+   <div class="modal-body">
+     <p>Anda Yakin Akan Menghapus <?= $s->judul ?>?</p>
+   </div>
+   <div class="modal-footer justify-content-between">
+     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
+     <a href="<?= site_url()?>Admin/hapusSlide/<?= $s->id_slide ?>" class="btn btn-danger">Iya</a>
+   </div>
+ </div>
+ <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<?php } ?>
