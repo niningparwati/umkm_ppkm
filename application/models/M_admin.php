@@ -4,6 +4,99 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_admin extends CI_Model {
 
+//Dashboard
+	// public function getAkunUser()
+	// {
+	// 	return $this->db->query("SELECT COUNT ");
+	// }
+
+	public function getjumKU()
+	{
+		return $this->db->query("SELECT COUNT(id_kategori_umkm) as hasil FROM tb_kategori_umkm")->row();
+	}
+
+	public function getjumPU()
+	{
+		return $this->db->query("SELECT COUNT(id_kategori_produk) as hasil FROM tb_kategori_produk")->row();
+	}
+
+	public function getjumP()
+	{
+		return $this->db->query("SELECT COUNT(id_produk) as hasil FROM tb_produk")->row();
+	}
+
+	public function getjumI()
+	{
+		return $this->db->query("SELECT COUNT(id_informasi) as hasil FROM tb_informasi")->row();
+	}
+
+	public function getjumM()
+	{
+		return $this->db->query("SELECT COUNT(id_market) as hasil FROM tb_market")->row();
+	}
+
+	public function getjumPo()
+	{
+		return $this->db->query("SELECT COUNT(id_portofolio) as hasil FROM tb_portofolio")->row();
+	}
+
+	public function getjumS()
+	{
+		return $this->db->query("SELECT COUNT(id_slide) as hasil FROM tb_slide")->row();
+	}
+
+//Kelola UMKM
+	public function getUMKM()
+	{
+		return $this->db->get('tb_umkm')->result();
+	}
+
+	public function getUMKMId($id)
+	{
+		return $this->db->query("SELECT * FROM tb_umkm JOIN tb_kategori_umkm USING(id_kategori_umkm) WHERE id_umkm = '$id'")->row();
+	}
+
+	public function create_umkm($data){
+		return $this->db->insert('tb_umkm',$data);
+	}
+
+	public function update_umkm($data,$id){
+	 $this->db->where('id_umkm',$id);
+	 $o = $this->db->update('tb_umkm',$data);
+	 return $o;
+	}
+
+	public function hapus_umkm($id){
+		$this->db->where('id_umkm',$id);
+    return $this->db->delete('tb_umkm');
+	}
+
+//Kelola Konsumen
+	public function getKonsumen()
+	{
+		return $this->db->get('tb_konsumen')->result();
+	}
+
+	public function getKonsumenId($id)
+	{
+		return $this->db->query("SELECT * FROM tb_konsumen WHERE id_konsumen = '$id'")->row();
+	}
+
+	public function create_konsumen($data){
+		return $this->db->insert('tb_konsumen',$data);
+	}
+
+	public function update_konsumen($data,$id){
+	 $this->db->where('id_konsumen',$id);
+	 $o = $this->db->update('tb_konsumen',$data);
+	 return $o;
+	}
+
+	public function hapus_konsumen($id){
+		$this->db->where('id_konsumen',$id);
+		return $this->db->delete('tb_konsumen');
+	}
+
 //Kelola Kategori UMKM
 	public function getkategoriUMKM(){
 		return $this->db->get('tb_kategori_umkm')->result();
