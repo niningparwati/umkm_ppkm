@@ -10,7 +10,10 @@ class Admin extends CI_Controller {
 
 	public function index()
 	{
+		$user = $this->session->username;
 		$data = array(
+			'akun'						=> $this->M_admin->getAkun($user),
+			'user'						=> $this->M_admin->getAkunUser(),
 			'kategoriumkm' 		=> $this->M_admin->getjumKU(),
 			'kategoriproduk'	=> $this->M_admin->getjumPU(),
 			'produk'					=> $this->M_admin->getjumP(),
@@ -26,7 +29,9 @@ class Admin extends CI_Controller {
     //kelola UMKM
     public function kelolaUMKM()
     {
+			$user = $this->session->username;
 			$data = array(
+				'akun' => $this->M_admin->getAkun($user),
 				'umkm' => $this->M_admin->getUMKM(),
 			);
       $this->load->view('admin/kelolaumkm',$data);
@@ -34,7 +39,9 @@ class Admin extends CI_Controller {
 
 		public function tambahUMKM()
 		{
+			$user = $this->session->username;
 			$data = array(
+				'akun'     => $this->M_admin->getAkun($user),
 				'kategori' => $this->M_admin->getkategoriUMKM(),
 			);
 			$this->load->view('admin/tambahumkm',$data);
@@ -42,25 +49,60 @@ class Admin extends CI_Controller {
 
 		public function createUMKM()
 		{
-			$data = array(
-				'username_umkm'   => $this->input->post('username'),
-				'password_umkm'   => md5($this->input->post('password')),
-				'email_umkm'		  => $this->input->post('email'),
-				'nama_umkm'			  => $this->input->post('namaumkm'),
-				'alamat_umkm'		  => $this->input->post('alamat'),
-				'deskripsi_umkm'  => $this->input->post('deskripsi'),
-				'nomor_telp_umkm' => $this->input->post('nohp'),
-				'tanggal_join'		=> $this->input->post('tgl'),
-				'id_kategori_umkm'=> $this->input->post('idkategori'),
-				'status_umkm'			=> $this->input->post('status'),
-			);
+			$config['upload_path'] = "./uploads/foto_slide/";
+			$config['allowed_types'] = "gif|jpg|png";
+			$config['max_size'] = 2000;
+			$config['encrypt_name'] = TRUE;
+
+			$this->load->library('upload',$config);
+			if ($this->upload->do_upload('foto')) {
+				$gambar = $this->upload->data();
+				$dataq = array(
+					'username'   		=> $this->input->post('username'),
+					'password'   		=> md5($this->input->post('password')),
+					'nama_lengkap'  => $this->input->post('namalengkap'),
+					'email'		   		=> $this->input->post('email'),
+					'foto_user'  		=> $gambar['file_name'],
+					'tanggal_lahir' => $this->input->post('tgllahir'),
+					'tanggal_join'	=> $this->input->post('tgl'),
+					'level'					=> 'UMKM',
+					'status'				=> 'pending'
+				);
+				$data = array(
+					'nama_umkm'			  => $this->input->post('namaumkm'),
+					'alamat_umkm'		  => $this->input->post('alamat'),
+					'deskripsi_umkm'  => $this->input->post('deskripsi'),
+					'nomor_telp_umkm' => $this->input->post('nohp'),
+					'id_kategori_umkm'=> $this->input->post('idkategori'),
+				);
+			}else{
+				$dataq = array(
+					'username'   		=> $this->input->post('username'),
+					'password'   		=> md5($this->input->post('password')),
+					'email'		   		=> $this->input->post('email'),
+					'tanggal_lahir' => $this->input->post('tgllahir'),
+					'tanggal_join'	=> $this->input->post('tgl'),
+					'level'					=> 'UMKM',
+					'status'				=> 'pending'
+				);
+				$data = array(
+					'nama_umkm'			  => $this->input->post('namaumkm'),
+					'alamat_umkm'		  => $this->input->post('alamat'),
+					'deskripsi_umkm'  => $this->input->post('deskripsi'),
+					'nomor_telp_umkm' => $this->input->post('nohp'),
+					'id_kategori_umkm'=> $this->input->post('idkategori'),
+				);
+			}
+			$cek = $this->M_admin->create_user($dataq);
 			$cek = $this->M_admin->create_umkm($data);
 			redirect('Admin/kelolaUMKM');
 		}
 
 		public function pilihUMKM($id)
 		{
+			$user = $this->session->username;
 			$data = array(
+				'akun' => $this->M_admin->getAkun($user),
 				'umkm' => $this->M_admin->getUMKMId($id),
 			);
 			$cek = $this->load->view('admin/detailumkm',$data);
@@ -68,9 +110,11 @@ class Admin extends CI_Controller {
 
 		public function editUMKM($id)
 		{
+			$user = $this->session->username;
 			$data = array(
+				'akun'		 => $this->M_admin->getAkun($user),
 				'kategori' => $this->M_admin->getkategoriUMKM(),
-				'umkm' => $this->M_admin->getUMKMId($id),
+				'umkm'     => $this->M_admin->getUMKMId($id),
 			);
 			$cek = $this->load->view('admin/editumkm',$data);
 		}
@@ -101,7 +145,9 @@ class Admin extends CI_Controller {
     //kelola Konsumen
     public function kelolaKonsumen()
     {
+			$user = $this->session->username;
 			$data = array(
+				'akun'		 => $this->M_admin->getAkun($user),
 				'konsumen' => $this->M_admin->getKonsumen(),
 			);
       $this->load->view('admin/kelolakonsumen',$data);
@@ -109,9 +155,10 @@ class Admin extends CI_Controller {
 
 		public function tambahKonsumen()
 		{
+			$user = $this->session->username;
 			$data = array(
-
-			);
+		 	'akun'						=> $this->M_admin->getAkun($user),
+	 		);
 			$this->load->view('admin/tambahkonsumen',$data);
 		}
 
@@ -154,7 +201,9 @@ class Admin extends CI_Controller {
 
 		public function pilihKonsumen($id)
 		{
+			$user = $this->session->username;
 			$data = array(
+				'akun'	 	 => $this->M_admin->getAkun($user),
 				'konsumen' => $this->M_admin->getKonsumenId($id),
 			);
 			$cek = $this->load->view('admin/detailkonsumen',$data);
@@ -162,7 +211,9 @@ class Admin extends CI_Controller {
 
 		public function editKonsumen($id)
 		{
+			$user = $this->session->username;
 			$data = array(
+				'akun'		 => $this->M_admin->getAkun($user),
 				'konsumen' => $this->M_admin->getKonsumenId($id),
 			);
 			$cek = $this->load->view('admin/editkonsumen',$data);
@@ -211,7 +262,9 @@ class Admin extends CI_Controller {
     //kategori UMKM
     public function kategoriUMKM()
     {
+			$user = $this->session->username;
 			$data = array(
+				'akun'		 => $this->M_admin->getAkun($user),
 				'kategori' => $this->M_admin->getkategoriUMKM()
 			);
       $this->load->view('admin/kategoriumkm',$data);
@@ -219,7 +272,9 @@ class Admin extends CI_Controller {
 
 		public function createKategoriUMKM()
 		{
+			$user = $this->session->username;
 			$data = array(
+				'akun'					     => $this->M_admin->getAkun($user),
 				'nama_kategori_umkm' => $this->input->post('nama'),
 				'keterangan'				 => $this->input->post('keterangan')
 			);
@@ -235,7 +290,9 @@ class Admin extends CI_Controller {
 
 		public function pilihKategoriUMKM($id)
 		{
+			$user = $this->session->username;
 			$data = array(
+				'akun'		 => $this->M_admin->getAkun($user),
 				'kategori' => $this->M_admin->getkategoriUMKMId($id)
 			);
 			$this->load->view('admin/editkategoriumkm',$data);
@@ -244,7 +301,9 @@ class Admin extends CI_Controller {
 		public function updateKategoriUMKM()
 		{
 			$id = $this->input->post('id_kategori_umkm');
+			$user = $this->session->username;
 			$data = array(
+				'akun'						   => $this->M_admin->getAkun($user),
 				'nama_kategori_umkm' => $this->input->post('nama'),
 				'keterangan'				 => $this->input->post('keterangan')
 			);
@@ -255,7 +314,9 @@ class Admin extends CI_Controller {
     //kategori Produk
     public function kategoriProduk()
     {
+			$user = $this->session->username;
 			$data = array(
+				'akun'		 => $this->M_admin->getAkun($user),
 				'kategori' => $this->M_admin->getkategoriProduk()
 			);
       $this->load->view('admin/kategoriproduk',$data);
@@ -263,9 +324,11 @@ class Admin extends CI_Controller {
 
 		public function createKategoriProduk()
 		{
+			$user = $this->session->username;
 			$data = array(
+				'akun'						     => $this->M_admin->getAkun($user),
 				'nama_kategori_produk' => $this->input->post('nama'),
-				'keterangan'				 => $this->input->post('keterangan')
+				'keterangan'				   => $this->input->post('keterangan')
 			);
 			$cek = $this->M_admin->create_kategori_produk($data);
 			redirect('Admin/kategoriProduk');
@@ -279,7 +342,9 @@ class Admin extends CI_Controller {
 
 		public function pilihKategoriProduk($id)
     {
+			$user = $this->session->username;
 			$data = array(
+				'akun'		 => $this->M_admin->getAkun($user),
 				'kategori' => $this->M_admin->getkategoriProdukId($id)
 			);
       $this->load->view('admin/editkategoriproduk',$data);
@@ -288,9 +353,11 @@ class Admin extends CI_Controller {
 		public function updateKategoriProduk()
 		{
 			$id = $this->input->post('id_kategori_produk');
+			$user = $this->session->username;
 			$data = array(
+				'akun'						     => $this->M_admin->getAkun($user),
 				'nama_kategori_produk' => $this->input->post('nama'),
-				'keterangan'				 => $this->input->post('keterangan')
+				'keterangan'				   => $this->input->post('keterangan')
 			);
 			$cek = $this->M_admin->update_kategori_produk($data,$id);
 			redirect('Admin/kategoriProduk');
@@ -299,7 +366,9 @@ class Admin extends CI_Controller {
   //Kelola Produk UMKM
     public function kelolaProdukUMKM()
     {
+			$user = $this->session->username;
 			$data = array(
+				'akun'	 => $this->M_admin->getAkun($user),
 				'produk' => $this->M_admin->getProduk(),
 			);
       $this->load->view('admin/kelolaProdukUMKM',$data);
@@ -308,7 +377,9 @@ class Admin extends CI_Controller {
   //Kelola Informasi
     public function kelolaInformasi()
     {
+			$user = $this->session->username;
 			$data = array(
+				'akun'			=> $this->M_admin->getAkun($user),
 				'informasi' => $this->M_admin->getInformasi(),
 			);
       $this->load->view('admin/kelolainformasi',$data);
@@ -317,7 +388,9 @@ class Admin extends CI_Controller {
     //Kelola Market
       public function kelolaMarket()
       {
+				$user = $this->session->username;
 				$data = array(
+					'akun'	 => $this->M_admin->getAkun($user),
 					'market' => $this->M_admin->getMarket(),
 				);
         $this->load->view('admin/kelolamarket',$data);
@@ -326,7 +399,9 @@ class Admin extends CI_Controller {
     //Kelola Portofolio
         public function kelolaPortofolio()
         {
+					$user = $this->session->username;
 					$data = array(
+						'akun'		   => $this->M_admin->getAkun($user),
 						'portofolio' => $this->M_admin->getPortofolio(),
 					);
           $this->load->view('admin/kelolaportofolio',$data);
@@ -335,7 +410,9 @@ class Admin extends CI_Controller {
   	//Kelola Slide
       public function kelolaSlide()
       {
+				$user = $this->session->username;
 				$data = array(
+					'akun'	=> $this->M_admin->getAkun($user),
 					'slide' => $this->M_admin->getSlide(),
 				);
         $this->load->view('admin/kelolaslide',$data);
@@ -383,7 +460,9 @@ class Admin extends CI_Controller {
 
 			public function pilihSlide($id)
 			{
+				$user = $this->session->username;
 				$data = array(
+					'akun'	=> $this->M_admin->getAkun($user),
 					'slide' => $this->M_admin->getSlideId($id),
 				);
         $this->load->view('admin/editslide',$data);
@@ -422,7 +501,9 @@ class Admin extends CI_Controller {
   //Kelola Kontak
       public function kelolaKontak()
       {
+				$user = $this->session->username;
 				$data = array(
+					'akun'	 => $this->M_admin->getAkun($user),
 					'kontak' => $this->M_admin->getKontak(),
 				);
         $this->load->view('admin/kelolakontak',$data);
@@ -430,14 +511,19 @@ class Admin extends CI_Controller {
 
 			public function editKontak($id)
 			{
-				$data['kontak'] = $this->M_admin->getKontakk($id);
+				$user = $this->session->username;
+				$data = array(
+					'akun'			=> $this->M_admin->getAkun($user),
+				  'kontak'    => $this->M_admin->getKontakk($id));
 				$this->load->view('admin/editkontak',$data);
 			}
 
 			public function updateKontak()
 			{
 				$id = $this->input->post('idkontak');
+				$user = $this->session->username;
 				$data = array(
+				'akun'	 => $this->M_admin->getAkun($user),
 				'alamat' => $this->input->post('alamat'),
 				'email'  => $this->input->post('email'),
 				'telepon'  => $this->input->post('notlp'),

@@ -46,6 +46,10 @@
                   <input type="email" name="email" class="form-control" placeholder="Masukan Email">
                 </div>
                 <div class="form-group">
+                  <label for="exampleInputEmail1">Nama Lengkap</label>
+                  <input type="text" name="namalengkap" class="form-control" placeholder="Masukan Nama Lengkap">
+                </div>
+                <div class="form-group">
                   <label for="exampleInputEmail1">Nama UMKM</label>
                   <input type="text" name="namaumkm" class="form-control" placeholder="Masukan Nama UMKM">
                 </div>
@@ -58,6 +62,10 @@
                   <textarea class="form-control" name="deskripsi" rows="8" cols="80" placeholder="Masukan Deskripsi"></textarea>
                 </div>
                 <div class="form-group">
+                  <label for="exampleInputEmail1">Tanggal Lahir</label>
+                  <input type="date" name="tgllahir" class="form-control">
+                </div>
+                <div class="form-group">
                   <label for="exampleInputEmail1">Nomor Telepon</label>
                   <input type="text" name="nohp" class="form-control" placeholder="Masukan Nomor Telepon">
                 </div>
@@ -68,6 +76,10 @@
                     <option value="<?php echo $k->id_kategori_umkm ?>"><?php echo $k->nama_kategori_umkm ?></option>
                     <?php endforeach; ?>
                   </select>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Foto UMKM</label>
+                  <input type="file" name="foto" class="form-control">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Status UMKM</label><br>

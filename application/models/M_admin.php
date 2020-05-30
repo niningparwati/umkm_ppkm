@@ -5,10 +5,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class M_admin extends CI_Model {
 
 //Dashboard
-	// public function getAkunUser()
-	// {
-	// 	return $this->db->query("SELECT COUNT ");
-	// }
+	public function getAkunUser()
+	{
+		return $this->db->query("SELECT COUNT(id_user) as hasil FROM tb_user")->row();
+	}
+
+	public function getAkun($user)
+	{
+		return $this->db->query("SELECT * FROM tb_user WHERE username='$user'")->row();
+	}
+
+	public function create_user($data){
+		return $this->db->insert('tb_user',$data);
+	}
 
 	public function getjumKU()
 	{

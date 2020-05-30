@@ -26,7 +26,7 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>150</h3>
+              <h3><?php echo $user->hasil ?></h3>
 
               <p>Jumlah user</p>
             </div>
