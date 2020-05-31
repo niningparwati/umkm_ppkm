@@ -57,7 +57,7 @@ class M_admin extends CI_Model {
 //Kelola UMKM
 	public function getUMKM()
 	{
-		return $this->db->get('tb_umkm')->result();
+		return $this->db->query('SELECT * FROM tb_umkm JOIN tb_user USING(id_user)')->result();
 	}
 
 	public function getUMKMId($id)

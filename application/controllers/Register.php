@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -8,6 +8,7 @@ class Register extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('ModelRegister');
+		$this->load->model('M_admin');
 	}
 
 	//===================== SESSION NOMOR INVOICE ====================
@@ -22,100 +23,80 @@ class Register extends CI_Controller {
 	{
 		$this->load->view('Head');
 		$data = array(
-			'action' => site_url('Register/createUser'),
-			'level' => set_value('level'),
-			'paguyuban' => $this->ModelRegister->dataPaguyuban(),
+			'action' 		=> site_url('Register/createUser'),
+			'level' 		=> set_value('level'),
+			'idkategori'=> $this->M_admin->getkategoriUMKM()
 		);
-		$this->load->view('Register', $data);     
+		$this->load->view('Register', $data);
 	}
 
-	public function createUser() 
+	public function createUser()
 	{
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
 		$email = $this->input->post('email');
 
 		$cek = $this->ModelRegister->cekUser($username, $password, $email);
+		$cekUMKM = $this->ModelRegister->cekUMKM();
+		$cekAdmin = $this->ModelRegister->cekAdmin();
+		$cekUser = $this->ModelRegister->cekUserr();
 
 		if (!$cek) {
-			
 			if ($this->input->post('level') == 'Admin') {
+				$User = $this->ModelRegister->idUser();
 				$password=md5($this->input->post('password'));
 				$data = array(
-					'id_user' => $this->ModelRegister->idUser(),
-					'username' => $this->input->post('username'),
-					'password' => $password,
-					'nama' => $this->input->post('nama'),
-					'email' => $this->input->post('email'),
-					'status' => "verified",
-					'level'=> "Admin",
+					'id_user'  		 => $User,
+					'username' 		 => $this->input->post('username'),
+					'password' 		 => $password,
+					'nama_lengkap' => $this->input->post('nama'),
+					'email' 			 => $this->input->post('email'),
+					'tanggal_join' => $this->input->post('tgl'),
+					'status' 			 => "verified",
+					'level'				 => "Admin",
 				);
-				$this->ModelRegister->createUser($data);
-				redirect('Login','refresh');
-
-			}elseif ($this->input->post('level') == 'Paguyuban') {
-				$password=md5($this->input->post('password'));
-				$idUser = $this->ModelRegister->idUser();
-				$tabelUser = array(
-					'id_user' => $idUser,
-					'username' => $this->input->post('username'),
-					'password' => $password,
-					'nama' => $this->input->post('nama'),
-					'email' => $this->input->post('email'),
-					'status' => "verified",
-					'level'=> "Paguyuban",
+				$Admin = $this->ModelRegister->idAdmin();
+				$dataq = array(
+					'id_user'  		     => $User,
+					'nomor_telp_admin' => $this->input->post('nohp'),
+					'alamat_admin'		 => $this->input->post('alamat'),
+					'id_admin'				 => $Admin
 				);
-
-				$tabelPaguyuban = array(
-					'id_paguyuban' => $this->ModelRegister->idPaguyuban(),
-					'nama_paguyuban' => $this->input->post('nama_paguyuban'),
-					'keterangan' => $this->input->post('keterangan'),
-					'lokasi' => $this->input->post('lokasi'),
-					'id_user' => $this->ModelRegister->idUser(),
-				);
-
-				$this->ModelRegister->createUser($tabelUser);
-				$this->ModelRegister->createPaguyuban($tabelPaguyuban);
-				
-				redirect('Login','refresh');
+				$this->ModelRegister->create_user($data);
+				$this->ModelRegister->create_admin($dataq);
+				redirect('LoginAU','refresh');
 
 			}elseif ($this->input->post('level') == 'UMKM') {
 				$password=md5($this->input->post('password'));
-				$tabelUser = array(
-					'id_user' => $this->ModelRegister->idUser(),
-					'username' => $this->input->post('username'),
-					'password' => $password,
-					'nama' => $this->input->post('nama'),
-					'email' => $this->input->post('email'),
-					'status' => "pending",
-					'level'=> "UMKM",
+				$User = $this->ModelRegister->idUser();
+				$data = array(
+					'id_user'  		 => $User,
+					'username' 		 => $this->input->post('username'),
+					'password' 		 => $password,
+					'nama_lengkap' => $this->input->post('nama'),
+					'email' 			 => $this->input->post('email'),
+					'tanggal_join' => $this->input->post('tgl'),
+					'status' 			 => 'pending',
+					'level'				 => "UMKM",
 				);
-
-				$tabelUMKM = array(
-					'id_umkm' => $this->ModelRegister->idUMKM(),
-					'nama_umkm' => $this->input->post('nama_umkm'),
-					'alamat' => $this->input->post('alamat'),
-					'id_paguyuban' => $this->input->post('id_paguyuban'),
-					'id_user' => $this->ModelRegister->idUser(),
+				$this->ModelRegister->create_user($data);
+				$UMKM = $this->ModelRegister->idUMKM();
+				$dataq = array(
+					'id_umkm' => $UMKM,
+					'nama_umkm' => $this->input->post('namaumkm'),
+					'alamat_umkm' => $this->input->post('alamat'),
+					'deskripsi_umkm' => $this->input->post('deskripsi'),
+					'nomor_telp_umkm' => $this->input->post('nohp'),
+					'id_kategori_umkm' => $this->input->post('idkategori'),
+					'id_user' =>  $User,
 				);
-
-				$userUMKM = array(
-					'id_user' => $this->ModelRegister->idUser(),
-					'id_umkm' => $this->ModelRegister->idUMKM(),
-				);
-
-
-				$this->ModelRegister->createUser($tabelUser);
-				$this->ModelRegister->createUMKM($tabelUMKM);
-				$this->ModelRegister->createUserUMKM($userUMKM);
-
-				redirect('Login','refresh');
+				$this->ModelRegister->create_umkm($dataq);
+				redirect('LoginAU','refresh');
 			}
-
 		} else {
 			redirect('Register','refresh');
 		}
 
 	}
 
-}                  
+}

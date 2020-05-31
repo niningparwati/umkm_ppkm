@@ -1,78 +1,71 @@
-<?php 
+<?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
-                        
+
 class ModelRegister extends CI_Model {
 
     function __construct()
     {
         parent::__construct();
     }
-                        
-    public function idUser() //NINING
-    { 
-        $user = "USR";    
-        $nomer = "SELECT MAX(TRIM(REPLACE(id_user,'USR', ''))) as a FROM tb_user WHERE id_user LIKE '$user%'";
-        $baris = $this->db->query($nomer);
-        $akhir =  $baris->row()->a;
-        $akhir++;
-        $id =str_pad($akhir, 4, "0", STR_PAD_LEFT);
-        $id = "USR".$id;
-        return $id;                                            
-    }
 
-    public function idPaguyuban(){
-        $paguyuban = "PGB";
-        $nomer = "SELECT MAX(TRIM(REPLACE(id_paguyuban,'PGB', ''))) as a FROM tb_paguyuban WHERE id_paguyuban LIKE '$paguyuban%'";
-        $baris = $this->db->query($nomer);
-        $akhir =  $baris->row()->a;
-        $akhir++;
-        $id =str_pad($akhir, 4, "0", STR_PAD_LEFT);
-        $id = "PGB".$id;
-        return $id;                                            
-    }
-
-    public function idUMKM(){ //NINING
-        $umkm = "UKM";
-        $nomer = " SELECT MAX(TRIM(REPLACE(id_umkm,'UKM', ''))) as a FROM tb_umkm WHERE id_umkm LIKE '$umkm%'";
-        $baris = $this->db->query($nomer);
-        $akhir =  $baris->row()->a;
-        $akhir++;
-        $id =str_pad($akhir, 4, "0", STR_PAD_LEFT);
-        $id = "UKM".$id;
-        return $id;                                            
-    }
-
-    public function cekUser($username, $password, $email) //NINING
+    public function idUser()
     {
-        return $this->db->query("SELECT * FROM tb_user WHERE username='$username' OR password='$password' OR email='$email'")->result();
+      $nomer = "SELECT id_user FROM tb_user ORDER BY id_user DESC";
+      $baris = $this->db->query($nomer);
+      $akhir =  $baris->row()->id_user;
+      $akhir++;
+      return $akhir;
     }
 
-    public function dataPaguyuban()
-    {
-        return $this->db->query("SELECT * FROM tb_paguyuban")->result();
+    public function idAdmin(){
+      $nomer = "SELECT id_admin FROM tb_admin ORDER BY id_admin DESC";
+      $baris = $this->db->query($nomer);
+      $akhir =  $baris->row()->id_admin;
+      $akhir++;
+      return $akhir;
     }
 
-    public function createUser($data) //NINING
-    {
-        $this->db->insert('tb_user', $data);
+    public function idUMKM(){
+      $nomer = "SELECT id_umkm FROM tb_umkm ORDER BY id_umkm DESC";
+      $baris = $this->db->query($nomer);
+      $akhir =  $baris->row()->id_umkm;
+      $akhir++;
+      return $akhir;
     }
 
-    public function createPaguyuban($data)
+    public function create_user($data)
     {
-        $this->db->insert('tb_paguyuban', $data);
+    	return $this->db->insert('tb_user',$data);
     }
 
-    public function createUMKM($data) //NINING
+    public function create_umkm($data)
     {
-        $this->db->insert('tb_umkm', $data);
+    	return $this->db->insert('tb_umkm',$data);
     }
 
-    public function createUserUMKM($data) //NINING
+    public function create_admin($data)
     {
-        $this->db->insert('user_umkm', $data);
+    	return $this->db->insert('tb_admin',$data);
     }
-                        
-                            
-                        
-}                     
+
+    public function cekUser($username,$password,$email)
+    {
+      return $this->db->query("SELECT * FROM tb_user WHERE username='$username' AND password='$password' AND email='$email'")->row();
+    }
+
+    public function cekUMKM()
+    {
+      return $this->db->get('tb_umkm')->result();
+    }
+
+    public function cekAdmin()
+    {
+      return $this->db->get('tb_admin')->result();
+    }
+
+    public function cekUserr()
+    {
+      return $this->db->get('tb_user')->result();
+    }
+}

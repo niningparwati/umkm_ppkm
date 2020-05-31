@@ -17,7 +17,11 @@
       <ul class="nav navbar-nav">
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <img src="<?php echo base_url()?>assets/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+            <?php  if (!$akun->foto_user) { ?>
+            <img src="<?php echo base_url()?>assets/foto_user/user.png" class="user-image" alt="User Image">
+          <?php } else { ?>
+            <img src="<?php echo base_url()?>assets/foto_user/<?= $akun->foto_user ?>" class="user-image" alt="User Image">
+          <?php } ?>
             <span class="hidden-xs"><?php echo $akun->nama_lengkap?></span>
           </a>
           <ul class="dropdown-menu">

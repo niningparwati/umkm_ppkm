@@ -51,7 +51,7 @@
               <td><?php echo $n++ ?></td>
               <td><?php echo $u->nama_umkm ?></td>
               <td><?php echo $u->alamat_umkm ?></td>
-              <td><?php echo $u->status_umkm ?></td>
+              <td><?php echo $u->status?></td>
               <td>
                 <a href="<?= base_url()?>Admin/pilihUMKM/<?=$u->id_umkm ?>" class="btn btn-success">
                       <div><i class="fa fa-fw fa-eye"></i>Detail</div>

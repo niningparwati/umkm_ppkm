@@ -1,14 +1,14 @@
-<body class="hold-transition register-page">
+<body class="hold-transition login-page" style="background-image: url('<?php echo base_url()?>uploads/background2.jpg');background-repeat: no-repeat;background-attachment: fixed;background-size: cover;">
   <div class="register-box">
     <div class="register-logo">
-      <a href="<?php echo base_url() ?>assets/index2.html"><b>UMKM </b>KATALOG</a>
+      <a href="<?php echo base_url() ?>assets/index2.html"><b>UMKM </b>PPKM</a>
     </div>
 
     <div class="register-box-body">
-      <?php 
+      <?php
       if($this->session->userdata('status') != 'login'){
        ?>
-       <p class="login-box-msg">Daftar sebagai UMKM atau Paguyuban</p>
+       <p class="login-box-msg">Daftar sebagai UMKM atau Admin</p>
 
        <form action="<?= $action?>" method="post">
 
@@ -16,53 +16,66 @@
         <div class="form-group">
           <label>Daftar sebagai</label>
           <select class="form-control select2" id="level" name="level">
-            <option value="Paguyuban" <?= ($this->session->userdata('level_user') =='Paguyuban') ?'selected' : ""; ?>>Paguyuban</option>
+            <option value="Admin" <?= ($this->session->userdata('level_user') =='Admin') ?'selected' : ""; ?>>Admin</option>
             <option value="UMKM" <?= ($this->session->userdata('level_user') =='UMKM') ?'selected' : ""; ?> >UMKM</option>
-           <!--  <option value="Admin" <?= ($this->session->userdata('level_user') =='Admin') ?'selected' : ""; ?> >Admin</option> -->
           </select>
         </div>
-        <div class="form-group has-feedback">
-          <input type="text" class="form-control" placeholder="Username" name="username" required oninvalid="this.setCustomValidity('Username belum diisi')" oninput="setCustomValidity('')" >
-        </div>
-        <div class="form-group has-feedback">
-          <input type="password" class="form-control" placeholder="Password" name="password" required oninvalid="this.setCustomValidity('Password belum diisi')" oninput="setCustomValidity('')" >
-        </div>
-        <div class="form-group has-feedback">
-          <input type="text" class="form-control" placeholder="Nama Lengkap" name="nama" required oninvalid="this.setCustomValidity('Nama belum diisi')" oninput="setCustomValidity('')" >
-        </div>
-        <div class="form-group has-feedback">
-          <input type="email" class="form-control" placeholder="Email" name="email" required oninvalid="this.setCustomValidity('Email belum diisi')" oninput="setCustomValidity('')" >
-        </div>
 
-        <?php 
-        if ($this->session->userdata('level_user') =='Paguyuban') { ?>
-
+        <?php
+        if ($this->session->userdata('level_user') =='Admin') { ?>
 
           <div class="form-group has-feedback">
-            <input type="text" class="form-control" placeholder="Nama Paguyuban" name="nama_paguyuban" required oninvalid="this.setCustomValidity('Nama Paguyuban belum diisi')" oninput="setCustomValidity('')" >
+            <input type="text" class="form-control" placeholder="Username" name="username" required oninvalid="this.setCustomValidity('Username belum diisi')" oninput="setCustomValidity('')" >
           </div>
           <div class="form-group has-feedback">
-            <input type="textarea" class="form-control" placeholder="Keterangan" name="keterangan" required oninvalid="this.setCustomValidity('Keterangan belum diisi')" oninput="setCustomValidity('')" >>
+            <input type="password" class="form-control" placeholder="Password" name="password" required oninvalid="this.setCustomValidity('Password belum diisi')" oninput="setCustomValidity('')" >
           </div>
           <div class="form-group has-feedback">
-            <input type="text" class="form-control" placeholder="Lokasi" name="lokasi" required oninvalid="this.setCustomValidity('Lokasi belum diisi')" oninput="setCustomValidity('')" >
+            <input type="text" class="form-control" placeholder="Nama Lengkap" name="nama" required oninvalid="this.setCustomValidity('Nama belum diisi')" oninput="setCustomValidity('')" >
+          </div>
+          <div class="form-group has-feedback">
+            <input type="email" class="form-control" placeholder="Email" name="email" required oninvalid="this.setCustomValidity('Email belum diisi')" oninput="setCustomValidity('')" >
+          </div>
+          <div class="form-group has-feedback">
+            <textarea name="alamat" rows="3" cols="80" class="form-control" placeholder="Alamat"  required oninvalid="this.setCustomValidity('Alamat belum diisi')" oninput="setCustomValidity('')"></textarea>
+          </div>
+          <div class="form-group has-feedback">
+            <input type="text" class="form-control" placeholder="Nomor Telp" name="nohp" required oninvalid="this.setCustomValidity('Nomor Telp belum diisi')" oninput="setCustomValidity('')" >
           </div>
 
         <?php }
         elseif ($this->session->userdata('level_user') =='UMKM') { ?>
 
           <div class="form-group has-feedback">
-            <input type="text" class="form-control" placeholder="Nama UMKM" name="nama_umkm" required oninvalid="this.setCustomValidity('Nama UMKM belum diisi')" oninput="setCustomValidity('')" >
+            <input type="text" class="form-control" placeholder="Username" name="username" required oninvalid="this.setCustomValidity('Username belum diisi')" oninput="setCustomValidity('')" >
           </div>
           <div class="form-group has-feedback">
-            <input type="text" class="form-control" placeholder="Alamat" name="alamat" required oninvalid="this.setCustomValidity('Alamat belum diisi')" oninput="setCustomValidity('')" >
+            <input type="password" class="form-control" placeholder="Password" name="password" required oninvalid="this.setCustomValidity('Password belum diisi')" oninput="setCustomValidity('')" >
           </div>
-          <div class="form-group">
-            <label>Pilih Paguyuban</label>
-            <select class="form-control" name="id_paguyuban">
-              <?php foreach ($paguyuban as $value) { ?>
-                <option value='<?= $value->id_paguyuban?>' ><?= $value->nama_paguyuban ?></option>"
-              <?php } ?>
+          <div class="form-group has-feedback">
+            <input type="text" class="form-control" placeholder="Nama Lengkap" name="nama" required oninvalid="this.setCustomValidity('Nama belum diisi')" oninput="setCustomValidity('')" >
+          </div>
+          <div class="form-group has-feedback">
+            <input type="text" class="form-control" placeholder="Nama UMKM" name="namaumkm" required oninvalid="this.setCustomValidity('Nama belum diisi')" oninput="setCustomValidity('')" >
+          </div>
+          <div class="form-group has-feedback">
+            <input type="email" class="form-control" placeholder="Email" name="email" required oninvalid="this.setCustomValidity('Email belum diisi')" oninput="setCustomValidity('')" >
+          </div>
+          <div class="form-group has-feedback">
+            <textarea name="alamat" rows="3" cols="80" class="form-control" placeholder="Alamat"  required oninvalid="this.setCustomValidity('Alamat belum diisi')" oninput="setCustomValidity('')"></textarea>
+          </div>
+          <div class="form-group has-feedback">
+            <input type="text" class="form-control" placeholder="Nomor Telp" name="nohp" required oninvalid="this.setCustomValidity('Nomor Telp belum diisi')" oninput="setCustomValidity('')" >
+          </div>
+          <div class="form-group has-feedback">
+            <textarea name="deskripsi" rows="3" cols="80" class="form-control" placeholder="Deskripsi UMKM"  required oninvalid="this.setCustomValidity('Alamat belum diisi')" oninput="setCustomValidity('')"></textarea>
+          </div>
+          <div class="form-group has-feedback">
+            <label for="">Kategori UMKM</label>
+            <select class="form-control" name="idkategori">
+              <?php foreach ($idkategori as $k) { ?>
+              <option value="<?php echo $k->id_kategori_umkm ?>"><?php echo $k->nama_kategori_umkm ?></option>
+            <?php } ?>
             </select>
           </div>
 
@@ -72,10 +85,10 @@
         <div class="col-xs-12">
           <button type="submit" name="submit" class="btn btn-primary btn-block btn-flat">Register</button>
         </div><br><br>
-        <center>Sudah Punya Akun? <a href="<?= base_url()?>Login" class="text-center">Login</a></center>
+        <center>Sudah Punya Akun? <a href="<?=base_url()?>LoginAU" class="text-center">Login</a></center>
         <!-- /.col -->
 
-      </form> 
+      </form>
     <?php } ?>
   </div>
   <!-- /.form-box -->
@@ -117,5 +130,3 @@
 </script>
 </body>
 </html>
-
-

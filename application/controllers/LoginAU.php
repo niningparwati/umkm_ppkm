@@ -15,7 +15,7 @@ class LoginAU extends CI_Controller {
 	{
 		$this->load->helper('url');
 
-		$this->load->view('login');
+		$this->load->view('Login');
 	}
 
 	public function login()
@@ -48,7 +48,6 @@ class LoginAU extends CI_Controller {
 			);
 			$this->load->view('admin/dashboard',$data);
 		}else if($cek->level == 'UMKM'){
-			//ini yang UMKM yaa
 				$username = $cek->username;
 				$level = $cek->level;
 
@@ -76,7 +75,7 @@ class LoginAU extends CI_Controller {
 					$this->load->view('Sidebar', $data);
 					$this->load->view('UMKM/Home', $data);
 					$this->load->view('Footer');
-					
+
 		}
 	}
 
