@@ -20,13 +20,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 
             <?php 
-            if ($this->session->userdata('level')=='Paguyuban') {
-              if (!$foto) { ?>
-                <img src="<?php echo base_url()?>assets/foto_paguyuban/paguyuban.png" class="user-image" alt="User Image">
-              <?php } else { ?>
-                <img src="<?php echo base_url()?>assets/foto_paguyuban/<?= $foto ?>" class="user-image" alt="User Image">
-              <?php } 
-            }elseif ($this->session->userdata('level')!='Paguyuban') {
+           if ($this->session->userdata('level')=='UMKM') {
                 if (!$foto) { ?>
                 <img src="<?php echo base_url()?>assets/foto_user/user.png" class="user-image" alt="User Image">
               <?php } else { ?>
@@ -38,13 +32,7 @@
               <!-- User image -->
               <li class="user-header">
                 <?php 
-                if ($this->session->userdata('level')=='Paguyuban') {
-                  if (!$foto) { ?>
-                    <img src="<?php echo base_url()?>assets/foto_paguyuban/paguyuban.png" class="img-circle" alt="User Image">
-                  <?php } else { ?>
-                    <img src="<?php echo base_url()?>assets/foto_paguyuban/<?= $foto ?>" class="img-circle" alt="User Image">
-                  <?php } 
-                }elseif ($this->session->userdata('level')!='Paguyuban') {
+               if ($this->session->userdata('level')=='UMKM') {
                   if (!$foto) { ?>
                     <img src="<?php echo base_url()?>assets/foto_user/user.png" class="img-circle" alt="User Image">
                   <?php } else { ?>
@@ -60,14 +48,12 @@
             <li class="user-footer">
               <div class="pull-left">
                 <?php if ($this->session->userdata('level')=='Admin') {?>
-              <?php }elseif($this->session->userdata('level')=='Paguyuban'){ ?>
-                <a href="<?= base_url()?>Paguyuban/Profil" class="btn btn-default btn-flat">Profile</a>
               <?php }elseif($this->session->userdata('level')=='UMKM'){ ?>
                 <a href="<?= base_url()?>UMKM/Profil" class="btn btn-default btn-flat">Profile</a>
               <?php } ?>
               </div>
               <div class="pull-right">
-                <a href="<?= base_url()?>Login/logout" class="btn btn-default btn-flat">Sign out</a>
+                <a href="<?= base_url()?>LoginAU/logout" class="btn btn-default btn-flat">Sign out</a>
               </div>
             </li>
           </ul>

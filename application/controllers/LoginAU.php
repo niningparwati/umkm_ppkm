@@ -7,6 +7,8 @@ class LoginAU extends CI_Controller {
 		parent::__construct();
 		$this->load->model('M_login');
 		$this->load->model('M_admin');
+		$this->load->model('ModelUser');
+		$this->load->model('UMKM_Model');
 	}
 
 	public function index()
@@ -21,7 +23,17 @@ class LoginAU extends CI_Controller {
 		$user = $this->input->post('username');
 		$pass = $this->input->post('password');
 		$cek = $this->M_login->cekLogin($user,md5($pass));
-		if($cek->level = 'Admin'){
+
+		$data_session = array(
+				'username' => $cek->username,
+				'level' => $cek->level,
+				'nama' => $cek->nama_lengkap,
+				'status' => 'login'
+			);
+
+		$this->session->set_userdata($data_session);
+
+		if($cek->level == 'Admin'){
 			$this->session->username = $user;
 			$data = array(
 				'akun'						=> $this->M_admin->getAkun($user),
@@ -35,8 +47,36 @@ class LoginAU extends CI_Controller {
 				'slide'						=> $this->M_admin->getjumS(),
 			);
 			$this->load->view('admin/dashboard',$data);
-		}else if($cek->level = 'UMKM'){
+		}else if($cek->level == 'UMKM'){
 			//ini yang UMKM yaa
+				$username = $cek->username;
+				$level = $cek->level;
+
+				$umkm = $this->ModelUser->allUser($username, $level);
+				$cekUser = $this->ModelUser->cekUser($umkm->username);
+				$cekUMKM = $this->UMKM_Model->cekUMKM($cekUser->id_user);
+				$id_user=$umkm->id_user;
+				$id_umkm = $cekUMKM->id_umkm;
+
+				$data = array(
+						'username' => $umkm->username,
+						'level' => $umkm->level,
+						'nama' => $umkm->nama_lengkap,
+						'email' => $umkm->email,
+						'id_user' => $umkm->id_user,
+						'foto' => $umkm->foto_user,
+						'id_umkm' => $id_umkm,
+						'jumlahProduk' => $this->UMKM_Model->ProdukByUMKM($id_user),
+						'jumlahPortofolio' => $this->UMKM_Model->PortofolioByUMKM($id_user),
+						'jumlahMarket' => $this->UMKM_Model->MarketByUMKM($id_user),
+					);
+
+						$this->load->view('Head');
+					$this->load->view('Header', $data);
+					$this->load->view('Sidebar', $data);
+					$this->load->view('UMKM/Home', $data);
+					$this->load->view('Footer');
+					
 		}
 	}
 
