@@ -46,7 +46,7 @@
               <td><?php echo $n++ ?></td>
               <td><?php echo $i->judul_informasi ?></td>
               <td><?php echo $i->isi_informasi ?></td>
-              <td><?php echo $i->gambar ?></td>
+              <td> <img src="<?php echo base_url()?>assets/foto_informasi/<?php echo $i->gambar ?>" alt="Gambar informasi" width="150px"> </td>
               <td><?php echo $i->status_informasi ?></td>
               <td><?php echo $i->id_umkm ?></td>
             </tr>

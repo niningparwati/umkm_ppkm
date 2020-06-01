@@ -34,7 +34,7 @@
             <form role="form" action="<?=base_url()?>Admin/updateUMKM" method="post" enctype="multipart/form-data">
               <div class="box-body">
                 <div class="form-group">
-                  <input type="hidden" name="idumkm" value="<?php echo $umkm->id_umkm ?>">
+                  <input type="hidden" name="iduser" value="<?php echo $umkm->id_user ?>">
                   <label for="exampleInputEmail1">Username</label>
                   <input type="text" name="username" class="form-control" placeholder="Masukan Username" value="<?php echo $umkm->username_umkm ?>">
                 </div>

@@ -6,6 +6,7 @@ class Admin extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('M_admin');
+		$this->load->model('ModelRegister');
 	}
 
 	public function index()
@@ -49,7 +50,7 @@ class Admin extends CI_Controller {
 
 		public function createUMKM()
 		{
-			$config['upload_path'] = "./uploads/foto_slide/";
+			$config['upload_path'] = "./assets/foto_user/";
 			$config['allowed_types'] = "gif|jpg|png";
 			$config['max_size'] = 2000;
 			$config['encrypt_name'] = TRUE;
@@ -57,44 +58,53 @@ class Admin extends CI_Controller {
 			$this->load->library('upload',$config);
 			if ($this->upload->do_upload('foto')) {
 				$gambar = $this->upload->data();
-				$dataq = array(
-					'username'   		=> $this->input->post('username'),
-					'password'   		=> md5($this->input->post('password')),
-					'nama_lengkap'  => $this->input->post('namalengkap'),
-					'email'		   		=> $this->input->post('email'),
-					'foto_user'  		=> $gambar['file_name'],
-					'tanggal_lahir' => $this->input->post('tgllahir'),
-					'tanggal_join'	=> $this->input->post('tgl'),
-					'level'					=> 'UMKM',
-					'status'				=> 'pending'
-				);
+				$User = $this->ModelRegister->idUser();
 				$data = array(
-					'nama_umkm'			  => $this->input->post('namaumkm'),
-					'alamat_umkm'		  => $this->input->post('alamat'),
-					'deskripsi_umkm'  => $this->input->post('deskripsi'),
+					'id_user'  		 => $User,
+					'username' 		 => $this->input->post('username'),
+					'password' 		 => md5($this->input->post('password')),
+					'nama_lengkap' => $this->input->post('namalengkap'),
+					'email' 			 => $this->input->post('email'),
+					'foto_user'  		=> $gambar['file_name'],
+					'tanggal_join' => $this->input->post('tgl'),
+					'status' 			 => 'pending',
+					'level'				 => "UMKM",
+				);
+				$UMKM = $this->ModelRegister->idUMKM();
+				$dataq = array(
+					'id_umkm' => $UMKM,
+					'nama_umkm' => $this->input->post('namaumkm'),
+					'alamat_umkm' => $this->input->post('alamat'),
+					'deskripsi_umkm' => $this->input->post('deskripsi'),
 					'nomor_telp_umkm' => $this->input->post('nohp'),
-					'id_kategori_umkm'=> $this->input->post('idkategori'),
+					'id_kategori_umkm' => $this->input->post('idkategori'),
+					'id_user' =>  $User,
 				);
 			}else{
-				$dataq = array(
-					'username'   		=> $this->input->post('username'),
-					'password'   		=> md5($this->input->post('password')),
-					'email'		   		=> $this->input->post('email'),
-					'tanggal_lahir' => $this->input->post('tgllahir'),
-					'tanggal_join'	=> $this->input->post('tgl'),
-					'level'					=> 'UMKM',
-					'status'				=> 'pending'
-				);
+				$User = $this->ModelRegister->idUser();
 				$data = array(
-					'nama_umkm'			  => $this->input->post('namaumkm'),
-					'alamat_umkm'		  => $this->input->post('alamat'),
-					'deskripsi_umkm'  => $this->input->post('deskripsi'),
+					'id_user'  		 => $User,
+					'username' 		 => $this->input->post('username'),
+					'password' 		 => md5($this->input->post('password')),
+					'nama_lengkap' => $this->input->post('namalengkap'),
+					'email' 			 => $this->input->post('email'),
+					'tanggal_join' => $this->input->post('tgl'),
+					'status' 			 => 'pending',
+					'level'				 => "UMKM",
+				);
+				$UMKM = $this->ModelRegister->idUMKM();
+				$dataq = array(
+					'id_umkm' => $UMKM,
+					'nama_umkm' => $this->input->post('namaumkm'),
+					'alamat_umkm' => $this->input->post('alamat'),
+					'deskripsi_umkm' => $this->input->post('deskripsi'),
 					'nomor_telp_umkm' => $this->input->post('nohp'),
-					'id_kategori_umkm'=> $this->input->post('idkategori'),
+					'id_kategori_umkm' => $this->input->post('idkategori'),
+					'id_user' =>  $User,
 				);
 			}
-			$cek = $this->M_admin->create_user($dataq);
-			$cek = $this->M_admin->create_umkm($data);
+			$cek = $this->M_admin->create_user($data);
+			$cek = $this->M_admin->create_umkm($dataq);
 			redirect('Admin/kelolaUMKM');
 		}
 
@@ -102,8 +112,12 @@ class Admin extends CI_Controller {
 		{
 			$user = $this->session->username;
 			$data = array(
-				'akun' => $this->M_admin->getAkun($user),
-				'umkm' => $this->M_admin->getUMKMId($id),
+				'akun' 			=> $this->M_admin->getAkun($user),
+				'umkm' 			=> $this->M_admin->getUMKMId($id),
+				'produk'		=> $this->M_admin-> getProdukId($id),
+				'market'		=> $this->M_admin-> getMarketId($id),
+				'portofolio'=> $this->M_admin-> getPortofolioId($id),
+				'informasi' => $this->M_admin->getInformasiId($id)
 			);
 			$cek = $this->load->view('admin/detailumkm',$data);
 		}
@@ -121,18 +135,68 @@ class Admin extends CI_Controller {
 
 		public function updateUMKM()
 		{
-			$id = $this->input->post('idumkm');
-			$data = array(
-				'username_umkm'   => $this->input->post('username'),
-				'email_umkm'		  => $this->input->post('email'),
-				'nama_umkm'			  => $this->input->post('namaumkm'),
-				'alamat_umkm'		  => $this->input->post('alamat'),
-				'deskripsi_umkm'  => $this->input->post('deskripsi'),
-				'nomor_telp_umkm' => $this->input->post('nohp'),
-				'id_kategori_umkm'=> $this->input->post('idkategori'),
-				'status_umkm'			=> $this->input->post('status'),
-			);
+			$id = $this->input->post('iduser');
+			$config['upload_path'] = "./assets/foto_user/";
+			$config['allowed_types'] = "gif|jpg|png";
+			$config['max_size'] = 2000;
+			$config['encrypt_name'] = TRUE;
+
+			$this->load->library('upload',$config);
+			if ($this->upload->do_upload('foto')) {
+				$gambar = $this->upload->data();
+				$data = array(
+					'username' 		 => $this->input->post('username'),
+					'password' 		 => md5($this->input->post('password')),
+					'nama_lengkap' => $this->input->post('namalengkap'),
+					'email' 			 => $this->input->post('email'),
+					'foto_user'  		=> $gambar['file_name'],
+				);
+				$dataq = array(
+					'nama_umkm' => $this->input->post('namaumkm'),
+					'alamat_umkm' => $this->input->post('alamat'),
+					'deskripsi_umkm' => $this->input->post('deskripsi'),
+					'nomor_telp_umkm' => $this->input->post('nohp'),
+					'id_kategori_umkm' => $this->input->post('idkategori'),
+				);
+			}else{
+				$User = $this->ModelRegister->idUser();
+				$data = array(
+					'username' 		 => $this->input->post('username'),
+					'password' 		 => md5($this->input->post('password')),
+					'nama_lengkap' => $this->input->post('namalengkap'),
+					'email' 			 => $this->input->post('email'),
+				);
+				$dataq = array(
+					'nama_umkm' => $this->input->post('namaumkm'),
+					'alamat_umkm' => $this->input->post('alamat'),
+					'deskripsi_umkm' => $this->input->post('deskripsi'),
+					'nomor_telp_umkm' => $this->input->post('nohp'),
+					'id_kategori_umkm' => $this->input->post('idkategori'),
+				);
+			}
 			$cek = $this->M_admin->update_umkm($data,$id);
+			redirect('Admin/kelolaUMKM');
+		}
+
+		public function updateAktifUMKM($id)
+		{
+			$iduser = $this->M_admin->getID($id);
+			$data = array(
+				'status'			=> 'aktif',
+			);
+			$cek = $this->M_admin->update_status($data,$iduser->id_user);
+			print_r($cek);
+			redirect('Admin/kelolaUMKM');
+		}
+
+		public function updateTdkAktifUMKM($id)
+		{
+			$iduser = $this->M_admin->getID($id);
+			$data = array(
+				'status'			=> 'tidak aktif',
+			);
+			$cek = $this->M_admin->update_status($data,$iduser->id_user);
+			print_r($cek);
 			redirect('Admin/kelolaUMKM');
 		}
 
@@ -164,7 +228,7 @@ class Admin extends CI_Controller {
 
 		public function createKonsumen()
 		{
-			$config['upload_path'] = "./uploads/foto_konsumen/";
+			$config['upload_path'] = "./assets/foto_konsumen/";
 			$config['allowed_types'] = "gif|jpg|png";
 			$config['max_size'] = 2000;
 			$config['encrypt_name'] = TRUE;
@@ -227,7 +291,7 @@ class Admin extends CI_Controller {
 
 		public function updateKonsumen()
 		{
-			$config['upload_path'] = "./uploads/foto_konsumen/";
+			$config['upload_path'] = "./assets/foto_konsumen/";
 			$config['allowed_types'] = "gif|jpg|png";
 			$config['max_size'] = 2000;
 			$config['encrypt_name'] = TRUE;
@@ -274,7 +338,6 @@ class Admin extends CI_Controller {
 		{
 			$user = $this->session->username;
 			$data = array(
-				'akun'					     => $this->M_admin->getAkun($user),
 				'nama_kategori_umkm' => $this->input->post('nama'),
 				'keterangan'				 => $this->input->post('keterangan')
 			);
@@ -303,7 +366,6 @@ class Admin extends CI_Controller {
 			$id = $this->input->post('id_kategori_umkm');
 			$user = $this->session->username;
 			$data = array(
-				'akun'						   => $this->M_admin->getAkun($user),
 				'nama_kategori_umkm' => $this->input->post('nama'),
 				'keterangan'				 => $this->input->post('keterangan')
 			);
@@ -326,7 +388,6 @@ class Admin extends CI_Controller {
 		{
 			$user = $this->session->username;
 			$data = array(
-				'akun'						     => $this->M_admin->getAkun($user),
 				'nama_kategori_produk' => $this->input->post('nama'),
 				'keterangan'				   => $this->input->post('keterangan')
 			);
@@ -355,7 +416,6 @@ class Admin extends CI_Controller {
 			$id = $this->input->post('id_kategori_produk');
 			$user = $this->session->username;
 			$data = array(
-				'akun'						     => $this->M_admin->getAkun($user),
 				'nama_kategori_produk' => $this->input->post('nama'),
 				'keterangan'				   => $this->input->post('keterangan')
 			);
@@ -420,12 +480,16 @@ class Admin extends CI_Controller {
 
 			public function tambahSlide()
 			{
-				$this->load->view('admin/tambahslide');
+				$user = $this->session->username;
+				$data = array(
+					'akun'	=> $this->M_admin->getAkun($user),
+				);
+				$this->load->view('admin/tambahslide',$data);
 			}
 
 			public function createSlide()
 			{
-				  $config['upload_path'] = "./uploads/foto_slide/";
+				  $config['upload_path'] = "./assets/gambar_slide/";
 					$config['allowed_types'] = "gif|jpg|png";
 					$config['max_size'] = 2000;
 					$config['encrypt_name'] = TRUE;
@@ -470,7 +534,7 @@ class Admin extends CI_Controller {
 
 			public function updateSlide()
 			{
-					$config['upload_path'] = "./uploads/foto_slide/";
+					$config['upload_path'] = "./assets/gambar_slide/";
 					$config['allowed_types'] = "gif|jpg|png";
 					$config['max_size'] = 2000;
 					$config['encrypt_name'] = TRUE;
@@ -523,7 +587,6 @@ class Admin extends CI_Controller {
 				$id = $this->input->post('idkontak');
 				$user = $this->session->username;
 				$data = array(
-				'akun'	 => $this->M_admin->getAkun($user),
 				'alamat' => $this->input->post('alamat'),
 				'email'  => $this->input->post('email'),
 				'telepon'  => $this->input->post('notlp'),

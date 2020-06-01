@@ -62,16 +62,43 @@ class M_admin extends CI_Model {
 
 	public function getUMKMId($id)
 	{
-		return $this->db->query("SELECT * FROM tb_umkm JOIN tb_kategori_umkm USING(id_kategori_umkm) WHERE id_umkm = '$id'")->row();
+		return $this->db->query("SELECT * FROM tb_umkm JOIN tb_kategori_umkm USING(id_kategori_umkm) JOIN tb_user USING(id_user) WHERE id_umkm = '$id'")->row();
+	}
+
+	public function getProdukId($id){
+		return $this->db->query("SELECT * FROM tb_umkm JOIN tb_produk USING(id_umkm) JOIN tb_kategori_produk USING(id_kategori_produk) WHERE id_umkm= '$id'")->result();
+	}
+
+	public function getMarketId($id){
+		return $this->db->query("SELECT * FROM tb_market WHERE id_umkm= '$id'")->result();
+	}
+
+	public function getPortofolioId($id){
+		return $this->db->query("SELECT * FROM tb_portofolio WHERE id_umkm= '$id'")->result();
+	}
+
+	public function getInformasiId($id){
+		return $this->db->query("SELECT * FROM tb_informasi WHERE id_umkm= '$id'")->result();
 	}
 
 	public function create_umkm($data){
 		return $this->db->insert('tb_umkm',$data);
 	}
 
+	public function getID($id)
+	{
+		return $this->db->query("SELECT * FROM tb_user JOIN tb_umkm USING(id_user) WHERE id_umkm = $id")->row();
+	}
+
 	public function update_umkm($data,$id){
 	 $this->db->where('id_umkm',$id);
 	 $o = $this->db->update('tb_umkm',$data);
+	 return $o;
+	}
+
+	public function update_status($data,$id){
+	 $this->db->where('id_user',$id);
+	 $o = $this->db->update('tb_user',$data);
 	 return $o;
 	}
 

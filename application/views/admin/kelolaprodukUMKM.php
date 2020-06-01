@@ -46,9 +46,9 @@
             <tr>
               <td><?php echo $n++ ?></td>
               <td><?php  echo $p->nama_produk ?></td>
-              <td><img src="<?=base_url()?>uploads/foto_produk/<?=$p->foto_produk?>" width="120px" alt=""> <?php echo $p->foto_produk ?></td>
+              <td><img src="<?=base_url()?>assets/foto_produk/<?=$p->foto_produk?>" width="120px" alt=""></td>
               <td><?php echo $p->deskripsi_produk ?></td>
-              <td><?php echo $p->harga_produk ?></td>
+              <td>Rp <?php echo $p->harga_produk ?>,00</td>
               <td><?php echo $p->id_umkm ?></td>
               <td><?php echo $p->id_kategori_produk ?></td>
             </tr>

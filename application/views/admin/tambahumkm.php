@@ -62,10 +62,6 @@
                   <textarea class="form-control" name="deskripsi" rows="8" cols="80" placeholder="Masukan Deskripsi"></textarea>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Tanggal Lahir</label>
-                  <input type="date" name="tgllahir" class="form-control">
-                </div>
-                <div class="form-group">
                   <label for="exampleInputEmail1">Nomor Telepon</label>
                   <input type="text" name="nohp" class="form-control" placeholder="Masukan Nomor Telepon">
                 </div>

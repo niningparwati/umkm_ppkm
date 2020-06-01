@@ -6,6 +6,7 @@
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
+      <p style="color:red"><?php echo $berita ?></p>
       <p class="login-box-msg">Login Sebagai UMKM atau Admin</p>
       <?= $this->session->flashdata('notif')?>
       <form action="<?=base_url()?>LoginAU/login" method="post">

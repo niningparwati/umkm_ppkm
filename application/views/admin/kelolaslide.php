@@ -53,7 +53,7 @@
               <td><?php echo $n++ ?></td>
               <td><?php echo $s->judul ?></td>
               <td><?php echo $s->deskripsi ?></td>
-              <td> <img src="<?=base_url()?>uploads/foto_slide/<?php echo $s->gambar ?>" width="200px" alt=""> </td>
+              <td> <img src="<?=base_url()?>assets/gambar_slide/<?php echo $s->gambar ?>" width="200px" alt=""> </td>
               <td><?php echo $s->url ?></td>
               <td><?php echo $s->status ?></td>
               <td>

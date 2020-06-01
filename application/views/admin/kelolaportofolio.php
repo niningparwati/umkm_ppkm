@@ -46,7 +46,7 @@
             <tr>
               <td><?php echo $n++ ?></td>
               <td><?php echo $p->judul_portofolio ?></td>
-              <td><?php echo $p->foto_portofolio ?></td>
+              <td> <img src="<?php echo base_url()?>assets/foto_portofolio/<?php echo $p->foto_portofolio ?>" width="150px" alt=""> </td>
               <td><?php echo $p->keterangan ?></td>
               <td><?php echo $p->alamat ?></td>
               <td><?php echo $p->tanggal ?></td>

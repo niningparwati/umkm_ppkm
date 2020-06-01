@@ -53,6 +53,20 @@
               <td><?php echo $u->alamat_umkm ?></td>
               <td><?php echo $u->status?></td>
               <td>
+                <?php if ($u->status == 'aktif'){ ?>
+                  <a class="btn btn-default" href="<?=base_url()?>Admin/updateTdkAktifUMKM/<?=$u->id_umkm?>">
+                      <i class="fa fa-fw fa-minus-square"></i> Non Aktif
+                  </a>
+                <?php }else if($u->status == 'tidak aktif'){?>
+                <a class="btn btn-info" href="<?=base_url()?>Admin/updateAktifUMKM/<?=$u->id_umkm?>">
+                    <i class="fa fa-fw fa-check-square"></i> Aktif
+                </a>
+              <?php }else{?>
+                <a class="btn btn-info" href="<?=base_url()?>Admin/updateAktifUMKM/<?=$u->id_umkm?>">
+                    <i class="fa fa-fw fa-check-square"></i> Aktif
+                </a>
+              <?php  } ?>
+
                 <a href="<?= base_url()?>Admin/pilihUMKM/<?=$u->id_umkm ?>" class="btn btn-success">
                       <div><i class="fa fa-fw fa-eye"></i>Detail</div>
                 </a>
