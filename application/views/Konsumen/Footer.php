@@ -69,5 +69,22 @@
   </div><!-- .f_info -->
 </footer>
 
+<!-- Sweetalert -->
+<script src="<?= base_url() ?>assets/plugins/sweetalert/dist/sweetalert2.all.min.js"></script>
+<script src="<?= base_url() ?>assets/js/sweetalert.js"></script>
+
+<script src="<?= base_url()?>assets/jquery.min.js"></script> 
+<script src="<?= base_url()?>assets/jquery.mask.min.js"></script>
+
+<script src="<?=base_url()?>assets/konsumen/js/jquery-1.7.2.min.js"></script> 
+<script src="<?=base_url()?>assets/konsumen/js/html5.js"></script>
+<script src="<?=base_url()?>assets/konsumen/js/main.js"></script>
+<script src="<?=base_url()?>assets/konsumen/js/jquery.carouFredSel-6.2.0-packed.js"></script>
+<script src="<?=base_url()?>assets/konsumen/js/jquery.touchSwipe.min.js"></script>
+<script src="<?=base_url()?>assets/konsumen/js/checkbox.js"></script>
+<script src="<?=base_url()?>assets/konsumen/js/radio.js"></script>
+<!-- <script src="<?=base_url()?>assets/konsumen/js/selectBox.js"></script> -->
+<script src="<?=base_url()?>assets/konsumen/js/jquery.jqzoom-core.js"></script>
+
 </body>
 </html>

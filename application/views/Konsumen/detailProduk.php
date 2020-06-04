@@ -9,8 +9,8 @@
 				<div class="grid_4 img_slid" id="products">
 					<div class="preview slides_container">
 						<div class="prev_bg">
-							<a class="jqzoom" rel="gal1" href="<?=base_url()?>assets/foto_produk/<?=$foto_produk?>">
-								<img src="<?=base_url()?>assets/foto_produk/<?=$foto_produk?>"  style="width: 100%; height: 100%" title="" alt=""/>
+							<a class="jqzoom" rel="gal1" href="<?=base_url()?>assets/foto_produk/<?=$foto_produk?>" style="width: 300px; height: 300px">
+								<img src="<?=base_url()?>assets/foto_produk/<?=$foto_produk?>"  style="width: 300px; height: 300px" title="" alt=""/>
 							</a>
 						</div>
 					</div><!-- .prev -->
@@ -51,16 +51,16 @@
 						<div class="block_cart">
 							<div class="obn_like">
 							</div>
-
 							<div class="cart">
-								<a href="#" class="bay">Add to Cart</a>
-								<input type="text" name="" class="number" value="1" />
-								<span>Quantity:</span>
+								<form action="<?=base_url()?>Konsumen/inputKeranjang/<?=$id_produk?>" method="POST">
+									<button type="submit" name="submit" class="bay" style="width: 130px; float: right;display: block;height: 35px;color: #fefefe;text-align: center;text-decoration: none;font: bold 13px/35px Segoeui-Bold, Arial, Verdana, serif;background: #59b7c2; border-radius: 2px">Masukan keranjang</button>
+									<input type="text" name="qty" class="number"/>
+									<span>Quantity:</span>
+								</form>
 							</div>
 							<div class="clear"></div>
 						</div><!-- .block_cart -->
 					</div><!-- .entry_content -->
-
 				</div><!-- .grid_5 -->
 
 				<div class="clear"></div>
@@ -222,7 +222,7 @@
 														Status stok : 
 														<?php 
 														if ($key->stok > 0) {
-															echo '<span style="color: black">'.$key->stok.'</span>';
+															echo '<span style="color: black">'.$key->stok.' produk</span>';
 														} else{
 															echo '<span style="color: red">kosong</span>';
 														}

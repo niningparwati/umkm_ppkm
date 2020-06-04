@@ -4,17 +4,17 @@ if (success) {
     Swal.fire({
         title: "Success!",
         text: success,
-        type: "success",
+        icon: "success",
     });
 }
 
 //error Alert
 const error = $('.error-flash').data('error');
 if (error) {
-	Swal.fire({
+    Swal.fire({
         title: "Failed!",
         text: error,
-        type: "error",
+        icon: "error",
     });
 }
 
@@ -24,6 +24,6 @@ if (warning) {
     Swal.fire({
         title: "Warning!",
         text: warning,
-        type: "warning",
+        icon: "warning",
     });
 }

@@ -16,7 +16,7 @@ body{
 .grid_5,
 .grid_6,
 .grid_7,
-.grid_8,12
+.grid_8,
 .grid_9,
 .grid_10,
 .grid_11,
@@ -498,7 +498,6 @@ input[type="submit"]:active{
 
 /*** Input **/
 input[type="email"],
-input[type="password"],
 input[type="text"]{
     height: 33px;
     padding: 0 10px;
@@ -509,11 +508,7 @@ input[type="text"]{
     -khtml-border-radius: 2px;
     behavior: url(PIE.htc);
 }
-
-/*** Input **/
-
 input[type="email"]:focus,
-input[type="password"]:fokus,
 input[type="text"]:focus,
 textarea:focus{
     outline:none;
@@ -2324,7 +2319,6 @@ a.more:hover{
     color: #707070;
 }
 .add_comments input[type="text"],
-.add_comments input[type="password"],
 .add_comments input[type="email"],
 .add_comments textarea{
     margin: 10px 0 0 0;
@@ -2405,7 +2399,6 @@ form.registed strong{
     font: bold 13px/13px Segoeui-Bold, Myriad Pro, Verdana, serif;
 }
 form.registed input[type="text"],
-form.registed input[type="password"],
 form.registed input[type="email"]{
     width: 255px;
     margin: 5px 0 13px 0;
@@ -2568,10 +2561,6 @@ table.cart_product td.cart_but button.update span{
     width: 250px;
     margin: 5px 0 0 0;
 }
-.bottom_block.estimate input[type="password"]{
-    width: 250px;
-    margin: 5px 0 0 0;
-}
 .bottom_block.estimate input[type="submit"]#get_estimate{
     width: 150px;
     margin: 5px 0 0 0;
@@ -2583,10 +2572,6 @@ table.cart_product td.cart_but button.update span{
     padding: 20px;
 }
 .bottom_block.discount input[type="text"]{
-    width: 250px;
-    margin: 5px 0 0 0;
-}
-.bottom_block.discount input[type="password"]{
     width: 250px;
     margin: 5px 0 0 0;
 }
@@ -2677,7 +2662,6 @@ form.contact .email{
     float: right;
 }
 form.contact input[type="text"],
-form.contact input[type="password"],
 form.contact input[type="email"]{
     width: 255px;
     margin: 5px 0 20px 0;
@@ -2916,7 +2900,6 @@ form.registed strong{
     font: bold 13px/13px Segoeui-Bold, Myriad Pro, Verdana, serif;
 }
 ul.checkout_list li.active .list_body form.login input[type="text"],
-ul.checkout_list li.active .list_body form.login input[type="password"],
 ul.checkout_list li.active .list_body form.login input[type="email"]{
     width: 312px;
     margin: 5px 0 13px 0;
@@ -3379,7 +3362,6 @@ list-style: none;
 
 }
 .form_style input[type="text"],
-.form_style input[type="password"],
 .form_style select, .form_style .selectBox{
     width: 206px;
 }
@@ -3680,7 +3662,6 @@ list-style: none;
         width: 48%;
     }
     ul.checkout_list li.active .list_body form.login input[type="text"],
-    ul.checkout_list li.active .list_body form.login input[type="password"],
     ul.checkout_list li.active .list_body form.login input[type="email"]{
         padding-left: 1.5%;
         padding-right: 1.5%;
@@ -3701,7 +3682,6 @@ list-style: none;
         width: 46%;
     }
     form.contact input[type="text"],
-    form.contact input[type="password"],
     form.contact input[type="email"]{
 	padding-left: 1.5%;
         padding-right: 1.5%;
@@ -3732,17 +3712,7 @@ list-style: none;
         padding-right: 1.5%;
         width: 97%;
     }
-    .bottom_block.estimate input[type="password"]{
-        padding-left: 1.5%;
-        padding-right: 1.5%;
-        width: 97%;
-    }
     .bottom_block.discount input[type="text"]{
-        padding-left: 1.5%;
-        padding-right: 1.5%;
-        width: 97%;
-    }
-    .bottom_block.discount input[type="password"]{
         padding-left: 1.5%;
         padding-right: 1.5%;
         width: 97%;
@@ -4274,7 +4244,6 @@ list-style: none;
      * Login page *
      **************/
     form.registed input[type="text"],
-    form.registed input[type="password"],
     form.registed input[type="email"]{
         box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -4370,7 +4339,6 @@ list-style: none;
         width: 100%;
     }
     ul.checkout_list li.active .list_body form.login input[type="text"], 
-    ul.checkout_list li.active .list_body form.login input[type="password"], 
     ul.checkout_list li.active .list_body form.login input[type="email"]{
         box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -4556,9 +4524,6 @@ list-style: none;
        width: 100%;
    }
    .form_style input[type="text"]{
-       margin: 0 0 20px 0;
-   }
-   .form_style input[type="password"]{
        margin: 0 0 20px 0;
    }
    .form_style select, .form_style .selectBox{
