@@ -189,6 +189,28 @@ class M_konsumen extends CI_Model {
 		$this->db->query("DELETE FROM tb_keranjang WHERE id_produk='$idProduk' AND id_konsumen='$idKonsumen'");
 	}
 
+	// TRANSAKSI
+
+	function createTransaksi($data1)	// create di tabel transaksi, status menunggu pembayaran
+	{
+		$this->db->insert('tb_transaksi', $data1);
+	}
+
+	function cekIdTransaksi($id)		// cek transaksi yang belum dibayar (hanya 1 transaksi yang boleh dibayar)
+	{
+		return $this->db->query("SELECT * FROM tb_transaksi WHERE id_konsumen='$id' AND status='menunggu pembayaran'")->row();
+	}
+
+	function cekProduk($id)		// cek produk berdasarkan id prduk
+	{
+		return $this->db->query("SELECT * FROM tb_keranjang WHERE id_produk='$id'")->row();
+	}
+
+	function hargaProduk($id)	// cek harga produk
+	{
+		
+	}
+
 }
 
 /* End of file M_konsumen.php */

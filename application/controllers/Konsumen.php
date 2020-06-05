@@ -620,6 +620,38 @@ class Konsumen extends CI_Controller {
 	// 		// }
 	// 	}
 	// }
+
+
+	// TRANSAKSI
+
+	function Transaksi()
+	{
+		if ($this->session->userdata('id_konsumen')) {
+			$data1 = array(
+				'id_konsumen' => $this->session->userdata('id_konsumen'),
+				'status' => 'menunggu pembayaran',
+				'tanggal_transaksi' => date('Y-m-d H-i-s'),
+			);
+			$this->M_konsumen->createTransaksi($data1);	// Create ke tabel transaksi
+			$idTransaksi = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'))->id_transaksi;
+			$keranjang = $this->input->post('keranjang');		// name checkbox di form
+			$result = array();
+			foreach ($produk as $key => $val) {
+				$cek = $this->M_konsumen->cekProduk($_POST['keranjang'][$key]);
+				$hargaProduk = $this->M_konsumen->hargaProduk($cek->id_produk);
+				$result[] = array(
+					'id_transaksi' => $idTransaksi,
+					'id_konsumen' => $this->session->userdata('id_konsumen'),
+					'id_produk' => $cek->idProduk,
+					'jumlah_produk' => $cek->jumlah_barang
+				);
+			}
+			
+		}else{
+			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			redirect('Konsumen/index');
+		}
+	}
 }
 
 ?>

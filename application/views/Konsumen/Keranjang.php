@@ -46,99 +46,99 @@ if ($err) {
       <th class="bg subtotal">Subtotal</th>
       <th class="close"> </th>
     </tr>
-    <?php 
-    if (!is_null($produk)) {
-     foreach ($produk as $key) {
-      $cek = $this->M_konsumen->getKeranjang($key->id_keranjang);
-      $jml = $cek->jumlah_barang;
-      $stok = $this->M_konsumen->produkById($cek->id_produk)->stok;
-      if ($jml > $stok) {
-        $data = array(
-          'jumlah_barang' => $stok
-        );
-        $this->M_konsumen->updateKeranjang($data, $key->id_keranjang);
-      }
-      ?>
-      <tr>
-        <td><form><input type="checkbox" name="" id="undefined" value="" tabindex="0" style="margin-top: 20px"></form></td>
-        <td class="images"><a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>"><img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" alt="Product Slide 1"></a></td>
-        <td class="bg name"><b><?=$key->nama_produk?></b><br/><?=$key->deskripsi_produk?></td>
-        <td class="bg price">Rp <?=number_format($key->harga_produk,2,',','.')?></td>
-        <form>
-         <td class="qty" style="padding-top: 30px">
-          <a href="<?=base_url()?>Konsumen/kurangiBarang/<?=$key->id_keranjang?>"><img src="<?=base_url()?>assets/konsumen/images/primary-minus.png" style="width: 8px; padding-right: 10px"></a>
-          <?=$key->jumlah_barang?>
-          <a href="<?=base_url()?>Konsumen/tambahBarang/<?=$key->id_keranjang?>"><img src="<?=base_url()?>assets/konsumen/images/primary-plus.png" style="width: 8px; padding-left: 10px"></a>
-        </td>
-      </form>
-      <td class="bg subtotal">
-       <?php 
-       $jml = $key->jumlah_barang;
-       $hrg = $key->harga_produk;
-       $total = $jml*$hrg;
-       echo 'Rp '.number_format($total,2,',','.');
-       ?>
-     </td>
-     <td class="close">
-      <!-- MODAL HAPUS PRODUK-->
-      <div>
-        <label class="modal1-open modal1-label close1" for="modal1-open"><img src="<?=base_url()?>assets/konsumen/images/close.png"></label>
-        <input type="radio" name="modal1" value="open" id="modal1-open" class="modal1-radio">
+    <form method="POST" action="<?=base_url()?>Konsumen/Transaksi">
+      <?php 
+      if (!is_null($produk)) {
+       foreach ($produk as $key) {
+        $cek = $this->M_konsumen->getKeranjang($key->id_keranjang);
+        $jml = $cek->jumlah_barang;
+        $stok = $this->M_konsumen->produkById($cek->id_produk)->stok;
+        if ($jml > $stok) {
+          $data = array(
+            'jumlah_barang' => $stok
+          );
+          $this->M_konsumen->updateKeranjang($data, $key->id_keranjang);
+        }
+        ?>
+        <tr>
+          <td><input type="checkbox" name="keranjang" id="undefined" value="<?=$key->id_keranjang?>" tabindex="0" style="margin-top: 20px"></td>
+          <td class="images"><a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>"><img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" alt="Product Slide 1"></a></td>
+          <td class="bg name"><b><?=$key->nama_produk?></b><br/><?=$key->deskripsi_produk?></td>
+          <td class="bg price">Rp <?=number_format($key->harga_produk,2,',','.')?></td>
+          <td class="qty" style="padding-top: 30px">
+            <a href="<?=base_url()?>Konsumen/kurangiBarang/<?=$key->id_keranjang?>"><img src="<?=base_url()?>assets/konsumen/images/primary-minus.png" style="width: 8px; padding-right: 10px"></a>
+            <?=$key->jumlah_barang?>
+            <a href="<?=base_url()?>Konsumen/tambahBarang/<?=$key->id_keranjang?>"><img src="<?=base_url()?>assets/konsumen/images/primary-plus.png" style="width: 8px; padding-left: 10px"></a>
+          </td>
+          <td class="bg subtotal">
+           <?php 
+           $jml = $key->jumlah_barang;
+           $hrg = $key->harga_produk;
+           $total = $jml*$hrg;
+           echo 'Rp '.number_format($total,2,',','.');
+           ?>
+         </td>
+         <td class="close">
+          <!-- MODAL HAPUS PRODUK-->
+          <div>
+            <label class="modal1-open modal1-label close1" for="modal1-open"><img src="<?=base_url()?>assets/konsumen/images/close.png"></label>
+            <input type="radio" name="modal1" value="open" id="modal1-open" class="modal1-radio">
 
-        <div class="modal1">
-          <label class="modal1-label overlay"><input type="radio" name="modal1" value="close1" class="modal1-radio"/></label>
-          <div class="content1">
-            <div class="top1">
-              <b>Anda yakin produk ini akan dihapus dari keranjang?</b>
-              <label class="modal1-label close-btn1">
-                <input type="radio" name="modal1" value="close1" class="modal1-radio"/>
+            <div class="modal1">
+              <label class="modal1-label overlay"><input type="radio" name="modal1" value="close1" class="modal1-radio"/></label>
+              <div class="content1">
+                <div class="top1">
+                  <b>Anda yakin produk ini akan dihapus dari keranjang?</b>
+                  <label class="modal1-label close-btn1">
+                    <input type="radio" name="modal1" value="close1" class="modal1-radio"/>
+                  </label>
+                </div>
+                <div class="footer1">
+                  <br><br>
+                  <a href="<?=base_url()?>Konsumen/Keranjang/<?=$this->session->userdata('id_konsumen')?>"><button type="button" style="padding: 8px; background: #7b808a" class="btn1 btn-default pull-left1" data-dismiss="modal1-label">Tidak</button></a>
+                  <a href="<?=base_url()?>Konsumen/hapusProduk/<?=$key->id_produk?>"><button type="button" style="padding: 8px;margin-left: 350px; width: 50px; text-align: center; background: #DD4B39" class="btn1 btn-default pull-right" data-dismiss="modal1">Ya</button></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- MODAL -->
+
+        </td>
+      </tr>
+    <?php } }else{ ?>
+    <?php } ?>
+    <tr>
+     <td colspan="7" class="cart_but">
+
+      <!-- MODAL HAPUS KERANJANG-->
+      <div style="float: left;">
+        <label class="modal-open modal-label" for="modal-open"><p><img src="<?=base_url()?>assets/konsumen/images/delete.png" style="width: 12px;"> Kosongkan keranjang</p></label>
+        <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio">
+
+        <div class="modal">
+          <label class="modal-label overlay"><input type="radio" name="modal" value="close" class="modal-radio"/></label>
+          <div class="content">
+            <div class="top">
+              <b>Anda yakin semua produk dalam keranjang akan dihapus?</b>
+              <label class="modal-label close-btn">
+                <input type="radio" name="modal" value="close" class="modal-radio"/>
               </label>
             </div>
-            <div class="footer1">
+            <div class="footer">
               <br><br>
-              <a href="<?=base_url()?>Konsumen/Keranjang/<?=$this->session->userdata('id_konsumen')?>"><button type="button" style="padding: 8px; background: #7b808a" class="btn1 btn-default pull-left1" data-dismiss="modal1-label">Tidak</button></a>
-              <a href="<?=base_url()?>Konsumen/hapusProduk/<?=$key->id_produk?>"><button type="button" style="padding: 8px;margin-left: 350px; width: 50px; text-align: center; background: #DD4B39" class="btn1 btn-default pull-right" data-dismiss="modal1">Ya</button></a>
+              <a href="<?=base_url()?>Konsumen/Keranjang/<?=$this->session->userdata('id_konsumen')?>"><button type="button" style="padding: 8px; background: #7b808a" class="btn btn-default pull-left" data-dismiss="modal-label">Tidak</button></a>
+              <a href="<?=base_url()?>Konsumen/hapusKeranjang"><button type="button" style="padding: 8px;margin-left: 350px; width: 50px; text-align: center; background: #DD4B39" class="btn btn-default pull-right" data-dismiss="modal">Ya</button></a>
             </div>
           </div>
         </div>
       </div>
       <!-- MODAL -->
 
+      <button class="update" name="submit" type="submit"><img src="<?=base_url()?>assets/konsumen/images/bg_cart_nav.png"> Checkout Barang</button>
+
     </td>
   </tr>
-<?php } }else{ ?>
-<?php } ?>
-<tr>
- <td colspan="7" class="cart_but">
-
-  <!-- MODAL HAPUS KERANJANG-->
-  <div style="float: left;">
-    <label class="modal-open modal-label" for="modal-open"><p><img src="<?=base_url()?>assets/konsumen/images/delete.png" style="width: 12px;"> Kosongkan keranjang</p></label>
-    <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio">
-
-    <div class="modal">
-      <label class="modal-label overlay"><input type="radio" name="modal" value="close" class="modal-radio"/></label>
-      <div class="content">
-        <div class="top">
-          <b>Anda yakin semua produk dalam keranjang akan dihapus?</b>
-          <label class="modal-label close-btn">
-            <input type="radio" name="modal" value="close" class="modal-radio"/>
-          </label>
-        </div>
-        <div class="footer">
-          <br><br>
-          <a href="<?=base_url()?>Konsumen/Keranjang/<?=$this->session->userdata('id_konsumen')?>"><button type="button" style="padding: 8px; background: #7b808a" class="btn btn-default pull-left" data-dismiss="modal-label">Tidak</button></a>
-          <a href="<?=base_url()?>Konsumen/hapusKeranjang"><button type="button" style="padding: 8px;margin-left: 350px; width: 50px; text-align: center; background: #DD4B39" class="btn btn-default pull-right" data-dismiss="modal">Ya</button></a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- MODAL -->
-
-  <button class="update"><img src="<?=base_url()?>assets/konsumen/images/bg_cart_nav.png"> Checkout</button>
-
-</td>
-</tr>
+</form>
 </table>
 </div><!-- .grid_12 -->
 
@@ -148,7 +148,7 @@ if ($err) {
   <div class="grid_4">
     <div class="bottom_block estimate">
       <h3>Alamat Pengiriman</h3>
-      <?php var_dump($ongkir) ?>
+
       <p>Enter your destination to get a shipping estimate.</p>
       <form method="POST">
         <p>
@@ -214,19 +214,24 @@ if ($err) {
   <div class="grid_4">
     <div class="bottom_block discount">
       <h3>Estimasi Ongkos Kirim</h3>
-      <b>Enter your coupon code if you have one.</b>
+      
       <form>
         <?php 
-          $biaya = json_decode($ongkir,true);
-          if ($biaya['rajaongkir']['status']['code'] == '200') {
-            foreach ($biaya['rajaongkir']['results'][0]['costs'] as $key) {
-              echo $key['service'];
-            }
-          }
-         ?>
-       <p>
-         <input type="text" name="" value="" placeholder="United" readonly/>
-       </p>
+        $biaya = json_decode($ongkir,true);
+        if ($biaya['rajaongkir']['status']['code'] == '200') {
+          foreach ($biaya['rajaongkir']['results'][0]['costs'] as $key) {
+            ?>
+            <!-- echo $key['service']; -->
+            <b><?=$key['service']?></b>
+            <p style="font-size: 12px">
+             Biaya ongkir: <b>Rp <?=number_format($key['cost'][0]['value'],2,',','.')?></b><br>
+             Estimasi pengiriman : <b><?=$key['cost'][0]['etd']?> hari</b>
+           </p>
+           <?php
+         }
+       }
+       ?>
+
 
        <input type="submit" id="apply_coupon" value="Apply Coupon" />
      </form>
