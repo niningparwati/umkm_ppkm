@@ -318,7 +318,7 @@ class Konsumen extends CI_Controller {
 	function Keranjang($idKonsumen)
 	{
 		if ($this->session->userdata('id_konsumen')) {
-			// $data['ongkir'] = '';
+			$data['ongkir'] = '';
 			if (count($_POST)) {
 				$curl = curl_init();
 
@@ -344,21 +344,46 @@ class Konsumen extends CI_Controller {
 
 				if ($err) {
 					echo "cURL Error #:" . $err;
+					// $data = array(
+					// 	'produk' => $this->M_konsumen->keranjangByKonsumen($idKonsumen),
+					// 	'ongkir' => ''
+					// );
+					// $this->load->view('Konsumen/Head');
+					// $this->load->view('Konsumen/Header', $data);
+					// $this->load->view('Konsumen/Keranjang', $data);
+					// $this->load->view('Konsumen/Footer');
 				} else {
-					$data['ongkir'] = $response;
+					// $data['ongkir'] = $response;
+					$data = array(
+						'produk' => $this->M_konsumen->keranjangByKonsumen($idKonsumen),
+						'ongkir' => $response
+					);
+					$this->load->view('Konsumen/Head');
+					$this->load->view('Konsumen/Header', $data);
+					$this->load->view('Konsumen/Keranjang', $data);
+					$this->load->view('Konsumen/Footer');
 				}
 			}
 
 			$data = array(
 				'produk' => $this->M_konsumen->keranjangByKonsumen($idKonsumen),
 				'ongkir' => ''
-				// 'province' => $this->provinsi(),
-				// 'shipping_cost' => $this->cek_shipping_cost()
 			);
 			$this->load->view('Konsumen/Head');
 			$this->load->view('Konsumen/Header', $data);
 			$this->load->view('Konsumen/Keranjang', $data);
 			$this->load->view('Konsumen/Footer');
+
+			// $data = array(
+			// 	'produk' => $this->M_konsumen->keranjangByKonsumen($idKonsumen),
+			// 	'ongkir' => $response
+				// 'province' => $this->provinsi(),
+				// 'shipping_cost' => $this->cek_shipping_cost()
+			// );
+			// $this->load->view('Konsumen/Head');
+			// $this->load->view('Konsumen/Header', $data);
+			// $this->load->view('Konsumen/Keranjang', $data);
+			// $this->load->view('Konsumen/Footer');
 			// print_r($data);
 		}else{
 			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
@@ -468,7 +493,7 @@ class Konsumen extends CI_Controller {
 			echo "<option value=''> -------- pilih kota -------- </option>";
 			if ($kota['rajaongkir']['status']['code'] == '200') {
 				foreach ($kota['rajaongkir']['results'] as $kt) {
-					echo "<option value='".$kt[city_id]."'>".$kt[city_name]."</option>";
+					echo "<option value='".$kt['city_id']."'>".$kt['city_name']."</option>";
 				}
 			}
   // var_dump($response);

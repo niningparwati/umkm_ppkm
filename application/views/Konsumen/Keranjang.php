@@ -156,9 +156,9 @@ if ($err) {
           <select id="provinsi" name="provinsi" style="width: 100%">
             <option>------ pilih provinsi asal ------</option>
             <?php 
-            if ($provinsi['rajaongkir']['status']['code'] == 200) {
+            if ($provinsi['rajaongkir']['status']['code'] == '200') {
               foreach ($provinsi['rajaongkir']['results'] as $prov) {
-                echo "<option value='".$prov['province_id']."'".($prov['province_id'] == $this->input->post('provinsi') ? "selected" : "").">".$prov['province']."</option>";
+                echo "<option value='".$prov['province_id']."' ".($prov['province_id'] == $this->input->post('provinsi') ? "selected" : "").">".$prov['province']."</option>";
               }
             }
             ?>
@@ -175,70 +175,80 @@ if ($err) {
           <select id="provinsi_tujuan" nama="provinsi_tujuan" style="width: 100%">
             <option>------ pilih provinsi ------</option>
             <?php 
-            if ($provinsi['rajaongkir']['status']['code'] == 200) {
+            if ($provinsi['rajaongkir']['status']['code'] == '200') {
               foreach ($provinsi['rajaongkir']['results'] as $prov) {
-                ?>
-                <option value="<?=$prov['province_id']?>"><?=$prov['province']?></option>
-                <?php
+                echo "<option value='".$prov['province_id']."' ".($prov['province_id'] == $this->input->post('provinsi_tujuan') ? "selected" : "").">".$prov['province']."</option>";
               }
             }
             ?>
-            </select>
-            </p>
-            <p>
-            <strong>Kota Tujuan:</strong><br/>
-            <select id="kota_tujuan" name="kota_tujuan" style="width: 100%">
+          </select>
+        </p>
+        <p>
+          <strong>Kota Tujuan:</strong><br/>
+          <select id="kota_tujuan" name="kota_tujuan" style="width: 100%">
             <option>-------- pilih kota tujuan --------</option>
-            </select>
-            </p>
-            <p>
-            <strong>Pilih Ekspedisi</strong><br/>
-            <select id="ekspedisi" name="ekspedisi" style="width: 100%">
+          </select>
+        </p>
+        <p>
+          <strong>Pilih Ekspedisi</strong><br/>
+          <select id="ekspedisi" name="ekspedisi" style="width: 100%">
             <option>-------- pilih ekspedisi --------</option>
-            <option value="jne">JNE</option>
-            <option value="pos">POS</option>
-            <option value="tiki">TIKI</option>
-            </select>
-            </p>
-            <p>
-            <strong>Berat barang (gram)</strong><br/>
-            <input type="text" name="berat" value="<?=$this->input->post('berat')?>" placeholder="gram" />
-          </p>
-          <input type="submit" name="submit" id="get_estimate" value="Cek Ongkir" />
-        </form>
+            <?php 
+            $eks = ['jne' => 'JNE', 'pos' => 'POS', 'tiki' => 'TIKI'];
+            foreach ($eks as $key => $value) {
+              echo "<option value='".$key."' ".($key == $this->input->post('ekspedisi') ? "selected": "")." >".$value."</option>";
+            }
+            ?>
+          </select>
+        </p>
+        <p>
+          <strong>Berat barang (gram)</strong><br/>
+          <input type="text" name="berat" value="<?=$this->input->post('berat')?>" placeholder="gram" />
+        </p>
+        <input type="submit" name="submit" id="get_estimate" value="Cek Ongkir" />
+      </form>
 
-      </div><!-- .estimate -->
-    </div><!-- .grid_4 -->
+    </div><!-- .estimate -->
+  </div><!-- .grid_4 -->
 
-    <div class="grid_4">
-      <div class="bottom_block discount">
-        <h3>Discount Codes</h3>
-        <p>Enter your coupon code if you have one.</p>
-        <form>
-         <p>
-           <input type="text" name="" value="" placeholder="United States"/>
-         </p>
-         <input type="submit" id="apply_coupon" value="Apply Coupon" />
-       </form>
-     </div><!-- .discount -->
-   </div><!-- .grid_4 -->
+  <div class="grid_4">
+    <div class="bottom_block discount">
+      <h3>Estimasi Ongkos Kirim</h3>
+      <b>Enter your coupon code if you have one.</b>
+      <form>
+        <?php 
+          $biaya = json_decode($ongkir,true);
+          if ($biaya['rajaongkir']['status']['code'] == '200') {
+            foreach ($biaya['rajaongkir']['results'][0]['costs'] as $key) {
+              echo $key['service'];
+            }
+          }
+         ?>
+       <p>
+         <input type="text" name="" value="" placeholder="United" readonly/>
+       </p>
 
-   <div class="grid_4">
-    <div class="bottom_block total">
-     <table class="subtotal">
-       <tr>
-         <td>Subtotal</td><td class="price">$1, 500.00</td>
-       </tr>
-       <tr class="grand_total">
-         <td>Grand Total</td><td class="price">$1, 500.00</td>
-       </tr>
-     </table>
-     <button class="checkout">PROCEED TO CHECKOUT</button>
-     <a href="#">Checkout with Multiple Addresses</a>
-   </div><!-- .total -->
+       <input type="submit" id="apply_coupon" value="Apply Coupon" />
+     </form>
+   </div><!-- .discount -->
  </div><!-- .grid_4 -->
 
- <div class="clear"></div>
+ <div class="grid_4">
+  <div class="bottom_block total">
+   <table class="subtotal">
+     <tr>
+       <td>Subtotal</td><td class="price">$1, 500.00</td>
+     </tr>
+     <tr class="grand_total">
+       <td>Grand Total</td><td class="price">$1, 500.00</td>
+     </tr>
+   </table>
+   <button class="checkout">PROCEED TO CHECKOUT</button>
+   <a href="#">Checkout with Multiple Addresses</a>
+ </div><!-- .total -->
+</div><!-- .grid_4 -->
+
+<div class="clear"></div>
 </div><!-- #content_bottom -->
 <div class="clear"></div>
 
@@ -399,7 +409,7 @@ if ($err) {
 <script type="text/javascript">
   document.getElementById('provinsi').addEventListener('change', function(){
 
-    fetch("<?=base_url('konsumen/kota/')?>"+this.value,{
+    fetch("<?= base_url('konsumen/kota/') ?>"+this.value,{
       method:'GET'
     })
     .then((response) => response.text())
@@ -411,7 +421,7 @@ if ($err) {
 
   document.getElementById('provinsi_tujuan').addEventListener('change', function(){
 
-    fetch("<?=base_url('konsumen/kota/')?>"+this.value,{
+    fetch("<?= base_url('konsumen/kota/') ?>"+this.value,{
       method:'GET'
     })
     .then((response) => response.text())
