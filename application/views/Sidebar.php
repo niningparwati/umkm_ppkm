@@ -82,13 +82,13 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <?php 
+          <?php
           if ($this->session->userdata('level')=='Paguyuban') {
             if (!$foto) { ?>
               <img src="<?php echo base_url()?>assets/foto_paguyuban/paguyuban.png" class="user-image" alt="User Image">
             <?php } else { ?>
               <img src="<?php echo base_url()?>assets/foto_paguyuban/<?= $foto ?>" class="user-image" alt="User Image">
-            <?php } 
+            <?php }
           }elseif ($this->session->userdata('level')!='Paguyuban') {
             if (!$foto) { ?>
               <img src="<?php echo base_url()?>assets/foto_user/user.png" class="user-image" alt="User Image">
@@ -174,10 +174,10 @@
             <a href="<?php echo base_url()?>UMKM/Transaksi/<?= $id_umkm?>"><i class="fa fa-shopping-cart"></i> <span>Kelola Transaksi</span></a>
           </li>
           <li >
-            <a href="<?php echo base_url()?>UMKM/Produk/<?= $id_umkm?>"><i class="fa fa-cube"></i> <span>Kelola Produk</span></a>
+            <a href="<?php echo base_url()?>UMKM/Produk/<?= $id_umkm?>"><i class="fa fa-bitbucket-square"></i> <span>Kelola Produk</span></a>
           </li>
           <li >
-            <a href="<?= base_url()?>UMKM/TampilPortofolio/<?= $id_umkm?>"><i class="fa fa-star-o"></i> <span>Kelola Portofolio</span></a>
+            <a href="<?= base_url()?>UMKM/TampilPortofolio/<?= $id_umkm?>"><i class="fa fa-newspaper-o"></i> <span>Kelola Portofolio</span></a>
           </li>
           <li >
             <a href="<?php echo base_url()?>UMKM/Market/<?= $id_umkm?>"><i class="fa fa-area-chart"></i> <span>Kelola Market</span></a>
