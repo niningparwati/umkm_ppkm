@@ -12,7 +12,7 @@ class M_admin extends CI_Model {
 
 	public function getAkun($user)
 	{
-		return $this->db->query("SELECT * FROM tb_user WHERE username='$user'")->row();
+		return $this->db->query("SELECT * FROM tb_user JOIN tb_admin USING(id_user) WHERE username='$user'")->row();
 	}
 
 	public function create_user($data){
@@ -79,6 +79,18 @@ class M_admin extends CI_Model {
 
 	public function getInformasiId($id){
 		return $this->db->query("SELECT * FROM tb_informasi WHERE id_umkm= '$id'")->result();
+	}
+
+	public function update_user($data,$id){
+	 $this->db->where('id_user',$id);
+	 $o = $this->db->update('tb_user',$data);
+	 return $o;
+	}
+
+	public function update_admin($data,$id){
+	 $this->db->where('id_user',$id);
+	 $o = $this->db->update('tb_admin',$data);
+	 return $o;
 	}
 
 	public function create_umkm($data){
@@ -189,7 +201,17 @@ class M_admin extends CI_Model {
 //Kelola Transaksi
 	//Transaksi produk
 	public function getTransaksi(){
-		return $this->db->query('SELECT nama_konsumen, nama_produk, harga_produk, jumlah_produk, tanggal_transaksi, total_harga, bukti_pembayaran, status FROM tb_konsumen JOIN tb_transaksi USING(id_konsumen) JOIN tb_detail_transaksi USING(id_transaksi) JOIN tb_produk USING(id_produk)')->result();
+		return $this->db->query("SELECT nama_konsumen, nama_produk, harga_produk, jumlah_produk, id_transaksi, tanggal_transaksi, total_harga, bukti_pembayaran, status FROM tb_konsumen JOIN tb_transaksi USING(id_konsumen) JOIN tb_detail_transaksi USING(id_transaksi) JOIN tb_produk USING(id_produk) WHERE status!='dana dikirim' AND status!='selesai'")->result();
+	}
+
+	public function update_transaksi($data,$id){
+	 $this->db->where('id_transaksi',$id);
+	 $o = $this->db->update('tb_transaksi',$data);
+	 return $o;
+	}
+
+	public function getTransaksiUMKM(){
+		return $this->db->query("SELECT nama_umkm, nama_produk, harga_produk, jumlah_produk, id_transaksi, total_harga, status FROM tb_transaksi JOIN tb_detail_transaksi USING(id_transaksi) JOIN tb_produk USING(id_produk) JOIN tb_umkm USING(id_umkm) WHERE status='diterima' OR status='selesai' OR status='dana dikirim'")->result();
 	}
 
 //Kelola Informasi

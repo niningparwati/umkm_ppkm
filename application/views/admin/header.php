@@ -27,8 +27,11 @@
           <ul class="dropdown-menu">
             <!-- User image -->
             <li class="user-header">
-              <img src="<?php echo base_url()?>assets/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+              <?php  if (!$akun->foto_user) { ?>
+              <img src="<?php echo base_url()?>assets/foto_user/user.png" class="img-circle" alt="User Image">
+            <?php } else { ?>
+              <img src="<?php echo base_url()?>assets/foto_user/<?= $akun->foto_user ?>" class="img-circle" alt="User Image">
+            <?php } ?>
               <p>
                 <?php echo $akun->nama_lengkap?> - <?php echo $akun->level?>
                 <small>Member since <?php echo $akun->tanggal_join?></small>
@@ -36,7 +39,7 @@
             </li>
             <li class="user-footer">
               <div class="pull-left">
-                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                <a href="<?=base_url()?>Admin/editProfil" class="btn btn-default btn-flat">Profile</a>
               </div>
               <div class="pull-right">
                 <a href="<?=base_url()?>LoginAU/logout" class="btn btn-default btn-flat">Sign out</a>

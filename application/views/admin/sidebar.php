@@ -7,7 +7,7 @@
         <?php if (!$akun->foto_user) { ?>
         <img src="<?php echo base_url()?>assets/foto_user/user.png" class="user-image" alt="User Image">
       <?php } else { ?>
-        <img src="<?php echo base_url()?>assets/foto_user/<?= $foto_user ?>" class="user-image" alt="User Image">
+        <img src="<?php echo base_url()?>assets/foto_user/<?=$akun->foto_user ?>" class="user-image" alt="User Image">
       <?php } ?>
       </div>
       <div class="pull-left info">

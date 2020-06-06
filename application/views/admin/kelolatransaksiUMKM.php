@@ -15,7 +15,7 @@
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active"> Kelola Transaksi</li>
-        <li class="active"> Transaksi Produk</li>
+        <li class="active"> Transaksi UMKM</li>
       </ol>
     </section>
 
@@ -23,21 +23,19 @@
     <section class="content">
       <div class="box">
         <div class="box-header">
-          <h3 class="box-title">Data Transaksi</h3>
+          <h3 class="box-title">Data Transaksi UMKM</h3>
         </div>
         <!-- /.box-header -->
         <div class="box-body">
+            <p>**uang yang harus dikirimkan pada UMKM</p>
           <table id="dataTable" class="table table-bordered table-striped">
             <thead>
             <tr>
               <th>No.</th>
-              <th>Konsumen</th>
+              <th>Nama UMKM</th>
               <th>Nama Produk</th>
-              <th>Harga</th>
               <th>Jumlah Produk</th>
-              <th>Tanggal Transaksi</th>
               <th>Total</th>
-              <th>Bukti Pembayaran</th>
               <th>Status</th>
               <th>Aksi</th>
             </tr>
@@ -48,39 +46,31 @@
               foreach ($transaksi as $u): ?>
             <tr>
               <td><?php echo $n++ ?></td>
-              <td><?php echo $u->nama_konsumen ?></td>
+              <td><?php echo $u->nama_umkm ?></td>
               <td><?php echo $u->nama_produk ?></td>
-              <td><?php echo $u->harga_produk ?></td>
               <td><?php echo $u->jumlah_produk ?></td>
-              <td><?php echo $u->tanggal_transaksi ?></td>
               <td><?php echo $u->total_harga ?></td>
               <td>
-                <a class="btn btn-info" data-toggle="modal" href="#" data-target="#bukti<?=$u->id_transaksi?>">
-                  <i class="fa fa-fw fa-camera"></i> Bukti
-                </a>
+                <?php
+                if ($u->status == 'diterima') {
+                  echo 'dana belum dikirim';
+                }else if($u->status){
+                  echo $u->status;
+                }?>
               </td>
-              <td><?php echo $u->status?></td>
               <td>
-                <?php if ($u->status == 'diproses'){ ?>
-                  <a class="btn btn-danger" href="<?=base_url()?>Admin/updateBatal/<?=$u->id_transaksi?>">
-                      <i class="fa fa-fw fa-minus-square"></i> Batalkan
+                <?php if ($u->status == 'diterima'){ ?>
+                  <a class="btn btn-default" href="<?=base_url()?>Admin/updateTerkirim/<?=$u->id_transaksi?>">
+                      <i class="fa fa-fw fa-money"></i> Kirim Uang
                   </a>
-                <?php }else if ($u->status =='diterima'){?>
-                <?php echo 'terkirim pada konsumen';
-                        }else if ($u->status =='menunggu konfirmasi'){?>
-                      <a class="btn btn-primary" href="<?=base_url()?>Admin/updateDiproses/<?=$u->id_transaksi?>">
-                          <i class="fa fa-fw fa-check-square"></i> Approval
-                      </a>
-                  <?php }else if ($u->status =='menunggu pembayaran'){
-                        echo 'belum dibayar';
-                        }else if ($u->status =='ditolak'){?>
-                          <a class="btn btn-primary" href="<?=base_url()?>Admin/updateDiproses/<?=$u->id_transaksi?>">
-                              <i class="fa fa-fw fa-check-square"></i> Approval
-                          </a>
                   <?php
-                  }else {
-                    echo 'diproses UMKM';
-                  } ?>
+                }else if ($u->status == 'dana dikirim'){ ?>
+                  <a class="btn btn-danger" href="<?=base_url()?>Admin/updateBlmTerkirim/<?=$u->id_transaksi?>">
+                      <i class="fa fa-fw fa-minus-square"></i>  Batalkan
+                  </a>
+              <?php }else if($u->status == 'selesai'){
+                echo 'terkirim';
+              } ?>
               </td>
             </tr>
           <?php endforeach; ?>

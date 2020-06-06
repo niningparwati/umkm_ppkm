@@ -185,7 +185,6 @@ class Admin extends CI_Controller {
 				'status'			=> 'aktif',
 			);
 			$cek = $this->M_admin->update_status($data,$iduser->id_user);
-			print_r($cek);
 			redirect('Admin/kelolaUMKM');
 		}
 
@@ -196,7 +195,6 @@ class Admin extends CI_Controller {
 				'status'			=> 'tidak aktif',
 			);
 			$cek = $this->M_admin->update_status($data,$iduser->id_user);
-			print_r($cek);
 			redirect('Admin/kelolaUMKM');
 		}
 
@@ -434,7 +432,8 @@ class Admin extends CI_Controller {
       $this->load->view('admin/kelolaProdukUMKM',$data);
     }
 
-	//Kelola Produk UMKM
+	//Kelola transaksi
+		//Transaksi Produk
 	    public function kelolaTransaksi()
 	    {
 				$user = $this->session->username;
@@ -444,6 +443,53 @@ class Admin extends CI_Controller {
 				);
 	      $this->load->view('admin/kelolatransaksi',$data);
 	    }
+
+			public function updateDiproses($id)
+			{
+				$data = array(
+					'status'			=> 'diproses',
+				);
+				$cek = $this->M_admin->update_transaksi($data,$id);
+				redirect('Admin/kelolaTransaksi');
+			}
+
+			public function updateBatal($id)
+			{
+				$data = array(
+					'status'			=> 'ditolak',
+				);
+				$cek = $this->M_admin->update_transaksi($data,$id);
+				redirect('Admin/kelolaTransaksi');
+			}
+
+		//Kelola Transaksi umkm
+			public function kelolaTransaksiUMKM()
+			{
+				$user = $this->session->username;
+				$data = array(
+					'akun'	 => $this->M_admin->getAkun($user),
+					'transaksi' => $this->M_admin->getTransaksiUMKM(),
+				);
+				$this->load->view('admin/kelolatransaksiUMKM',$data);
+			}
+
+			public function updateTerkirim($id)
+			{
+				$data = array(
+					'status'			=> 'dana dikirim',
+				);
+				$cek = $this->M_admin->update_transaksi($data,$id);
+				redirect('Admin/kelolaTransaksiUMKM');
+			}
+
+			public function updateBlmTerkirim($id)
+			{
+				$data = array(
+					'status'			=> 'diterima',
+				);
+				$cek = $this->M_admin->update_transaksi($data,$id);
+				redirect('Admin/kelolaTransaksiUMKM');
+			}
 
   //Kelola Informasi
     public function kelolaInformasi()
@@ -607,5 +653,60 @@ class Admin extends CI_Controller {
 			  );
 				$update = $this->M_admin->update_kontak($data,$id);
 				redirect('Admin/kelolaKontak');
+			}
+
+			public function editProfil()
+			{
+				$user = $this->session->username;
+				$data = array(
+					'akun'			=> $this->M_admin->getAkun($user),
+				);
+				$this->load->view('admin/editprofile',$data);
+			}
+
+			public function edittProfil()
+			{
+				$user = $this->session->username;
+				$data = array(
+					'akun'			=> $this->M_admin->getAkun($user),
+				);
+				$this->load->view('admin/editprofil',$data);
+			}
+
+			public function updateProfil()
+			{
+					$config['upload_path'] = "./assets/foto_user/";
+					$config['allowed_types'] = "gif|jpg|png";
+					$config['max_size'] = 2000;
+					$config['encrypt_name'] = TRUE;
+
+					$id = $this->input->post('iduser');
+					$this->load->library('upload',$config);
+					if ($this->upload->do_upload('fotouser')) {
+						$foto = $this->upload->data();
+						$data = array(
+						'foto_user' 				 => $foto['file_name'],
+						'nama_lengkap' => $this->input->post('namalengkap'),
+						'tanggal_lahir'=> $this->input->post('tgllahir'),
+						'email'				 => $this->input->post('email')
+						);
+						$dataq = array(
+							'alamat_admin' 		=> $this->input->post('alamat'),
+							'nomor_telp_admin'=> $this->input->post('notlp')
+						);
+					}else{
+						$data = array(
+						'nama_lengkap' => $this->input->post('namalengkap'),
+						'tanggal_lahir'=> $this->input->post('tgllahir'),
+						'email'				 => $this->input->post('email')
+						);
+						$dataq = array(
+							'alamat_admin' 		=> $this->input->post('alamat'),
+							'nomor_telp_admin'=> $this->input->post('notlp')
+						);
+					}
+				$ceq = $this->M_admin->update_user($data,$id);
+				$cek = $this->M_admin->update_admin($dataq,$id);
+				redirect('Admin/editProfil');
 			}
 }

@@ -43,7 +43,7 @@
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1"><i class="fa fa-phone"></i> Telepon</label>
-                  <input type=text" name="notlp" class="form-control" placeholder="Masukan nomor telepon" value="<?php echo $kontak->telepon ?>">
+                  <input type="text" name="notlp" class="form-control" placeholder="Masukan nomor telepon" value="<?php echo $kontak->telepon ?>">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1"><i class="fa fa-globe"></i> Website</label>
