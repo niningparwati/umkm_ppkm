@@ -81,7 +81,9 @@
                            </div>
                         </div>
                         <?php
-                      }elseif($value->status=="dana diterimax"){
+                      }
+
+                      if($value->status=="dana dikirim"){
                         ?>
                        <a href="#" data-toggle="modal" data-target="#confirm-dana<?php echo $value->id_transaksi ?>" class="btn btn-sm btn-warning"> <i class="fa fa-chek"></i> Dana Diterima</a>
                                        <div class="modal in" id="confirm-dana<?php echo $value->id_transaksi ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
