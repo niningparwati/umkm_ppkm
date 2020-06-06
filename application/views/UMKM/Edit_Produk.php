@@ -46,6 +46,11 @@
                           <label for="namaProduk">Nama Produk</label>
                           <input type="text" name="nama_produk" class="form-control" value="<?=$product->nama_produk?>" required>
                         </div>
+
+                         <div class="form-group">
+                          <label for="stok">Stok</label>
+                          <input type="number" name="stok" min="0" class="form-control" value="<?=$product->stok?>" required>
+                        </div>
                      
                          <div class="form-group">
                             <label for="keterangan">Deskripsi Produk</label>

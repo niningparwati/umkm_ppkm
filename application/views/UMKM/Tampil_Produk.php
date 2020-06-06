@@ -23,8 +23,9 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th style="text-align: center; width: 10%">No</th>
+                      <th style="text-align: center; width: 3%">No</th>
                       <th style="text-align: center;">Nama Produk</th>
+                      <th style="text-align: center;">Stok</th>
                       <th style="text-align: center;">Foto</th>
                       <th style="text-align: center;">Deskripsi</th>
                       <th style="text-align: center;width: 15%">Harga</th>
@@ -37,8 +38,9 @@
                     $no = 1;
                     foreach ($tampil as $value) { ?>
                       <tr>
-                        <td><?= $no++ ?></td>
+                        <td style="text-align: center;"><?= $no++ ?></td>
                         <td><?= $value->nama_produk ?></td>
+                        <td><?= $value->stok ?></td>
                         <td style="text-align: center">
                           <?php 
                           if (!$value->foto_produk) { ?>
@@ -50,24 +52,12 @@
                       <td><?= $value->deskripsi_produk ?></td>
                       <td>Rp <?= number_format($value->harga_produk,2,',','.') ?></td>
                       <td><?= $value->nama_kategori_produk ?></td>
-  <!--                         <td style="text-align: center">
-                          <a href="<?= base_url()?>UMKM/DetailProduk/<?= $value->id_produk ?>">
-                            <button class="btn btn-success">
-                              <div><i class="fa fa-fw fa-eye"></i>Lihat</div>
-                            </button>
-                          </a>
-                        </td> -->
                         <td style="text-align: center">
                           <a href="<?= base_url()?>UMKM/EditProduk/<?= $value->id_produk ?>">
                             <button class="btn btn-warning">
                               <div><i class="fa fa-fw fa-pencil"></i>Edit</div>
                             </button>
                           </a>
-                          <!-- <a href="<?= base_url()?>UMKM/HapusProduk/<?= $value->id_produk ?>">
-                            <button class="btn btn-danger">
-                              <div><i class="fa fa-fw fa-trash"></i>Hapus</div>
-                            </button>
-                          </a> -->
                           <a class="btn btn-danger" data-toggle="modal" href="#" data-target="#hapus<?=$value->id_produk?>">
                             <i class="fa fa-fw fa-trash"></i> Hapus
                           </a>

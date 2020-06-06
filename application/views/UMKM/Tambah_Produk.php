@@ -32,6 +32,10 @@
                   <input type="text" name="nama_produk" class="form-control" required>
                 </div>
                 <div class="form-group">
+                  <label for="stokProduk">Stok Produk</label>
+                  <input type="number" min="0" name="stok" class="form-control" required>
+                </div>
+                <div class="form-group">
                   <label for="fotoProduk">Foto Produk</label>
                   <input type="file" name="foto_produk" class="form-control">
                 </div>

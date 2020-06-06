@@ -99,6 +99,47 @@ class UMKM_Model extends CI_Model {
     }
 
 
+    ////////////TRANSAKSI////////
+
+    public function transaksiMasuk($id_umkm)
+    {
+       
+         $this->db->from('tb_transaksi a');
+         $this->db->join('tb_konsumen b', 'a.id_konsumen = b.id_konsumen');
+         $this->db->join('tb_detail_transaksi c', 'c.id_transaksi = a.id_transaksi', 'left');
+         $this->db->join('tb_produk d', 'c.id_produk = d.id_produk');
+         $this->db->join('tb_umkm e', 'e.id_umkm = d.id_umkm');
+         $this->db->where('a.status','diproses');
+         $this->db->or_where('a.status','dana dikirim');
+         $this->db->or_where('a.status','selesai');
+         $this->db->where('e.id_umkm',$id_umkm);
+         $this->db->group_by('a.id_transaksi');
+         $this->db->order_by('a.tanggal_transaksi','TIMESTAMPDIFF(DAY,Now(),`a.tanggal_transaksi`)','ASC');
+         return $this->db->get();
+    }
+
+    public function detail_transaksi($id_transaksi,$id_umkm)
+    {
+         $this->db->from('tb_transaksi a');
+         $this->db->join('tb_konsumen b', 'a.id_konsumen = b.id_konsumen');
+         $this->db->join('tb_detail_transaksi c', 'c.id_transaksi = a.id_transaksi', 'left');
+         $this->db->join('tb_produk d', 'c.id_produk = d.id_produk');
+         $this->db->join('tb_umkm e', 'e.id_umkm = d.id_umkm');
+         $this->db->where('a.id_transaksi',$id_transaksi);
+         $this->db->where('e.id_umkm',$id_umkm);
+         return $this->db->get();
+    
+    }
+
+   public function produk_dipesan($id_transaksi)
+   {
+         $this->db->from('tb_detail_transaksi a');
+         $this->db->join('tb_produk b', 'b.id_produk = a.id_produk');
+         $this->db->join('tb_umkm c', 'c.id_umkm = b.id_umkm');
+         $this->db->where('a.id_transaksi',$id_transaksi);
+         return $this->db->get();
+   }
+
     ////////////PRODUK////////////
 
     public function semuaProduk()
@@ -364,6 +405,41 @@ class UMKM_Model extends CI_Model {
     public function searchInformasi($cari)
     {
         return $this->db->query("SELECT * FROM tb_informasi WHERE judul LIKE '%$cari%'")->result();
+    }
+
+
+    ///////////GALERI FOTO UMKM/////////////////
+
+    public function cekFoto($id_umkm)
+        {
+            return $this->db->query("SELECT tb_foto.* FROM tb_foto WHERE id_umkm='$id_umkm'")->result();
+        }   
+
+    public function FotoById($id_foto)
+    {
+        return $this->db->query("SELECT * FROM tb_foto WHERE id_foto='$id_foto'")->row();
+    }
+
+    public function insertFoto($data)
+    {
+        $this->db->insert('tb_foto', $data);
+    }
+
+    public function updateFoto($data, $id_foto)
+    {
+        $this->db->where('id_foto', $id_foto);
+        $this->db->update('tb_foto', $data);
+    }
+
+    public function hapusFoto($id_foto)
+    {
+        $this->db->where('id_foto', $id_foto);
+        $this->db->delete('tb_foto');
+    }
+
+    public function FotoByUMKM($id_user)
+    {
+        return $this->db->query("SELECT COUNT(tb_foto.id_foto) as jumlahfoto FROM tb_foto JOIN tb_umkm ON tb_foto.id_umkm=tb_umkm.id_umkm JOIN tb_user ON tb_umkm.id_user=tb_user.id_user WHERE tb_user.id_user='$id_user'")->row();
     }
 
 

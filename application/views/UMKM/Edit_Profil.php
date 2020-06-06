@@ -40,10 +40,13 @@
                   </div>
                   <div class="col-md-9">
                         <div class="form-group">
-                          <label for="Judul">Nama User</label>
+                          <label for="Judul">Nama Pemilik </label>
                           <input type="text" name="nama" class="form-control" value="<?= $profil->nama_lengkap ?>" required="required">
                         </div>
                         <div class="form-group">
+                          <label for="Judul">Tanggal Lahir</label>
+                          <input type="date" name="tanggal_lahir" class="form-control" value="<?= $profil->tanggal_lahir ?>" required="required">
+                        </div>                        <div class="form-group">
                           <label for="Konten">Email</label>
                           <input type="text" name="email" class="form-control" value="<?= $profil->email ?>">
                         </div>
@@ -68,10 +71,28 @@
                           <label for="Judul">No. Tlp UMKM</label>
                           <input type="text" name="nomor_telp_umkm" class="form-control" value="<?= $profil->nomor_telp_umkm ?>" required="required">
                         </div>
-                         <div class="form-group">
-                          <label for="Judul">Alamat UMKM</label>
-                          <textarea name="alamat_umkm" class="form-control" required="required"><?=$profil->alamat_umkm?></textarea>
-                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                             <div class="form-group">
+                              <label for="Judul">Alamat UMKM</label>
+                              <textarea name="alamat_umkm" class="form-control" required="required"><?=$profil->alamat_umkm?></textarea>
+                            </div>
+                          </div>
+
+                          <div class="col-md-3">
+                              <div class="form-group">
+                                <label for="Judul">Kota/Kabupaten</label>
+                                <input type="text" name="kota_asal" class="form-control" value="<?= $profil->kota_asal ?>" required="required">
+                              </div>
+                          </div>
+
+                          <div class="col-md-3">
+                             <div class="form-group">
+                                <label for="Judul">Provinsi</label>
+                                <input type="text" name="provinsi_asal" class="form-control" value="<?= $profil->provinsi_asal ?>" required="required">
+                              </div>                    
+                          </div>                        
+                          
                   </div>
                 </div>
               
