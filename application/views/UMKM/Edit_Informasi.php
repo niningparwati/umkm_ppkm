@@ -31,7 +31,9 @@
                 </div>
                 <div class="form-group">
                   <label for="Konten">Konten</label>
-                  <input type="text" name="konten" class="form-control" value="<?= $tampil->isi_informasi ?>" required>
+                  <textarea name="konten" class="form-control" required>
+                    <?= $tampil->isi_informasi ?>
+                  </textarea>
                 </div>
                 <div class="form-group">
                   <label for="Gambar">Gambar</label> <br>

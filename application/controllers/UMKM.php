@@ -13,6 +13,34 @@ class UMKM extends CI_Controller {
 
 	}
 
+	public function Dashboard()
+	{
+					$umkm = $this->ModelUser->allUser($this->session->userdata('username'), $this->session->userdata('level'));
+					$cekUser = $this->ModelUser->cekUser($umkm->username);
+					$cekUMKM = $this->UMKM_Model->cekUMKM($cekUser->id_user);
+					$id_user=$umkm->id_user;
+					$id_umkm = $cekUMKM->id_umkm;
+
+					$data = array(
+							'username' => $umkm->username,
+							'level' => $umkm->level,
+							'nama' => $umkm->nama_lengkap,
+							'email' => $umkm->email,
+							'id_user' => $umkm->id_user,
+							'foto' => $umkm->foto_user,
+							'id_umkm' => $id_umkm,
+							'jumlahProduk' => $this->UMKM_Model->ProdukByUMKM($id_user),
+							'jumlahPortofolio' => $this->UMKM_Model->PortofolioByUMKM($id_user),
+							'jumlahMarket' => $this->UMKM_Model->MarketByUMKM($id_user),
+						);
+
+						$this->load->view('Head');
+						$this->load->view('Header', $data);
+						$this->load->view('Sidebar', $data);
+						$this->load->view('UMKM/Home', $data);
+						$this->load->view('Footer');
+	}
+
 	public function user_umkm()
 	{
 		$username = $this->session->userdata('username');
@@ -94,11 +122,14 @@ class UMKM extends CI_Controller {
 					'foto_user' => $uploadData['file_name'],
 					'email' => $this->input->post('email'),
 					'username' => $this->input->post('username'),
+					'tanggal_lahir' => $this->input->post('tanggal_lahir'),
 				);
 				$dataUMKM = array(
 					'nama_umkm' => $this->input->post('nama_umkm'),
 					'nomor_telp_umkm' => $this->input->post('nomor_telp_umkm'),
 					'alamat_umkm' => $this->input->post('alamat_umkm'),
+					'kota_asal' => $this->input->post('kota_asal'),
+					'provinsi_asal' => $this->input->post('provinsi_asal'),
 					'id_kategori_umkm' => $this->input->post('id_kategori_umkm')
 				);
 
@@ -107,7 +138,7 @@ class UMKM extends CI_Controller {
 
 				// $this->session->set_flashdata('success', 'Berhasil Update Foto');
 				if($user['username'] != $this->input->post('username')){
-					redirect('Login/logout/');
+					redirect('LoginAU/logout/');
 				}else{
 					redirect('UMKM/Profil/','refresh');
 				}
@@ -121,11 +152,14 @@ class UMKM extends CI_Controller {
 					'nama_lengkap' => $this->input->post('nama'),
 					'email' => $this->input->post('email'),
 					'username' => $this->input->post('username'),
+					'tanggal_lahir' => $this->input->post('tanggal_lahir'),
 				);
 				$dataUMKM = array(
 					'nama_umkm' => $this->input->post('nama_umkm'),
 					'nomor_telp_umkm' => $this->input->post('nomor_telp_umkm'),
 					'alamat_umkm' => $this->input->post('alamat_umkm'),
+					'kota_asal' => $this->input->post('kota_asal'),
+					'provinsi_asal' => $this->input->post('provinsi_asal'),
 					'id_kategori_umkm' => $this->input->post('id_kategori_umkm')
 				);
 
@@ -134,7 +168,7 @@ class UMKM extends CI_Controller {
 			
 			
 			if($user['username'] != $this->input->post('username')){
-					redirect('Login/logout/');
+					redirect('LoginAU/logout/');
 				}else{
 					redirect('UMKM/Profil/','refresh');
 				}
@@ -200,6 +234,7 @@ class UMKM extends CI_Controller {
 
 				$data = array(
 					'nama_produk' => $this->input->post('nama_produk'),
+					'stok' => $this->input->post('stok'),
 					'foto_produk' => $uploadData['file_name'],
 					'deskripsi_produk' => $this->input->post('deskripsi_produk'),
 					'harga_produk' => $hrg,
@@ -228,6 +263,7 @@ class UMKM extends CI_Controller {
 		}else{
 			$data = array(
 				'nama_produk' => $this->input->post('nama_produk'),
+				'stok' => $this->input->post('stok'),
 				'deskripsi_produk' => $this->input->post('deskripsi_produk'),
 				'harga_produk' => $hrg,
 				'id_umkm' => $user['id_umkm'],
@@ -306,6 +342,7 @@ class UMKM extends CI_Controller {
 				if ($hrg == 0) {
 					$data = array(
 						'nama_produk' => $this->input->post('nama_produk'),
+						'stok' => $this->input->post('stok'),
 						'foto_produk' => $uploadData['file_name'],
 						'deskripsi_produk' => $this->input->post('deskripsi_produk'),
 						'harga_produk' => $harga,
@@ -324,6 +361,7 @@ class UMKM extends CI_Controller {
 				}else{
 					$data = array(
 						'nama_produk' => $this->input->post('nama_produk'),
+						'stok' => $this->input->post('stok'),
 						'foto_produk' => $uploadData['file_name'],
 						'deskripsi_produk' => $this->input->post('deskripsi_produk'),
 						'harga_produk' => $hrg,
@@ -356,6 +394,7 @@ class UMKM extends CI_Controller {
 			if ($hrg == 0) {
 				$data = array(
 					'nama_produk' => $this->input->post('nama_produk'),
+					'stok' => $this->input->post('stok'),
 					'deskripsi_produk' => $this->input->post('deskripsi_produk'),
 					'harga_produk' => $harga,
 					'id_kategori_produk' => $this->input->post('id_kategori')
@@ -366,13 +405,14 @@ class UMKM extends CI_Controller {
 					'notif',
 					'<div class="alert alert-success text-center"style="width: 100%">
 					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					Berhasil update produk UMKM tanpa gambar
+					Berhasil update produk UMKM 
 					</div>'
 				); 
 				redirect('UMKM/Produk','refresh');
 			}else{
 				$data = array(
 					'nama_produk' => $this->input->post('nama_produk'),
+					'stok' => $this->input->post('stok'),
 					'deskripsi_produk' => $this->input->post('deskripsi_produk'),
 					'harga_produk' => $hrg,
 					'id_kategori_produk' => $this->input->post('id_kategori')
@@ -383,7 +423,7 @@ class UMKM extends CI_Controller {
 					'notif',
 					'<div class="alert alert-success text-center"style="width: 100%">
 					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					Berhasil update produk UMKM tanpa gambar
+					Berhasil update produk UMKM 
 					</div>'
 				); 
 				redirect('UMKM/Produk','refresh');
@@ -405,6 +445,56 @@ class UMKM extends CI_Controller {
 		redirect('UMKM/Produk','refresh');
 	}
 
+	////////////TRANSAKSI////////////
+
+	public function Transaksi($id_umkm)
+	{
+		$user = $this->user_umkm();
+
+		$data["transaksi"] = $this->UMKM_Model->transaksiMasuk($id_umkm)->result();
+
+		$this->load->view('Head', $user);
+		$this->load->view('Header', $user);
+		$this->load->view('Sidebar', $user);
+		$this->load->view('UMKM/Tampil_TransaksiMasuk', $data);
+		$this->load->view('Footer');
+		//print_r($data["transaksi"]);
+	}
+
+	public function detail_transaksi($id_transaksi)
+	{
+		$user = $this->user_umkm();
+		$data["detail_transaksi"] = $this->UMKM_Model->detail_transaksi($id_transaksi,$user["id_umkm"])->result();
+		$data["produk_dipesan"] = $this->UMKM_Model->produk_dipesan($id_transaksi)->result();
+		$data["id_umkm"] = $user['id_umkm'];
+
+		$this->load->view('Head', $user);
+		$this->load->view('Header', $user);
+		$this->load->view('Sidebar', $user);
+		$this->load->view('UMKM/Tampil_DetailTransaksi', $data);
+		$this->load->view('Footer');
+		//print_r($data["detail_transaksi"]);
+	}
+
+
+	public function set_dikirim($id_transaksi)
+	{
+		$user = $this->user_umkm();
+		$no_resi = $this->input->post('resi');
+
+		$this->db->query("UPDATE tb_transaksi SET resi = '$no_resi' , status = 'dikirim' WHERE id_transaksi = '$id_transaksi'");
+
+		redirect('UMKM/Transaksi/'.$user['id_umkm'],'refresh');
+	}
+
+	public function set_selesai($id_transaksi)
+	{
+		$user = $this->user_umkm();
+
+		$this->db->query("UPDATE tb_transaksi SET status = 'selesai' WHERE id_transaksi = '$id_transaksi'");
+
+		redirect('UMKM/Transaksi/'.$user['id_umkm'],'refresh');
+	}
 	
 
 	////////////PORTOFOLIO////////////
@@ -927,6 +1017,81 @@ class UMKM extends CI_Controller {
 	{
 		$this->UMKM_Model->HapusInformasi($id_informasi);
 		redirect('UMKM/Informasi/','refresh');
+	}
+
+
+	////////////////GALERI FOTO////////////////////////
+	public function Galeri($id_umkm)
+	{
+		$user = $this->user_umkm();
+
+		$data = array(
+			'tampil' => $this->UMKM_Model->cekFoto($user["id_umkm"]),
+			'id_umkm' => $user['id_umkm']
+		);
+
+		$this->load->view('Head', $user);
+		$this->load->view('Header', $user);
+		$this->load->view('Sidebar', $user);
+		$this->load->view('UMKM/Tampil_Foto', $data);
+		$this->load->view('Footer');
+	}
+
+	public function CreateFoto($id_umkm)
+	{
+		if (!empty($_FILES['foto']['name'])) {
+			$config['upload_path']      = './assets/galeri_umkm/';
+			$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
+
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+
+			if ($this->upload->do_upload('foto')) {
+				$uploadData = $this->upload->data();
+
+				$data = array(
+					'id_umkm' => $id_umkm,
+					'foto' => $uploadData['file_name'],
+				);
+
+				$this->UMKM_Model->insertFoto($data);
+				$this->session->set_flashdata(
+					'notif',
+					'<div class="alert alert-success text-center"style="width: 100%">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					Berhasil tambah foto umkm
+					</div>'
+				); 
+				redirect('UMKM/Galeri/'.$id_umkm,'refresh');
+			} else {
+				$this->session->set_flashdata(
+					'notif',
+					'<div class="alert alert-danger text-center"style="width: 100%">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					Gagal upload foto umkm
+					</div>'
+				); 
+				redirect('UMKM/Galeri/'.$id_umkm,'refresh');
+			}
+		}else{
+
+			$this->session->set_flashdata(
+				'notif',
+				'<div class="alert alert-danger text-center"style="width: 100%">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				Gagal tambah foto umkm
+				</div>'
+			); 
+			redirect('UMKM/Galeri/'.$id_umkm,'refresh');
+		}	
+	}
+
+	public function HapusFoto($id_foto)
+	{
+		$user = $this->user_umkm();
+
+		$this->UMKM_Model->hapusFoto($id_foto);
+		redirect('UMKM/Galeri/'.$user['id_umkm']);
 	}
 
 }

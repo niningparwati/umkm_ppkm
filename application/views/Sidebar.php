@@ -168,19 +168,25 @@
         <ul class="sidebar-menu" data-widget="tree">
           <li class="header">MAIN NAVIGATION</li>
           <li >
-            <a href="<?= base_url()?>Dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+            <a href="<?= base_url()?>UMKM/Dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+          </li>
+            <li >
+            <a href="<?php echo base_url()?>UMKM/Transaksi/<?= $id_umkm?>"><i class="fa fa-shopping-cart"></i> <span>Kelola Transaksi</span></a>
           </li>
           <li >
-            <a href="<?php echo base_url()?>UMKM/Produk/<?= $id_umkm?>"><i class="fa fa-bitbucket-square"></i> <span>Kelola Produk</span></a>
+            <a href="<?php echo base_url()?>UMKM/Produk/<?= $id_umkm?>"><i class="fa fa-cube"></i> <span>Kelola Produk</span></a>
           </li>
           <li >
-            <a href="<?= base_url()?>UMKM/TampilPortofolio/<?= $id_umkm?>"><i class="fa fa-newspaper-o"></i> <span>Kelola Portofolio</span></a>
+            <a href="<?= base_url()?>UMKM/TampilPortofolio/<?= $id_umkm?>"><i class="fa fa-star-o"></i> <span>Kelola Portofolio</span></a>
           </li>
           <li >
             <a href="<?php echo base_url()?>UMKM/Market/<?= $id_umkm?>"><i class="fa fa-area-chart"></i> <span>Kelola Market</span></a>
           </li>
           <li >
-            <a href="<?php echo base_url()?>UMKM/Informasi/<?= $id_umkm ?>"><i class="fa fa-book"></i> <span>Kelola Informasi</span></a>
+            <a href="<?php echo base_url()?>UMKM/Informasi/<?= $id_umkm ?>"><i class="fa fa-align-justify"></i> <span>Kelola Informasi</span></a>
+          </li>
+           <li >
+            <a href="<?php echo base_url()?>UMKM/Galeri/<?= $id_umkm ?>"><i class="fa fa-photo"></i> <span>Kelola Galeri Foto</span></a>
           </li>
         </ul>
       </section>
