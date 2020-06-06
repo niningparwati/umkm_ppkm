@@ -342,19 +342,95 @@ class Konsumen extends CI_Controller {
 		}
 	}
 
-	function Keranjang()
+	function Keranjang($idKonsumen)
 	{
 		if ($this->session->userdata('id_konsumen')) {
-			$idKonsumen = $this->session->userdata('id_konsumen');
-			$produk = $this->M_konsumen->cekKeranjangKonsumen($idKonsumen);	// mengecek keranjang produk yang dimasukan ke keranjang
-			if (!is_null($produk)) {	// mengecek jika ada produk di keranjang
+			$produk = $this->M_konsumen->cekKeranjangKonsumen($idKonsumen);	// mengecek keranjang
+			$cek = $this->M_konsumen->cekIdTransaksi($idKonsumen);
+			// print_r($cek);
+
+			if (!is_null($produk) OR $cek->status == 'menunggu pembayaran') {
+				$data['ongkir'] = '';
+				if (count($_POST)) {
+					$curl = curl_init();
+
+					curl_setopt_array($curl, array(
+						CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
+						CURLOPT_RETURNTRANSFER => true,
+						CURLOPT_ENCODING => "",
+						CURLOPT_MAXREDIRS => 10,
+						CURLOPT_TIMEOUT => 30,
+						CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+						CURLOPT_CUSTOMREQUEST => "POST",
+						CURLOPT_POSTFIELDS => "origin=".$this->input->post('kota')."&destination=".$this->input->post('kota_tujuan')."&weight=".$this->input->post('berat')."&courier=".$this->input->post('ekspedisi'),
+						CURLOPT_HTTPHEADER => array(
+							"content-type: application/x-www-form-urlencoded",
+							"key: 28b6e68fb3460455044054d3d955e252"
+						),
+					));
+
+					$response = curl_exec($curl);
+					$err = curl_error($curl);
+
+					curl_close($curl);
+
+					if ($err) {
+						echo "cURL Error #:" . $err;
+					// $data = array(
+					// 	'produk' => $this->M_konsumen->keranjangByKonsumen($idKonsumen),
+					// 	'ongkir' => ''
+					// );
+					// $this->load->view('Konsumen/Head');
+					// $this->load->view('Konsumen/Header', $data);
+					// $this->load->view('Konsumen/Keranjang', $data);
+					// $this->load->view('Konsumen/Footer');
+					} else {
+					// $data['ongkir'] = $response;
+						$biaya = json_decode($response, true);
+						$alamat = array(
+							'provinsi' => $biaya['rajaongkir']['destination_details']['province'],
+							'kota' => $biaya['rajaongkir']['destination_details']['city_name'],
+							'detail_alamat' => $this->input->post('detail_alamat'),
+						// 'ongkir' => $response
+						);
+						$this->M_konsumen->updateTransaksi($alamat,$idKonsumen);
+						$data = array(
+							'produk' => $this->M_konsumen->keranjangByKonsumen($idKonsumen),
+							'ongkir' => $response
+						);
+						$this->load->view('Konsumen/Head');
+						$this->load->view('Konsumen/Header', $data);
+						$this->load->view('Konsumen/Keranjang', $data);
+						$this->load->view('Konsumen/Footer');
+					// var_dump($alamat);
+					}
+				}
+			// $alamat = array(
+			// 	'provinsi' => $this->input->post('provisi_tujuan'),
+			// 	'kota' => $this->input->post('kota_tujuan'),
+			// 	'detail_alamat' => $this->input->post('detail_alamat'),
+			// );
+			// $this->M_konsumen->alamatKirim($alamat,$idKonsumen);
 				$data = array(
 					'produk' => $this->M_konsumen->keranjangByKonsumen($idKonsumen),
+					'ongkir' => ''
 				);
 				$this->load->view('Konsumen/Head');
 				$this->load->view('Konsumen/Header', $data);
 				$this->load->view('Konsumen/Keranjang', $data);
 				$this->load->view('Konsumen/Footer');
+
+			// $data = array(
+			// 	'produk' => $this->M_konsumen->keranjangByKonsumen($idKonsumen),
+			// 	'ongkir' => $response
+				// 'province' => $this->provinsi(),
+				// 'shipping_cost' => $this->cek_shipping_cost()
+			// );
+			// $this->load->view('Konsumen/Head');
+			// $this->load->view('Konsumen/Header', $data);
+			// $this->load->view('Konsumen/Keranjang', $data);
+			// $this->load->view('Konsumen/Footer');
+			// print_r($data);
 			}else{
 				$this->session->set_flashdata('warning', 'Anda belum memasukan produk ke dalam keranjang');
 				redirect('Konsumen/Produk/semua');
@@ -403,7 +479,7 @@ class Konsumen extends CI_Controller {
 					'jumlah_barang' => $stok
 				);
 				$this->M_konsumen->updateKeranjang($data, $idKeranjang);
-				$this->session->set_flashdata('warning', 'stok produk yang tersedia hanya '.$stok);
+				$this->session->set_flashdata('warning', 'stok produk hanya '.$stok);
 				redirect('Konsumen/Keranjang/'.$this->session->userdata('id_konsumen'));
 			}
 		}else{
@@ -438,177 +514,9 @@ class Konsumen extends CI_Controller {
 
 	// CHECKOUT
 
-	function Checkout()
-	{
-		if ($this->session->userdata('id_konsumen')) {
-			if (is_null($this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen')))) {
-				$data1 = array(
-					'id_konsumen' => $this->session->userdata('id_konsumen'),
-					'status' => 'menunggu pembayaran',
-					'tanggal_transaksi' => date('Y-m-d H-i-s'),
-				);
-				$this->M_konsumen->createTransaksi($data1);	// Create ke tabel transaksi status menunggu pembayaran
-				$idTransaksi = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'))->id_transaksi;
-				$idKeranjang = $_POST['keranjang'];		// name checkbox di form, id keranjang yang akan di checkout
-				if (count($idKeranjang)>1) {	// jika produk yang dicheckout lebih dari 1 produk
-					// $result = array();
-					for($i=0 ;$i < count($idKeranjang); $i++) {
-						$cekKeranjang = $this->M_konsumen->cekKeranjang($idKeranjang[$i]);
-						$cekProduk = $this->M_konsumen->cekProduk($cekKeranjang->id_produk);	// mengambil data produk
-						$hargaProduk = $cekProduk->harga_produk;	// mengambil harga per produk 
-						$jumlahProduk = $cekKeranjang->jumlah_barang;
-						$jumlahHarga = $hargaProduk*$jumlahProduk;
-						$data = array(
-							'id_transaksi' => $idTransaksi,
-							'id_produk' => $cekProduk->id_produk,
-							'jumlah_produk' => $jumlahProduk,
-							'jumlah_harga' => $jumlahHarga,
-						);
-					$this->M_konsumen->detailTransaksi($data);	// insert ke tabel detail transaksi
-					$this->M_konsumen->deleteKeranjangMultiple($idKeranjang[$i]);		// hapus produk dari tabel keranjang
-					$stok = $cekProduk->stok;
-					$data1 = array(
-						'stok' => $stok-$jumlahProduk,
-					);
-					$this->M_konsumen->updateProdukById($data1, $cekProduk->id_produk);	// update jumlah stok di tabel produk
-				}
-				$totalHarga = $this->M_konsumen->getTotalHarga($idTransaksi)->total;	// mengambil total harga produk yang dicheckout
-				$this->M_konsumen->updatetotalHarga($totalHarga, $idTransaksi);	// mengupdate total harga di tabel transaksi
-				// print_r($data);
-				$this->session->set_flashdata('success', 'produk berhasil dicheckout!');
-				redirect('Konsumen/Pengiriman');
+	
 
-			}elseif(count($idKeranjang)==0){	// jika produk yang dicheckout tidak ada
-				$this->session->set_flashdata('warning', 'silahkan pilih produk yang akan dicheckout!');
-				redirect('Konsumen/Keranjang');
-			}else{	// jika produk yang dicheckout hanya 1 produk
-				$cekKeranjang = $this->M_konsumen->cekKeranjang($idKeranjang[0]);
-				$cekProduk = $this->M_konsumen->cekProduk($cekKeranjang->id_produk);
-				$hargaProduk = $cekProduk->harga_produk;
-				$jumlahProduk = $cekKeranjang->jumlah_barang;
-				$jumlahHarga = $hargaProduk*$jumlahProduk;
-				$data = array(
-					'id_transaksi' => $idTransaksi,
-					'id_produk' => $cekProduk->id_produk,
-					'jumlah_produk' => $jumlahProduk,
-					'jumlah_harga' => $jumlahHarga,
-				);
-				$this->M_konsumen->detailTransaksi($data);	// insert ke tabel detail transaksi
-				$this->M_konsumen->deleteKeranjangMultiple($idKeranjang[0]);		// hapus produk dari tabel keranjang
-				$stok = $cekProduk->stok;
-				$data1 = array(
-					'stok' => $stok-$jumlahProduk,
-				);
-				$this->M_konsumen->updateProdukById($data1, $cekProduk->id_produk);		// update jumlah stok di tabel produk
-				$totalHarga = $this->M_konsumen->getTotalHarga($idTransaksi)->total;
-				$this->M_konsumen->updatetotalHarga($totalHarga, $idTransaksi);	// mengupdate total harga di tabel transaksi
-
-				$this->session->set_flashdata('success', 'produk berhasil dicheckout!');
-				redirect('Konsumen/Pengiriman');
-			}
-			// print_r($idKeranjang);
-		}else{
-			$this->session->set_flashdata('warning', 'Silahkan selesaikan transaksi sebelumnya terlebih dahulu!');
-			redirect('Konsumen/Keranjang');
-		}
-	}else{
-		$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
-		redirect('Konsumen/index');
-	}
-}
-
-function Pengiriman()
-{
-	if ($this->session->userdata('id_konsumen')) {
-			$idTransaksi = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'))->id_transaksi;	// mengambil id transaksi yang statusnya menunggu pembayaran
-
-			// api rajaongkir
-			$data['ongkir'] = '';
-			if (count($_POST)) {	// mengecek apakah ada inputan
-				// get data inputan dari json
-				$curl = curl_init();
-
-				curl_setopt_array($curl, array(
-					CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
-					CURLOPT_RETURNTRANSFER => true,
-					CURLOPT_ENCODING => "",
-					CURLOPT_MAXREDIRS => 10,
-					CURLOPT_TIMEOUT => 30,
-					CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-					CURLOPT_CUSTOMREQUEST => "POST",
-					CURLOPT_POSTFIELDS => "origin=".$this->input->post('kota')."&destination=".$this->input->post('kota_tujuan')."&weight=".$this->input->post('berat')."&courier=".$this->input->post('ekspedisi'),
-					CURLOPT_HTTPHEADER => array(
-						"content-type: application/x-www-form-urlencoded",
-						"key: 28b6e68fb3460455044054d3d955e252"
-					),
-				));
-				$response = curl_exec($curl);
-				$err = curl_error($curl);
-
-				curl_close($curl);
-
-				if ($err) {
-					echo "cURL Error #:" . $err;
-				}else{									// jika tidak error
-					$biaya = json_decode($response, true);
-					$alamat = array(
-						'provinsi' => $biaya['rajaongkir']['destination_details']['province'],
-						'kota' => $biaya['rajaongkir']['destination_details']['city_name'],
-						'detail_alamat' => $this->input->post('detail_alamat'),
-						// 'ongkir' => $response
-					);
-					$this->M_konsumen->updateTransaksi($alamat,$this->session->userdata('id_konsumen'));
-					$data = array(
-						'produk' => $this->M_konsumen->produkBayar($idTransaksi),
-						'ongkir' => $response,
-						'alamat' => $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen')),
-						'totalHarga' => $this->M_konsumen->getTotalHarga($idTransaksi)->total,
-					);
-
-					$this->load->view('Konsumen/Head');
-					$this->load->view('Konsumen/Header', $data);
-					$this->load->view('Konsumen/Checkout', $data);
-					$this->load->view('Konsumen/Footer');
-				}
-			}
-			$data = array(
-				'produk' => $this->M_konsumen->produkBayar($idTransaksi),	// mengambil data produk
-				'ongkir' => '',
-				'alamat' => $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen')),
-				'totalHarga' => $this->M_konsumen->getTotalHarga($idTransaksi)->total,
-			);
-			$this->load->view('Konsumen/Head');
-			$this->load->view('Konsumen/Header', $data);
-			$this->load->view('Konsumen/Checkout', $data);
-			$this->load->view('Konsumen/Footer');
-		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
-		}
-	}
-
-	function updateBiaya($service,$level,$biaya,$hari)
-	{
-		if ($this->session->userdata('id_konsumen')) {
-			$transaksi = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'));
-			$idTransaksi = $transaksi->id_transaksi;
-			$awal = $this->M_konsumen->getTotalHarga($idTransaksi)->total;
-			$total = $awal+$biaya;
-			$data = array(
-				'ekspedisi_pengiriman' => $service." ".$level,
-				'estimasi_pengiriman' => $hari,
-				'ongkos_kirim' => $biaya
-			);
-			$this->M_konsumen->updateTransaksi($data,$idTransaksi);
-			redirect('Konsumen/Pengiriman');
-			// echo $biaya;
-		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
-		}
-	}
-
-		// CEK ONGKIR
+	// CEK ONGKIR
 
 	function kota($provinsi)
 	{
@@ -643,6 +551,200 @@ function Pengiriman()
 				}
 			}
   // var_dump($response);
+		}
+	}
+
+	function provinsiTujuan($provinsi)
+	{
+		$idKonsumen = $this->session->userdata('id_konsumen');
+		$data = array(
+			'provinsi' => $provinsi,
+		);
+		// $this->M_konsumen->updateTransaksi($data,$idKonsumen);
+		// redirect('Konsumen/Keranjang/'.$idKonsumen);
+		print_r($data);
+	}
+
+	// function get_provinsi()
+	// {
+	// 	//Mendapatkan semua propinsi
+	// 	$provinces = $this->rajaongkir->province();
+	// 	print_r($provinces);
+	// }
+
+	// function provinsi()
+	// {
+	// 	$curl = curl_init();
+
+	// 	curl_setopt_array($curl, array(
+	// 		CURLOPT_URL => "https://api.rajaongkir.com/starter/province",
+	// 		CURLOPT_RETURNTRANSFER => true,
+	// 		CURLOPT_ENCODING => "",
+	// 		CURLOPT_MAXREDIRS => 10,
+	// 		CURLOPT_TIMEOUT => 30,
+	// 		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+	// 		CURLOPT_CUSTOMREQUEST => "GET",
+	// 		CURLOPT_HTTPHEADER => array(
+	// 			"key: $this->api_key"
+	// 		),
+	// 	));
+
+	// 	$response = curl_exec($curl);
+	// 	$err = curl_error($curl);
+
+	// 	curl_close($curl);
+
+	// 	if ($err) {
+	// 		echo "cURL Error #:" . $err;
+	// 	} else {
+	// 		return json_decode($response, true);
+	// 	}
+	// }
+
+	// function get_city($province_id){
+	// 	$curl = curl_init();
+
+	// 	curl_setopt_array($curl, array(
+	// 		CURLOPT_URL => "https://api.rajaongkir.com/starter/city?province=$province_id",
+	// 		CURLOPT_RETURNTRANSFER => true,
+	// 		CURLOPT_ENCODING => "",
+	// 		CURLOPT_MAXREDIRS => 10,
+	// 		CURLOPT_TIMEOUT => 30,
+	// 		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+	// 		CURLOPT_CUSTOMREQUEST => "GET",
+	// 		CURLOPT_HTTPHEADER => array(
+	// 		    "key: $this->api_key" // sesuai dengan api raja ongkir
+	// 		),
+	// 	));
+
+	// 	$response = curl_exec($curl);
+	// 	$err = curl_error($curl);
+
+	// 	curl_close($curl);
+
+	// 	if ($err) {
+	// 		echo "cURL Error #:" . $err;
+	// 	} else {
+	// 		return json_decode($response);
+	// 	}
+	// }
+
+	// function get_city_by_province($province_id){
+	// 	$city = $this->get_city($province_id);
+	// 	$output = '<option value="">-------- pilih kota --------</option>';
+
+	// 	foreach ($city->rajaongkir->results as $cty) {
+	// 		$output .='<option value="'.$cty->city_id.'">'.$cty->city_name.'</option>';
+	// 	}
+
+	// 	echo $output;
+	// }
+
+	// function get_cost($origin,$destination,$weight,$courier)
+	// {
+	// 	$curl = curl_init();
+
+	// 	curl_setopt_array($curl, array(
+	// 		CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
+	// 		CURLOPT_RETURNTRANSFER => true,
+	// 		CURLOPT_ENCODING => "",
+	// 		CURLOPT_MAXREDIRS => 10,
+	// 		CURLOPT_TIMEOUT => 30,
+	// 		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+	// 		CURLOPT_CUSTOMREQUEST => "POST",
+	// 		CURLOPT_POSTFIELDS => "origin=$origin&destination=$destination&weight=$weight&courier=$courier",
+	// 		CURLOPT_HTTPHEADER => array(
+	// 			"content-type: application/x-www-form-urlencoded",
+	// 			"key: $this->api_key"
+	// 		),
+	// 	));
+
+	// 	$response = curl_exec($curl);
+	// 	$err = curl_error($curl);
+
+	// 	curl_close($curl);
+
+	// 	if ($err) {
+	// 		echo "cURL Error #:" . $err;
+	// 	} else {
+	// 		return json_decode($response);
+	// 	}
+	// }
+
+	// function cek_shipping_cost()
+	// {
+	// 	if (isset($_POST['submit'])) {
+	// 		$origin_city = $this->input->post('origin_city');
+	// 		$destination_city = $this->input->post('destination_city');
+	// 		$weight = 1000;
+	// 		$courier = $this->input->post('courier');
+	// 		$shipping_cost = $this->get_cost($origin_city,$destination_city,$weight,$courier);
+	// 		return json_decode($shipping_cost); die;
+	// 		// foreach ($shipping_cost as $key) {
+	// 		// 	echo $key->value;
+	// 		// }
+	// 	}
+	// }
+
+
+	// TRANSAKSI
+
+	function Transaksi()
+	{
+		if ($this->session->userdata('id_konsumen')) {
+			$data1 = array(
+				'id_konsumen' => $this->session->userdata('id_konsumen'),
+				'status' => 'menunggu pembayaran',
+				'tanggal_transaksi' => date('Y-m-d H-i-s'),
+			);
+			$this->M_konsumen->createTransaksi($data1);	// Create ke tabel transaksi
+			$idTransaksi = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'))->id_transaksi;
+			$idKeranjang = $_POST['keranjang'];		// name checkbox di form
+			if (count($idKeranjang)>1) {	// jika produk yang dicheckout lebih dari 1 produk
+				// $result = array();
+				for($i=0 ;$i < count($idKeranjang); $i++) {
+					$cekKeranjang = $this->M_konsumen->cekKeranjang($idKeranjang[$i]);
+					$cekProduk = $this->M_konsumen->cekProduk($cekKeranjang->id_produk);
+					$hargaProduk = $this->M_konsumen->hargaProduk($cekProduk->id_produk)->harga_produk;
+					$jumlahProduk = $cekKeranjang->jumlah_barang;
+					$jumlahHarga = $hargaProduk*$jumlahProduk;
+					$data = array(
+						'id_transaksi' => $idTransaksi,
+						'id_produk' => $cekProduk->id_produk,
+						'jumlah_produk' => $jumlahProduk,
+						'jumlah_harga' => $jumlahHarga,
+					);
+					$this->M_konsumen->detailTransaksi($data);	// insert ke tabel detail transaksi
+					$this->M_konsumen->deleteKeranjangMultiple($idKeranjang[$i]);		// hapus produk dari tabel keranjang
+					$totalHarga = $this->M_konsumen->getTotalHarga($idTransaksi)->total;
+					$this->M_konsumen->updatetotalHarga($totalHarga, $idTransaksi);
+				}
+			}elseif(count($idKeranjang)==0){	// jika produk yang dicheckout tidak ada
+				$this->session->set_flashdata('warning', 'silahkan pilih produk yang akan dicheckout!');
+				redirect('Konsumen/Keranjang/'.$this->session->userdata('id_konsumen'));
+			}else{	// jika produk yang dicheckout hanya 1 produk
+				$cekKeranjang = $this->M_konsumen->cekKeranjang($idKeranjang[0]);
+				$cekProduk = $this->M_konsumen->cekProduk($cekKeranjang->id_produk);
+				$hargaProduk = $this->M_konsumen->hargaProduk($cekProduk->id_produk)->harga_produk;
+				$jumlahProduk = $cekKeranjang->jumlah_barang;
+				$jumlahHarga = $hargaProduk*$jumlahProduk;
+				$data = array(
+					'id_transaksi' => $idTransaksi,
+					'id_produk' => $cekProduk->id_produk,
+					'jumlah_produk' => $jumlahProduk,
+					'jumlah_harga' => $jumlahHarga,
+				);
+				$this->M_konsumen->detailTransaksi($data);	// insert ke tabel detail transaksi
+				$this->M_konsumen->deleteKeranjangMultiple($idKeranjang[0]);		// hapus produk dari tabel keranjang
+				$totalHarga = $this->M_konsumen->getTotalHarga($idTransaksi)->total;
+				$this->M_konsumen->updatetotalHarga($totalHarga, $idTransaksi);
+			}
+			$this->session->set_flashdata('success', 'produk berhasil dicheckout!');
+			redirect('Konsumen/Keranjang/'.$this->session->userdata('id_konsumen'));
+			// echo $keranjang;
+		}else{
+			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			redirect('Konsumen/index');
 		}
 	}
 }

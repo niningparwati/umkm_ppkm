@@ -158,14 +158,30 @@ class M_konsumen extends CI_Model {
 
 	// KERANJANG
 
+	function produkKeranjang($id)	// mengecek produk di keranjang
+	{
+		return $this->db->query("SELECT * FROM tb_keranjang WHERE id_produk='$id'")->row();
+	}
+
 	function inputKeranjang($data)
 	{
 		$this->db->insert('tb_keranjang', $data);
 	}
 
-	function keranjangByKonsumen($id)
+	function updateProduk($data, $id)	// update jumlah produk yang disimpan dalam keranjang
 	{
-		return $this->db->query("SELECT tb_keranjang.*, tb_produk.* FROM tb_keranjang JOIN tb_produk ON tb_keranjang.id_produk=tb_produk.id_produk WHERE tb_keranjang.id_konsumen='$id'")->result();
+		$this->db->where('id_produk', $id);
+		$this->db->update('tb_keranjang', $data);
+	}
+
+	function cekKeranjangKonsumen($id)
+	{
+		return $this->db->query("SELECT * FROM tb_keranjang WHERE id_konsumen='$id'")->row();
+	}
+
+	function keranjangByKonsumen($id)	// mengambil data produk di tabel keranjang berdasarkan id konsumen
+	{
+		return $this->db->query("SELECT tb_keranjang.*, tb_produk.*, tb_umkm.* FROM tb_keranjang JOIN tb_produk ON tb_keranjang.id_produk=tb_produk.id_produk JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm WHERE tb_keranjang.id_konsumen='$id'")->result();
 	}
 
 	function getKeranjang($id)
@@ -173,11 +189,11 @@ class M_konsumen extends CI_Model {
 		return $this->db->query("SELECT * FROM tb_keranjang WHERE id_keranjang='$id'")->row();
 	}
 
-	function updateKeranjang($data, $id)	// update jumlah barang dalam keranjang
-	{
-		$this->db->where('id_keranjang', $id);
-		$this->db->update('tb_keranjang', $data);
-	}
+	// function cekIdTransaksi($data, $id)	// update jumlah barang dalam keranjang
+	// {
+	// 	$this->db->where('id_keranjang', $id);
+	// 	$this->db->update('tb_keranjang', $data);
+	// }
 
 	function hapusKeranjang($id)
 	{
@@ -201,15 +217,70 @@ class M_konsumen extends CI_Model {
 		return $this->db->query("SELECT * FROM tb_transaksi WHERE id_konsumen='$id' AND status='menunggu pembayaran'")->row();
 	}
 
-	function cekProduk($id)		// cek produk berdasarkan id prduk
+	function cekKeranjang($id)		// cek keranjang berdasarkan id keranjang
 	{
-		return $this->db->query("SELECT * FROM tb_keranjang WHERE id_produk='$id'")->row();
+		return $this->db->query("SELECT * FROM tb_keranjang WHERE id_keranjang='$id'")->row();
 	}
 
-	function hargaProduk($id)	// cek harga produk
+	function cekProduk($id)		// cek produk berdasarkan id produk
 	{
-		
+		return $this->db->query("SELECT * FROM tb_produk WHERE id_produk='$id'")->row();
 	}
+
+	// function hargaProduk($id)	// cek harga produk
+	// {
+	// 	return $this->db->query("SELECT * FROM tb_produk WHERE id_produk='$id'")->row();
+	// }
+
+	function detailTransaksi($result)	// insert multiple data ke tabel detail transaksi
+	{
+		$this->db->insert('tb_detail_transaksi', $result);
+	}
+
+	function deleteKeranjangMultiple($idKeranjang)	// hapus produk di keranjang ketika sudah di chcekout
+	{
+		$this->db->where('id_keranjang', $idKeranjang);
+		$this->db->delete('tb_keranjang');
+	}
+
+	function getTotalHarga($id)	// mendapatkan total harga yang di checkout
+	{
+		return $this->db->query("SELECT SUM(jumlah_harga) as total FROM tb_detail_transaksi WHERE id_transaksi='$id'")->row();
+	}
+
+	function updatetotalHarga($harga,$id)	// mengupdate total harga produk yang di checkout
+	{
+		$this->db->query("UPDATE tb_transaksi SET total_harga='$harga' WHERE id_transaksi='$id'");
+	}
+
+	function updateProdukById($data, $id)	// mengupdate produk berdasarkan id produk
+	{
+		$this->db->where('id_produk', $id);
+		$this->db->update('tb_produk', $data);
+	}
+
+	function produkBayar($id)	// mengambil data produk yang akan di checkout
+	{
+		return $this->db->query("SELECT a.*, b.*, c.*, d.* FROM tb_detail_transaksi a JOIN tb_produk b ON a.id_produk=b.id_produk JOIN tb_umkm c ON b.id_umkm=c.id_umkm JOIN tb_transaksi d ON a.id_transaksi=d.id_transaksi WHERE a.id_transaksi='$id' AND d.status='menunggu pembayaran' ")->result();
+	}
+
+	function updateTransaksi($data,$idKonsumen)
+	{
+		$this->db->where('status', 'menunggu pembayaran');
+		$this->db->where('id_konsumen', $idKonsumen);
+		$this->db->update('tb_transaksi',$data);
+	}
+
+	// function updateTransaksi($data, $idKonsumen)
+	// {
+	// 	$this->db->where('id_konsumen',$idKonsumen);
+	// 	$this->db->update('tb_transaksi', $data);
+	// }
+
+	// function updateHargaTotal($biaya, $id)
+	// {
+	// 	$this->db->query("UPDATE tb_transaksi SET total_harga='$biaya' WHERE id_transaksi='$id' ");
+	// }
 
 }
 

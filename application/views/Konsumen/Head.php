@@ -21,7 +21,7 @@
   <script src="<?=base_url()?>assets/konsumen/js/jquery.touchSwipe.min.js"></script>
   <script src="<?=base_url()?>assets/konsumen/js/checkbox.js"></script>
   <script src="<?=base_url()?>assets/konsumen/js/radio.js"></script>
-  <script src="<?=base_url()?>assets/konsumen/js/selectBox.js"></script>
+  <!-- <script src="<?=base_url()?>assets/konsumen/js/selectBox.js"></script> -->
   <script src="<?=base_url()?>assets/konsumen/js/jquery.jqzoom-core.js"></script>
   <!-- Bootstrap CSS-->
     <!-- <link rel="stylesheet" href="<?=base_url()?>assets/konsumen/vendor/bootstrap/css/bootstrap.min.css"> -->

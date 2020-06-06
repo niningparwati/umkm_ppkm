@@ -41,44 +41,9 @@
       <div class="grid_5">
         <?php if ($this->session->userdata('id_konsumen')) {?>
           <ul id="cart_nav">
-            <li>
-              <a class="cart_li" href="#" style="width: 80px">Keranjang</a>
-              <ul class="cart_cont">
-                <li class="no_border"><p>Produk yang disimpan</p></li>
-
-                <?php 
-                $id = $this->session->userdata('id_konsumen');
-                $produk = $this->M_konsumen->keranjangByKonsumen($id);
-                if (!is_null($produk)) {  // jika terdapat produk di keranjang
-                  foreach ($produk as $key) { ?>
-                    <form class="check_opt">
-                      <li>
-                        <div class="cont_cart" style="width: 25px; margin-top: 20px">
-                          <input type="checkbox" name="" id="undefined" value="" tabindex="0">
-                        </div>
-                        <a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>" class="prev_cart" style="width: 20%"><div class="cart_vert"><img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" alt="" title="" /></div></a>
-                        <div class="cont_cart" style="width: 52%">
-                          <h4><a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>"><?=$key->nama_produk?></a></h4>
-                          <div class="price"><?=$key->jumlah_barang?> x Rp <?=number_format($key->harga_produk,2,',','.')?><br>
-                            <a title="add" class="plus" href="#"></a>
-                          </div>
-                        </div>
-                        <!-- <a title="check" class="check" href="#"></a> -->
-                        <a title="close" class="close" href="#"></a>
-                        <div class="clear"></div>
-                      </li>
-                    </form>
-                    <?php 
-                  } }else{  ?>// jika tidak terdapat produk di keranjang
-                  Belum ada produk yang ditambahkan
-                <?php } ?>
-
-                <li class="no_border">
-                  <a href="/shopping_cart.html" class="view_cart">View shopping cart</a>
-                  <a href="<?=base_url()?>Konsumen/Keranjang/<?=$this->session->userdata('id_konsumen');?>" class="checkout">Procced to Checkout</a>
-                </li>
-              </ul>
-            </li>
+            <!-- <li> -->
+              <a class="cart_li" href="<?=base_url()?>Konsumen/Keranjang" style="width: 80px">Keranjang</a>
+            <!-- </li> -->
           </ul>
         <?php } ?>
 
