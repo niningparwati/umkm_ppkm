@@ -62,6 +62,7 @@
             <tr>
               <th>No.</th>
               <th>Nama Kategori</th>
+              <th>Keterangan</th>
               <th>Aksi</th>
             </tr>
             </thead>
@@ -72,7 +73,7 @@
             <tr>
               <td><?php echo $n++ ?></td>
               <td><?php echo $k->nama_kategori_produk ?></td>
-                  <td><?php echo $k->keterangan ?></td>
+              <td><?php echo $k->keterangan ?></td>
               <td>
                 <a href="<?= base_url()?>Admin/pilihKategoriProduk/<?=$k->id_kategori_produk ?>">
                   <button class="btn btn-warning">

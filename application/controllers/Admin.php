@@ -434,6 +434,17 @@ class Admin extends CI_Controller {
       $this->load->view('admin/kelolaProdukUMKM',$data);
     }
 
+	//Kelola Produk UMKM
+	    public function kelolaTransaksi()
+	    {
+				$user = $this->session->username;
+				$data = array(
+					'akun'	 => $this->M_admin->getAkun($user),
+					'transaksi' => $this->M_admin->getTransaksi(),
+				);
+	      $this->load->view('admin/kelolatransaksi',$data);
+	    }
+
   //Kelola Informasi
     public function kelolaInformasi()
     {

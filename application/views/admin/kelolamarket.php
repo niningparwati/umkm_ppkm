@@ -45,7 +45,7 @@
               <td><?php echo $n++ ?></td>
               <td><?php echo $m->nama_market ?></td>
               <td><?php echo $m->alamat_market ?></td>
-              <td><?php echo $m->link_market ?></td>
+              <td> <a href="<?php echo $m->link_market ?>"><?php echo $m->link_market ?></a> </td>
               <td><?php echo $m->id_umkm ?></td>
             </tr>
           <?php endforeach; ?>

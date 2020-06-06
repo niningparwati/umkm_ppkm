@@ -55,6 +55,19 @@
           <i class="fa fa-shopping-bag"></i> <span>Kelola Produk UMKM</span>
         </a>
       </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-shopping-cart"></i>
+          <span>Kelola Transaksi</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="<?php echo base_url()?>Admin/kelolaTransaksi"><i class="fa fa-circle-o"></i> Transaksi Produk</a></li>
+          <li><a href="<?php echo base_url()?>Admin/kelolaTransaksiUMKM"><i class="fa fa-circle-o"></i> Transaksi UMKM</a></li>
+        </ul>
+      </li>
       <li>
         <a href="<?php echo base_url()?>Admin/kelolaInformasi">
           <i class="fa fa-info-circle"></i> <span>Kelola Informasi UMKM</span>

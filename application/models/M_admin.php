@@ -183,12 +183,18 @@ class M_admin extends CI_Model {
 
 //Kelola Produk
 	public function getProduk(){
-		return $this->db->query('SELECT * FROM tb_produk JOIN tb_kategori_produk USING(id_kategori_produk)')->result();
+		return $this->db->query('SELECT * FROM tb_produk JOIN tb_kategori_produk USING(id_kategori_produk) JOIN tb_umkm USING(id_umkm)')->result();
+	}
+
+//Kelola Transaksi
+	//Transaksi produk
+	public function getTransaksi(){
+		return $this->db->query('SELECT nama_konsumen, nama_produk, harga_produk, jumlah_produk, tanggal_transaksi, total_harga, bukti_pembayaran, status FROM tb_konsumen JOIN tb_transaksi USING(id_konsumen) JOIN tb_detail_transaksi USING(id_transaksi) JOIN tb_produk USING(id_produk)')->result();
 	}
 
 //Kelola Informasi
 	public function getInformasi(){
-		return $this->db->get('tb_informasi')->result();
+		return $this->db->query('SELECT * FROM tb_informasi JOIN tb_umkm USING(id_umkm)')->result();
 	}
 
 //Kelola Market
@@ -198,7 +204,7 @@ class M_admin extends CI_Model {
 
 //Kelola Portofolio
 	public function getPortofolio(){
-		return $this->db->get('tb_portofolio')->result();
+		return $this->db->query('SELECT * FROM tb_portofolio JOIN tb_umkm USING(id_umkm)')->result();
 	}
 
 //Kelola Slide

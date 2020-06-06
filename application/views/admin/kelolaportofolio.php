@@ -33,10 +33,10 @@
               <th>No.</th>
               <th>Judul Portofolio</th>
               <th>File Portofolio</th>
-              <th>Keterangan</th>
               <th>Tempat</th>
               <th>Tanggal</th>
               <th>ID UMKM</th>
+              <th>Keterangan</th>
             </tr>
             </thead>
             <tbody>
@@ -47,10 +47,10 @@
               <td><?php echo $n++ ?></td>
               <td><?php echo $p->judul_portofolio ?></td>
               <td> <img src="<?php echo base_url()?>assets/foto_portofolio/<?php echo $p->foto_portofolio ?>" width="150px" alt=""> </td>
-              <td><?php echo $p->keterangan ?></td>
               <td><?php echo $p->alamat ?></td>
               <td><?php echo $p->tanggal ?></td>
-              <td><?php echo $p->id_umkm ?></td>
+              <td><?php echo $p->nama_umkm ?></td>
+              <td><?php echo $p->keterangan ?></td>
             </tr>
           <?php endforeach; ?>
           </tbody>

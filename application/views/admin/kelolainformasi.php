@@ -48,7 +48,7 @@
               <td><?php echo $i->isi_informasi ?></td>
               <td> <img src="<?php echo base_url()?>assets/foto_informasi/<?php echo $i->gambar ?>" alt="Gambar informasi" width="150px"> </td>
               <td><?php echo $i->status_informasi ?></td>
-              <td><?php echo $i->id_umkm ?></td>
+              <td><?php echo $i->nama_umkm ?></td>
             </tr>
           <?php } ?>
           </tbody>
