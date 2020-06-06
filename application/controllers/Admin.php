@@ -644,12 +644,15 @@ class Admin extends CI_Controller {
 				$id = $this->input->post('idkontak');
 				$user = $this->session->username;
 				$data = array(
-				'alamat' => $this->input->post('alamat'),
-				'email'  => $this->input->post('email'),
-				'telepon'  => $this->input->post('notlp'),
-				'website'   => $this->input->post('website'),
-				'facebook'     => $this->input->post('fb'),
-				'instagram'     => $this->input->post('ig')
+				'alamat' 					=> $this->input->post('alamat'),
+				'email'  					=> $this->input->post('email'),
+				'telepon'  				=> $this->input->post('notlp'),
+				'website'   			=> $this->input->post('website'),
+				'facebook'    	 	=> $this->input->post('fb'),
+				'instagram'     	=> $this->input->post('ig'),
+				'nama_bank'				=> $this->input->post('namabank'),
+				'pemilik_rekening'=> $this->input->post('pemilik'),
+				'nomor_rekening'	=> $this->input->post('norek')
 			  );
 				$update = $this->M_admin->update_kontak($data,$id);
 				redirect('Admin/kelolaKontak');

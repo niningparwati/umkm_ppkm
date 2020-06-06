@@ -33,6 +33,10 @@
             <form role="form">
               <div class="box-body">
                 <div class="form-group">
+                  <label for="exampleInputEmail1"><i class="fa fa-credit-card"></i> Rekening Pengiriman</label>
+                  <input type="text" class="form-control" name="norek" disabled value="<?php echo$kontak->nama_bank.'  -  '.$kontak->nomor_rekening.' a.n '.$kontak->pemilik_rekening ?>">
+                </div>
+                <div class="form-group">
                   <label for="exampleInputEmail1"><i class="fa fa-map-pin"></i> Alamat</label>
                   <textarea name="alamat" rows="8" cols="80" class="form-control" disabled><?php echo $kontak->alamat ?></textarea>
                 </div>
