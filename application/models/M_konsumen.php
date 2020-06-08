@@ -488,13 +488,6 @@ class M_konsumen extends CI_Model {
 		return $this->db->query("SELECT a.*, b.* FROM tb_detail_transaksi a JOIN tb_produk b ON a.id_produk=b.id_produk WHERE a.id_transaksi='$id'")->result();
 	}
 
-	// KONTAK
-
-	function Kontak()
-	{
-		return $this->db->query("SELECT * FROM tb_kontak")->row();
-	}
-
 	// INFORMASI
 
 	function total_informasi($q = NULL)	// pagination informasi (search)
@@ -537,6 +530,13 @@ class M_konsumen extends CI_Model {
 	{
 		$this->db->where('id_konsumen', $id);
 		$this->db->update('tb_konsumen', $data);
+	}
+
+	// KONTAK
+
+	function Kontak()
+	{
+		return $this->db->query("SELECT * FROM tb_kontak LIMIT 1")->row();
 	}
 
 }
