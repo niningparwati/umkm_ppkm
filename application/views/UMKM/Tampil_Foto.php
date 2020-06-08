@@ -25,6 +25,7 @@
                     <tr>
                       <th style="text-align: center; width: 3%">No</th>
                       <th style="text-align: center">Foto</th>
+                      <th style="text-align: center">Keterangan</th>
                       <th style="text-align: center;">Aksi</th>
                     </tr>
                   </thead>
@@ -41,6 +42,7 @@
                             <img src="<?= base_url()?>assets/galeri_umkm/default.png" style="width: 100px">
                           <?php } ?>
                         </td>
+                        <td><?= $value->keterangan_foto ?></td>
                         <td style="text-align: center">
                           <a class="btn btn-danger" data-toggle="modal" href="#" data-target="#hapus<?=$value->id_foto?>">
                             <i class="fa fa-fw fa-trash"></i> Hapus
@@ -112,6 +114,10 @@
                 <div class="form-group">
                   <label for="">Tambah Foto Galeri</label>
                   <input type="file" name="foto" id="Foto">
+                </div>
+                <div class="form-group">
+                  <label for="">Keterangan Foto</label>
+                  <textarea name="keterangan_foto" class="form-control"></textarea>
                 </div>     
               </div>        
                 <!-- /.box-body -->

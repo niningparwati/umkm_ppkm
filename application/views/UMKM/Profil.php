@@ -37,52 +37,52 @@
                 <div class="col-md-6">
                   <div class="row">
                     <div class="col-md-4"><b>Nama User</b></div>
-                    <div class="col-md-8">: <?= $profil->nama_lengkap ?></div>
+                    <div class="col-md-8"><?= $profil->nama_lengkap ?></div>
                   </div>
                   <div class="row"><br></div>
                   <div class="row">
                     <div class="col-md-4"><b>Tanggal Lahir</b></div>
-                    <div class="col-md-8">: <?php $time = strtotime($profil->tanggal_lahir); echo date('d F Y',$time); ?></div>
+                    <div class="col-md-8"><?php $time = strtotime($profil->tanggal_lahir); echo date('d F Y',$time); ?></div>
                   </div>
                   <div class="row"><br></div>
                   <div class="row">
                     <div class="col-md-4"><b>Email</b></div>
-                    <div class="col-md-8">: <?= $profil->email ?></div>
+                    <div class="col-md-8"><?= $profil->email ?></div>
                   </div>
                   <div class="row"><br></div>
                   <div class="row">
                     <div class="col-md-4"><b>Username</b></div>
-                    <div class="col-md-8">: <?= $profil->username ?></div>
+                    <div class="col-md-8"><?= $profil->username ?></div>
                   </div>
                   <div class="row"><br></div>
                   <div class="row">
                     <div class="col-md-4"><b>Nama UMKM</b></div>
-                    <div class="col-md-8">: <?= $profil->nama_umkm ?></div>
+                    <div class="col-md-8"><?= $profil->nama_umkm ?></div>
                   </div>
                   <div class="row"><br></div>
                   <div class="row">
                     <div class="col-md-4"><b>Kategori UMKM</b></div>
-                    <div class="col-md-8">: <?= $profil->nama_kategori_umkm ?></div>
+                    <div class="col-md-8"><?= $profil->nama_kategori_umkm ?></div>
                   </div>
                   <div class="row"><br></div>
                   <div class="row">
                     <div class="col-md-4"><b>No.Tlp UMKM</b></div>
-                    <div class="col-md-8">: <?= $profil->nomor_telp_umkm ?></div>
+                    <div class="col-md-8"><?= $profil->nomor_telp_umkm ?></div>
                   </div>
                   <div class="row"><br></div>
                   <div class="row">
                     <div class="col-md-4"><b>Alamat UMKM</b></div>
-                    <div class="col-md-8">: <?= $profil->alamat_umkm ?></div>
+                    <div class="col-md-8"><?= $profil->alamat_umkm ?></div>
                   </div>
                    <div class="row"><br></div>
                    <div class="row">
                     <div class="col-md-4"><b>Kota/Kabupaten</b></div>
-                    <div class="col-md-8">: <?= $profil->kota_asal ?></div>
+                    <div class="col-md-8"><?= $profil->kota_asal ?></div>
                   </div>
                    <div class="row"><br></div>
                    <div class="row">
                     <div class="col-md-4"><b>Provinsi</b></div>
-                    <div class="col-md-8">: <?= $profil->provinsi_asal ?></div>
+                    <div class="col-md-8"><?= $profil->provinsi_asal ?></div>
                   </div>
                   <div class="row"><br></div>
                 </div>
