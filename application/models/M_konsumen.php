@@ -76,6 +76,21 @@ class M_konsumen extends CI_Model {
 		return $this->db->query("SELECT * FROM tb_produk WHERE id_umkm='$id'")->result();
 	}
 
+	function produkUmkmByKategori($id, $idK)
+	{
+		return $this->db->query("SELECT * FROM tb_produk WHERE id_umkm='$id' AND id_kategori_produk='$idK'")->result();
+	}
+
+	function jmlhProduk()
+	{
+		return $this->db->query("SELECT COUNT(id_produk) as jumlah FROM tb_produk")->row();
+	}
+
+	function getProdukHome()
+	{
+		return $this->db->query("SELECT * FROM tb_produk LIMIT 4")->result();
+	}
+
 
 	// KATEGORI PRODUK
 
@@ -84,11 +99,26 @@ class M_konsumen extends CI_Model {
 		return $this->db->query("SELECT * FROM tb_kategori_produk")->result();
 	}
 
+	function getKategoriProduk($id)
+	{
+		return $this->db->query("SELECT * FROM tb_kategori_produk WHERE id_kategori_produk='$id'")->row();
+	}
+
+	function kategoriProdukById($id)
+	{
+		return $this->db->query("SELECT tb_produk.*, tb_kategori_produk.* FROM tb_produk JOIN tb_kategori_produk ON tb_produk.id_kategori_produk=tb_kategori_produk.id_kategori_produk WHERE tb_produk.id_umkm='$id' GROUP BY tb_produk.id_kategori_produk ORDER BY tb_produk.id_kategori_produk ASC")->result();
+	}
+
 	// KATEGORI UMKM
 
 	function kategoriUmkm()
 	{
 		return $this->db->query("SELECT * FROM tb_kategori_umkm")->result();
+	}
+
+	function getKategoriUmkm($id)
+	{
+		return $this->db->query("SELECT * FROM tb_kategori_umkm WHERE id_kategori_umkm='$id'")->row();
 	}
 
 
@@ -115,6 +145,29 @@ class M_konsumen extends CI_Model {
 		return $this->db->get('tb_produk')->result();
 	}
 
+	function total_produk_kategori($q = NULL, $x)	// pagination produk (search)
+	{	
+		$this->db->where('a.id_kategori_produk', $x);
+		$this->db->where('c.status', 'aktif');
+		$this->db->like('a.nama_produk', $q);
+		$this->db->from('tb_produk a');
+		$this->db->join('tb_umkm b', 'a.id_umkm=b.id_umkm');
+		$this->db->join('tb_user c', 'b.id_user=c.id_user');
+		return $this->db->count_all_results();
+	}
+
+	function get_produk_kategori($limit, $start = 0, $q = NULL, $x)	// pagination produk
+	{
+		$this->db->join('tb_umkm', 'tb_produk.id_umkm=tb_umkm.id_umkm');
+		$this->db->join('tb_user', 'tb_umkm.id_user=tb_user.id_user');
+		$this->db->order_by('tb_produk.id_produk', 'DESC');
+		$this->db->limit($limit, $start);
+		$this->db->group_by('tb_produk.id_produk');
+		$this->db->where('tb_user.status', 'aktif');
+		$this->db->where('tb_produk.id_kategori_produk', $x);
+		return $this->db->get('tb_produk')->result();
+	}
+
 	function total_umkm($q = NULL)	// pagination umkm (search)
 	{	
 		$this->db->like('a.nama_umkm', $q);
@@ -134,9 +187,56 @@ class M_konsumen extends CI_Model {
 		return $this->db->get('tb_umkm')->result();
 	}
 
+	function get_kategori($limit, $start = 0, $q = NULL, $x)	// pagination umkm berdasarkan kategori()
+	{
+		$this->db->join('tb_user', 'tb_umkm.id_user=tb_user.id_user');
+		$this->db->order_by('tb_umkm.id_umkm', 'DESC');
+		$this->db->limit($limit, $start);
+		$this->db->group_by('tb_umkm.id_umkm');
+		$this->db->where('tb_user.status', 'aktif');
+		$this->db->where('tb_umkm.id_kategori_umkm', $x);
+		return $this->db->get('tb_umkm')->result();
+	}
+
+	function total_kategori($q = NULL, $x)	// pagination umkm (search)
+	{	
+		$this->db->where('a.id_kategori_umkm', $x);
+		$this->db->where('b.status', 'aktif');
+		$this->db->like('a.nama_umkm', $q);
+		$this->db->from('tb_umkm a');
+		$this->db->join('tb_user b', 'a.id_user=b.id_user');
+		return $this->db->count_all_results();
+	}
+
+	function get_kota($limit, $start = 0, $q = NULL, $x)	// pagination umkm berdasarkan kota()
+	{
+		$this->db->join('tb_user', 'tb_umkm.id_user=tb_user.id_user');
+		$this->db->order_by('tb_umkm.id_umkm', 'DESC');
+		$this->db->limit($limit, $start);
+		$this->db->group_by('tb_umkm.id_umkm');
+		$this->db->where('tb_user.status', 'aktif');
+		$this->db->where('tb_umkm.kota_asal', $x);
+		return $this->db->get('tb_umkm')->result();
+	}
+
+	function total_kota($q = NULL, $x)	// pagination umkm (search)
+	{	
+		$this->db->where('a.kota_asal', $x);
+		$this->db->where('b.status', 'aktif');
+		$this->db->like('a.nama_umkm', $q);
+		$this->db->from('tb_umkm a');
+		$this->db->join('tb_user b', 'a.id_user=b.id_user');
+		return $this->db->count_all_results();
+	}
+
 	// UMKM
 
-	function fotoUmkm($id)	// 1 foto umkm
+	function fotoUmkm($id)	// 3 foto umkm untuk ditampilkan di halaman umkm
+	{
+		return $this->db->query("SELECT foto FROM tb_foto WHERE id_umkm='$id' LIMIT 3")->result();
+	}
+
+	function fotoUmkmLimit($id)	// 1 foto umkm untuk ditampilkan di halaman umkm
 	{
 		return $this->db->query("SELECT foto FROM tb_foto WHERE id_umkm='$id' LIMIT 1")->row();
 	}
@@ -148,12 +248,58 @@ class M_konsumen extends CI_Model {
 
 	function umkmById($id)
 	{
-		return $this->db->query("SELECT * FROM tb_umkm WHERE id_umkm='$id'")->row();
+		return $this->db->query("SELECT tb_umkm.*, tb_user.* FROM tb_umkm JOIN tb_user ON tb_umkm.id_user=tb_user.id_user WHERE id_umkm='$id'")->row();
 	}
 
 	function jmlProdukUmkm($id)	// jumlah produk setiap umkm
 	{
 		return $this->db->query("SELECT COUNT(id_umkm) as jumlah FROM tb_produk WHERE id_umkm='$id'")->row();
+	}
+
+	function produkLain($idumkm, $idProduk)
+	{
+		return $this->db->query("SELECT * FROM tb_produk WHERE id_umkm='$idumkm' AND id_produk!='$idProduk'")->result();
+	}
+
+	function jmlUMKM()
+	{
+		return $this->db->query("SELECT COUNT(id_umkm) as jumlah FROM tb_umkm")->row();
+	}
+
+	function semuaKabupaten()
+	{
+		return $this->db->query("SELECT * FROM tb_umkm WHERE kota_asal!='' GROUP BY kota_asal ORDER BY kota_asal ASC")->result();
+	}
+
+	function jumlahUmkm()
+	{
+		return $this->db->query("SELECT COUNT(id_umkm) as jumlah FROM tb_umkm")->row();
+	}
+
+	function getUmkmHome()
+	{
+		return $this->db->query("SELECT tb_umkm.*, tb_user.* FROM tb_umkm JOIN tb_user ON tb_umkm.id_user=tb_user.id_user LIMIT 4")->result();
+	}
+
+	// PORTOFOLIO
+
+	function cekPortofolio($id)
+	{
+		return $this->db->query("SELECT * FROM tb_portofolio WHERE id_umkm='$id'")->result();
+	}
+
+	// MARKET
+
+	function cekMarket($id)
+	{
+		return $this->db->query("SELECT * FROM tb_market WHERE id_umkm='$id'")->result();
+	}
+
+	// INFORMASI
+
+	function cekInformasi($id)
+	{
+		return $this->db->query("SELECT * FROM tb_informasi WHERE id_umkm='$id'")->result();
 	}
 
 	// KERANJANG
@@ -271,6 +417,19 @@ class M_konsumen extends CI_Model {
 		$this->db->update('tb_transaksi',$data);
 	}
 
+	function terimaPesanan($id, $data)
+	{
+		$this->db->where('id_transaksi', $id);
+		$this->db->update('tb_transaksi', $data);
+	}
+
+	function inputOngkir($data,$id)
+	{
+		$this->db->where('status', 'menunggu pembayaran');
+		$this->db->where('id_transaksi', $id);
+		$this->db->update('tb_transaksi',$data);
+	}
+
 	// function updateTransaksi($data, $idKonsumen)
 	// {
 	// 	$this->db->where('id_konsumen',$idKonsumen);
@@ -281,6 +440,104 @@ class M_konsumen extends CI_Model {
 	// {
 	// 	$this->db->query("UPDATE tb_transaksi SET total_harga='$biaya' WHERE id_transaksi='$id' ");
 	// }
+
+	function BatalkanTransaksi1($id)	// menghapus dari tabel detail transaksi
+	{
+		$this->db->query("DELETE FROM tb_detail_transaksi WHERE id_transaksi='$id'");
+	}
+
+	function BatalkanTransaksi2($id)	// menghapus dari tabel transaksi
+	{
+		$this->db->query("DELETE FROM tb_transaksi WHERE id_transaksi='$id'");
+	}
+
+	// PESANAN
+
+	function cekPesanan($id)
+	{
+		return $this->db->query("SELECT * FROM tb_transaksi WHERE id_konsumen='$id' AND (status='menunggu pembayaran' OR status='menunggu konfirmasi' OR status='diproses' OR status='dikirim' OR status='diterima' OR status='dana dikirim' OR status='selesai')")->result();
+	}
+
+	function pesananMenungguPembayaran($id)
+	{
+		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE a.status='menunggu pembayaran'")->result();
+	}
+
+	function pesananMenungguKonfirmasi($id)
+	{
+		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE a.status='menunggu konfirmasi'")->result();
+	}
+
+	function pesananDiproses($id)
+	{
+		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE a.status='diproses'")->result();
+	}
+
+	function pesananDikirim($id)
+	{
+		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE a.status='dikirim'")->result();
+	}
+
+	function pesananSelesai($id)
+	{
+		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE a.status='diterima' OR a.status='selesai' OR a.status='dana dikirim' OR a.status='selesai' ")->result();
+	}
+
+	function getProdukPesanan($id)
+	{
+		return $this->db->query("SELECT a.*, b.* FROM tb_detail_transaksi a JOIN tb_produk b ON a.id_produk=b.id_produk WHERE a.id_transaksi='$id'")->result();
+	}
+
+	// KONTAK
+
+	function Kontak()
+	{
+		return $this->db->query("SELECT * FROM tb_kontak")->row();
+	}
+
+	// INFORMASI
+
+	function total_informasi($q = NULL)	// pagination informasi (search)
+	{	
+		$this->db->like('a.judul_informasi', $q);
+		$this->db->from('tb_informasi a');
+		$this->db->join('tb_umkm b', 'a.id_umkm=b.id_umkm');
+		$this->db->where('a.status_informasi', 'aktif');
+		return $this->db->count_all_results();
+	}
+
+	function get_informasi($limit, $start = 0, $q = NULL)	// pagination produk
+	{
+		$this->db->join('tb_umkm', 'tb_informasi.id_umkm=tb_umkm.id_umkm');
+		$this->db->order_by('tb_informasi.id_informasi', 'ASC');
+		$this->db->limit($limit, $start);
+		$this->db->group_by('tb_informasi.id_informasi');
+		$this->db->where('tb_informasi.status_informasi', 'aktif');
+		return $this->db->get('tb_informasi')->result();
+	}
+
+	function jmlInformasi()
+	{
+		return $this->db->query("SELECT COUNT(id_informasi) as jumlah FROM tb_informasi")->row();
+	}
+
+	function getInformasiHome()
+	{
+		return $this->db->query("SELECT * FROM tb_informasi LIMIT 3")->result();
+	}
+
+	// PROFILE
+
+	function Profil($id)
+	{
+		return $this->db->query("SELECT * FROM tb_konsumen WHERE id_konsumen='$id'")->row();
+	}
+
+	function updateProfil($data, $id)
+	{
+		$this->db->where('id_konsumen', $id);
+		$this->db->update('tb_konsumen', $data);
+	}
 
 }
 

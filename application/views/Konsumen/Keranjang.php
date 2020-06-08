@@ -3,7 +3,7 @@
 <section id="main" class="entire_width">
   <div class="container_12">
    <div class="grid_12">
-    <h1 class="page_title">Keranjang Belanja</h1>
+    <h1 class="page_title" style="border-bottom: none;">Keranjang Belanja</h1>
     <?php 
     $cek1 = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'));  // cek produk di tabel transaksi status menunggu konfirmasi
 
@@ -44,7 +44,7 @@
               <?=$key->jumlah_barang?>
               <a href="<?=base_url()?>Konsumen/tambahBarang/<?=$key->id_keranjang?>"><img src="<?=base_url()?>assets/konsumen/images/primary-plus.png" style="width: 8px; padding-left: 10px"></a>
             </td>
-            <td class="bg subtotal">
+            <td class="qty">
               <?php 
               $jml = $key->jumlah_barang;
               $hrg = $key->harga_produk;

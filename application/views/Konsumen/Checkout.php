@@ -84,30 +84,32 @@ if ($err) {
         <div class="bottom_block estimate">
           <h3>Alamat Pengiriman</h3>
 
-          <p>Enter your destination to get a shipping estimate.</p>
+          <p>Lengkapi alamat perngiriman produk!</p>
           <form method="POST">
             <p>
-              <strong>Provinsi Asal:</strong><sup class="surely">*</sup><br/>
-              <select id="provinsi" name="provinsi" style="width: 100%">
-                <option>------ pilih provinsi asal ------</option>
+              <!-- <strong>Provinsi Asal:</strong><sup class="surely">*</sup><br/> -->
+              <input type="hidden" name="provinsi" value="9" selected>
+              <!-- <select id="provinsi" name="provinsi" style="width: 100%" hidden> -->
+                <!-- <option value="9" selected="selected" >Jawa Barat</option> -->
                 <?php 
-                $biaya = json_decode($ongkir);
-                if ($provinsi['rajaongkir']['status']['code'] == '200') {
-                  foreach ($provinsi['rajaongkir']['results'] as $prov) {
-                    ?>
-                    <!--       echo "<option value='".$prov['province_id']."' ".($prov['province_id'] == $this->input->post('provinsi') ? "selected" : "").">".$prov['province']."</option>"; -->
-                    <option value="<?=$prov['province_id']?>" <?php if( $prov['province_id'] ==  $this->input->post('provinsi') ){ ?> selected="selected" <?php }?>><?=$prov['province']?></option>
-                    <?php
-                  }
-                }
+                // $biaya = json_decode($ongkir);
+                // if ($provinsi['rajaongkir']['status']['code'] == '200') {
+                //   foreach ($provinsi['rajaongkir']['results'] as $prov) {
                 ?>
-              </select>
-            </p>
-            <p>
-              <strong>Kota Asal:</strong><br/>
-              <select id="kota" name="kota" style="width: 100%">
-                <option>-------- pilih kota asal --------</option>
-              </select>
+                <!--       echo "<option value='".$prov['province_id']."' ".($prov['province_id'] == $this->input->post('provinsi') ? "selected" : "").">".$prov['province']."</option>"; -->
+                <!-- <option value="<?=$prov['province_id']?>" <?php if( $prov['province_id'] ==  $this->input->post('provinsi') ){ ?> selected="selected" <?php }?>><?=$prov['province']?></option> -->
+                <?php
+                //   }
+                // }
+                ?>
+                <!-- </select> -->
+              </p>
+              <p>
+                <!-- <strong>Kota Asal:</strong><br/> -->
+                <input type="hidden" name="kota" value="22" selected>
+              <!-- <select id="kota" name="kota" style="width: 100%" hidden>
+                <option>Bandung</option>
+              </select> -->
             </p>
             <p>
               <strong>Provinsi Tujuan:</strong><sup class="surely">*</sup><br/>
@@ -146,8 +148,8 @@ if ($err) {
               </select>
             </p>
             <p>
-              <strong>Berat barang (gram)</strong><br/>
-              <input type="text" name="berat" value="<?=$this->input->post('berat')?>" placeholder="gram" />
+              <!-- <strong>Berat barang (gram)</strong><br/> -->
+              <input type="text" name="berat" value="1000" placeholder="gram" hidden />
             </p>
             <input type="submit" name="submit" id="get_estimate" value="Cek Ongkir" />
           </form>
@@ -167,7 +169,11 @@ if ($err) {
             </p>
           <?php } ?>
           <h3>Estimasi Ongkos Kirim</h3>
-
+          <?php if (!empty($alamat->ekspedisi_pengiriman) AND !empty($alamat->estimasi_pengiriman) AND !empty($alamat->ongkos_kirim)) {?>
+            <b>Rp <?=number_format($alamat->ongkos_kirim,2,',','.')?></b><br>
+            <?=$alamat->ekspedisi_pengiriman?><br>
+            durasi pengiriman : <?=strtolower($alamat->estimasi_pengiriman) ?>
+          <?php } ?>
           <?php 
           $biaya = json_decode($ongkir,true);
           if ($biaya['rajaongkir']['status']['code'] == '200') {
@@ -179,7 +185,7 @@ if ($err) {
                Biaya ongkir: <b>Rp <?=number_format($key['cost'][0]['value'],2,',','.')?></b><br>
                Estimasi pengiriman : <b><?=$key['cost'][0]['etd']?> hari</b>
              </p>
-             <a href="<?=base_url()?><?=$biaya['rajaongkir']['results'][0]['code']?>/Konsumen/updateBiaya/<?=$key['service']?>/<?=$key['cost'][0]['value']?>/<?=$key['cost'][0]['etd']?>"><input type="submit" id="apply_coupon" value="Pilih" /></a>
+             <a href="<?=base_url()?>Konsumen/updateBiaya/<?=$biaya['rajaongkir']['results'][0]['code']?>/<?=$key['service']?>/<?=$key['cost'][0]['value']?>/<?=$key['cost'][0]['etd']?>"><input type="submit" id="apply_coupon" value="Pilih" /></a>
              <?php
            }
          }
@@ -190,40 +196,92 @@ if ($err) {
 
      <div class="grid_4">
       <div class="bottom_block total">
-       <table class="subtotal">
-         <tr>
-           <td>Subtotal</td><td class="price">$1, 500.00</td>
-         </tr>
-         <tr class="grand_total">
-           <td>Grand Total</td><td class="price">$1, 500.00</td>
-         </tr>
-       </table>
-       <button class="checkout">PROCEED TO CHECKOUT</button>
-       <a href="#">Checkout with Multiple Addresses</a>
-     </div><!-- .total -->
-   </div><!-- .grid_4 -->
+        <table class="subtotal">
+          <tr>
+            <td style="width: 50%">Total Harga</td><td class="price">Rp <?=number_format($alamat->total_harga,2,',','.')?></td>
+          </tr>
+          <tr>
+            <td>Ongkos Kirim</td><td class="price">Rp <?=number_format($alamat->ongkos_kirim,2,',','.')?></td>
+          </tr>
+          <tr >
+            <td style="font-size: 15px"><b>Total Bayar</b></td>
+            <?php $total = $alamat->total_harga+$alamat->ongkos_kirim ?>
+            <td class="price"><b>Rp <?=number_format($total,2,',','.')?></b></td>
+          </tr>
+        </table>
+        <a href="<?=base_url()?>Konsumen/Pembayaran"><button class="checkout">LANJUTKAN PEMBAYARAN</button></a>
+       <!--  <p class="modal1-open modal1-label close1" for="modal1-open" style="color: #777777;font-size: 15px"><b>Batalkan Transaksi</b></p>
+        <input type="radio" name="modal1" value="open" id="modal1-open" class="modal1-radio"> -->
+        <!-- MODAL -->
+     <!--    <div class="modal1">
+          <label class="modal1-label overlay"><input type="radio" name="modal1" value="close1" class="modal1-radio"/></label>
+          <div class="content1">
+            <div class="top1">
+              <b>Anda yakin produk ini akan dihapus dari keranjang?</b>
+              <label class="modal1-label close-btn1">
+                <input type="radio" name="modal1" value="close1" class="modal1-radio"/>
+              </label>
+            </div>
+            <div class="footer1">
+              <br><br>
+              <a href="<?=base_url()?>Konsumen/Keranjang/<?=$this->session->userdata('id_konsumen')?>"><button type="button" style="padding: 8px; background: #7b808a" class="btn1 btn-default pull-left1" data-dismiss="modal1-label">Tidak</button></a>
+              <a href="<?=base_url()?>Konsumen/hapusProduk/<?=$key->id_produk?>"><button type="button" style="padding: 8px;margin-left: 350px; width: 50px; text-align: center; background: #DD4B39" class="btn1 btn-default pull-right" data-dismiss="modal1">Ya</button></a>
+            </div>
+          </div>
+        </div> -->
+        <!-- MODAL -->
 
-   <div class="clear"></div>
- </div><!-- #content_bottom -->
- <div class="clear"></div>
+        <div class="close">
+          <!-- MODAL HAPUS PRODUK-->
+          <!-- <div> -->
+            <label class="modal1-open modal1-label close1" for="modal1-open" style="color: #777777;font-size: 15px">Batalkan Pesanan</label>
+            <input type="radio" name="modal1" value="open" id="modal1-open" class="modal1-radio">
 
-</div><!-- .container_12 -->
+            <div class="modal1">
+              <label class="modal1-label overlay"><input type="radio" name="modal1" value="close1" class="modal1-radio"/></label>
+              <div class="content1">
+                <div class="top1" style="text-align: center;">
+                  <b>Anda yakin membatalkan transaksi ini?</b><br><br>Jika transaksi dibatalkan, maka produk akan terhapus dari keranjang Anda!
+                  <label class="modal1-label close-btn1">
+                    <input type="radio" name="modal1" value="close1" class="modal1-radio"/>
+                  </label>
+                </div>
+                <div class="footer1">
+                  <br>
+                  <a href="<?=base_url()?>Konsumen/Pengiriman"><button type="button" style="padding: 8px; background: #7b808a" class="btn1 btn-default pull-left1" data-dismiss="modal1-label">Tidak</button></a>
+                  <a href="<?=base_url()?>Konsumen/BatalkanTransaksi/<?=$alamat->id_transaksi?>"><button type="button" style="padding: 8px;margin-left: 350px; width: 50px; text-align: center; background: #DD4B39" class="btn1 btn-default pull-right" data-dismiss="modal1">Ya</button></a>
+                </div>
+              </div>
+            </div>
+            <!-- </div> -->
+            <!-- MODAL -->
+
+          </div>
+
+        </div><!-- .total -->
+      </div><!-- .grid_4 -->
+
+      <div class="clear"></div>
+    </div><!-- #content_bottom -->
+    <div class="clear"></div>
+
+  </div><!-- .container_12 -->
 </section><!-- #main -->
 
 <div class="clear"></div>
 
 <script type="text/javascript">
-  document.getElementById('provinsi').addEventListener('change', function(){
+  // document.getElementById('provinsi').addEventListener('change', function(){
 
-    fetch("<?= base_url('konsumen/kota/') ?>"+this.value,{
-      method:'GET'
-    })
-    .then((response) => response.text())
-    .then((data) => {
-      console.log(data)
-      document.getElementById('kota').innerHTML = data
-    })
-  })
+  //   fetch("<?= base_url('konsumen/kota/') ?>"+this.value,{
+  //     method:'GET'
+  //   })
+  //   .then((response) => response.text())
+  //   .then((data) => {
+  //     console.log(data)
+  //     document.getElementById('kota').innerHTML = data
+  //   })
+  // })
 
   document.getElementById('provinsi_tujuan').addEventListener('change', function(){
 

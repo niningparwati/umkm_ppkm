@@ -43,7 +43,7 @@ class Konsumen extends CI_Controller {
 				);
 				$this->session->set_userdata($session_konsumen);
 				$this->session->set_flashdata('success','Selamat! Login berhasil!');
-				redirect('Konsumen/index');
+				redirect('Konsumen/Home');
 			}
 		}else{
 			$this->session->set_flashdata('warning', 'username atau password salah!');
@@ -139,7 +139,15 @@ class Konsumen extends CI_Controller {
 
 	function Home()
 	{
-
+		$data = array(
+			'produk' => $this->M_konsumen->getProdukHome(),
+			'umkm' => $this->M_konsumen->getUmkmHome(),
+			'informasi' => $this->M_konsumen->getInformasiHome(),
+		);
+		$this->load->view('Konsumen/Head');
+		$this->load->view('Konsumen/Header');
+		$this->load->view('Konsumen/Home', $data);
+		$this->load->view('Konsumen/Footer');
 	}
 
 	// PRODUK
@@ -169,10 +177,46 @@ class Konsumen extends CI_Controller {
 					'produk' => $produk,
 					'jumlah_produk' => $this->M_konsumen->jumlahProduk()->jumlah,
 					'kategori' => $this->M_konsumen->kategoriProduk(),	
-				'q' => $q,												// pagination
-				'pagination' => $this->pagination->create_links(),		// pagination
-				'start' => $start,										// pagination
-			);
+					'jenis' => 'semua',
+					'q' => $q,												// pagination
+					'pagination' => $this->pagination->create_links(),		// pagination
+					'start' => $start,										// pagination
+					'jumlah' => $this->M_konsumen->jmlhProduk()->jumlah,
+					'batas' => $config['per_page'],
+				);
+				$this->load->view('Konsumen/Head');
+				$this->load->view('Konsumen/Header', $data);
+				$this->load->view('Konsumen/Produk', $data);
+				$this->load->view('Konsumen/Footer');
+			}else {
+				$q = urldecode($this->input->get('q', TRUE));
+				$start = intval($this->input->get('start'));
+				if ($q <> '') {
+					$config['base_url'] = base_url() . '/Konsumen/Produk/'.$key.'/?q=' . urlencode($q);
+					$config['first_url'] = base_url() . '/Konsumen/Produk/'.$key.'/?q=' . urlencode($q);
+				} else {
+					$config['base_url'] = base_url() . '/Konsumen/Produk/'.$key;
+					$config['first_url'] = base_url() . '/Konsumen/Produk/'.$key;
+				}
+				$config['per_page'] = 9;
+				$config['page_query_string'] = TRUE;
+				$config['total_rows'] = $this->M_konsumen->total_produk_kategori($q, $key);
+				$produk = $this->M_konsumen->get_produk_kategori($config['per_page'], $start, $q, $key);
+				$this->load->library('pagination');
+				$this->pagination->initialize($config);
+
+
+				$data = array(
+					'produk' => $produk,
+					'jumlah_produk' => $this->M_konsumen->jumlahProduk()->jumlah,
+					'kategori' => $this->M_konsumen->kategoriProduk(),	
+					'jenis' => $this->M_konsumen->getKategoriProduk($key)->nama_kategori_produk,
+					'q' => $q,												// pagination
+					'pagination' => $this->pagination->create_links(),		// pagination
+					'start' => $start,										// pagination
+					'jumlah' => $this->M_konsumen->jmlhProduk()->jumlah,
+					'batas' => $config['per_page'],
+				);
 				$this->load->view('Konsumen/Head');
 				$this->load->view('Konsumen/Header', $data);
 				$this->load->view('Konsumen/Produk', $data);
@@ -200,11 +244,47 @@ class Konsumen extends CI_Controller {
 				$data = array(
 					'produk' => $produk,
 					'jumlah_produk' => $this->M_konsumen->jumlahProduk()->jumlah,
-					'kategori' => $this->M_konsumen->kategoriProduk(),	
-				'q' => $q,												// pagination
-				'pagination' => $this->pagination->create_links(),		// pagination
-				'start' => $start,										// pagination
-			);
+					'kategori' => $this->M_konsumen->kategoriProduk(),
+					'jenis' => 'semua',
+					'q' => $q,												// pagination
+					'pagination' => $this->pagination->create_links(),		// pagination
+					'start' => $start,										// pagination
+					'jumlah' => $this->M_konsumen->jmlhProduk()->jumlah,
+					'batas' => $config['per_page'],
+				);
+				$this->load->view('Konsumen/Head');
+				$this->load->view('Konsumen/Header', $data);
+				$this->load->view('Konsumen/Produk', $data);
+				$this->load->view('Konsumen/Footer');
+			}else {
+				$q = urldecode($this->input->get('q', TRUE));
+				$start = intval($this->input->get('start'));
+				if ($q <> '') {
+					$config['base_url'] = base_url() . '/Konsumen/Produk/'.$key.'/?q=' . urlencode($q);
+					$config['first_url'] = base_url() . '/Konsumen/Produk/'.$key.'/?q=' . urlencode($q);
+				} else {
+					$config['base_url'] = base_url() . '/Konsumen/Produk/'.$key;
+					$config['first_url'] = base_url() . '/Konsumen/Produk/'.$key;
+				}
+				$config['per_page'] = 9;
+				$config['page_query_string'] = TRUE;
+				$config['total_rows'] = $this->M_konsumen->total_produk_kategori($q, $key);
+				$produk = $this->M_konsumen->get_produk_kategori($config['per_page'], $start, $q, $key);
+				$this->load->library('pagination');
+				$this->pagination->initialize($config);
+
+
+				$data = array(
+					'produk' => $produk,
+					'jumlah_produk' => $this->M_konsumen->jumlahProduk()->jumlah,
+					'kategori' => $this->M_konsumen->kategoriProduk(),
+					'jenis' => $this->M_konsumen->getKategoriProduk($key)->nama_kategori_produk,	
+					'q' => $q,												// pagination
+					'pagination' => $this->pagination->create_links(),		// pagination
+					'start' => $start,										// pagination
+					'jumlah' => $this->M_konsumen->jmlhProduk()->jumlah,
+					'batas' => $config['per_page'],
+				);
 				$this->load->view('Konsumen/Head');
 				$this->load->view('Konsumen/Header', $data);
 				$this->load->view('Konsumen/Produk', $data);
@@ -220,6 +300,7 @@ class Konsumen extends CI_Controller {
 		$explode = explode(' ', $cek->nama_produk);
 		$data = array(
 			'id_produk' => $idProduk,
+			'id_umkm' => $cek->id_umkm,
 			'nama_produk' => $cek->nama_produk,
 			'foto_produk' => $cek->foto_produk,
 			'deskripsi' => $cek->deskripsi_produk,
@@ -230,6 +311,8 @@ class Konsumen extends CI_Controller {
 			'no_telp' => $cek->nomor_telp_umkm,
 			'stok' => $cek->stok,
 			'serupa' => $this->M_konsumen->produkSerupa($explode[0], $cek->nama_produk),
+			'kategori' => $this->M_konsumen->kategoriProduk(),
+			'produk_lain' => $this->M_konsumen->produkLain($cek->id_umkm, $idProduk),
 		);		
 		$this->load->view('Konsumen/Head');
 		$this->load->view('Konsumen/Header', $data);
@@ -239,19 +322,19 @@ class Konsumen extends CI_Controller {
 
 	// UMKM
 
-	function Umkm($key)
+	function Umkm($key,$x)
 	{
-		if ($key == 'semua') {
+		if ($key == 'semua' AND $x==0) {
 			$q = urldecode($this->input->get('q', TRUE));
 			$start = intval($this->input->get('start'));
 			if ($q <> '') {
-				$config['base_url'] = base_url() . '/Konsumen/Umkm/'.$key.'/?q=' . urlencode($q);
-				$config['first_url'] = base_url() . '/Konsumen/Umkm/'.$key.'/?q=' . urlencode($q);
+				$config['base_url'] = base_url() . '/Konsumen/Umkm/'.$key.'/'.$x.'/?q=' . urlencode($q);
+				$config['first_url'] = base_url() . '/Konsumen/Umkm/'.$key.'/'.$x.'/?q=' . urlencode($q);
 			} else {
-				$config['base_url'] = base_url() . '/Konsumen/Umkm/'.$key;
-				$config['first_url'] = base_url() . '/Konsumen/Umkm/'.$key;
+				$config['base_url'] = base_url() . '/Konsumen/Umkm/'.$key.'/'.$x;
+				$config['first_url'] = base_url() . '/Konsumen/Umkm/'.$key.'/'.$x;
 			}
-			$config['per_page'] = 1;
+			$config['per_page'] = 4;
 			$config['page_query_string'] = TRUE;
 			$config['total_rows'] = $this->M_konsumen->total_umkm($q);
 			$umkm = $this->M_konsumen->get_umkm($config['per_page'], $start, $q);
@@ -264,30 +347,131 @@ class Konsumen extends CI_Controller {
 				'pagination' => $this->pagination->create_links(),		// pagination
 				'start' => $start,										// pagination
 				'kategori' => $this->M_konsumen->kategoriUmkm(),
+				'kabupaten' => $this->M_konsumen->semuaKabupaten(),
+				'judul' => 'Semua',
+				'jumlah' => $this->M_konsumen->jumlahUmkm()->jumlah,
+				'batas' => $config['per_page'],
 			);
 			$this->load->view('Konsumen/Head');
 			$this->load->view('Konsumen/Header', $data);
 			$this->load->view('Konsumen/UMKM', $data);
 			$this->load->view('Konsumen/Footer');
 			// print_r($data);
+		}elseif ($key == 'Kategori' AND $x>0) {
+			$q = urldecode($this->input->get('q', TRUE));
+			$start = intval($this->input->get('start'));
+			if ($q <> '') {
+				$config['base_url'] = base_url() . '/Konsumen/Umkm/'.$key.'/'.$x.'/?q=' . urlencode($q);
+				$config['first_url'] = base_url() . '/Konsumen/Umkm/'.$key.'/'.$x.'/?q=' . urlencode($q);
+			} else {
+				$config['base_url'] = base_url() . '/Konsumen/Umkm/'.$key.'/'.$x;
+				$config['first_url'] = base_url() . '/Konsumen/Umkm/'.$key.'/'.$x;
+			}
+			$config['per_page'] = 4;
+			$config['page_query_string'] = TRUE;
+			$config['total_rows'] = $this->M_konsumen->total_kategori($q, $x);
+			$kategori = $this->M_konsumen->get_kategori($config['per_page'], $start, $q, $x);
+			$this->load->library('pagination');
+			$this->pagination->initialize($config);
+
+			$data = array(
+				'umkm' => $kategori,
+				'q' => $q,												// pagination
+				'pagination' => $this->pagination->create_links(),		// pagination
+				'start' => $start,										// pagination
+				'kategori' => $this->M_konsumen->kategoriUmkm(),
+				'kabupaten' => $this->M_konsumen->semuaKabupaten(),
+				'judul' => $this->M_konsumen->getKategoriUmkm($x)->nama_kategori_umkm,
+				'jumlah' => $this->M_konsumen->jumlahUmkm()->jumlah,
+				'batas' => $config['per_page'],
+			);
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header', $data);
+			$this->load->view('Konsumen/UMKM', $data);
+			$this->load->view('Konsumen/Footer');
+			// print_r($data);
+		}elseif ($key == 'Kota') {
+			$q = urldecode($this->input->get('q', TRUE));
+			$start = intval($this->input->get('start'));
+			if ($q <> '') {
+				$config['base_url'] = base_url() . '/Konsumen/Umkm/'.$key.'/'.$x.'/?q=' . urlencode($q);
+				$config['first_url'] = base_url() . '/Konsumen/Umkm/'.$key.'/'.$x.'/?q=' . urlencode($q);
+			} else {
+				$config['base_url'] = base_url() . '/Konsumen/Umkm/'.$key.'/'.$x;
+				$config['first_url'] = base_url() . '/Konsumen/Umkm/'.$key.'/'.$x;
+			}
+			$config['per_page'] = 4;
+			$config['page_query_string'] = TRUE;
+			$config['total_rows'] = $this->M_konsumen->total_kota($q, $x);
+			$kota = $this->M_konsumen->get_kota($config['per_page'], $start, $q, $x);
+			$this->load->library('pagination');
+			$this->pagination->initialize($config);
+
+			$data = array(
+				'umkm' => $kota,
+				'q' => $q,												// pagination
+				'pagination' => $this->pagination->create_links(),		// pagination
+				'start' => $start,										// pagination
+				'kategori' => $this->M_konsumen->kategoriUmkm(),
+				'kabupaten' => $this->M_konsumen->semuaKabupaten(),
+				'judul' => 'di Kota '.ucwords(str_replace('%20', ' ', $x)),
+				'jumlah' => $this->M_konsumen->jumlahUmkm()->jumlah,
+				'batas' => $config['per_page'],
+			);
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header', $data);
+			$this->load->view('Konsumen/UMKM', $data);
+			$this->load->view('Konsumen/Footer');
+			// echo "kota";
+			// print_r($data);
 		}
 	}
 
-	function detailUmkm($idUmkm)
+	function detailUmkm($idUmkm, $key)
 	{
-		$cek = $this->M_konsumen->umkmById($idUmkm);	// ambil detail umkm
-		$data = array(
-			'id_umkm' => $idUmkm,
-			'nama_umkm' => $cek->nama_umkm,
-			'alamat' => $cek->alamat_umkm,
-			'deskripsi' => $cek->deskripsi_umkm,
-			'no_telp' => $cek->nomor_telp_umkm,
-			'produk' => $this->M_konsumen->getProdukUmkm($idUmkm),
-		);
-		$this->load->view('Konsumen/Head');
-		$this->load->view('Konsumen/Header', $data);
-		$this->load->view('Konsumen/detailUMKM', $data);
-		$this->load->view('Konsumen/Footer');
+		if ($key == 'semua') {
+			$cek = $this->M_konsumen->umkmById($idUmkm);	// ambil detail umkm
+			$data = array(
+				'id_umkm' => $idUmkm,
+				'nama_umkm' => $cek->nama_umkm,
+				'alamat' => $cek->alamat_umkm,
+				'deskripsi' => $cek->deskripsi_umkm,
+				'no_telp' => $cek->nomor_telp_umkm,
+				'foto' => $cek->foto_user,
+				'produk' => $this->M_konsumen->getProdukUmkm($idUmkm),
+				'kategori_produk' => $this->M_konsumen->kategoriProdukById($idUmkm),
+				'cekFoto' => $this->M_konsumen->semuaFotoUMKM($idUmkm),
+				'portofolio' => $this->M_konsumen->cekPortofolio($idUmkm),
+				'market' => $this->M_konsumen->cekMarket($idUmkm),
+				'informasi' => $this->M_konsumen->cekInformasi($idUmkm),
+				'jenis' => 'semua'
+			);
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header', $data);
+			$this->load->view('Konsumen/detailUMKM', $data);
+			$this->load->view('Konsumen/Footer');
+		}elseif ($key != 'semua') {
+			$cek = $this->M_konsumen->umkmById($idUmkm);	// ambil detail umkm berdasarkan produk tertentu
+			$data = array(
+				'id_umkm' => $idUmkm,
+				'nama_umkm' => $cek->nama_umkm,
+				'alamat' => $cek->alamat_umkm,
+				'deskripsi' => $cek->deskripsi_umkm,
+				'no_telp' => $cek->nomor_telp_umkm,
+				'foto' => $cek->foto_user,
+				'produk' => $this->M_konsumen->produkUmkmByKategori($idUmkm, $key),
+				'kategori_produk' => $this->M_konsumen->kategoriProdukById($idUmkm),
+				'cekFoto' => $this->M_konsumen->semuaFotoUMKM($idUmkm),
+				'portofolio' => $this->M_konsumen->cekPortofolio($idUmkm),
+				'market' => $this->M_konsumen->cekMarket($idUmkm),
+				'informasi' => $this->M_konsumen->cekInformasi($idUmkm),
+				'jenis' => $this->M_konsumen->getKategoriProduk($key)->nama_kategori_produk
+			);
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header', $data);
+			$this->load->view('Konsumen/detailUMKM', $data);
+			$this->load->view('Konsumen/Footer');
+		}
 	}
 
 	// KERANJANG
@@ -298,12 +482,9 @@ class Konsumen extends CI_Controller {
 			$cek = $this->M_konsumen->produkById($idProduk);	// mengambil data produk dari tabel produk
 			$produk = $this->M_konsumen->produkKeranjang($idProduk);	// mengecek apakah produk sudah ada di keranjang atau belum
 			$cekCheckout = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'));	// mengecek apakah ada yang status transaksi menunggu pembayaran
-			if (!is_null($cekCheckout)) {
-				$this->session->set_flashdata('warning', 'mohon selesaikan terlebih dahulu transaksi sebelumnya');
-				redirect('Konsumen/Keranjang/'.$this->session->userdata('id_konsumen'));
-			}else{
-				if ($produk->id_produk != $idProduk) {		// jika produk belum ada di keranjang
-					$jumlah = $this->input->post('qty');
+
+			if ($produk->id_produk != $idProduk) {		// jika produk belum ada di keranjang
+				$jumlah = $this->input->post('qty');
 					if ($jumlah <= $cek->stok) {	// jika tidak melebihi stok
 						$data = array(
 							'id_konsumen' => $this->session->userdata('id_konsumen'),
@@ -335,19 +516,18 @@ class Konsumen extends CI_Controller {
 					}
 				// echo $awal;
 				}
+			}else{
+				$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+				redirect('Konsumen/index');
 			}
-		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
 		}
-	}
 
-	function Keranjang()
-	{
-		if ($this->session->userdata('id_konsumen')) {
-			$idKonsumen = $this->session->userdata('id_konsumen');
+		function Keranjang()
+		{
+			if ($this->session->userdata('id_konsumen')) {
+				$idKonsumen = $this->session->userdata('id_konsumen');
 			$produk = $this->M_konsumen->cekKeranjangKonsumen($idKonsumen);	// mengecek keranjang produk yang dimasukan ke keranjang
-			if (!is_null($produk)) {	// mengecek jika ada produk di keranjang
+			if (!empty($produk)) {	// mengecek jika ada produk di keranjang
 				$data = array(
 					'produk' => $this->M_konsumen->keranjangByKonsumen($idKonsumen),
 				);
@@ -436,12 +616,56 @@ class Konsumen extends CI_Controller {
 		}
 	}
 
-	// CHECKOUT
+	// PESANAN
+
+	function Pesanan()
+	{
+		if ($this->session->userdata('id_konsumen')) {
+			$idKonsumen = $this->session->userdata('id_konsumen');
+			$pesanan = $this->M_konsumen->cekPesanan($idKonsumen);	// mengecek keranjang produk yang dimasukan ke keranjang
+			if (!is_null($pesanan)) {	// mengecek jika ada produk di keranjang
+				$data = array(
+					'menunggu_pembayaran' => $this->M_konsumen->pesananMenungguPembayaran($idKonsumen),
+					'menunggu_konfirmasi' => $this->M_konsumen->pesananMenungguKonfirmasi($idKonsumen),
+					'diproses' => $this->M_konsumen->pesananDiproses($idKonsumen),
+					'dikirim' => $this->M_konsumen->pesananDikirim($idKonsumen),
+					'selesai' => $this->M_konsumen->pesananSelesai($idKonsumen),
+				);
+				$this->load->view('Konsumen/Head');
+				$this->load->view('Konsumen/Header', $data);
+				$this->load->view('Konsumen/Pesanan', $data);
+				$this->load->view('Konsumen/Footer');
+			}else{
+				$this->session->set_flashdata('warning', 'Anda belum melakukan pesanan');
+				redirect('Konsumen/Home');
+			}
+		}else{
+			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			redirect('Konsumen/index');
+		}
+	}
+
+	function terimaPesanan($idTransaksi)
+	{
+		if ($this->session->userdata('id_konsumen')) {
+			$data = array(
+				'status' => 'diterima'
+			);
+			$this->M_konsumen->terimaPesanan($idTransaksi,$data);
+			$this->session->set_flashdata('success', 'Terima kasih atas pesanan Anda!');
+			redirect('Konsumen/Pesanan');
+		}else{
+			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			redirect('Konsumen/index');
+		}
+	}
+
+	// CHECKOUT & PEMBAYARAN
 
 	function Checkout()
 	{
 		if ($this->session->userdata('id_konsumen')) {
-			if (is_null($this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen')))) {
+			if (empty($this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen')))) {
 				$data1 = array(
 					'id_konsumen' => $this->session->userdata('id_konsumen'),
 					'status' => 'menunggu pembayaran',
@@ -464,62 +688,62 @@ class Konsumen extends CI_Controller {
 							'jumlah_produk' => $jumlahProduk,
 							'jumlah_harga' => $jumlahHarga,
 						);
+						$this->M_konsumen->detailTransaksi($data);	// insert ke tabel detail transaksi
+						$this->M_konsumen->deleteKeranjangMultiple($idKeranjang[$i]);		// hapus produk dari tabel keranjang
+						$stok = $cekProduk->stok;
+						$data1 = array(
+							'stok' => $stok-$jumlahProduk,
+						);
+						$this->M_konsumen->updateProdukById($data1, $cekProduk->id_produk);	// update jumlah stok di tabel produk
+					}
+					$totalHarga = $this->M_konsumen->getTotalHarga($idTransaksi)->total;	// mengambil total harga produk yang dicheckout
+					$this->M_konsumen->updatetotalHarga($totalHarga, $idTransaksi);	// mengupdate total harga di tabel transaksi
+					// print_r($data);
+					$this->session->set_flashdata('success', 'produk berhasil dicheckout!');
+					redirect('Konsumen/Pengiriman');
+
+				}elseif(count($idKeranjang)==0){	// jika produk yang dicheckout tidak ada
+					$this->session->set_flashdata('warning', 'silahkan pilih produk yang akan dicheckout!');
+					redirect('Konsumen/Keranjang');
+				}elseif(count($idKeranjang)==1){	// jika produk yang dicheckout hanya 1 produk
+					$cekKeranjang = $this->M_konsumen->cekKeranjang($idKeranjang[0]);
+					$cekProduk = $this->M_konsumen->cekProduk($cekKeranjang->id_produk);
+					$hargaProduk = $cekProduk->harga_produk;
+					$jumlahProduk = $cekKeranjang->jumlah_barang;
+					$jumlahHarga = $hargaProduk*$jumlahProduk;
+					$data = array(
+						'id_transaksi' => $idTransaksi,
+						'id_produk' => $cekProduk->id_produk,
+						'jumlah_produk' => $jumlahProduk,
+						'jumlah_harga' => $jumlahHarga,
+					);
 					$this->M_konsumen->detailTransaksi($data);	// insert ke tabel detail transaksi
-					$this->M_konsumen->deleteKeranjangMultiple($idKeranjang[$i]);		// hapus produk dari tabel keranjang
+					$this->M_konsumen->deleteKeranjangMultiple($idKeranjang[0]);		// hapus produk dari tabel keranjang
 					$stok = $cekProduk->stok;
 					$data1 = array(
 						'stok' => $stok-$jumlahProduk,
 					);
-					$this->M_konsumen->updateProdukById($data1, $cekProduk->id_produk);	// update jumlah stok di tabel produk
+					$this->M_konsumen->updateProdukById($data1, $cekProduk->id_produk);		// update jumlah stok di tabel produk
+					$totalHarga = $this->M_konsumen->getTotalHarga($idTransaksi)->total;
+					$this->M_konsumen->updatetotalHarga($totalHarga, $idTransaksi);	// mengupdate total harga di tabel transaksi
+
+					$this->session->set_flashdata('success', 'produk berhasil dicheckout!');
+					redirect('Konsumen/Pengiriman');
 				}
-				$totalHarga = $this->M_konsumen->getTotalHarga($idTransaksi)->total;	// mengambil total harga produk yang dicheckout
-				$this->M_konsumen->updatetotalHarga($totalHarga, $idTransaksi);	// mengupdate total harga di tabel transaksi
-				// print_r($data);
-				$this->session->set_flashdata('success', 'produk berhasil dicheckout!');
-				redirect('Konsumen/Pengiriman');
-
-			}elseif(count($idKeranjang)==0){	// jika produk yang dicheckout tidak ada
-				$this->session->set_flashdata('warning', 'silahkan pilih produk yang akan dicheckout!');
+				// print_r($idKeranjang);
+			}else{
+				$this->session->set_flashdata('warning', 'Silahkan selesaikan transaksi sebelumnya terlebih dahulu!');
 				redirect('Konsumen/Keranjang');
-			}else{	// jika produk yang dicheckout hanya 1 produk
-				$cekKeranjang = $this->M_konsumen->cekKeranjang($idKeranjang[0]);
-				$cekProduk = $this->M_konsumen->cekProduk($cekKeranjang->id_produk);
-				$hargaProduk = $cekProduk->harga_produk;
-				$jumlahProduk = $cekKeranjang->jumlah_barang;
-				$jumlahHarga = $hargaProduk*$jumlahProduk;
-				$data = array(
-					'id_transaksi' => $idTransaksi,
-					'id_produk' => $cekProduk->id_produk,
-					'jumlah_produk' => $jumlahProduk,
-					'jumlah_harga' => $jumlahHarga,
-				);
-				$this->M_konsumen->detailTransaksi($data);	// insert ke tabel detail transaksi
-				$this->M_konsumen->deleteKeranjangMultiple($idKeranjang[0]);		// hapus produk dari tabel keranjang
-				$stok = $cekProduk->stok;
-				$data1 = array(
-					'stok' => $stok-$jumlahProduk,
-				);
-				$this->M_konsumen->updateProdukById($data1, $cekProduk->id_produk);		// update jumlah stok di tabel produk
-				$totalHarga = $this->M_konsumen->getTotalHarga($idTransaksi)->total;
-				$this->M_konsumen->updatetotalHarga($totalHarga, $idTransaksi);	// mengupdate total harga di tabel transaksi
-
-				$this->session->set_flashdata('success', 'produk berhasil dicheckout!');
-				redirect('Konsumen/Pengiriman');
 			}
-			// print_r($idKeranjang);
 		}else{
-			$this->session->set_flashdata('warning', 'Silahkan selesaikan transaksi sebelumnya terlebih dahulu!');
-			redirect('Konsumen/Keranjang');
+			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			redirect('Konsumen/index');
 		}
-	}else{
-		$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
-		redirect('Konsumen/index');
 	}
-}
 
-function Pengiriman()
-{
-	if ($this->session->userdata('id_konsumen')) {
+	function Pengiriman()
+	{
+		if ($this->session->userdata('id_konsumen')) {
 			$idTransaksi = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'))->id_transaksi;	// mengambil id transaksi yang statusnya menunggu pembayaran
 
 			// api rajaongkir
@@ -536,7 +760,7 @@ function Pengiriman()
 					CURLOPT_TIMEOUT => 30,
 					CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 					CURLOPT_CUSTOMREQUEST => "POST",
-					CURLOPT_POSTFIELDS => "origin=".$this->input->post('kota')."&destination=".$this->input->post('kota_tujuan')."&weight=".$this->input->post('berat')."&courier=".$this->input->post('ekspedisi'),
+					CURLOPT_POSTFIELDS => "origin=22&destination=".$this->input->post('kota_tujuan')."&weight=".$this->input->post('berat')."&courier=".$this->input->post('ekspedisi'),
 					CURLOPT_HTTPHEADER => array(
 						"content-type: application/x-www-form-urlencoded",
 						"key: 28b6e68fb3460455044054d3d955e252"
@@ -595,13 +819,91 @@ function Pengiriman()
 			$awal = $this->M_konsumen->getTotalHarga($idTransaksi)->total;
 			$total = $awal+$biaya;
 			$data = array(
-				'ekspedisi_pengiriman' => $service." ".$level,
-				'estimasi_pengiriman' => $hari,
+				'ekspedisi_pengiriman' => strtoupper($service)." (".str_replace('%20', ' ', $level).")",
+				'estimasi_pengiriman' => str_replace('%20', ' ', $hari),
 				'ongkos_kirim' => $biaya
 			);
-			$this->M_konsumen->updateTransaksi($data,$idTransaksi);
+			$this->M_konsumen->inputOngkir($data,$idTransaksi);
 			redirect('Konsumen/Pengiriman');
-			// echo $biaya;
+		}else{
+			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			redirect('Konsumen/index');
+		}
+	}
+
+	function BatalkanTransaksi($idTransaksi)
+	{
+		if ($this->session->userdata('id_konsumen')) {
+			$this->M_konsumen->BatalkanTransaksi1($idTransaksi);
+			$this->M_konsumen->BatalkanTransaksi2($idTransaksi);
+			$this->session->set_flashdata('success', 'Transaksi dibatalkan');
+			redirect('Konsumen/Keranjang');
+		}else{
+			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			redirect('Konsumen/index');
+		}
+	}
+
+	function Pembayaran()
+	{
+		if ($this->session->userdata('id_konsumen')) {
+			$cek = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'));
+			if (!empty($cek->provinsi) AND !empty($cek->kota) AND !empty($cek->detail_alamat) AND !empty($cek->ekspedisi_pengiriman) AND !empty($cek->estimasi_pengiriman) AND !empty($cek->ongkos_kirim) ) {		// sudah terisi semua
+
+				$data = array(
+					'total' => $cek->total_harga+$cek->ongkos_kirim,
+					'kontak' =>$this->M_konsumen->Kontak(),
+					'id_transaksi' => $cek->id_transaksi,
+				);
+				$this->load->view('Konsumen/Head');
+				$this->load->view('Konsumen/Header', $data);
+				$this->load->view('Konsumen/Pembayaran', $data);
+				$this->load->view('Konsumen/Footer');
+
+			}elseif (!empty($cek->ekspedisi_pengiriman) AND !empty($cek->estimasi_pengiriman) AND !empty($cek->ongkos_kirim) ) {	// ongkir belum diisi
+
+				$this->session->set_flashdata('warning', 'pastikan ekpedisi pengiriman sudah dipilih!');
+				redirect('Konsumen/Pengiriman');
+
+			}else{
+
+				$this->session->set_flashdata('warning', 'pastikan alamat sudah terisi dan ekpedisi pengiriman sudah dipilih!');
+				redirect('Konsumen/Pengiriman');
+
+			}
+		}else{
+			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			redirect('Konsumen/index');
+		}
+	}
+
+	function buktiBayar($idTransaksi)
+	{
+		if ($this->session->userdata('id_konsumen')) {	// jika ada foto yang diupload
+			if (!empty($_FILES['bukti']['name'])) {
+				$config['file_name'] 		= 'bukti_'.$idTransaksi;
+				$config['upload_path']      = './assets/foto_bukti/';
+				$config['allowed_types']    = 'jpg|jpeg|png';
+
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+
+				if ($this->upload->do_upload('bukti')) {
+					$uploadData = $this->upload->data();
+					$data = array(
+						'bukti_pembayaran' => $uploadData['file_name'],
+						'pemilik_rekening' => $this->input->post('pemilik_rekening'),
+						'tanggal_transaksi' => date('Y-m-d H-i-s'),
+						'status' => 'menunggu konfirmasi'
+					);
+					$this->M_konsumen->inputOngkir($data,$idTransaksi);	// update data 
+					$this->session->set_flashdata('success', 'Terima kasih sudah melakukan transaksi! Pesanan akan segera diproses!');
+					redirect('Konsumen/Produk/semua');
+				}else{
+					$this->session->set_flashdata('warning', 'fotmat bukti pembayaran tidak sesuai!');
+					redirect('Konsumen/Pembayaran');
+				}
+			}
 		}else{
 			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
@@ -645,6 +947,105 @@ function Pengiriman()
   // var_dump($response);
 		}
 	}
+
+	// INFORMASI
+
+	function Informasi()
+	{
+		$q = urldecode($this->input->get('q', TRUE));
+		$start = intval($this->input->get('start'));
+		if ($q <> '') {
+			$config['base_url'] = base_url() . '/Konsumen/Informasi/?q=' . urlencode($q);
+			$config['first_url'] = base_url() . '/Konsumen/Informasi/?q=' . urlencode($q);
+		} else {
+			$config['base_url'] = base_url() . '/Konsumen/Informasi';
+			$config['first_url'] = base_url() . '/Konsumen/Informasi';
+		}
+		$config['per_page'] = 12;
+		$config['page_query_string'] = TRUE;
+		$config['total_rows'] = $this->M_konsumen->total_informasi($q);
+		$informasi = $this->M_konsumen->get_informasi($config['per_page'], $start, $q);
+		$this->load->library('pagination');
+		$this->pagination->initialize($config);
+
+		$data = array(
+			'informasi' => $informasi,
+			'q' => $q,												// pagination
+			'pagination' => $this->pagination->create_links(),		// pagination
+			'start' => $start,										// pagination
+			'jumlah' => $this->M_konsumen->jmlInformasi()->jumlah,
+			'batas' => $config['per_page'],
+		);
+		$this->load->view('Konsumen/Head');
+		$this->load->view('Konsumen/Header', $data);
+		$this->load->view('Konsumen/Informasi', $data);
+		$this->load->view('Konsumen/Footer');
+	}
+
+	// PROFILE
+
+	function Profil()
+	{
+		if ($this->session->userdata('id_konsumen')) {
+			$cek = $this->M_konsumen->Profil($this->session->userdata('id_konsumen'));
+			$data = array(
+				'nama_konsumen' => $cek->nama_konsumen,
+				'username_konsumen' => $cek->username_konsumen,
+				'email_konsumen' => $cek->email_konsumen,
+				'foto_konsumen' => $cek->foto_konsumen,
+				'no_telp' => $cek->nomor_telp_konsumen,
+				'jenis_kelamin' => $cek->jenis_kelamin,
+				'tanggal_lahir' => $cek->tanggal_lahir,
+			);
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header', $data);
+			$this->load->view('Konsumen/Profile', $data);
+			$this->load->view('Konsumen/Footer');
+		}else{
+			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			redirect('Konsumen/index');
+		}
+	}
+
+	function editProfil()
+	{
+		if ($this->session->userdata('id_konsumen')) {
+			if (!empty($_FILES['foto_konsumen']['name'])) {
+				$config['file_name'] 		= 'konsumen_'.$this->session->userdata('id_konsumen').date('Y-m-d H-i-s');
+				$config['upload_path']      = './assets/foto_konsumen/';
+				$config['allowed_types']    = 'jpg|jpeg|png';
+
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+
+				if ($this->upload->do_upload('foto_konsumen')) {
+					$uploadData = $this->upload->data();
+					$data = array(
+						'foto_konsumen' => $uploadData['file_name'],
+						'nama_konsumen' => $this->input->post('nama_konsumen'),
+						'username_konsumen' => $this->input->post('username_konsumen'),
+						'email_konsumen' => $this->input->post('email_konsumen'),
+						'nomor_telp_konsumen' => $this->input->post('nomor_telp_konsumen'),
+						'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+						'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+					);
+					$this->M_konsumen->updateProfil($data,$this->session->userdata('id_konsumen'));	// update data 
+					$this->session->set_flashdata('success', 'Profil berhasil diupdate!');
+					redirect('Konsumen/Home');
+				}else{
+					$this->session->set_flashdata('warning', 'fotmat foto profile tidak sesuai!');
+					redirect('Konsumen/Profil');
+				}
+			}else{
+				$this->session->set_flashdata('warning', 'Foto profil wajib diupload!');
+				redirect('Konsumen/Profil');
+			}
+		}else{
+			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			redirect('Konsumen/index');
+		}
+	}
+
 }
 
 ?>
