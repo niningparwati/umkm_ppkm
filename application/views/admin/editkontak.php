@@ -33,6 +33,35 @@
             <form role="form" action="<?=base_url()?>Admin/updateKontak" method="POST">
               <div class="box-body">
                 <div class="form-group">
+                  <label for="exampleInputEmail1"><i class="fa fa-bank"></i> Nama Bank</label>
+                  <select class="form-control" name="namabank">
+                    <option value="<?php echo $kontak->nama_bank ?>"><?php echo $kontak->nama_bank ?></option>
+                    <option value="Mandiri">Mandiri</option>
+                    <option value="BCA">BCA</option>
+                    <option value="BJB">BJB</option>
+                    <option value="BNI">BNI</option>
+                    <option value="BRI">BRI</option>
+                    <option value="Bukopin">Bukopin</option>
+                    <option value="CIMB Niaga">CIMB Niaga</option>
+                    <option value="Citibank">Citibank</option>
+                    <option value="Danamon">Danamon</option>
+                    <option value="HSBC">HSBC</option>
+                    <option value="Mega">Mega</option>
+                    <option value="Muamalat Indonesia">Muamalat Indonesia</option>
+                    <option value="OCBS NISP">OCBS NISP</option>
+                    <option value="Permata">Permata</option>
+                    <option value="Sinarmas">Sinarmas</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1"><i class="fa fa-credit-card"></i> Nomor Rekening</label>
+                  <input type="text" class="form-control" name="norek" value="<?php echo $kontak->nomor_rekening ?>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1"><i class="fa fa-user"></i> Pemilik Rekening</label>
+                  <input type="text" class="form-control" name="pemilik" value="<?php echo $kontak->pemilik_rekening ?>">
+                </div>
+                <div class="form-group">
                   <input type="hidden" name="idkontak" value="<?php echo $kontak->id_kontak ?>">
                   <label for="exampleInputEmail1"><i class="fa fa-map-pin"></i> Alamat</label>
                   <textarea name="alamat" rows="8" cols="80" class="form-control"><?php echo $kontak->alamat ?></textarea>
