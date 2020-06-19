@@ -71,9 +71,9 @@
 									<li class="">
 										<div class="grid_3 product">
 											<div class="prev">
-												<a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>"><img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" alt="" title="" style="width: 100%; height: 100%" /><br><br><span style="font-size: 20px;"><?=$key->nama_produk?></span></a>
+												<a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>"><img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" alt="" title="" style="width: 100%; height: 100%" /></a>
 											</div><!-- .prev -->
-											<h3 class="title"></h3>
+											<h3 class="title"><?=$key->nama_produk?></h3>
 											<div class="cart">
 												<div class="price" style="width: 73%">
 													<div class="vert">

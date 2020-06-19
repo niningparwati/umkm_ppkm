@@ -43,52 +43,52 @@ class M_konsumen extends CI_Model {
 
 	function getAllProduk()	// belum dipakai
 	{
-		return $this->db->query("SELECT tb_produk.* FROM tb_produk JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm JOIN tb_user ON tb_umkm.id_user=tb_user.id_user WHERE tb_user.status='aktif'")->result();
+		return $this->db->query("SELECT tb_produk.* FROM tb_produk JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm JOIN tb_user ON tb_umkm.id_user=tb_user.id_user WHERE tb_user.status='aktif' AND tb_produk.status_produk=1 ")->result();
 	}
 
 	function jumlahProduk()
 	{
-		return $this->db->query("SELECT COUNT(tb_produk.id_produk) as jumlah FROM tb_produk JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm JOIN tb_user ON tb_umkm.id_user=tb_user.id_user WHERE tb_user.status='aktif'")->row();
+		return $this->db->query("SELECT COUNT(tb_produk.id_produk) as jumlah FROM tb_produk JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm JOIN tb_user ON tb_umkm.id_user=tb_user.id_user WHERE tb_user.status='aktif' AND tb_produk.status_produk=1 ")->row();
 	}
 
 	function produkByKategori($idK)	// jumlah produk per kategori
 	{
-		return $this->db->query("SELECT COUNT(tb_produk.id_produk) as jumlah FROM tb_produk JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm JOIN tb_user ON tb_umkm.id_user=tb_user.id_user WHERE tb_produk.id_kategori_produk='$idK' AND tb_user.status='aktif' ")->row();
+		return $this->db->query("SELECT COUNT(tb_produk.id_produk) as jumlah FROM tb_produk JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm JOIN tb_user ON tb_umkm.id_user=tb_user.id_user WHERE tb_produk.id_kategori_produk='$idK' AND tb_user.status='aktif' AND tb_produk.status_produk=1 ")->row();
 	}
 
 	function produkById($id)	// detail produk
 	{
-		return $this->db->query("SELECT tb_produk.*, tb_umkm.* FROM tb_produk JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm JOIN tb_user ON tb_umkm.id_user=tb_user.id_user WHERE tb_produk.id_produk='$id' AND tb_user.status='aktif'")->row();
+		return $this->db->query("SELECT tb_produk.*, tb_umkm.* FROM tb_produk JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm JOIN tb_user ON tb_umkm.id_user=tb_user.id_user WHERE tb_produk.id_produk='$id' AND tb_user.status='aktif' AND tb_produk.status_produk=1 ")->row();
 	}
 
 	function produkSerupa($key, $nama)	// produk yang sama
 	{
-		return $this->db->query("SELECT tb_produk.* FROM tb_produk JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm JOIN tb_user ON tb_umkm.id_user=tb_user.id_user WHERE nama_produk LIKE '%$key%' AND nama_produk != '$nama' AND tb_user.status='aktif'")->result();
+		return $this->db->query("SELECT tb_produk.* FROM tb_produk JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm JOIN tb_user ON tb_umkm.id_user=tb_user.id_user WHERE nama_produk LIKE '%$key%' AND nama_produk != '$nama' AND tb_user.status='aktif' AND tb_produk.status_produk=1 ")->result();
 	}
 
 	function jmlProdukByUmkm($id)	// jumlah produk setiap umkm
 	{
-		return $this->db->query("SELECT COUNT(id_umkm) as jumlah FROM tb_produk WHERE id_umkm='$id'")->row();
+		return $this->db->query("SELECT COUNT(id_umkm) as jumlah FROM tb_produk WHERE id_umkm='$id' AND status_produk=1 ")->row();
 	}
 
 	function getProdukUmkm($id)
 	{
-		return $this->db->query("SELECT * FROM tb_produk WHERE id_umkm='$id'")->result();
+		return $this->db->query("SELECT * FROM tb_produk WHERE id_umkm='$id' AND status_produk=1 ")->result();
 	}
 
 	function produkUmkmByKategori($id, $idK)
 	{
-		return $this->db->query("SELECT * FROM tb_produk WHERE id_umkm='$id' AND id_kategori_produk='$idK'")->result();
+		return $this->db->query("SELECT * FROM tb_produk WHERE id_umkm='$id' AND id_kategori_produk='$idK' AND status_produk=1 ")->result();
 	}
 
 	function jmlhProduk()
 	{
-		return $this->db->query("SELECT COUNT(id_produk) as jumlah FROM tb_produk")->row();
+		return $this->db->query("SELECT COUNT(id_produk) as jumlah FROM tb_produk WHERE status_produk=1")->row();
 	}
 
 	function getProdukHome()
 	{
-		return $this->db->query("SELECT * FROM tb_produk LIMIT 4")->result();
+		return $this->db->query("SELECT * FROM tb_produk WHERE status_produk=1 LIMIT 4")->result();
 	}
 
 
@@ -106,7 +106,7 @@ class M_konsumen extends CI_Model {
 
 	function kategoriProdukById($id)
 	{
-		return $this->db->query("SELECT tb_produk.*, tb_kategori_produk.* FROM tb_produk JOIN tb_kategori_produk ON tb_produk.id_kategori_produk=tb_kategori_produk.id_kategori_produk WHERE tb_produk.id_umkm='$id' GROUP BY tb_produk.id_kategori_produk ORDER BY tb_produk.id_kategori_produk ASC")->result();
+		return $this->db->query("SELECT tb_produk.*, tb_kategori_produk.* FROM tb_produk JOIN tb_kategori_produk ON tb_produk.id_kategori_produk=tb_kategori_produk.id_kategori_produk WHERE tb_produk.id_umkm='$id' AND tb_produk.status_produk=1 GROUP BY tb_produk.id_kategori_produk ORDER BY tb_produk.id_kategori_produk ASC")->result();
 	}
 
 	// KATEGORI UMKM
@@ -131,6 +131,7 @@ class M_konsumen extends CI_Model {
 		$this->db->join('tb_umkm b', 'a.id_umkm=b.id_umkm');
 		$this->db->join('tb_user c', 'b.id_user=c.id_user');
 		$this->db->where('c.status', 'aktif');
+		$this->db->where('a.status_produk', 1);
 		return $this->db->count_all_results();
 	}
 
@@ -142,6 +143,7 @@ class M_konsumen extends CI_Model {
 		$this->db->limit($limit, $start);
 		$this->db->group_by('tb_produk.id_produk');
 		$this->db->where('tb_user.status', 'aktif');
+		$this->db->where('tb_produk.status_produk', 1);
 		return $this->db->get('tb_produk')->result();
 	}
 
@@ -153,6 +155,7 @@ class M_konsumen extends CI_Model {
 		$this->db->from('tb_produk a');
 		$this->db->join('tb_umkm b', 'a.id_umkm=b.id_umkm');
 		$this->db->join('tb_user c', 'b.id_user=c.id_user');
+		$this->db->where('a.status_produk', 1);
 		return $this->db->count_all_results();
 	}
 
@@ -165,6 +168,7 @@ class M_konsumen extends CI_Model {
 		$this->db->group_by('tb_produk.id_produk');
 		$this->db->where('tb_user.status', 'aktif');
 		$this->db->where('tb_produk.id_kategori_produk', $x);
+		$this->db->where('tb_produk.status_produk', 1);
 		return $this->db->get('tb_produk')->result();
 	}
 
@@ -253,12 +257,12 @@ class M_konsumen extends CI_Model {
 
 	function jmlProdukUmkm($id)	// jumlah produk setiap umkm
 	{
-		return $this->db->query("SELECT COUNT(id_umkm) as jumlah FROM tb_produk WHERE id_umkm='$id'")->row();
+		return $this->db->query("SELECT COUNT(id_umkm) as jumlah FROM tb_produk WHERE id_umkm='$id' AND status_produk=1 ")->row();
 	}
 
 	function produkLain($idumkm, $idProduk)
 	{
-		return $this->db->query("SELECT * FROM tb_produk WHERE id_umkm='$idumkm' AND id_produk!='$idProduk'")->result();
+		return $this->db->query("SELECT * FROM tb_produk WHERE id_umkm='$idumkm' AND id_produk!='$idProduk' AND status_produk=1 ")->result();
 	}
 
 	function jmlUMKM()
@@ -327,7 +331,7 @@ class M_konsumen extends CI_Model {
 
 	function keranjangByKonsumen($id)	// mengambil data produk di tabel keranjang berdasarkan id konsumen
 	{
-		return $this->db->query("SELECT tb_keranjang.*, tb_produk.*, tb_umkm.* FROM tb_keranjang JOIN tb_produk ON tb_keranjang.id_produk=tb_produk.id_produk JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm WHERE tb_keranjang.id_konsumen='$id'")->result();
+		return $this->db->query("SELECT tb_keranjang.*, tb_produk.*, tb_umkm.* FROM tb_keranjang JOIN tb_produk ON tb_keranjang.id_produk=tb_produk.id_produk JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm WHERE tb_keranjang.id_konsumen='$id' AND tb_produk.status_produk=1 ")->result();
 	}
 
 	function getKeranjang($id)

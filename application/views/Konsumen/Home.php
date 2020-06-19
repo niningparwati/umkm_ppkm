@@ -78,7 +78,7 @@
 
                   <div class="prev" style="padding-bottom: 0px">
                     <a href="<?=base_url()?>Konsumen/detailUmkm/<?=$key->id_umkm?>/semua">
-                      <?php if (!is_null($key->foto_user)) {?>
+                      <?php if (!empty($key->foto_user)) {?>
                         <img src="<?=base_url()?>assets/foto_user/<?=$key->foto_user?>" style="width: 250px; height: 250px" />
                       <?php }else{ ?>
                         <img src="<?=base_url()?>assets/foto_umkm/store.png?>" style="width: 250px; height: 250px" />
