@@ -46,7 +46,11 @@
                             <img src="<?= base_url()?>assets/foto_portofolio/portofolio.png" style="width: 100px">
                           <?php } ?>
                         </td>
-                        <td><?= $value->keterangan ?></td>
+                        <td>
+                           <a class="btn btn-success" data-toggle="modal" href="#" data-target="#konten<?=$value->id_portofolio?>">
+                            <i class="fa fa-fw fa-eye"></i> Lihat Konten
+                           </a>  
+                        </td>
                         <td><?= $value->alamat ?></td>
                         <td><?= $value->tanggal ?></td>
                  <!--        <td style="text-align: center">
@@ -106,6 +110,30 @@
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
           <a href="<?= site_url()?>UMKM/HapusPortofolio/<?= $key->id_portofolio ?>" class="btn btn-danger">Iya</a>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+<?php } ?>
+
+<?php foreach ($tampil as $key) { ?>
+  <div class="modal fade" id="konten<?=$key->id_portofolio?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="ExampleModalLabel">Konten Keterangan</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><?= $key->keterangan ?></p>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tutup</button>
         </div>
       </div>
       <!-- /.modal-content -->

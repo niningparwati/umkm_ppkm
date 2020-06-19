@@ -445,6 +445,32 @@ class UMKM extends CI_Controller {
 		redirect('UMKM/Produk','refresh');
 	}
 
+	public function HideProduk($id)
+	{
+		$this->UMKM_Model->hideProduk($id);
+		$this->session->set_flashdata(
+			'notif',
+			'<div class="alert alert-success text-center"style="width: 100%">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			Berhasil menyembunyikan produk
+			</div>'
+		); 
+		redirect('UMKM/Produk','refresh');
+	}
+
+	public function ShowProduk($id)
+	{
+		$this->UMKM_Model->showProduk($id);
+		$this->session->set_flashdata(
+			'notif',
+			'<div class="alert alert-success text-center"style="width: 100%">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			Berhasil menampilkan produk
+			</div>'
+		); 
+		redirect('UMKM/Produk','refresh');
+	}
+
 	////////////TRANSAKSI////////////
 
 	public function Transaksi($id_umkm)
@@ -480,11 +506,27 @@ class UMKM extends CI_Controller {
 	public function set_dikirim($id_transaksi)
 	{
 		$user = $this->user_umkm();
-		$no_resi = $this->input->post('resi');
+		$no_resi = $_GET['resi'];
 
-		$this->db->query("UPDATE tb_transaksi SET resi = '$no_resi' , status = 'dikirim' WHERE id_transaksi = '$id_transaksi'");
+		if($no_resi!=null){
+			$this->db->query("UPDATE tb_transaksi SET resi = '$no_resi' , status = 'dikirim' WHERE id_transaksi = '$id_transaksi'");
 
-		redirect('UMKM/Transaksi/'.$user['id_umkm'],'refresh');
+			redirect('UMKM/Transaksi/'.$user['id_umkm'],'refresh');
+			// echo "$no_resi";
+			
+		}else{
+			$this->session->set_flashdata(
+					'notif',
+					'<div class="alert alert-danger text-center"style="width: 100%">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					Anda Harus Input Resi!
+					</div>'
+				); 
+			redirect('UMKM/Transaksi/'.$user['id_umkm'],'refresh');
+			
+		}
+
+		
 	}
 
 	public function set_selesai($id_transaksi)
@@ -1052,6 +1094,7 @@ class UMKM extends CI_Controller {
 				$data = array(
 					'id_umkm' => $id_umkm,
 					'foto' => $uploadData['file_name'],
+					'keterangan_foto' => $this->input->post('keterangan_foto'),
 				);
 
 				$this->UMKM_Model->insertFoto($data);

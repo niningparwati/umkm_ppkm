@@ -30,9 +30,9 @@
                       <div class="form-group">
                         <label for="Gambar">Foto User</label> <br>
                         <?php if ($foto) { ?>
-                          <img src="<?= base_url()?>assets/foto_user/<?= $foto ?>" style="width: 300px; height: 300px"><br><br>
+                          <img src="<?= base_url()?>assets/foto_user/<?= $foto ?>" style="width: 150px; height: 150px"><br><br>
                         <?php }else{ ?>
-                          <img src="<?= base_url()?>assets/foto_user/user.png ?>" style="width: 300px; height: 300px"><br><br>
+                          <img src="<?= base_url()?>assets/foto_user/user.png ?>" style="width: 150px; height: 150px"><br><br>
                         <?php } ?>
                         <input type="file" name="foto_user" class="form-control">
                         <input type="hidden" name="foto_user" class="form-control" value="<?= $profil->foto_user ?>">

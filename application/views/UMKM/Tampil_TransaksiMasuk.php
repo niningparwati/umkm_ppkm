@@ -65,21 +65,38 @@
                                     Konfirmasi Pengiriman
                                  </div>
                                  <div class="modal-body">
-                                  <form>
+                                  <form action="<?php echo base_url(); ?>UMKM/set_dikirim/<?php echo $value->id_transaksi ?>">
                                     <div class="form-group">
                                       <label>Masukkan Nomor Resi</label>&nbsp<textarea style="font-size: 40px" class="form-control" name="resi"></textarea>
                                     </div>
-                                  </form>
+                                  
                                   <b>*Pastikan Nomor Resi Sudah Benar Sebelum Mengkonfirmasi</b><br>
                                     Apakah yakin mengirim pesanan ini sekarang?
                                  </div>
                                  <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                      <a href="<?php echo base_url(); ?>UMKM/set_dikirim/<?php echo $value->id_transaksi ?>" class="btn btn-sm btn-danger">Kirim Sekarang</a>
-                                    </div>
+                                    <a href="#" data-toggle="modal" data-target="#kirim<?php echo $value->id_transaksi ?>" class="btn btn-sm btn-success"> <i class="fa fa-chek"></i>Konfirmasi</a>
+                                </div>
                               </div>
                            </div>
                         </div>
+                         <div class="modal in" id="kirim<?php echo $value->id_transaksi ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                     <div class="modal-dialog">
+                                        <div class="modal-content">
+                                           <div class="modal-header">
+                                              Konfirmasi Pengiriman Pesanan
+                                           </div>
+                                           <div class="modal-body">
+                                              Apakah yakin mengkonfirmasi Pengiriman Pesanan Ini?
+                                           </div>
+                                           <div class="modal-footer">
+                                              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                              <button type="submit" class="btn btn-success">KONFIRMASI</button>
+                                              </div>
+                                        </div>
+                                     </div>
+                          </div>
+                          </form>
                         <?php
                       }elseif($value->status=="dana dikirim"){
                         ?>

@@ -53,11 +53,33 @@
                     									<td colspan="4"><b>Total Harga : </b>Rp<?= number_format($detail_transaksi[0]->total_harga,2) ?></td>
                     								</tr>
                     								<tr>
-                    									<td colspan="4"><b>Catatan Konsumen : </b><?= $detail_transaksi[0]->catatan_konsumen ?></td>
+                    									<td colspan="4"><b>Alamat Pengiriman : </b> <?= $detail_transaksi[0]->detail_alamat ?></td>
                     								</tr>
-                    								<tr>
-                    									<td colspan="4"><b>Alamat Pengiriman : </b> </td>
-                    								</tr>
+                                     <tr>
+                                      <td colspan="4"><b>Tanggal Transaksi : </b> 
+                                        <?php 
+                                        $date = strtotime($detail_transaksi[0]->tanggal_transaksi);
+                                        echo date('d F Y', $date); 
+                                        ?>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td colspan="4"><b>Ekspedisi Pengiriman : </b> <?= $detail_transaksi[0]->ekspedisi_pengiriman ?></td>
+                                    </tr>
+                                    <tr>
+                                      <td colspan="4"><b>Resi : </b> 
+                                        <?php 
+                                          if($detail_transaksi[0]->resi==""){
+                                            echo "resi belum diinputkan";
+                                          }else{
+                                            echo $detail_transaksi[0]->resi;
+                                          }
+                                        ?>
+                                    </td>
+                                    <tr>
+                                      <td colspan="4"><b>Status Transaksi : </b> <?= $detail_transaksi[0]->status ?></td>
+                                    </tr>
+                                    </tr>
 												</tbody>
 											</table>
 										</div>
