@@ -86,6 +86,54 @@
                          
                       </td>
                       </tr>
+
+
+                       <div class="modal fade" id="sembunyikan<?=$value->id_produk?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h4 class="modal-title" id="ExampleModalLabel">Konfirmasi</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <p>Anda Yakin Ingin Menyembunyikan Produk UMKM <b><?= $value->nama_produk ?></b> ini ?</p>
+                              </div>
+                              <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
+                                <a href="<?= site_url()?>UMKM/HideProduk/<?= $value->id_produk ?>" class="btn btn-danger">Iya</a>
+                              </div>
+                            </div>
+                            <!-- /.modal-content -->
+                          </div>
+                          <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+
+
+                          <div class="modal fade" id="tampilkan<?=$value->id_produk?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h4 class="modal-title" id="ExampleModalLabel">Konfirmasi</h4>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <p>Anda Yakin Ingin Menampilkan Kembali Produk UMKM <b><?= $value->nama_produk ?></b> ini ?</p>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                  <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
+                                  <a href="<?= site_url()?>UMKM/ShowProduk/<?= $value->id_produk ?>" class="btn btn-danger">Iya</a>
+                                </div>
+                              </div>
+                              <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                          </div>
+                          <!-- /.modal -->
                     <?php }?>
                   </tbody>
                 </table>
@@ -111,53 +159,7 @@
  </div>
  <!-- ./wrapper -->
 
- <?php foreach ($tampil as $key) { ?>
-  <div class="modal fade" id="sembunyikan<?=$key->id_produk?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="ExampleModalLabel">Konfirmasi</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Anda Yakin Ingin Menyembunyikan Produk UMKM <b><?= $key->nama_produk ?></b> ini ?</p>
-        </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
-          <a href="<?= site_url()?>UMKM/HideProduk/<?= $value->id_produk ?>" class="btn btn-danger">Iya</a>
-        </div>
-      </div>
-      <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-  </div>
-  <!-- /.modal -->
 
-   <div class="modal fade" id="tampilkan<?=$key->id_produk?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="ExampleModalLabel">Konfirmasi</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Anda Yakin Ingin Menampilkan Kembali Produk UMKM <b><?= $key->nama_produk ?></b> ini ?</p>
-        </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
-          <a href="<?= site_url()?>UMKM/ShowProduk/<?= $value->id_produk ?>" class="btn btn-danger">Iya</a>
-        </div>
-      </div>
-      <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-  </div>
-  <!-- /.modal -->
-<?php } ?>
 
 </body>
 </html>
