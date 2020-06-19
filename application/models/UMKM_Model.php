@@ -202,6 +202,16 @@ class UMKM_Model extends CI_Model {
         $this->db->delete('tb_produk');
     }
 
+    public function hideProduk($id)
+    {
+        $this->db->query("UPDATE tb_produk SET status_produk = '0' WHERE id_produk = '$id'");
+    }
+
+     public function showProduk($id)
+    {
+        $this->db->query("UPDATE tb_produk SET status_produk = '1' WHERE id_produk = '$id'");
+    }
+
     public function jumlahProduk($id_paguyuban)
 	{
 		return $this->db->query("SELECT COUNT(id_produk) FROM `tb_produk` JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm JOIN tb_paguyuban ON tb_umkm.id_paguyuban=tb_paguyuban.id_paguyuban WHERE tb_umkm.id_paguyuban='$id_paguyuban' GROUP BY tb_umkm.id_paguyuban")->row();

@@ -445,6 +445,32 @@ class UMKM extends CI_Controller {
 		redirect('UMKM/Produk','refresh');
 	}
 
+	public function HideProduk($id)
+	{
+		$this->UMKM_Model->hideProduk($id);
+		$this->session->set_flashdata(
+			'notif',
+			'<div class="alert alert-success text-center"style="width: 100%">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			Berhasil menyembunyikan produk
+			</div>'
+		); 
+		redirect('UMKM/Produk','refresh');
+	}
+
+	public function ShowProduk($id)
+	{
+		$this->UMKM_Model->showProduk($id);
+		$this->session->set_flashdata(
+			'notif',
+			'<div class="alert alert-success text-center"style="width: 100%">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			Berhasil menampilkan produk
+			</div>'
+		); 
+		redirect('UMKM/Produk','refresh');
+	}
+
 	////////////TRANSAKSI////////////
 
 	public function Transaksi($id_umkm)
