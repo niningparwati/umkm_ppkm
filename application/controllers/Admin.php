@@ -7,6 +7,7 @@ class Admin extends CI_Controller {
 		parent::__construct();
 		$this->load->model('M_admin');
 		$this->load->model('ModelRegister');
+		$this->load->library('form_validation');
 	}
 
 	public function index()
@@ -55,6 +56,49 @@ class Admin extends CI_Controller {
 			$config['max_size'] = 2000;
 			$config['encrypt_name'] = TRUE;
 
+			$this->form_validation->set_rules('username','Username','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			 $this->form_validation->set_rules('password','Password','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			 $this->form_validation->set_rules('email','Email','required',
+ 			 array(
+ 				 'required'  => '%s tidak boleh kosong'
+ 			 ));
+ 			 $this->form_validation->set_rules('namalengkap','Nama Lengkap','required',
+ 			 array(
+ 				 'required'  => '%s tidak boleh kosong'
+ 			 ));
+			 $this->form_validation->set_rules('namaumkm','Nama UMKM','required',
+ 			 array(
+ 				 'required'  => '%s tidak boleh kosong'
+ 			 ));
+			 $this->form_validation->set_rules('alamat','Alamat','required',
+ 			 array(
+ 				 'required'  => '%s tidak boleh kosong'
+ 			 ));
+			 $this->form_validation->set_rules('deskripsi','Deskripsi','required',
+ 			 array(
+ 				 'required'  => '%s tidak boleh kosong'
+ 			 ));
+			 $this->form_validation->set_rules('idkategori','Nama kategori','required',
+ 			 array(
+ 				 'required'  => '%s tidak boleh kosong'
+ 			 ));
+			 $this->form_validation->set_rules('status','Status','required',
+ 			 array(
+ 				 'required'  => '%s tidak boleh kosong'
+ 			 ));
+			 $this->form_validation->set_rules('nohp','NO.HP','required',
+ 			 array(
+ 				 'required'  => '%s tidak boleh kosong'
+ 			 ));
+			 if($this->form_validation->run() == FALSE){
+				 $this->tambahUMKM();
+			 }else{
 			$this->load->library('upload',$config);
 			if ($this->upload->do_upload('foto')) {
 				$gambar = $this->upload->data();
@@ -106,6 +150,7 @@ class Admin extends CI_Controller {
 			$cek = $this->M_admin->create_user($data);
 			$cek = $this->M_admin->create_umkm($dataq);
 			redirect('Admin/kelolaUMKM');
+		}
 		}
 
 		public function pilihUMKM($id)
@@ -174,7 +219,9 @@ class Admin extends CI_Controller {
 					'id_kategori_umkm' => $this->input->post('idkategori'),
 				);
 			}
-			$cek = $this->M_admin->update_umkm($data,$id);
+			$idd = $this->input->post('idumkm');
+			$ceka = $this->M_admin->update_user($data,$id);
+			$cek = $this->M_admin->update_umkm($dataq,$idd);
 			redirect('Admin/kelolaUMKM');
 		}
 
@@ -231,6 +278,37 @@ class Admin extends CI_Controller {
 			$config['max_size'] = 2000;
 			$config['encrypt_name'] = TRUE;
 
+			$this->form_validation->set_rules('username','Username','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			 $this->form_validation->set_rules('password','Password','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			 $this->form_validation->set_rules('email','Email','required',
+				array(
+					'required'  => '%s tidak boleh kosong'
+				));
+				$this->form_validation->set_rules('nohp','Nomor HP','required',
+				array(
+					'required'  => '%s tidak boleh kosong'
+				));
+				$this->form_validation->set_rules('tgll','Tgl Lahir','required',
+				array(
+					'required'  => '%s tidak boleh kosong'
+				));
+				$this->form_validation->set_rules('jk','Jenis Kelamin','required',
+				array(
+					'required'  => '%s tidak boleh kosong'
+				));
+				$this->form_validation->set_rules('status','Status','required',
+				array(
+					'required'  => '%s tidak boleh kosong'
+				));
+			 if($this->form_validation->run() == FALSE){
+				 $this->tambahKonsumen();
+			 }else{
 			$this->load->library('upload',$config);
 			if ($this->upload->do_upload('foto')) {
 				$gambar = $this->upload->data();
@@ -259,7 +337,7 @@ class Admin extends CI_Controller {
 			}
 			$cek = $this->M_admin->create_konsumen($data);
 			redirect('Admin/kelolaKonsumen');
-		}
+		}}
 
 		public function pilihKonsumen($id)
 		{
@@ -334,6 +412,17 @@ class Admin extends CI_Controller {
 
 		public function createKategoriUMKM()
 		{
+			$this->form_validation->set_rules('nama','Kategori UMKM','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			 $this->form_validation->set_rules('keterangan','Keterangan','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			 if($this->form_validation->run() == FALSE){
+				 $this->kategoriUMKM();
+			 }else{
 			$user = $this->session->username;
 			$data = array(
 				'nama_kategori_umkm' => $this->input->post('nama'),
@@ -341,6 +430,7 @@ class Admin extends CI_Controller {
 			);
 			$cek = $this->M_admin->create_kategori_umkm($data);
 			redirect('Admin/kategoriUMKM');
+			}
 		}
 
 		public function hapusKategoriUMKM($id)
@@ -384,6 +474,17 @@ class Admin extends CI_Controller {
 
 		public function createKategoriProduk()
 		{
+			$this->form_validation->set_rules('nama','Kategori Produk','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			 $this->form_validation->set_rules('keterangan','Keterangan','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			 if($this->form_validation->run() == FALSE){
+				 $this->kategoriProduk();
+			 }else{
 			$user = $this->session->username;
 			$data = array(
 				'nama_kategori_produk' => $this->input->post('nama'),
@@ -391,6 +492,7 @@ class Admin extends CI_Controller {
 			);
 			$cek = $this->M_admin->create_kategori_produk($data);
 			redirect('Admin/kategoriProduk');
+		}
 		}
 
 		public function hapusKategoriProduk($id)
@@ -551,6 +653,25 @@ class Admin extends CI_Controller {
 					$config['max_size'] = 2000;
 					$config['encrypt_name'] = TRUE;
 
+					$this->form_validation->set_rules('judul','Judul Slide','required',
+					 array(
+						 'required'  => '%s tidak boleh kosong'
+					 ));
+					 $this->form_validation->set_rules('deskripsi','Deskripsi','required',
+					 array(
+						 'required'  => '%s tidak boleh kosong'
+					 ));
+					 $this->form_validation->set_rules('url','URL','required',
+						array(
+							'required'  => '%s tidak boleh kosong'
+						));
+						$this->form_validation->set_rules('status','Status','required',
+						array(
+							'required'  => '%s tidak boleh kosong'
+						));
+					 if($this->form_validation->run() == FALSE){
+						 $this->tambahSlide();
+					 }else{
 	        $this->load->library('upload',$config);
 					if ($this->upload->do_upload('gambar')) {
 						$gambarslide = $this->upload->data();
@@ -571,6 +692,7 @@ class Admin extends CI_Controller {
 					}
 				$cek = $this->M_admin->create_slide($data);
 				redirect('Admin/kelolaSlide');
+			}
 			}
 
 			public function hapusSlide($id)

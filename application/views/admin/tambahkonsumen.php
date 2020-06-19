@@ -34,14 +34,17 @@
             <form role="form" action="<?=base_url()?>Admin/createKonsumen" method="post" enctype="multipart/form-data">
               <div class="box-body">
                 <div class="form-group">
+                  <?php echo form_error('username'); ?>
                   <label for="exampleInputEmail1">Username</label>
                   <input type="text" name="username" class="form-control" placeholder="Masukan Username">
                 </div>
                 <div class="form-group">
+                    <?php echo form_error('password'); ?>
                   <label for="exampleInputEmail1">Password</label>
                   <input type="password" name="password" class="form-control" placeholder="Masukan Password">
                 </div>
                 <div class="form-group">
+                    <?php echo form_error('email'); ?>
                   <label for="exampleInputEmail1">Email</label>
                   <input type="email" name="email" class="form-control" placeholder="Masukan Email">
                 </div>
@@ -50,19 +53,23 @@
                 <input type="file" name="foto" class="form-control" value="">
                 </div>
                 <div class="form-group">
+                    <?php echo form_error('nohp'); ?>
                   <label for="exampleInputEmail1">Nomor Telepon</label>
                   <input type="text" name="nohp" class="form-control" placeholder="Masukan Nomor Telepon">
                 </div>
                 <div class="form-group">
+                    <?php echo form_error('jk'); ?>
                   <label for="exampleInputEmail1">Jenis Kelamin</label><br>
                   <input type="radio" name="jk" value="perempuan"> Perempuan <p>    </p>
                   <input type="radio" name="jk" value="laki-laki"> Laki-laki
                 </div>
                 <div class="form-group">
+                    <?php echo form_error('tgll'); ?>
                   <label for="exampleInputEmail1">Tanggal Lahir</label>
                   <input type="date" name="tgll" class="form-control">
                 </div>
                 <div class="form-group">
+                    <?php echo form_error('status'); ?>
                   <label for="exampleInputEmail1">Status Konsumen</label><br>
                   <input type="radio" name="status" value="aktif"> aktif <p>    </p>
                   <input type="radio" name="status" value="tidak aktif"> tidak aktif

@@ -36,18 +36,19 @@
                 <div class="form-group">
                   <input type="hidden" name="iduser" value="<?php echo $umkm->id_user ?>">
                   <label for="exampleInputEmail1">Username</label>
-                  <input type="text" name="username" class="form-control" placeholder="Masukan Username" value="<?php echo $umkm->username_umkm ?>">
+                  <input type="text" name="username" class="form-control" placeholder="Masukan Username" value="<?php echo $umkm->username ?>">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Password</label>
-                  <input type="password" name="password" class="form-control" placeholder="Masukan Password" value="<?php echo $umkm->password_umkm ?>" disabled>
+                  <input type="password" name="password" class="form-control" placeholder="Masukan Password" value="<?php echo $umkm->password ?>" disabled>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Email</label>
-                  <input type="email" name="email" class="form-control" placeholder="Masukan Email" value="<?php echo $umkm->email_umkm ?>">
+                  <input type="email" name="email" class="form-control" placeholder="Masukan Email" value="<?php echo $umkm->email ?>">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Nama UMKM</label>
+                  <input type="hidden" name="idumkm" value="<?php echo $umkm->id_umkm ?>">
                   <input type="text" name="namaumkm" class="form-control" placeholder="Masukan Nama UMKM" value="<?php echo $umkm->nama_umkm ?>">
                 </div>
                 <div class="form-group">
@@ -74,16 +75,6 @@
                     <option value="<?php echo $k->id_kategori_umkm ?>"><?php echo $k->nama_kategori_umkm ?></option>
                     <?php endforeach; ?>
                   </select>
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Status UMKM</label><br>
-                  <?php if($umkm->status_umkm == 'aktif'){ ?>
-                  <input type="radio" name="status" value="aktif" checked> aktif <p>    </p>
-                  <input type="radio" name="status" value="tidak aktif"> tidak aktif
-                <?php }else{ ?>
-                  <input type="radio" name="status" value="aktif"> aktif <p>    </p>
-                  <input type="radio" name="status" value="tidak aktif" checked> tidak aktif
-                <?php } ?>
                 </div>
               </div>
               <!-- /.box-body -->

@@ -61,29 +61,3 @@
   <?php $this->load->view('admin/footer') ?>
 </div>
 <!-- ./wrapper -->
-
-<!-- ini bagian buka hapus -->
-<?php foreach ($kategori as $s) { ?>
-<div class="modal fade" id="hapus<?=$s->id_kategori_umkm?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
-<div class="modal-dialog" role="document">
- <div class="modal-content">
-   <div class="modal-header">
-     <h4 class="modal-title" id="ExampleModalLabel">Konfirmasi Hapus</h4>
-     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-       <span aria-hidden="true">&times;</span>
-     </button>
-   </div>
-   <div class="modal-body">
-     <p>Anda Yakin Akan Menghapus <?= $s->nama_kategori_umkm ?>?</p>
-   </div>
-   <div class="modal-footer justify-content-between">
-     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
-     <a href="<?= site_url()?>Admin/hapusKategoriUMKM/<?= $s->id_kategori_umkm ?>" class="btn btn-danger">Iya</a>
-   </div>
- </div>
- <!-- /.modal-content -->
-</div>
-<!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-<?php } ?>

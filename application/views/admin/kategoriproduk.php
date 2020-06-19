@@ -32,10 +32,12 @@
             <!-- form start -->
             <form role="form" action="<?=base_url()?>Admin/createKategoriProduk" method="POST">
               <div class="box-body">
+                <?php echo form_error('nama'); ?>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Nama Kategori</label>
-                  <input type="text" name="nama" class="form-control" placeholder="Nama Kategori">
+                  <input type="text" class="form-control" name="nama" placeholder="Nama Kategori">
                 </div>
+                <?php echo form_error('keterangan'); ?>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Keterangan</label>
                   <textarea name="keterangan" rows="8" cols="80" class="form-control"></textarea>

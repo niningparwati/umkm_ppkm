@@ -34,38 +34,47 @@
             <form role="form" action="<?=base_url()?>Admin/createUMKM" method="post" enctype="multipart/form-data">
               <div class="box-body">
                 <div class="form-group">
+                    <?php echo form_error('username'); ?>
                   <label for="exampleInputEmail1">Username</label>
                   <input type="text" name="username" class="form-control" placeholder="Masukan Username">
                 </div>
                 <div class="form-group">
+                  <?php echo form_error('password'); ?>
                   <label for="exampleInputEmail1">Password</label>
                   <input type="password" name="password" class="form-control" placeholder="Masukan Password">
                 </div>
                 <div class="form-group">
+                  <?php echo form_error('email'); ?>
                   <label for="exampleInputEmail1">Email</label>
                   <input type="email" name="email" class="form-control" placeholder="Masukan Email">
                 </div>
                 <div class="form-group">
+                  <?php echo form_error('namalengkap'); ?>
                   <label for="exampleInputEmail1">Nama Lengkap</label>
                   <input type="text" name="namalengkap" class="form-control" placeholder="Masukan Nama Lengkap">
                 </div>
                 <div class="form-group">
+                  <?php echo form_error('namaumkm'); ?>
                   <label for="exampleInputEmail1">Nama UMKM</label>
                   <input type="text" name="namaumkm" class="form-control" placeholder="Masukan Nama UMKM">
                 </div>
                 <div class="form-group">
+                  <?php echo form_error('alamat'); ?>
                   <label for="exampleInputEmail1">Alamat UMKM</label>
                   <textarea name="alamat" rows="8" cols="80" class="form-control" placeholder="Masukan Alamat"></textarea>
                 </div>
                 <div class="form-group">
+                  <?php echo form_error('deskripsi'); ?>
                   <label for="exampleInputEmail1">Deskripsi UMKM</label><br>
                   <textarea class="form-control" name="deskripsi" rows="8" cols="80" placeholder="Masukan Deskripsi"></textarea>
                 </div>
                 <div class="form-group">
+                  <?php echo form_error('nohp'); ?>
                   <label for="exampleInputEmail1">Nomor Telepon</label>
                   <input type="text" name="nohp" class="form-control" placeholder="Masukan Nomor Telepon">
                 </div>
                 <div class="form-group">
+                  <?php echo form_error('idkategori'); ?>
                   <label for="exampleInputEmail1">Kategori UMKM</label>
                   <select class="form-control" name="idkategori">
                     <?php foreach ($kategori as $k): ?>
@@ -78,6 +87,7 @@
                   <input type="file" name="foto" class="form-control">
                 </div>
                 <div class="form-group">
+                  <?php echo form_error('status'); ?>
                   <label for="exampleInputEmail1">Status UMKM</label><br>
                   <input type="radio" name="status" value="aktif"> aktif <p>    </p>
                   <input type="radio" name="status" value="tidak aktif"> tidak aktif

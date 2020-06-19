@@ -34,10 +34,12 @@
             <form role="form" action="<?=base_url()?>Admin/createSlide" method="post" enctype="multipart/form-data">
               <div class="box-body">
                 <div class="form-group">
+                   <?php echo form_error('judul') ?>
                   <label for="exampleInputEmail1">Judul Slide</label>
                   <input type="text" name="judul" class="form-control" placeholder="Masukan Judul">
                 </div>
                 <div class="form-group">
+                  <?php echo form_error('deskripsi') ?>
                   <label for="exampleInputEmail1">Deskripsi Slide</label><br>
                   <textarea class="form-control" name="deskripsi" rows="8" cols="80" placeholder="Masukan Deskripsi"></textarea>
                 </div>
@@ -46,10 +48,12 @@
                   <input type="file" name="gambar" class="form-control">
                 </div>
                 <div class="form-group">
+                  <?php echo form_error('url') ?>
                   <label for="exampleInputEmail1">URL Slide</label>
                   <input type="text" name="url" class="form-control" placeholder="Masukan URL/Link">
                 </div>
                 <div class="form-group">
+                  <?php echo form_error('status') ?>
                   <label for="exampleInputEmail1">Status Slide</label><br>
                   <input type="radio" name="status" value="aktif"> aktif <p>    </p>
                   <input type="radio" name="status" value="tidak aktif"> tidak aktif
