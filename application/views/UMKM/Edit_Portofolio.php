@@ -31,7 +31,7 @@
                        <div class="form-group">
                           <label for="fotoProduk">Foto Portofolio</label><br>
                           <?php if ($tampil->foto_portofolio) { ?>
-                            <img src="<?= base_url()?>assets/foto_portofolio/<?=$tampil->foto_portofolio?>" width='300px'><br><br>
+                            <img src="<?= base_url()?>assets/foto_portofolio/<?=$tampil->foto_portofolio?>" width='200px'><br><br>
                             <input name="foto_old" type="hidden" value="<?=$tampil->foto_portofolio?>">
                             <input type="file" name="foto_portofolio" class="form-control">
                           <?php }else{?>

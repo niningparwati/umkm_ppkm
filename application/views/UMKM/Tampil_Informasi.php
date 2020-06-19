@@ -23,12 +23,12 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th style="text-align: center; width: 5%">No</th>
-                      <th style="text-align: center; width: 15%">Judul</th>
-                      <th style="text-align: center;">Konten</th>
-                      <th style="text-align: center; width: 15%">Gambar</th>
-                      <th style="text-align: center; width: 15%">Status</th>
-                      <th style="text-align: center">Aksi</th>
+                      <th style="text-align: center; width: 1%">No</th>
+                      <th style="text-align: center; width: 10%">Judul</th>
+                      <th style="text-align: center; width: 10%">Konten</th>
+                      <th style="text-align: center; width: 10%">Gambar</th>
+                      <th style="text-align: center; width: 1%">Status</th>
+                      <th style="text-align: center; width: 15%">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -38,13 +38,17 @@
                       <tr>
                         <td><?= $no++ ?></td>
                         <td><?= $value->judul_informasi ?></td>
-                        <td><?= $value->isi_informasi ?></td>
+                        <td>
+                           <a class="btn btn-success" data-toggle="modal" href="#" data-target="#konten<?=$value->id_informasi?>">
+                            <i class="fa fa-fw fa-eye"></i> Lihat Konten
+                           </a>  
+                        </td>
                         <td style="text-align: center">
                           <?php 
                           if (!$value->gambar) { ?>
-                           <img src="<?= base_url()?>assets/foto_informasi/informasi.png" width='100px'>
+                           <img src="<?= base_url()?>assets/foto_informasi/informasi.png" width='70px'>
                          <?php } else { ?>
-                          <img src="<?= base_url()?>assets/foto_informasi/<?=$value->gambar ?>"  width='100px'>
+                          <img src="<?= base_url()?>assets/foto_informasi/<?=$value->gambar ?>"  width='70px'>
                         <?php } ?>
                       </td>
                       <td style="text-align: center;">
@@ -55,6 +59,7 @@
                         <?php } ?>
                       </td>
                       <td style="text-align: center">
+
                         <?php if ($value->status_informasi == 'tidak aktif') {?>
                           <a class="btn btn-success" data-toggle="modal" href="#" data-target="#aktifkan<?=$value->id_informasi?>" style="width: 100px">
                             Aktifkan
@@ -96,6 +101,30 @@
    <div class="control-sidebar-bg"></div>
  </div>
  <!-- ./wrapper -->
+
+ <?php foreach ($informasi as $key) { ?>
+  <div class="modal fade" id="konten<?=$key->id_informasi?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="ExampleModalLabel">Konten Informasi</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><?= $key->isi_informasi ?></p>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tutup</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+<?php } ?>
 
  <?php foreach ($informasi as $key) { ?>
   <div class="modal fade" id="hapus<?=$key->id_informasi?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">

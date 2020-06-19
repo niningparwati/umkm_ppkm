@@ -280,9 +280,12 @@ class UMKM_Model extends CI_Model {
 
     ////////////PORTOFOLIO////////////
 
-    public function semuaPortofolio()
+    public function semuaPortofolio($id)
 	{
-		return $this->db->query("SELECT tb_portofolio.*, tb_umkm.* FROM tb_portofolio JOIN tb_umkm ON tb_portofolio.id_umkm=tb_umkm.id_umkm ORDER BY RAND()")->result();
+		return $this->db->query("SELECT tb_portofolio.*, tb_umkm.* FROM tb_portofolio 
+                                JOIN tb_umkm ON tb_portofolio.id_umkm=tb_umkm.id_umkm 
+                                WHERE tb_umkm.id_umkm = '$id'
+                                ORDER BY RAND()")->result();
 	}
 
 	public function cekPortofolio($id_umkm)

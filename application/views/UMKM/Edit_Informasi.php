@@ -6,7 +6,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Tambah Informasi
+        Edit Informasi
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -71,7 +71,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <p>Anda yakin ingin mengubah data portofolio?</p>
+          <p>Anda yakin ingin mengubah data informasi?</p>
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
