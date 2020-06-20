@@ -6,11 +6,11 @@
 
     <div class="register-box-body">
 
-      <p class="login-box-msg">Daftar sebagai Admin</p>
+       <p class="login-box-msg">Daftar sebagai Admin</p>
 
-       <form action="<?= $action?>" method="post">
+       <form action="<?=$action?>" method="post">
+         <input type="hidden" name="level" value="Admin">
           <div class="form-group has-feedback">
-            <input type="hidden" name="level" value="Admin">
             <input type="text" class="form-control" placeholder="Username" name="username" required oninvalid="this.setCustomValidity('Username belum diisi')" oninput="setCustomValidity('')" >
           </div>
           <div class="form-group has-feedback">
@@ -28,17 +28,14 @@
           <div class="form-group has-feedback">
             <input type="text" class="form-control" placeholder="Nomor Telp" name="nohp" required oninvalid="this.setCustomValidity('Nomor Telp belum diisi')" oninput="setCustomValidity('')" >
           </div>
-
-        <!-- /.col -->
         <div class="col-xs-12">
           <button type="submit" name="submit" class="btn btn-primary btn-block btn-flat">Register</button>
         </div><br><br>
         <center>Sudah Punya Akun? <a href="<?=base_url()?>LoginAU" class="text-center">Login</a></center>
-              <center>Alternatif Register <a href="<?=base_url()?>Register/registAdmin" class="text-center">Admin</a> dan <a href="<?=base_url()?>Register/registerUMKM" class="text-center">UMKM</a></center>
+        <center>Alternatif Register <a href="<?=base_url()?>Register/registAdmin" class="text-center">Admin</a> dan <a href="<?=base_url()?>Register/registerUMKM" class="text-center">UMKM</a></center>
         <!-- /.col -->
 
       </form>
-
   </div>
   <!-- /.form-box -->
 

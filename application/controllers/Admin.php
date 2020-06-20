@@ -24,7 +24,7 @@ class Admin extends CI_Controller {
 			'portofolio'			=> $this->M_admin->getjumPo(),
 			'slide'						=> $this->M_admin->getjumS(),
 		);
-		$this->load->view('admin/dashboard',$data);
+		$this->load->view('admin/Dashboard',$data);
 	}
 
   //Kelola Akun
@@ -36,7 +36,7 @@ class Admin extends CI_Controller {
 				'akun' => $this->M_admin->getAkun($user),
 				'umkm' => $this->M_admin->getUMKM(),
 			);
-      $this->load->view('admin/kelolaumkm',$data);
+      $this->load->view('admin/Kelolaumkm',$data);
     }
 
 		public function tambahUMKM()
@@ -46,7 +46,7 @@ class Admin extends CI_Controller {
 				'akun'     => $this->M_admin->getAkun($user),
 				'kategori' => $this->M_admin->getkategoriUMKM(),
 			);
-			$this->load->view('admin/tambahumkm',$data);
+			$this->load->view('admin/Tambahumkm',$data);
 		}
 
 		public function createUMKM()
@@ -164,7 +164,7 @@ class Admin extends CI_Controller {
 				'portofolio'=> $this->M_admin-> getPortofolioId($id),
 				'informasi' => $this->M_admin->getInformasiId($id)
 			);
-			$cek = $this->load->view('admin/detailumkm',$data);
+			$cek = $this->load->view('admin/Detailumkm',$data);
 		}
 
 		public function editUMKM($id)
@@ -175,7 +175,7 @@ class Admin extends CI_Controller {
 				'kategori' => $this->M_admin->getkategoriUMKM(),
 				'umkm'     => $this->M_admin->getUMKMId($id),
 			);
-			$cek = $this->load->view('admin/editumkm',$data);
+			$cek = $this->load->view('admin/Editumkm',$data);
 		}
 
 		public function updateUMKM()
@@ -259,7 +259,7 @@ class Admin extends CI_Controller {
 				'akun'		 => $this->M_admin->getAkun($user),
 				'konsumen' => $this->M_admin->getKonsumen(),
 			);
-      $this->load->view('admin/kelolakonsumen',$data);
+      $this->load->view('admin/Kelolakonsumen',$data);
     }
 
 		public function tambahKonsumen()
@@ -268,7 +268,7 @@ class Admin extends CI_Controller {
 			$data = array(
 		 	'akun'						=> $this->M_admin->getAkun($user),
 	 		);
-			$this->load->view('admin/tambahkonsumen',$data);
+			$this->load->view('admin/Tambahkonsumen',$data);
 		}
 
 		public function createKonsumen()
@@ -346,7 +346,7 @@ class Admin extends CI_Controller {
 				'akun'	 	 => $this->M_admin->getAkun($user),
 				'konsumen' => $this->M_admin->getKonsumenId($id),
 			);
-			$cek = $this->load->view('admin/detailkonsumen',$data);
+			$cek = $this->load->view('admin/Detailkonsumen',$data);
 		}
 
 		public function editKonsumen($id)
@@ -356,7 +356,7 @@ class Admin extends CI_Controller {
 				'akun'		 => $this->M_admin->getAkun($user),
 				'konsumen' => $this->M_admin->getKonsumenId($id),
 			);
-			$cek = $this->load->view('admin/editkonsumen',$data);
+			$cek = $this->load->view('admin/Editkonsumen',$data);
 		}
 
 		public function hapusKonsumen($id)
@@ -407,7 +407,7 @@ class Admin extends CI_Controller {
 				'akun'		 => $this->M_admin->getAkun($user),
 				'kategori' => $this->M_admin->getkategoriUMKM()
 			);
-      $this->load->view('admin/kategoriumkm',$data);
+      $this->load->view('admin/Kategoriumkm',$data);
     }
 
 		public function createKategoriUMKM()
@@ -446,7 +446,7 @@ class Admin extends CI_Controller {
 				'akun'		 => $this->M_admin->getAkun($user),
 				'kategori' => $this->M_admin->getkategoriUMKMId($id)
 			);
-			$this->load->view('admin/editkategoriumkm',$data);
+			$this->load->view('admin/Editkategoriumkm',$data);
 		}
 
 		public function updateKategoriUMKM()
@@ -469,7 +469,7 @@ class Admin extends CI_Controller {
 				'akun'		 => $this->M_admin->getAkun($user),
 				'kategori' => $this->M_admin->getkategoriProduk()
 			);
-      $this->load->view('admin/kategoriproduk',$data);
+      $this->load->view('admin/Kategoriproduk',$data);
     }
 
 		public function createKategoriProduk()
@@ -498,7 +498,7 @@ class Admin extends CI_Controller {
 		public function hapusKategoriProduk($id)
 		{
 			$cek = $this->M_admin->hapus_k_Produk($id);
-			redirect('admin/kategoriProduk');
+			redirect('admin/KategoriProduk');
 		}
 
 		public function pilihKategoriProduk($id)
@@ -508,7 +508,7 @@ class Admin extends CI_Controller {
 				'akun'		 => $this->M_admin->getAkun($user),
 				'kategori' => $this->M_admin->getkategoriProdukId($id)
 			);
-      $this->load->view('admin/editkategoriproduk',$data);
+      $this->load->view('admin/Editkategoriproduk',$data);
     }
 
 		public function updateKategoriProduk()
@@ -531,7 +531,7 @@ class Admin extends CI_Controller {
 				'akun'	 => $this->M_admin->getAkun($user),
 				'produk' => $this->M_admin->getProduk(),
 			);
-      $this->load->view('admin/kelolaProdukUMKM',$data);
+      $this->load->view('admin/KelolaProdukUMKM',$data);
     }
 
 	//Kelola transaksi
@@ -543,7 +543,7 @@ class Admin extends CI_Controller {
 					'akun'	 => $this->M_admin->getAkun($user),
 					'transaksi' => $this->M_admin->getTransaksi(),
 				);
-	      $this->load->view('admin/kelolatransaksi',$data);
+	      $this->load->view('admin/Kelolatransaksi',$data);
 	    }
 
 			public function updateDiproses($id)
@@ -572,7 +572,7 @@ class Admin extends CI_Controller {
 					'akun'	 => $this->M_admin->getAkun($user),
 					'transaksi' => $this->M_admin->getTransaksiUMKM(),
 				);
-				$this->load->view('admin/kelolatransaksiUMKM',$data);
+				$this->load->view('admin/KelolatransaksiUMKM',$data);
 			}
 
 			public function updateTerkirim($id)
@@ -601,7 +601,7 @@ class Admin extends CI_Controller {
 				'akun'			=> $this->M_admin->getAkun($user),
 				'informasi' => $this->M_admin->getInformasi(),
 			);
-      $this->load->view('admin/kelolainformasi',$data);
+      $this->load->view('admin/Kelolainformasi',$data);
     }
 
     //Kelola Market
@@ -612,7 +612,7 @@ class Admin extends CI_Controller {
 					'akun'	 => $this->M_admin->getAkun($user),
 					'market' => $this->M_admin->getMarket(),
 				);
-        $this->load->view('admin/kelolamarket',$data);
+        $this->load->view('admin/Kelolamarket',$data);
       }
 
     //Kelola Portofolio
@@ -623,7 +623,7 @@ class Admin extends CI_Controller {
 						'akun'		   => $this->M_admin->getAkun($user),
 						'portofolio' => $this->M_admin->getPortofolio(),
 					);
-          $this->load->view('admin/kelolaportofolio',$data);
+          $this->load->view('admin/Kelolaportofolio',$data);
         }
 
   	//Kelola Slide
@@ -634,7 +634,7 @@ class Admin extends CI_Controller {
 					'akun'	=> $this->M_admin->getAkun($user),
 					'slide' => $this->M_admin->getSlide(),
 				);
-        $this->load->view('admin/kelolaslide',$data);
+        $this->load->view('admin/Kelolaslide',$data);
       }
 
 			public function tambahSlide()
@@ -643,7 +643,7 @@ class Admin extends CI_Controller {
 				$data = array(
 					'akun'	=> $this->M_admin->getAkun($user),
 				);
-				$this->load->view('admin/tambahslide',$data);
+				$this->load->view('admin/Tambahslide',$data);
 			}
 
 			public function createSlide()
@@ -708,7 +708,7 @@ class Admin extends CI_Controller {
 					'akun'	=> $this->M_admin->getAkun($user),
 					'slide' => $this->M_admin->getSlideId($id),
 				);
-        $this->load->view('admin/editslide',$data);
+        $this->load->view('admin/Editslide',$data);
 			}
 
 			public function updateSlide()
@@ -749,7 +749,7 @@ class Admin extends CI_Controller {
 					'akun'	 => $this->M_admin->getAkun($user),
 					'kontak' => $this->M_admin->getKontak(),
 				);
-        $this->load->view('admin/kelolakontak',$data);
+        $this->load->view('admin/Kelolakontak',$data);
       }
 
 			public function editKontak($id)
@@ -758,7 +758,7 @@ class Admin extends CI_Controller {
 				$data = array(
 					'akun'			=> $this->M_admin->getAkun($user),
 				  'kontak'    => $this->M_admin->getKontakk($id));
-				$this->load->view('admin/editkontak',$data);
+				$this->load->view('admin/Editkontak',$data);
 			}
 
 			public function updateKontak()
@@ -786,7 +786,7 @@ class Admin extends CI_Controller {
 				$data = array(
 					'akun'			=> $this->M_admin->getAkun($user),
 				);
-				$this->load->view('admin/editprofile',$data);
+				$this->load->view('admin/Editprofile',$data);
 			}
 
 			public function edittProfil()
@@ -795,7 +795,7 @@ class Admin extends CI_Controller {
 				$data = array(
 					'akun'			=> $this->M_admin->getAkun($user),
 				);
-				$this->load->view('admin/editprofil',$data);
+				$this->load->view('admin/Editprofil',$data);
 			}
 
 			public function updateProfil()
