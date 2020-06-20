@@ -33,7 +33,7 @@
             <div class="icon">
               <i class="ion ion-bag"></i>
             </div>
-            <a href="<?=base_url()?>Admin/kelolaKonsumen" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="#" class="small-box-footer">Include (Admin,UMKM,Konsumen)</a>
           </div>
         </div>
         <!-- ./col -->

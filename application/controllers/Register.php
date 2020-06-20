@@ -99,4 +99,24 @@ class Register extends CI_Controller {
 
 	}
 
+	public function registerUMKM()
+	{
+			$this->load->view('Head');
+			$data = array(
+				'action' 		=> site_url('Register/createUser'),
+				'idkategori'=> $this->M_admin->getkategoriUMKM()
+			);
+		$this->load->view('registUMKM',$data);
+	}
+
+	public function registAdmin()
+	{
+		$this->load->view('Head');
+		$data = array(
+			'action' 		=> site_url('Register/createUser'),
+			'idkategori'=> $this->M_admin->getkategoriUMKM()
+		);
+	$this->load->view('registAdmin',$data);
+	}
+
 }
