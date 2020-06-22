@@ -29,8 +29,8 @@
                       <th style="text-align: center;">Foto</th>
                       <th style="text-align: center;">Deskripsi</th>
                       <th style="text-align: center;width: 15%">Harga</th>
-                      <th style="text-align: center;">Kategori Produk</th>
-                      <th style="text-align: center;">Status Produk</th>
+                      <th style="text-align: center;">Kategori</th>
+                      <th style="text-align: center;">Status</th>
                       <th style="text-align: center;width: 18%">Aksi</th>
                     </tr>
                   </thead>
@@ -50,17 +50,27 @@
                           <img src="<?= base_url()?>assets/foto_produk/<?=$value->foto_produk ?>"  width='50px'>
                         <?php } ?>
                       </td>
-                      <td><?= $value->deskripsi_produk ?></td>
+                      <td>
+                        <a class="btn btn-success" data-toggle="modal" href="#" data-target="#deskripsi<?=$value->id_produk?>">
+                            <i class="fa fa-fw fa-eye"></i> Lihat Konten
+                        </a>  
+                      </td>
                       <td>Rp <?= number_format($value->harga_produk,2,',','.') ?></td>
                       <td><?= $value->nama_kategori_produk ?></td>
                       <td>
                         <?php
-                          if($value->status_produk=='0'){
-                            echo "Disembunyikan";
-                          }else{
-                            echo "Ditampilkan";
-                          }
+                            if ($value->status_produk=='0') {
                         ?>
+                              <small class="label pull-right bg-red"><?php echo "disembunyika"; ?></small>
+                        <?php
+                            }
+                            else {
+                        ?>
+                             <small class="label pull-right bg-green"><?php echo "ditampilkan"; ?></small>
+                        <?php
+                            }              
+                        ?>
+
                       </td>
                       <td style="text-align: center">
                           <a href="<?= base_url()?>UMKM/EditProduk/<?= $value->id_produk ?>">
@@ -159,6 +169,29 @@
  </div>
  <!-- ./wrapper -->
 
+<?php foreach ($tampil as $key) { ?>
+  <div class="modal fade" id="deskripsi<?=$key->id_produk?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="ExampleModalLabel">Deskripsi Produk</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><?= $key->deskripsi_produk ?></p>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tutup</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+<?php } ?>
 
 
 </body>
