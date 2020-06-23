@@ -3,42 +3,61 @@
   <section id="main">
   	<div class="container_12">      
   		<div id="content" class="grid_12">
-  			<h1 class="page_title">INFORMASI UMKM</h1>
-
   			<div>
-  				<?php 
-  				if (!empty($informasi)) { 
-  					foreach ($informasi as $key) {
-  						?>
-  						<div class="grid_3 product" style="margin:8px">
-  							<div class="prev">
-  								<a href="<?=base_url()?>Konsumen/detailInformasi/<?=$key->id_informasi?>"><img src="<?=base_url()?>assets/foto_informasi/<?=$key->gambar?>" style="width: 300px; height: 300px" /></a>
-  							</div><!-- .prev -->
-  							<h3 class="title"><?=$key->judul_informasi?></h3>
-  							<p style="padding-left: 10px; padding-right: 10px; text-align: justify;"><?= substr($key->isi_informasi, 0, 50) ?> ... </p>
-  						</div><!-- .grid_3 -->
-  						<?php 
-  					}
-  				}else{
-  					echo "<h4>Tidak ada informasi UMKM</h4>";
-  				} ?>
-  				<div class="clear"></div>
-  			</div><!-- .grid_product -->
+  				
+          <div>
+            <?php 
+            if (!empty($informasi)) {
+              foreach ($informasi as $key) {
+                ?>
+                <table style="border: none; margin-left: 10px" >
+                  <td style="width: 20%; border: none;">
+                    <?php if (!empty($key->gambar)) { ?>
+                      <a href="<?=base_url()?>Konsumen/detailInformasi/<?=$key->id_informasi?>"><img src="<?=base_url()?>assets/foto_informasi/<?=$key->gambar?>" style="width: 190px; height: 190px;" /></a>
+                    <?php }else{ ?>
+                      <a href="<?=base_url()?>Konsumen/detailInformasi/<?=$key->id_informasi?>"><img src="<?=base_url()?>assets/foto_informasi/informasi.png" style="width: 190px; height: 190px" /></a>
+                    <?php } ?>
+                  </td>
+                  <td style="text-align: justify; border: none;">
+                    <article class="post" style="margin-left: 20px; margin-right: 20px">
+                      <h2 class="title_article"><a href="<?=base_url()?>Konsumen/detailInformasi/<?=$key->id_informasi?>"><?=$key->judul_informasi?></a></h2>
+                      <div class="content_article">
+                        <?php if (strlen($key->isi_informasi) > 250) { ?>
+                          <p><?= substr($key->isi_informasi,0,250) ?> ... </p>
+                        <?php }else{ ?>
+                          <p><?=$key->isi_informasi?></p>
+                        <?php } ?>
+                      </div><!-- .content_article -->
+                      <div class="footer_article">
+                        <span><span>Oleh : <a href="<?=base_url()?>Konsumen/detailUmkm/<?=$key->id_umkm?>/semua" style="text-decoration: none;"><?=$key->nama_umkm?></a></span>
+                      </div>
+                    </article>
+                  </td>
+                </table>
+              </div>
+              <?php 
+            }
+          }
+          ?>
+        </div><!-- .c_header -->
 
-  			<!-- <div class="clear"></div> -->
-  			<br><br>
-  			<?php if ( $jumlah > $batas) { ?>
-  				<div class="pagination">
-  					<?=$pagination?>
-  				</div><!-- .pagination -->
-  			<?php }elseif(($jumlah < $batas) AND ($jumlah >0)){ ?>
+        <div class="clear"></div>
+      </div><!-- .grid_product -->
 
-  			<?php } ?>
-  		</div><!-- #content -->
+      <!-- <div class="clear"></div> -->
+      <br><br>
+      <?php if ( $jumlah > $batas) { ?>
+        <div class="pagination">
+         <?=$pagination?>
+       </div><!-- .pagination -->
+     <?php }elseif(($jumlah < $batas) AND ($jumlah >0)){ ?>
 
-  		<div class="clear"></div>
+     <?php } ?>
+   </div><!-- #content -->
 
-  	</div><!-- .container_12 -->
-  </section><!-- #main -->
+   <div class="clear"></div>
 
-  <div class="clear"></div>
+ </div><!-- .container_12 -->
+</section><!-- #main -->
+
+<div class="clear"></div>

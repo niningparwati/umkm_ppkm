@@ -20,23 +20,29 @@
 			<div class="grid_product">
 
 				<?php foreach ($produk as $key) { ?>
-					<div class="grid_3 product">
-						<div class="prev">
-							<a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>"><img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" style="width: 100%; height: 200px" alt="" title="" /></a>
-						</div><!-- .prev -->
-						<h3 class="title"><?=$key->nama_produk?></h3>
-						<div class="cart">
-							<div class="price" style="width: 50%">
-								<div class="vert">
-									<div class="price_new">Rp <?=number_format($key->harga_produk,2,',','.')?></div>
+					<a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>">
+						<div class="grid_3 product">
+							<div class="prev">
+								<?php if (!empty($key->foto_produk)) {?>
+									<img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" style="width: 250px; height: 250px" />
+								<?php }else{ ?>
+									<img src="<?=base_url()?>assets/foto_produk/produk_default.png" style="width: 250px; height: 250px" />
+								<?php } ?>
+							</div><!-- .prev -->
+							<h3 class="title"><?=$key->nama_produk?></h3>
+							<div class="cart">
+								<div class="price" style="width: 50%">
+									<div class="vert">
+										<div class="price_new">Rp <?=number_format($key->harga_produk,2,',','.')?></div>
+									</div>
 								</div>
-							</div>
-							<div style="color: #2e9f9a;">
-								<span style="padding-left: 10px">Stok : <br></span>
-								<span style="padding-left: 10px"><?=$key->stok?> produk</span>
-							</div>
-						</div><!-- .cart -->
-					</div><!-- .grid_3 -->
+								<div style="color: #2e9f9a;">
+									<span style="padding-left: 10px">Stok : <br></span>
+									<span style="padding-left: 10px"><?=$key->stok?> produk</span>
+								</div>
+							</div><!-- .cart -->
+						</div><!-- .grid_3 -->
+					</a>
 				<?php } ?>
 
 				<div class="clear"></div>

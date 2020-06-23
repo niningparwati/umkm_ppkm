@@ -270,6 +270,11 @@ class M_konsumen extends CI_Model {
 		return $this->db->query("SELECT COUNT(id_umkm) as jumlah FROM tb_umkm")->row();
 	}
 
+	function jmlUmkmByKategori($id)
+	{
+		return $this->db->query("SELECT COUNT(id_umkm) as jumlah FROM tb_umkm WHERE id_kategori_umkm='$id'")->row();
+	}
+
 	function semuaKabupaten()
 	{
 		return $this->db->query("SELECT * FROM tb_umkm WHERE kota_asal!='' GROUP BY kota_asal ORDER BY kota_asal ASC")->result();
@@ -525,7 +530,7 @@ class M_konsumen extends CI_Model {
 
 	function getInformasiHome()
 	{
-		return $this->db->query("SELECT * FROM tb_informasi LIMIT 3")->result();
+		return $this->db->query("SELECT tb_umkm.*, tb_informasi.* FROM tb_informasi JOIN tb_umkm ON tb_informasi.id_umkm=tb_umkm.id_umkm LIMIT 3")->result();
 	}
 
 	// PROFILE

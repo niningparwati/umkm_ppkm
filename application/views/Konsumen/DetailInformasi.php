@@ -10,7 +10,11 @@
 					<div class="preview slides_container">
 						<div class="prev_bg">
 							<a class="jqzoom" rel="gal1" href="#">
-								<img src="<?=base_url()?>assets/foto_informasi/<?=$gambar?>"  style="width: 295px; height: 295px" title="" alt=""/>
+								<?php if (!empty($gambar)) { ?>
+									<img src="<?=base_url()?>assets/foto_informasi/<?=$gambar?>" style="width: 190px; height: 190px;" />
+								<?php }else{ ?>
+									<img src="<?=base_url()?>assets/foto_informasi/informasi.png" style="width: 190px; height: 190px" />
+								<?php } ?>
 							</a>
 						</div>
 					</div><!-- .prev -->
@@ -18,7 +22,7 @@
 
 				<div class="grid_7">
 					<div>
-						<div>
+						<div><br>
 							<div style="width: 100%; text-align: justify;">
 								<?=$isi_informasi?>
 								<br><br>

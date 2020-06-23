@@ -36,7 +36,13 @@
           ?>
           <tr>
             <td><input type="checkbox" name="keranjang[]" id="undefined" value="<?=$key->id_keranjang?>" tabindex="0" style="margin-top: 20px"></td>
-            <td class="images"><a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>"><img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" alt="Product Slide 1"></a></td>
+            <td class="images"><a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>">
+              <?php if (!empty($key->foto_produk)) { ?>
+                <img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" alt="Product Slide 1" style="width: 100px; height: 100px">
+              <?php }else{ ?>
+                <img src="<?=base_url()?>assets/foto_produk/produk_default.png" alt="Product Slide 1" style="width: 100px; height: 100px">
+              <?php } ?>
+            </a></td>
             <td class="qty" style="color: black"><b><?=$key->nama_produk?></b><br/><?=$key->deskripsi_produk?></td>
             <td class="qty" style="color: black;padding-top: 40px">Rp <?=number_format($key->harga_produk,2,',','.')?></td>
             <td class="qty" style="padding-top: 40px; color: black">

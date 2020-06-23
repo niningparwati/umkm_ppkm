@@ -10,7 +10,7 @@
       <div class="clear"></div>
 
       <div class="carousel">
-        <div class="c_header">
+        <div>
           <div class="grid_10">
             <h2>Produk UMKM</h2>
           </div><!-- .grid_10 -->
@@ -27,25 +27,31 @@
             if (!empty($produk)) {
               foreach ($produk as $key) {
                 ?>
-                <li class="">
-                  <div class="grid_3 product">
-                    <div class="prev">
-                      <a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>"><img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" style="width: 250px; height: 250px" /></a>
-                    </div><!-- .prev -->
-                    <h3 class="title"><center><?=$key->nama_produk?></center></h3>
-                    <div class="cart">
-                      <div class="price" style="width: 50%">
-                        <div class="vert">
-                          <div class="price_new">Rp <?=number_format($key->harga_produk,2,',','.')?></div>
+                <a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>">
+                  <li class="">
+                    <div class="grid_3 product">
+                      <div class="prev">
+                        <?php if (!empty($key->foto_produk)) {?>
+                          <img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" style="width: 250px; height: 250px" />
+                        <?php }else{ ?>
+                          <img src="<?=base_url()?>assets/foto_produk/produk_default.png" style="width: 250px; height: 250px" />
+                        <?php } ?>
+                      </div><!-- .prev -->
+                      <h3 class="title"><center><?=$key->nama_produk?></center></h3>
+                      <div class="cart">
+                        <div class="price" style="width: 50%">
+                          <div class="vert">
+                            <div class="price_new">Rp <?=number_format($key->harga_produk,2,',','.')?></div>
+                          </div>
                         </div>
-                      </div>
-                      <div style="color: #2e9f9a;">
-                        Stok : <br>
-                        <?=$key->stok?> produk
-                      </div>
-                    </div><!-- .cart -->
-                  </div><!-- .grid_3 -->
-                </li>
+                        <div style="color: #2e9f9a;">
+                          <span style="padding-left: 10px">Stok : <br></span>
+                          <span style="padding-left: 10px"><?=$key->stok?> produk</span>
+                        </div>
+                      </div><!-- .cart -->
+                    </div><!-- .grid_3 -->
+                  </li>
+                </a>
                 <?php 
               } 
             } 
@@ -55,7 +61,7 @@
       </div><!-- .carousel -->
 
       <div class="carousel">
-        <div class="c_header">
+        <div>
           <div class="grid_10">
             <br><br><br>
             <h2>UMKM</h2>
@@ -99,7 +105,7 @@
     </div><!-- .carousel -->
 
     <div id="content_bottom">
-      <div class="c_header">
+      <div  class="container_12">
         <div class="grid_10">
           <br><br><br>
           <h2>INFORMASI</h2>
@@ -109,32 +115,50 @@
           <br><br><br>
           <a id="next_c2" class="next arows" href="<?=base_url()?>Konsumen/Informasi"><span>Next</span></a>
         </div><!-- .grid_2 -->
-      </div><!-- .c_header -->
 
-      <?php 
-      if (!empty($informasi)) {
-        foreach ($informasi as $key) {
-          ?>
-          <div class="grid_4">
-            <a href="<?=base_url()?>Konsumen/detailInformasi/<?=$key->id_informasi?>" style="text-decoration: none; color: black">
-              <br>
-              <div class="bottom_block about_as">
-                <h5><?=$key->judul_informasi?></h5>
-                <p><img src="<?=base_url()?>assets/foto_informasi/<?=$key->gambar?>" style="width: 270px; height: 270px" /></p>
-                <p style="text-align: justify;"><?= substr($key->isi_informasi, 0, 120) ?> <br><span style="color: blue">baca selengkapnya...</span></p>
-              </div><!-- .about_as -->
-            </a>
-          </div><!-- .grid_4 -->
-          <?php 
+        <?php 
+        if (!empty($informasi)) {
+          foreach ($informasi as $key) {
+            ?>
+            <div class="grid_12">
+              <table style="border: none;">
+                <!-- <tr> -->
+                  <td style="width: 20%">
+                    <?php if (!empty($key->gambar)) { ?>
+                      <a href="<?=base_url()?>Konsumen/detailInformasi/<?=$key->id_informasi?>"><img src="<?=base_url()?>assets/foto_informasi/<?=$key->gambar?>" style="width: 190px; height: 190px;" /></a>
+                    <?php }else{ ?>
+                      <a href="<?=base_url()?>Konsumen/detailInformasi/<?=$key->id_informasi?>"><img src="<?=base_url()?>assets/foto_informasi/informasi.png" style="width: 190px; height: 190px" /></a>
+                    <?php } ?>
+                  </td>
+                  <td style="text-align: justify;">
+                    <article class="post" style="margin-left: 20px; margin-right: 20px">
+                      <h2 class="title_article"><a href="<?=base_url()?>Konsumen/detailInformasi/<?=$key->id_informasi?>"><?=$key->judul_informasi?></a></h2>
+                      <div class="content_article">
+                        <?php if (strlen($key->isi_informasi) > 250) { ?>
+                          <p><?= substr($key->isi_informasi,0,250) ?> ... </p>
+                        <?php }else{ ?>
+                          <p><?=$key->isi_informasi?></p>
+                        <?php } ?>
+                      </div><!-- .content_article -->
+                      <div class="footer_article">
+                        <span><span>Oleh : <a href="<?=base_url()?>Konsumen/detailUmkm/<?=$key->id_umkm?>/semua" style="text-decoration: none;"><?=$key->nama_umkm?></a></span>
+                      </div>
+                    </article>
+                  </td>
+                  <!-- </tr> -->
+                </table>
+              </div>
+            </div><!-- .c_header -->
+            <?php 
+          }
         }
-      }
-      ?>
+        ?>
 
+        <div class="clear"></div>
+      </div><!-- #content_bottom -->
       <div class="clear"></div>
-    </div><!-- #content_bottom -->
-    <div class="clear"></div>
 
-  </div><!-- .container_12 -->
-</section><!-- #main -->
+    </div><!-- .container_12 -->
+  </section><!-- #main -->
 
-<div class="clear"></div>
+  <div class="clear"></div>

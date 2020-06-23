@@ -85,9 +85,9 @@
 
   <nav class="left_menu">
    <ul>
-    <li><a href="<?=base_url()?>Konsumen/Umkm/semua/0"><span>Semua UMKM</span></a></li>
+    <li><a href="<?=base_url()?>Konsumen/Umkm/semua/0"><span>Semua UMKM ( <?=$jumlah?> )</span></a></li>
     <?php foreach ($kategori as $key) { ?>
-     <li><a href="<?=base_url()?>Konsumen/Umkm/Kategori/<?=$key->id_kategori_umkm?>"><?=$key->nama_kategori_umkm?></a></li>
+     <li><a href="<?=base_url()?>Konsumen/Umkm/Kategori/<?=$key->id_kategori_umkm?>"><?=$key->nama_kategori_umkm?> ( <?= $this->M_konsumen->jmlUmkmByKategori($key->id_kategori_umkm)->jumlah ?> )</a></li>
    <?php } ?>
  </ul>
 </nav><!-- .left_menu -->

@@ -34,14 +34,14 @@ if ($err) {
 <section id="main" class="entire_width">
   <div class="container_12">
     <div class="grid_12">
-      <h1 class="page_title">Checkout</h1>
+      <h1 class="page_title" style="border: none;">Checkout</h1>
       <table class="cart_product">
         <tr>
-          <th class="images">Gambar Produk</th>
-          <th class="bg name">Nama Produk</th>
-          <th class="bg price">Harga Produk</th>
-          <th class="qty">Jumlah Produk</th>
-          <th class="bg subtotal">Subtotal</th>
+          <th class="bg name" style="text-align: center;font-weight: bold;color: black">Gambar Produk</th>
+          <th class="bg name" style="text-align: center;font-weight: bold;color: black">Nama Produk</th>
+          <th class="bg price" style="text-align: center;font-weight: bold;color: black">Harga Produk</th>
+          <th class="bg name" style="text-align: center;font-weight: bold;color: black">Jumlah Produk</th>
+          <th class="bg subtotal" style="text-align: center;font-weight: bold;color: black">Subtotal</th>
         </tr>
         <form method="POST" action="<?=base_url()?>Konsumen/Transaksi">
 
@@ -49,13 +49,25 @@ if ($err) {
           foreach ($produk as $key) {
             ?>
             <tr>
-              <td class="images"><img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" alt="Product Slide 1"></td>
-              <td class="bg name"><b><?=$key->nama_produk?></b><br/><?=$key->deskripsi_produk?></td>
-              <td class="bg price">Rp <?=number_format($key->harga_produk,2,',','.')?></td>
+              <td class="images">
+                <a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>">
+                  <?php if (!empty($key->foto_produk)) { ?>
+                    <img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" alt="Product Slide 1">
+                  <?php }else{ ?>
+                    <img src="<?=base_url()?>assets/foto_produk/produk_default.png" alt="Product Slide 1">
+                  <?php } ?>
+                </a>  
+              </td>
+              <td class="qty">
+                <a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>" style="text-decoration: none; color: black">
+                  <b><?=$key->nama_produk?></b>
+                </a>
+              </td>
+              <td class="qty">Rp <?=number_format($key->harga_produk,2,',','.')?></td>
               <td class="qty" style="padding-top: 30px">
                 <?=$key->jumlah_produk?>
               </td>
-              <td class="bg subtotal">
+              <td class="qty">
                 <?php 
                 $jml = $key->jumlah_produk;
                 $hrg = $key->harga_produk;

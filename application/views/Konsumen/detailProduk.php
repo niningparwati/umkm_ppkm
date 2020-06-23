@@ -9,9 +9,11 @@
 				<div class="grid_4 img_slid" id="products">
 					<div class="preview slides_container">
 						<div class="prev_bg">
-
-							<img src="<?=base_url()?>assets/foto_produk/<?=$foto_produk?>"  style="width: 300px; height: 300px" title="" alt=""/>
-
+							<?php if (!empty($foto_produk)) {?>
+								<img src="<?=base_url()?>assets/foto_produk/<?=$foto_produk?>" style="width: 290px; height: 290px" />
+							<?php }else{ ?>
+								<img src="<?=base_url()?>assets/foto_produk/produk_default.png" style="width: 290px; height: 290px" />
+							<?php } ?>
 						</div>
 					</div><!-- .prev -->
 				</div><!-- .grid_4 -->
@@ -68,32 +70,38 @@
 						<div class="list_carousel">
 							<ul id="list_product" class="list_product">
 								<?php foreach ($serupa as $key) { ?>
-									<li class="">
-										<div class="grid_3 product">
-											<div class="prev">
-												<a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>"><img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" alt="" title="" style="width: 100%; height: 100%" /></a>
-											</div><!-- .prev -->
-											<h3 class="title"><?=$key->nama_produk?></h3>
-											<div class="cart">
-												<div class="price" style="width: 73%">
-													<div class="vert">
-														<div class="price_new">Rp <?=number_format($key->harga_produk,2,',','.')?></div>
-														<div style="font-size: 10px; color: black; font-family: calibri">
-															Status stok : 
-															<?php 
-															if ($key->stok > 0) {
-																echo '<span style="color: black">'.$key->stok.' produk</span>';
-															} else{
-																echo '<span style="color: red">kosong</span>';
-															}
-															?>
+									<a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>" style="text-decoration: none;">
+										<li class="">
+											<div class="grid_3 product">
+												<div class="prev">
+													<?php if (!empty($key->foto_produk)) {?>
+														<img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" style="width: 250px; height: 250px" />
+													<?php }else{ ?>
+														<img src="<?=base_url()?>assets/foto_produk/produk_default.png" style="width: 250px; height: 250px" />
+													<?php } ?>
+												</div><!-- .prev -->
+												<h3 class="title"><?=$key->nama_produk?></h3>
+												<div class="cart">
+													<div class="price" style="width: 73%">
+														<div class="vert">
+															<div class="price_new">Rp <?=number_format($key->harga_produk,2,',','.')?></div>
+															<div style="font-size: 10px; color: black; font-family: calibri">
+																Status stok : 
+																<?php 
+																if ($key->stok > 0) {
+																	echo '<span style="color: black">'.$key->stok.' produk</span>';
+																} else{
+																	echo '<span style="color: red">kosong</span>';
+																}
+																?>
+															</div>
 														</div>
 													</div>
-												</div>
-												<a href="#" class="bay"></a>
-											</div><!-- .cart -->
-										</div><!-- .grid_3 -->
-									</li>
+													<a href="#" class="bay"></a>
+												</div><!-- .cart -->
+											</div><!-- .grid_3 -->
+										</li>
+									</a>
 								<?php } ?>
 							</ul><!-- #list_product -->
 						</div><!-- .list_carousel -->
@@ -124,7 +132,7 @@
 
 			<aside id="newsletter_signup">
 				<?php $umkm = $this->M_konsumen->umkmById($id_umkm); ?>
-				<h3><?=$umkm->nama_umkm?></h3>
+				<a href="<?=base_url()?>Konsumen/detailUmkm/<?=$id_umkm?>/semua" style="text-decoration: none;"><h3><?=$umkm->nama_umkm?></h3></a>
 				<p style="text-align: justify;"><?=$umkm->deskripsi_umkm?></p><br>
 				<p>
 					No Telp UMKM : <?=$umkm->nomor_telp_umkm?><br>
@@ -139,7 +147,11 @@
 							<?php foreach ($produk_lain as $key) {?>
 								<li class="banner" style="width: 48%; height: 100px"><a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>">
 									<div class="prev">
-										<img src="<?php echo base_url()?>assets/foto_produk/<?=$key->foto_produk?>" style="width: 100%; height: 100px" />
+										<?php if (!empty($key->foto_produk)) { ?>
+											<img src="<?php echo base_url()?>assets/foto_produk/<?=$key->foto_produk?>" style="width: 80%; height: 80px; padding-bottom: 25px" />
+										<?php }else{ ?>
+											<img src="<?php echo base_url()?>assets/foto_produk/produk_default.png" style="width: 80%; height: 80px; padding-bottom: 25px" />
+										<?php } ?>
 									</div><!-- .prev -->
 								</a></li>
 							<?php } ?>

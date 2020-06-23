@@ -961,7 +961,7 @@ class Konsumen extends CI_Controller {
 			$config['base_url'] = base_url() . '/Konsumen/Informasi';
 			$config['first_url'] = base_url() . '/Konsumen/Informasi';
 		}
-		$config['per_page'] = 12;
+		$config['per_page'] = 10;
 		$config['page_query_string'] = TRUE;
 		$config['total_rows'] = $this->M_konsumen->total_informasi($q);
 		$informasi = $this->M_konsumen->get_informasi($config['per_page'], $start, $q);

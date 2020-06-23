@@ -11,7 +11,13 @@
 				<form class="contact" style="width: 100%" method="POST" action="<?=base_urL()?>Konsumen/editProfil" enctype="multipart/form-data">
 					<?php if (!is_null($foto_konsumen)) {?>
 						<div>
-							<center><img src="<?=base_urL()?>assets/foto_konsumen/<?=$foto_konsumen?>" style="width: 200px; height: 200px"></center>
+							<center>
+								<?php if (!empty($foto_konsumen)) { ?>
+									<img src="<?=base_urL()?>assets/foto_konsumen/<?=$foto_konsumen?>" style="width: 200px; height: 200px">
+								<?php }else{ ?>
+									<img src="<?=base_urL()?>assets/foto_konsumen/konsumen.png" style="width: 200px; height: 200px">
+								<?php } ?>
+							</center>
 							<br>
 						</div>
 					<?php } ?>
