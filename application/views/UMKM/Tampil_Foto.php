@@ -113,11 +113,13 @@
               <div class="box-body">
                 <div class="form-group">
                   <label for="">Tambah Foto Galeri</label>
-                  <input type="file" name="foto" id="Foto">
+                  <input type="file" name="foto" id="Foto" required="">
                 </div>
                 <div class="form-group">
-                  <label for="">Keterangan Foto</label>
-                  <textarea name="keterangan_foto" class="form-control"></textarea>
+                  <label for="">Keterangan Foto *optional</label>
+                  <textarea name="keterangan_foto" class="form-control" > 
+                   
+                  </textarea>
                 </div>     
               </div>        
                 <!-- /.box-body -->

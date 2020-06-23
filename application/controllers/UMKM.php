@@ -51,6 +51,7 @@ class UMKM extends CI_Controller {
 
 		$data = array(
 			'username' => $cekUser->username,
+			'password' => $cekUser->password,
 			'level' => $cekUser->level,
 			'nama' => $cekUser->nama_lengkap,
 			'email' => $cekUser->email,
@@ -102,80 +103,141 @@ class UMKM extends CI_Controller {
 	public function UpdateProfil($id_umkm){
 		$user = $this->user_umkm();
 
-		if (!empty($_FILES['foto_user']['name'])) {
-			$config['upload_path']      = './assets/foto_user/';
-			$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
+		$this->form_validation->set_rules('nama','Nama Lengkap','required|min_length[3]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',
+				 'min_length' => '%s minimal 5 karakter'
+			 ));
+			$this->form_validation->set_rules('tanggal_lahir','Tanggal Lahir','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			$this->form_validation->set_rules('username','Username','required|min_length[5]|max_length[10]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',				 
+				 'min_length' => '%s minimal 5 karakter',				 
+				 'max_length' => '%s maksimal 10 karakter'
+			 ));
+			$this->form_validation->set_rules('password','Password','required|min_length[5]|max_length[10]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',				 
+				 'min_length' => '%s minimal 5 karakter',				 
+				 'max_length' => '%s maksimal 10 karakter'
+			 ));
+			$this->form_validation->set_rules('nama_umkm','Nama UMKM','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			$this->form_validation->set_rules('id_kategori_umkm','kKategori UMKM','required',
+			 array(
+				 'required'  => 'Pilih Kategori UMKM'
+			 ));
+			$this->form_validation->set_rules('nomor_telp_umkm','Nomor Telp. UMKM','required|numeric|min_length[9]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',
+				 'numeric'   => '%s harus berupa angka',
+				 'min_length'=> '%s minimal 9 karakter'
+			 ));
+			$this->form_validation->set_rules('alamat_umkm','Alamat UMKM','required|min_length[10]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',
+				 'min_length' => '%s minimal 10 karakter'
+			 ));
+			$this->form_validation->set_rules('kota_asal','Kota/Kabupaten Asal','required|min_length[5]|max_length[15]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',
+				 'min_length' => '%s minimal 5 karakter',	 
+				 'max_length' => '%s maksimal 15 karakter'
+			 ));
+			$this->form_validation->set_rules('provinsi_asal','Alamat UMKM','required|min_length[5]|max_length[20]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',
+				 'min_length' => '%s minimal 5 karakter',
+				 'max_length' => '%s maksimal 20 karakter'
+			 ));
 
-			$this->load->library('upload', $config);
-			$this->upload->initialize($config);
 
-			$path= './assets/foto_umkm/';
-			$file = $this->input->post('foto_old',TRUE);
-			if (!empty($file)) {
-				@unlink($path.$file);
+			if($this->form_validation->run() == FALSE){
+				 $this->EditProfil();
+			}else{
+
+					if (!empty($_FILES['foto_user']['name'])) {
+						$config['upload_path']      = './assets/foto_user/';
+						$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
+
+						$this->load->library('upload', $config);
+						$this->upload->initialize($config);
+
+						$path= './assets/foto_umkm/';
+						$file = $this->input->post('foto_old',TRUE);
+						if (!empty($file)) {
+							@unlink($path.$file);
+						}
+
+						if ($this->upload->do_upload('foto_user')) {
+							$uploadData = $this->upload->data();
+
+							$dataUser = array(
+								'nama_lengkap' => $this->input->post('nama'),
+								'foto_user' => $uploadData['file_name'],
+								'email' => $this->input->post('email'),
+								'username' => $this->input->post('username'),
+								'password' => md5($this->input->post('password')),
+								'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+							);
+							$dataUMKM = array(
+								'nama_umkm' => $this->input->post('nama_umkm'),
+								'nomor_telp_umkm' => $this->input->post('nomor_telp_umkm'),
+								'alamat_umkm' => $this->input->post('alamat_umkm'),
+								'kota_asal' => $this->input->post('kota_asal'),
+								'provinsi_asal' => $this->input->post('provinsi_asal'),
+								'id_kategori_umkm' => $this->input->post('id_kategori_umkm')
+							);
+
+							$this->ModelUser->updateProfil($dataUser, $user['id_user']);
+							$this->UMKM_Model->updateProfil($dataUMKM, $id_umkm);
+
+							// $this->session->set_flashdata('success', 'Berhasil Update Foto');
+							if($user['username'] != $this->input->post('username') || $user['password'] != md5($this->input->post('password'))){
+								redirect('LoginAU/logout/');
+							}else{
+								redirect('UMKM/Profil/','refresh');
+							}
+							
+						} else {
+							// $this->session->set_flashdata('error', 'Gagal Upload Foto');
+							redirect('UMKM/EditProfil/','refresh');
+						}
+					}else{
+						$dataUser = array(
+								'nama_lengkap' => $this->input->post('nama'),
+								'email' => $this->input->post('email'),
+								'username' => $this->input->post('username'),
+								'password' => md5($this->input->post('password')),
+								'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+							);
+							$dataUMKM = array(
+								'nama_umkm' => $this->input->post('nama_umkm'),
+								'nomor_telp_umkm' => $this->input->post('nomor_telp_umkm'),
+								'alamat_umkm' => $this->input->post('alamat_umkm'),
+								'kota_asal' => $this->input->post('kota_asal'),
+								'provinsi_asal' => $this->input->post('provinsi_asal'),
+								'id_kategori_umkm' => $this->input->post('id_kategori_umkm')
+							);
+
+						$this->ModelUser->updateProfil($dataUser, $user['id_user']);
+						$this->UMKM_Model->updateProfil($dataUMKM, $id_umkm);
+						
+						
+						if($user['username'] != $this->input->post('username')){
+								redirect('LoginAU/logout/');
+							}else{
+								redirect('UMKM/Profil/','refresh');
+							}
+							
+						
+					}
 			}
-
-			if ($this->upload->do_upload('foto_user')) {
-				$uploadData = $this->upload->data();
-
-				$dataUser = array(
-					'nama_lengkap' => $this->input->post('nama'),
-					'foto_user' => $uploadData['file_name'],
-					'email' => $this->input->post('email'),
-					'username' => $this->input->post('username'),
-					'tanggal_lahir' => $this->input->post('tanggal_lahir'),
-				);
-				$dataUMKM = array(
-					'nama_umkm' => $this->input->post('nama_umkm'),
-					'nomor_telp_umkm' => $this->input->post('nomor_telp_umkm'),
-					'alamat_umkm' => $this->input->post('alamat_umkm'),
-					'kota_asal' => $this->input->post('kota_asal'),
-					'provinsi_asal' => $this->input->post('provinsi_asal'),
-					'id_kategori_umkm' => $this->input->post('id_kategori_umkm')
-				);
-
-				$this->ModelUser->updateProfil($dataUser, $user['id_user']);
-				$this->UMKM_Model->updateProfil($dataUMKM, $id_umkm);
-
-				// $this->session->set_flashdata('success', 'Berhasil Update Foto');
-				if($user['username'] != $this->input->post('username')){
-					redirect('LoginAU/logout/');
-				}else{
-					redirect('UMKM/Profil/','refresh');
-				}
-				
-			} else {
-				// $this->session->set_flashdata('error', 'Gagal Upload Foto');
-				redirect('UMKM/EditProfil/','refresh');
-			}
-		}else{
-			$dataUser = array(
-					'nama_lengkap' => $this->input->post('nama'),
-					'email' => $this->input->post('email'),
-					'username' => $this->input->post('username'),
-					'tanggal_lahir' => $this->input->post('tanggal_lahir'),
-				);
-				$dataUMKM = array(
-					'nama_umkm' => $this->input->post('nama_umkm'),
-					'nomor_telp_umkm' => $this->input->post('nomor_telp_umkm'),
-					'alamat_umkm' => $this->input->post('alamat_umkm'),
-					'kota_asal' => $this->input->post('kota_asal'),
-					'provinsi_asal' => $this->input->post('provinsi_asal'),
-					'id_kategori_umkm' => $this->input->post('id_kategori_umkm')
-				);
-
-			$this->ModelUser->updateProfil($dataUser, $user['id_user']);
-			$this->UMKM_Model->updateProfil($dataUMKM, $id_umkm);
-			
-			
-			if($user['username'] != $this->input->post('username')){
-					redirect('LoginAU/logout/');
-				}else{
-					redirect('UMKM/Profil/','refresh');
-				}
-				
-			
-		}
 	}
 
 
@@ -917,23 +979,42 @@ class UMKM extends CI_Controller {
 	{
 		$user = $this->user_umkm();
 
-		$data = array(
-			'nama_market' => $this->input->post('nama_market'),
-			'alamat_market' => $this->input->post('alamat'),
-			'link_market' => $this->input->post('link'),
-			'id_umkm' => $user['id_umkm']
-		);
+			$this->form_validation->set_rules('nama_market','Nama Market','required|min_length[5]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',
+				 'min_length' => '%s minimal 5 karakter'
+			 ));
+			$this->form_validation->set_rules('alamat','Alamat','required|min_length[5]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',				 
+				 'min_length' => '%s minimal 5 karakter'
+			 ));
+			$this->form_validation->set_rules('link','Link','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
 
-		$this->UMKM_Model->CreateMarket($data);
-		$this->session->set_flashdata(
-			'notif',
-			'<div class="alert alert-success text-center"style="width: 100%">
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-			Berhasil tambah market
-			</div>'
-		);
-		redirect('UMKM/Market/'.$user['id_umkm'],'refresh');
+		if($this->form_validation->run() == FALSE){
+				 $this->TambahMarket();
+		}else{
 
+			$data = array(
+				'nama_market' => $this->input->post('nama_market'),
+				'alamat_market' => $this->input->post('alamat'),
+				'link_market' => $this->input->post('link'),
+				'id_umkm' => $user['id_umkm']
+			);
+
+			$this->UMKM_Model->CreateMarket($data);
+			$this->session->set_flashdata(
+				'notif',
+				'<div class="alert alert-success text-center"style="width: 100%">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				Berhasil tambah market
+				</div>'
+			);
+			redirect('UMKM/Market/'.$user['id_umkm'],'refresh');
+		}
 	}
 
 	public function EditMarket($id)
@@ -956,21 +1037,41 @@ class UMKM extends CI_Controller {
 
 		$id_umkm = $this->input->post('id_umkm');
 
-		$data = array(
-			'nama_market' => $this->input->post('nama_market'),
-			'alamat_market' => $this->input->post('alamat'),
-			'link_market' => $this->input->post('link'),
-		);
+			$this->form_validation->set_rules('nama_market','Nama Market','required|min_length[5]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',
+				 'min_length' => '%s minimal 5 karakter'
+			 ));
+			$this->form_validation->set_rules('alamat','Alamat','required|min_length[5]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',				 
+				 'min_length' => '%s minimal 5 karakter'
+			 ));
+			$this->form_validation->set_rules('link','Link','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
 
-		$this->UMKM_Model->UpdateMarket($data, $id_market);
-		$this->session->set_flashdata(
-			'notif',
-			'<div class="alert alert-success text-center"style="width: 100%">
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-			Berhasil update market
-			</div>'
-		);
-		redirect('UMKM/Market/'.$id_umkm,'refresh');
+		if($this->form_validation->run() == FALSE){
+				 $this->EditMarket($id_market);
+		}else{
+
+				$data = array(
+					'nama_market' => $this->input->post('nama_market'),
+					'alamat_market' => $this->input->post('alamat'),
+					'link_market' => $this->input->post('link'),
+				);
+
+				$this->UMKM_Model->UpdateMarket($data, $id_market);
+				$this->session->set_flashdata(
+					'notif',
+					'<div class="alert alert-success text-center"style="width: 100%">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					Berhasil update market
+					</div>'
+				);
+				redirect('UMKM/Market/'.$id_umkm,'refresh');
+		}
 	}
 
 	public function HapusMarket($id)
@@ -1018,60 +1119,76 @@ class UMKM extends CI_Controller {
 
 		$user = $this->user_umkm();
 
-		if (!empty($_FILES['gambar']['name'])) {
-			$config['upload_path']      = './assets/foto_informasi/';
-			$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
+		$this->form_validation->set_rules('judul','Judul Informasi','required|min_length[5]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',
+				 'min_length' => '%s minimal 5 karakter'
+			 ));
+			$this->form_validation->set_rules('konten','Konten Informasi','required|min_length[10]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',				 
+				 'min_length' => '%s minimal 10 karakter'
+			 ));
 
-			$this->load->library('upload', $config);
-			$this->upload->initialize($config);
-
-			if ($this->upload->do_upload('gambar')) {
-				$uploadData = $this->upload->data();
-
-				$data = array(
-					'judul_informasi' => $this->input->post('judul'),
-					'gambar' => $uploadData['file_name'],
-					'isi_informasi' => $this->input->post('konten'),
-					'id_umkm' => $user['id_umkm'],
-					'status_informasi' => "aktif"
-				);
-				// print_r($data);
-				$this->UMKM_Model->createInformasi($data);
-				$this->session->set_flashdata(
-					'notif',
-					'<div class="alert alert-success text-center"style="width: 100%">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					Berhasil tambah informasi
-					</div>'
-				);
-				redirect('UMKM/Informasi/','refresh');
-			} else {
-				$this->session->set_flashdata(
-					'notif',
-					'<div class="alert alert-danger text-center"style="width: 100%">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					Gagal upload foto informasi
-					</div>'
-				);
-				redirect('UMKM/Informasi/','refresh');
-			}
+		if($this->form_validation->run() == FALSE){
+				 $this->TambahInformasi();
 		}else{
-			$data = array(
-				'judul_informasi' => $this->input->post('judul'),
-				'isi_informasi' => $this->input->post('konten'),
-				'id_umkm' => $user['id_umkm'],
-				'status_informasi' => "aktif"
-			);
-				// print_r($data);
-			$this->UMKM_Model->createInformasi($data);
-			$this->session->set_flashdata(
-				'notif',
-				'<div class="alert alert-success text-center"style="width: 100%">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				Berhasil tambah informasi
-				</div>'
-			);
-			redirect('UMKM/Informasi/','refresh');
+
+				if (!empty($_FILES['gambar']['name'])) {
+					$config['upload_path']      = './assets/foto_informasi/';
+					$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
+
+					$this->load->library('upload', $config);
+					$this->upload->initialize($config);
+
+					if ($this->upload->do_upload('gambar')) {
+						$uploadData = $this->upload->data();
+
+						$data = array(
+							'judul_informasi' => $this->input->post('judul'),
+							'gambar' => $uploadData['file_name'],
+							'isi_informasi' => $this->input->post('konten'),
+							'id_umkm' => $user['id_umkm'],
+							'status_informasi' => "aktif"
+						);
+						// print_r($data);
+						$this->UMKM_Model->createInformasi($data);
+						$this->session->set_flashdata(
+							'notif',
+							'<div class="alert alert-success text-center"style="width: 100%">
+							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+							Berhasil tambah informasi
+							</div>'
+						);
+						redirect('UMKM/Informasi/','refresh');
+					} else {
+						$this->session->set_flashdata(
+							'notif',
+							'<div class="alert alert-danger text-center"style="width: 100%">
+							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+							Gagal upload foto informasi
+							</div>'
+						);
+						redirect('UMKM/Informasi/','refresh');
+					}
+				}else{
+					$data = array(
+						'judul_informasi' => $this->input->post('judul'),
+						'isi_informasi' => $this->input->post('konten'),
+						'id_umkm' => $user['id_umkm'],
+						'status_informasi' => "aktif"
+					);
+						// print_r($data);
+					$this->UMKM_Model->createInformasi($data);
+					$this->session->set_flashdata(
+						'notif',
+						'<div class="alert alert-success text-center"style="width: 100%">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						Berhasil tambah informasi
+						</div>'
+					);
+					redirect('UMKM/Informasi/','refresh');
+				}
 		}
 	}
 
@@ -1126,65 +1243,88 @@ class UMKM extends CI_Controller {
 
 		$user = $this->user_umkm();
 
-		if (!empty($_FILES['gambar']['name'])) {
-			$config['upload_path']      = './assets/foto_informasi/';
-			$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
+		$this->form_validation->set_rules('judul','Judul Informasi','required|min_length[5]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',
+				 'min_length' => '%s minimal 5 karakter'
+			 ));
+			$this->form_validation->set_rules('konten','Konten Informasi','required|min_length[10]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',				 
+				 'min_length' => '%s minimal 10 karakter'
+			 ));
 
-			$this->load->library('upload', $config);
-			$this->upload->initialize($config);
-
-			if ($this->upload->do_upload('gambar')) {
-				$uploadData = $this->upload->data();
-
-				$data = array(
-					'judul_informasi' => $this->input->post('judul'),
-					'gambar' => $uploadData['file_name'],
-					'isi_informasi' => $this->input->post('konten'),
-					'id_umkm' => $user['id_umkm'],
-				);
-				// print_r($data);
-				$this->UMKM_Model->updateInformasi($data, $id_informasi);
-				$this->session->set_flashdata(
-					'notif',
-					'<div class="alert alert-success text-center"style="width: 100%">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					Berhasil update informasi
-					</div>'
-				);
-
-				redirect('UMKM/Informasi/','refresh');
-			} else {
-				$this->session->set_flashdata(
-					'notif',
-					'<div class="alert alert-success text-center"style="width: 100%">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					Gagal update foto informasi
-					</div>'
-				);
-				redirect('UMKM/TambahInformasi/','refresh');
-			}
+		if($this->form_validation->run() == FALSE){
+				 $this->editInformasi($id_informasi);
 		}else{
-			$data = array(
-					'judul_informasi' => $this->input->post('judul'),
-					'isi_informasi' => $this->input->post('konten'),
-					'id_umkm' => $user['id_umkm'],
-			);
-				// print_r($data);
-			$this->UMKM_Model->updateInformasi($data, $id_informasi);
-			$this->session->set_flashdata(
-				'notif',
-				'<div class="alert alert-success text-center"style="width: 100%">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				Berhasil update informasi
-				</div>'
-			);
-			redirect('UMKM/Informasi/','refresh');
+
+				if (!empty($_FILES['gambar']['name'])) {
+					$config['upload_path']      = './assets/foto_informasi/';
+					$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
+
+					$this->load->library('upload', $config);
+					$this->upload->initialize($config);
+
+					if ($this->upload->do_upload('gambar')) {
+						$uploadData = $this->upload->data();
+
+						$data = array(
+							'judul_informasi' => $this->input->post('judul'),
+							'gambar' => $uploadData['file_name'],
+							'isi_informasi' => $this->input->post('konten'),
+							'id_umkm' => $user['id_umkm'],
+						);
+						// print_r($data);
+						$this->UMKM_Model->updateInformasi($data, $id_informasi);
+						$this->session->set_flashdata(
+							'notif',
+							'<div class="alert alert-success text-center"style="width: 100%">
+							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+							Berhasil update informasi
+							</div>'
+						);
+
+						redirect('UMKM/Informasi/','refresh');
+					} else {
+						$this->session->set_flashdata(
+							'notif',
+							'<div class="alert alert-success text-center"style="width: 100%">
+							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+							Gagal update foto informasi
+							</div>'
+						);
+						redirect('UMKM/TambahInformasi/','refresh');
+					}
+				}else{
+					$data = array(
+							'judul_informasi' => $this->input->post('judul'),
+							'isi_informasi' => $this->input->post('konten'),
+							'id_umkm' => $user['id_umkm'],
+					);
+						// print_r($data);
+					$this->UMKM_Model->updateInformasi($data, $id_informasi);
+					$this->session->set_flashdata(
+						'notif',
+						'<div class="alert alert-success text-center"style="width: 100%">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						Berhasil update informasi
+						</div>'
+					);
+					redirect('UMKM/Informasi/','refresh');
+				}
 		}
 	}
 
 	public function HapusInformasi($id_informasi)
 	{
 		$this->UMKM_Model->HapusInformasi($id_informasi);
+		$this->session->set_flashdata(
+			'notif',
+			'<div class="alert alert-success text-center"style="width: 100%">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			Berhasil hapus informasi
+			</div>'
+		);
 		redirect('UMKM/Informasi/','refresh');
 	}
 

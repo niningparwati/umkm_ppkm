@@ -27,13 +27,15 @@
               <div class="box-body">
                 <div class="form-group">
                   <label for="Judul">Judul</label>
-                  <input type="text" name="judul" class="form-control" value="<?= $tampil->judul_informasi ?>" required>
+                  <input type="text" name="judul" class="form-control" value="<?= $tampil->judul_informasi ?>">
+                   <?php echo form_error('judul'); ?>
                 </div>
                 <div class="form-group">
                   <label for="Konten">Konten</label>
-                  <textarea name="konten" class="form-control" required>
+                  <textarea name="konten" class="form-control">
                     <?= $tampil->isi_informasi ?>
                   </textarea>
+                   <?php echo form_error('konten'); ?>
                 </div>
                 <div class="form-group">
                   <label for="Gambar">Gambar</label> <br>

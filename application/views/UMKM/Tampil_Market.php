@@ -23,7 +23,7 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th style="text-align: center">No</th>
+                      <th>No</th>
                       <th style="text-align: center; width: 15%">Nama Market</th>
                       <th style="text-align: center; width: 15%">Alamat</th>
                       <th style="text-align: center; width: 20%">Link</th>

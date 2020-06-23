@@ -48,7 +48,7 @@
                     <?php echo form_error('alamat'); ?>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Tanggal</label>
+                  <label for="exampleInputEmail1">Tanggal *Bulan/Tanggal/Tahun</label>
                   <input type="date" name="tanggal" class="form-control" id="Tanggal"  value="<?php echo set_value('tanggal'); ?>">
                     <?php echo form_error('tanggal'); ?>
                 </div>

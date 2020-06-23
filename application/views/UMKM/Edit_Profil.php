@@ -41,55 +41,77 @@
                   <div class="col-md-9">
                         <div class="form-group">
                           <label for="Judul">Nama Pemilik </label>
-                          <input type="text" name="nama" class="form-control" value="<?= $profil->nama_lengkap ?>" required="required">
+                          <input type="text" name="nama" class="form-control" value="<?= $profil->nama_lengkap ?>" >
+                          <?php echo form_error('nama'); ?>
                         </div>
                         <div class="form-group">
-                          <label for="Judul">Tanggal Lahir</label>
-                          <input type="date" name="tanggal_lahir" class="form-control" value="<?= $profil->tanggal_lahir ?>" required="required">
-                        </div>                        <div class="form-group">
-                          <label for="Konten">Email</label>
+                          <label for="Judul">Tanggal Lahir *Bulan/Tanggal/Tahun</label>
+                          <input type="date" name="tanggal_lahir" class="form-control" value="<?= $profil->tanggal_lahir ?>" >
+                          <?php echo form_error('tanggal_lahir'); ?>
+                        </div>                        
+                        <div class="form-group">
+                          <label for="Konten">Email *optional</label>
                           <input type="text" name="email" class="form-control" value="<?= $profil->email ?>">
                         </div>
-                        <div class="form-group">
-                          <label for="Gambar">Username</label> <br>
-                          <input type="text" name="username" class="form-control" value="<?= $profil->username ?>" required="required">
+                        <div class="row">
+                           <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="">Username</label> <br>
+                                <input type="text" name="username" class="form-control" value="<?= $profil->username ?>" >
+                                <?php echo form_error('username'); ?>
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="">Ubah Password *optional</label> <br>
+                                <input type="password" name="password" class="form-control" value="<?= $profil->username ?>" >
+                                <?php echo form_error('password'); ?>
+                              </div>
+                          </div>
                         </div>
+                        
                         <div class="form-group">
                           <label for="Judul">Nama UMKM</label>
-                          <input type="text" name="nama_umkm" class="form-control" value="<?= $profil->nama_umkm ?>" required="required">
+                          <input type="text" name="nama_umkm" class="form-control" value="<?= $profil->nama_umkm ?>" >
+                          <?php echo form_error('nama_umkm'); ?>
                         </div>
                          <div class="form-group">
                           <label for="kategori">Kategori UMKM</label>
-                          <select class="form-control" name="id_kategori_umkm" required="required">
+                          <select class="form-control" name="id_kategori_umkm" >
                             <option value="" selected disabled>==PILIH==</option>
                             <?php foreach($kategori as $key){ ?>
                               <option value="<?=$key->id_kategori_umkm?>"  <?php if($key->id_kategori_umkm==$profil->id_kategori_umkm) echo "selected" ?>> <?=$key->nama_kategori_umkm?> </option>
                             <?php  } ?>
                           </select>
+                          <?php echo form_error('id_kategori_umkm'); ?>
                         </div>
                          <div class="form-group">
                           <label for="Judul">No. Tlp UMKM</label>
-                          <input type="text" name="nomor_telp_umkm" class="form-control" value="<?= $profil->nomor_telp_umkm ?>" required="required">
+                          <input type="text" name="nomor_telp_umkm" class="form-control" value="<?= $profil->nomor_telp_umkm ?>" >
+                          <?php echo form_error('nomor_telp_umkm'); ?>
                         </div>
                         <div class="row">
                           <div class="col-md-6">
                              <div class="form-group">
                               <label for="Judul">Alamat UMKM</label>
-                              <textarea name="alamat_umkm" class="form-control" required="required"><?=$profil->alamat_umkm?></textarea>
+                              <textarea name="alamat_umkm" class="form-control" ><?=$profil->alamat_umkm?></textarea>
+                              <?php echo form_error('alamat_umkm'); ?>
                             </div>
                           </div>
 
                           <div class="col-md-3">
                               <div class="form-group">
                                 <label for="Judul">Kota/Kabupaten</label>
-                                <input type="text" name="kota_asal" class="form-control" value="<?= $profil->kota_asal ?>" required="required">
+                                <input type="text" name="kota_asal" class="form-control" value="<?= $profil->kota_asal ?>" >
+                                <?php echo form_error('kota_asal'); ?>
                               </div>
                           </div>
 
                           <div class="col-md-3">
                              <div class="form-group">
                                 <label for="Judul">Provinsi</label>
-                                <input type="text" name="provinsi_asal" class="form-control" value="<?= $profil->provinsi_asal ?>" required="required">
+                                <input type="text" name="provinsi_asal" class="form-control" value="<?= $profil->provinsi_asal ?>" >
+                                <?php echo form_error('provinsi_asal'); ?>
                               </div>                    
                           </div>                        
                           

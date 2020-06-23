@@ -27,13 +27,15 @@
               <div class="box-body">
                 <div class="form-group">
                   <label for="Judul">Judul</label>
-                  <input type="text" name="judul" class="form-control" required>
+                  <input type="text" name="judul" class="form-control" value="<?php echo set_value('judul'); ?>">
+                  <?php echo form_error('judul'); ?>
                 </div>
                 <div class="form-group">
                   <label for="Konten">Konten</label>
-                  <textarea name="konten" class="form-control" required>
-                    
+                   <textarea name="konten" id="Keterangan" style="height: 100px; width: 100%" class="form-control">
+                    <?php echo set_value('konten'); ?>
                   </textarea>
+                   <?php echo form_error('konten'); ?>      
                 </div>
                 <div class="form-group">
                   <label for="Gambar">Gambar</label>
@@ -43,7 +45,7 @@
               <!-- /.box-body -->
               <div class="box-footer">
                 <a href="<?= base_url()?>UMKM/Informasi" class="btn btn-danger"><i class="fa fa-fw fa-arrow-left"></i>Kembali</a>
-                <a class="btn btn-primary pull-right" data-toggle="modal" href="#" data-target="#addData">Simpan</a>
+                <button type="submit"  class="btn btn-primary pull-right">Simpan</button>
               </div>
             </form>
           </div>
@@ -53,29 +55,6 @@
     </section>
     <!-- /.content -->
   </div>
-
-  <div class="modal fade" id="addData" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="ExampleModalLabel">Konfirmasi Tambah Informasi</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Anda yakin ingin menambah informasi?</p>
-        </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
-          <button type="submit" class="btn btn-primary" form="tambah">Iya</button>
-        </div>
-      </div>
-      <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-  </div>
-  <!-- /.modal -->
 
 </body>
 </html>

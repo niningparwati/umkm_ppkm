@@ -20,24 +20,26 @@
     <section class="content">
       <div class="row">
         <!-- left column -->
-        <div class="col-md12">
+        <div class="col-md-8">
           <!-- general form elements -->
           <div class="box box-primary">
             <!-- form start -->
-            <!-- cantik -->
             <form role="form" id="edit" action="<?= $action?>/<?= $market->id_market?>" method="post" enctype="multipart/form-data" >
               <div class="box-body">
                 <div class="form-group">
                   <label for="namaProduk">Nama Market</label>
-                  <input type="text" name="nama_market" class="form-control" value="<?=$market->nama_market?>" required>
+                  <input type="text" name="nama_market" class="form-control" value="<?=$market->nama_market?>">
+                    <?php echo form_error('nama_market'); ?>
                 </div>
                 <div class="form-group">
                   <label for="keterangan">Alamat</label>
-                  <input type="text" name="alamat" class="form-control" value="<?=$market->alamat_market ?>" required>
+                  <input type="text" name="alamat" class="form-control" value="<?=$market->alamat_market ?>">
+                   <?php echo form_error('alamat'); ?>
                 </div>
                 <div class="form-group">
                   <label for="harga">Link</label>
-                  <input type="text" name="link" class="form-control" value="<?=$market->link_market ?>" required>
+                  <input type="text" name="link" class="form-control" value="<?=$market->link_market ?>">
+                   <?php echo form_error('link'); ?>
                 </div>
               </div>
               <!-- /.box-body -->

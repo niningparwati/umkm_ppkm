@@ -31,10 +31,6 @@ class UMKM_Model extends CI_Model {
 		return $this->db->query("SELECT tb_umkm.*, tb_user.* FROM `tb_umkm` JOIN tb_user ON tb_umkm.id_user=tb_user.id_user ORDER BY RAND() LIMIT 12")->result();
 	}
 	
-	public function dataUMKM($id_paguyuban) 
-	{
-		return $this->db->query("SELECT * FROM tb_umkm a JOIN user_umkm b ON a.id_umkm=b.id_umkm JOIN tb_user c ON b.id_user=c.id_user WHERE a.id_paguyuban='$id_paguyuban'")->result();
-	}
 
 	public function cekUMKM($id_user)
 	{
@@ -60,38 +56,6 @@ class UMKM_Model extends CI_Model {
 	{
 		return $this->db->query("SELECT b.foto, a.nama_umkm, a.id_umkm, a.alamat, b.nama, b.email FROM tb_umkm a JOIN tb_user b ON a.id_user=b.id_user WHERE id_umkm='$id_umkm'")->row();
 	}
-
-	public function umkmPaguyuban($id_umkm)
-	{
-		return $this->db->query("SELECT a.*, b.* FROM tb_umkm a JOIN tb_paguyuban b ON a.id_paguyuban=b.id_paguyuban WHERE id_umkm='$id_umkm'")->row();
-	}
-
-	public function total_rows($q = NULL, $id_paguyuban) 
-    { 
-        $this->db->like('id_umkm', $q);
-        $this->db->or_like('nama_umkm', $q);
-        $this->db->or_like('alamat', $q);
-        $this->db->or_like('id_paguyuban', $q);
-        $this->db->or_like('id_user', $q);
-        $this->db->where('id_paguyuban', $id_paguyuban);
-        $this->db->from('tb_umkm');
-        return $this->db->count_all_results();
-    }
-
-    // get data with limit and search
-    function get_umkm($limit, $start = 0, $q = NULL, $id_paguyuban) 
-    { 
-        $this->db->order_by('id_umkm', 'DESC');
-        $this->db->limit($limit, $start);
-        $this->db->group_by('id_umkm');
-        $this->db->where('id_paguyuban', $id_paguyuban);
-        return $this->db->get('tb_umkm')->result();
-    }
-	
-	public function UMKMByPaguyuban($id_user)
-    {
-        return $this->db->query("SELECT COUNT(tb_umkm.id_umkm) jumlahumkm FROM tb_umkm JOIN tb_paguyuban ON tb_umkm.id_paguyuban=tb_paguyuban.id_paguyuban JOIN tb_user ON tb_paguyuban.id_user=tb_user.id_user WHERE tb_user.id_user='$id_user'")->row();
-    }
 
     public function kategoriUMKM()
     {
@@ -147,7 +111,7 @@ class UMKM_Model extends CI_Model {
 		return $this->db->query("SELECT tb_umkm.*, tb_produk.* FROM tb_produk JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm ORDER BY RAND() LIMIT 12")->result();
 	}
 
-     public function kategoriProdukUMKM() //NINING
+     public function kategoriProdukUMKM() 
     {
         return $this->db->query("SELECT * FROM tb_kategori_produk ORDER BY nama_kategori_produk ASC")->result();
     }
@@ -168,12 +132,7 @@ class UMKM_Model extends CI_Model {
 		return $this->db->get("tb_produk JOIN tb_kategori_produk USING (id_kategori_produk) WHERE id_produk='$id'")->row();
 	}
 
-	public function dataProdukUMKM($id_paguyuban) 
-	{
-		return $this->db->query("SELECT produk.*, umkm.* FROM tb_umkm umkm JOIN tb_paguyuban paguyuban ON umkm.id_paguyuban=paguyuban.id_paguyuban JOIN tb_produk produk ON produk.id_umkm=umkm.id_umkm WHERE umkm.id_paguyuban='$id_paguyuban'")->result();
-	}
-
-	
+		
 	public function seluruhProduk($id_umkm)
 	{
 		$produk = $this->db->query("SELECT * FROM tb_produk JOIN tb_kategori_produk USING (id_kategori_produk) WHERE id_umkm='$id_umkm'")->result();
@@ -212,11 +171,7 @@ class UMKM_Model extends CI_Model {
         $this->db->query("UPDATE tb_produk SET status_produk = '1' WHERE id_produk = '$id'");
     }
 
-    public function jumlahProduk($id_paguyuban)
-	{
-		return $this->db->query("SELECT COUNT(id_produk) FROM `tb_produk` JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm JOIN tb_paguyuban ON tb_umkm.id_paguyuban=tb_paguyuban.id_paguyuban WHERE tb_umkm.id_paguyuban='$id_paguyuban' GROUP BY tb_umkm.id_paguyuban")->row();
-	}
-
+   
 	public function total_rows_by_umkm($q = NULL, $id_umkm) 
     { 
         $this->db->like('id_produk', $q);
@@ -231,16 +186,7 @@ class UMKM_Model extends CI_Model {
         return $this->db->count_all_results();
     }
 
-    function get_paguyuban_by_umkm($limit, $start = 0, $q = NULL, $id_umkm) 
-    { 
-        $this->db->order_by('id_produk', 'DESC');
-        $this->db->limit($limit, $start);
-        $this->db->group_by('id_produk');
-        $this->db->where('id_umkm', $id_umkm);
-        $this->db->join('tb_kategori_produk', 'tb_produk.id_kategori_produk=tb_kategori_produk.id_kategori_produk');
-        return $this->db->get('tb_produk')->result();
-    }
-
+   
     public function total_rows_by_kategori($q = NULL, $id_umkm, $id_kategori_produk) 
     { 
         $this->db->like('id_produk', $q);
@@ -256,26 +202,12 @@ class UMKM_Model extends CI_Model {
         return $this->db->count_all_results();
     }
 
-    function get_paguyuban_by_kategori($limit, $start = 0, $q = NULL, $id_umkm, $id_kategori_produk) 
-    { 
-        $this->db->order_by('id_produk', 'DESC');
-        $this->db->limit($limit, $start);
-        $this->db->group_by('id_produk');
-        $this->db->where('id_umkm', $id_umkm);
-        $this->db->where('tb_kategori_produk.id_kategori_produk', $id_kategori_produk);
-        $this->db->join('tb_kategori_produk', 'tb_produk.id_kategori_produk=tb_kategori_produk.id_kategori_produk');
-        return $this->db->get('tb_produk')->result();
-    }
 
     public function ProdukByUMKM($id_user)
     {
         return $this->db->query("SELECT COUNT(tb_produk.id_produk) as jumlahproduk FROM tb_produk JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm JOIN tb_user ON tb_umkm.id_user=tb_user.id_user WHERE tb_user.id_user='$id_user'")->row();
     }
 
-    public function ProdukByPaguyuban($id_user)
-    {
-        return $this->db->query("SELECT COUNT(tb_produk.id_produk) as jumlahproduk FROM tb_produk JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm JOIN tb_paguyuban ON tb_umkm.id_paguyuban=tb_paguyuban.id_paguyuban JOIN tb_user ON tb_paguyuban.id_user=tb_user.id_user WHERE tb_user.id_user='$id_user'")->row();
-    }
 
     ////////////PROMO////////////////
     public function seluruhPromo($id_umkm)
