@@ -9,6 +9,7 @@ class UMKM extends CI_Controller {
 		parent::__construct();
 		$this->load->model('ModelUser');
 		$this->load->model('UMKM_Model');
+		$this->load->library('form_validation');
 		require 'session.php';
 
 	}
@@ -222,63 +223,95 @@ class UMKM extends CI_Controller {
 		$pric = substr($harga,4);
 		$hrg = str_replace(".", "", $pric);
 
-		if (!empty($_FILES['foto_produk']['name'])) {
-			$config['upload_path']      = './assets/foto_produk/';
-			$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
+			$this->form_validation->set_rules('nama_produk','Nama Produk','required|min_length[3]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',
+				 'min_length' => 'Nama produk minimal 3 karakter'
+			 ));
+			$this->form_validation->set_rules('stok','Stok Produk','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			$this->form_validation->set_rules('deskripsi_produk','Deskripsi Produk','required|min_length[5]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',				 
+				 'min_length' => 'Deskripsi produk minimal 5 karakter'
+			 ));
+			$this->form_validation->set_rules('harga','Harga Produk','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			$this->form_validation->set_rules('id_kategori','kategori Produk','required',
+			 array(
+				 'required'  => 'Pilih Kategori Produk'
+			 ));
+			
 
-			$this->load->library('upload', $config);
-			$this->upload->initialize($config);
+			if($this->form_validation->run() == FALSE){
+				 $this->TambahProduk();
+			}else{
 
-			if ($this->upload->do_upload('foto_produk')) {
-				$uploadData = $this->upload->data();
+			
+						if (!empty($_FILES['foto_produk']['name'])) {
+							$config['upload_path']      = './assets/foto_produk/';
+							$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
 
-				$data = array(
-					'nama_produk' => $this->input->post('nama_produk'),
-					'stok' => $this->input->post('stok'),
-					'foto_produk' => $uploadData['file_name'],
-					'deskripsi_produk' => $this->input->post('deskripsi_produk'),
-					'harga_produk' => $hrg,
-					'id_umkm' => $user['id_umkm'],
-					'id_kategori_produk' => $this->input->post('id_kategori')
-				);
-				$this->UMKM_Model->createProduk($data);
-				$this->session->set_flashdata(
-					'notif',
-					'<div class="alert alert-success text-center"style="width: 100%">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					Berhasil tambah produk UMKM
-					</div>'
-				);
-				redirect('UMKM/Produk/'.$user['id_umkm'],'refresh');
-			} else {
-				$this->session->set_flashdata(
-					'notif',
-					'<div class="alert alert-danger text-center"style="width: 100%">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					Gagal tambah produk UMKM
-					</div>'
-				);
-				redirect('UMKM/TambahProduk/'.$user['id_umkm'],'refresh');
+							$this->load->library('upload', $config);
+							$this->upload->initialize($config);
+
+							if ($this->upload->do_upload('foto_produk')) {
+								$uploadData = $this->upload->data();
+
+								$data = array(
+									'nama_produk' => $this->input->post('nama_produk'),
+									'stok' => $this->input->post('stok'),
+									'foto_produk' => $uploadData['file_name'],
+									'deskripsi_produk' => $this->input->post('deskripsi_produk'),
+									'harga_produk' => $hrg,
+									'id_umkm' => $user['id_umkm'],
+									'id_kategori_produk' => $this->input->post('id_kategori')
+								);
+								$this->UMKM_Model->createProduk($data);
+								$this->session->set_flashdata(
+									'notif',
+									'<div class="alert alert-success text-center"style="width: 100%">
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+									Berhasil tambah produk UMKM
+									</div>'
+								);
+								redirect('UMKM/Produk/'.$user['id_umkm'],'refresh');
+							} else {
+								$this->session->set_flashdata(
+									'notif',
+									'<div class="alert alert-danger text-center"style="width: 100%">
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+									Gagal tambah produk UMKM
+									</div>'
+								);
+								redirect('UMKM/TambahProduk/'.$user['id_umkm'],'refresh');
+							}
+						}else{
+							$data = array(
+								'nama_produk' => $this->input->post('nama_produk'),
+								'stok' => $this->input->post('stok'),
+								'deskripsi_produk' => $this->input->post('deskripsi_produk'),
+								'harga_produk' => $hrg,
+								'id_umkm' => $user['id_umkm'],
+								'id_kategori_produk' => $this->input->post('id_kategori')
+							);
+							$this->UMKM_Model->createProduk($data);
+							$this->session->set_flashdata(
+								'notif',
+								'<div class="alert alert-success text-center"style="width: 100%">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+								Berhasil tambah produk UMKM tanpa gambar
+								</div>'
+							);
+							redirect('UMKM/Produk/'.$user['id_umkm'],'refresh');
+						}
 			}
-		}else{
-			$data = array(
-				'nama_produk' => $this->input->post('nama_produk'),
-				'stok' => $this->input->post('stok'),
-				'deskripsi_produk' => $this->input->post('deskripsi_produk'),
-				'harga_produk' => $hrg,
-				'id_umkm' => $user['id_umkm'],
-				'id_kategori_produk' => $this->input->post('id_kategori')
-			);
-			$this->UMKM_Model->createProduk($data);
-			$this->session->set_flashdata(
-				'notif',
-				'<div class="alert alert-success text-center"style="width: 100%">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				Berhasil tambah produk UMKM tanpa gambar
-				</div>'
-			);
-			redirect('UMKM/Produk/'.$user['id_umkm'],'refresh');
-		}
+
+	
 
 	}
 
@@ -323,113 +356,142 @@ class UMKM extends CI_Controller {
 		$pric = substr($harga,4);
 		$hrg = str_replace(".", "", $pric);
 
-		if (!empty($_FILES['foto_produk']['name'])) {
-			$config['upload_path']      = './assets/foto_produk/';
-			$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
+			$this->form_validation->set_rules('nama_produk','Nama Produk','required|min_length[3]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',
+				 'min_length' => 'Nama produk minimal 3 karakter'
+			 ));
+			$this->form_validation->set_rules('stok','Stok Produk','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			$this->form_validation->set_rules('deskripsi_produk','Deskripsi Produk','required|min_length[5]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',				 
+				 'min_length' => 'Deskripsi produk minimal 5 karakter'
+			 ));
+			$this->form_validation->set_rules('harga','Harga Produk','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			$this->form_validation->set_rules('id_kategori','Kategori Produk','required',
+			 array(
+				 'required'  => 'Pilih Kategori Produk'
+			 ));
 
-			$this->load->library('upload', $config);
-			$this->upload->initialize($config);
-
-			$path= './assets/foto_produk/';
-			$file = $this->input->post('foto_old',TRUE);
-			if (!empty($file)) {
-				@unlink($path.$file);
-			}
-
-			if ($this->upload->do_upload('foto_produk')) {
-				$uploadData = $this->upload->data();
-
-				if ($hrg == 0) {
-					$data = array(
-						'nama_produk' => $this->input->post('nama_produk'),
-						'stok' => $this->input->post('stok'),
-						'foto_produk' => $uploadData['file_name'],
-						'deskripsi_produk' => $this->input->post('deskripsi_produk'),
-						'harga_produk' => $harga,
-						'id_kategori_produk' => $this->input->post('id_kategori')
-					);
-
-					$this->UMKM_Model->updateProduk($data, $id_produk);
-					$this->session->set_flashdata(
-						'notif',
-						'<div class="alert alert-success text-center"style="width: 100%">
-						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-						Berhasil update produk UMKM
-						</div>'
-					);
-					redirect('UMKM/Produk','refresh');
-				}else{
-					$data = array(
-						'nama_produk' => $this->input->post('nama_produk'),
-						'stok' => $this->input->post('stok'),
-						'foto_produk' => $uploadData['file_name'],
-						'deskripsi_produk' => $this->input->post('deskripsi_produk'),
-						'harga_produk' => $hrg,
-						'id_kategori_produk' => $this->input->post('id_kategori')
-					);
-
-					$this->UMKM_Model->updateProduk($data, $id_produk);
-					$this->session->set_flashdata(
-						'notif',
-						'<div class="alert alert-success text-center"style="width: 100%">
-						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-						Berhasil update produk UMKM
-						</div>'
-					); 
-					redirect('UMKM/Produk','refresh');
-				}
-
-				
-			} else {
-				$this->session->set_flashdata(
-					'notif',
-					'<div class="alert alert-success text-center"style="width: 100%">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					Gagal upload foto produk UMKM
-					</div>'
-				);
-				redirect('UMKM/EditProduk/'.$id_produk,'refresh');
-			}
-		}else{
-			if ($hrg == 0) {
-				$data = array(
-					'nama_produk' => $this->input->post('nama_produk'),
-					'stok' => $this->input->post('stok'),
-					'deskripsi_produk' => $this->input->post('deskripsi_produk'),
-					'harga_produk' => $harga,
-					'id_kategori_produk' => $this->input->post('id_kategori')
-				);
-
-				$this->UMKM_Model->updateProduk($data, $id_produk);
-				$this->session->set_flashdata(
-					'notif',
-					'<div class="alert alert-success text-center"style="width: 100%">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					Berhasil update produk UMKM 
-					</div>'
-				); 
-				redirect('UMKM/Produk','refresh');
+			if($this->form_validation->run() == FALSE){
+				 $this->EditProduk($id_produk);
 			}else{
-				$data = array(
-					'nama_produk' => $this->input->post('nama_produk'),
-					'stok' => $this->input->post('stok'),
-					'deskripsi_produk' => $this->input->post('deskripsi_produk'),
-					'harga_produk' => $hrg,
-					'id_kategori_produk' => $this->input->post('id_kategori')
-				);
 
-				$this->UMKM_Model->updateProduk($data, $id_produk);
-				$this->session->set_flashdata(
-					'notif',
-					'<div class="alert alert-success text-center"style="width: 100%">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					Berhasil update produk UMKM 
-					</div>'
-				); 
-				redirect('UMKM/Produk','refresh');
+					if (!empty($_FILES['foto_produk']['name'])) {
+						$config['upload_path']      = './assets/foto_produk/';
+						$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
+
+						$this->load->library('upload', $config);
+						$this->upload->initialize($config);
+
+						$path= './assets/foto_produk/';
+						$file = $this->input->post('foto_old',TRUE);
+						if (!empty($file)) {
+							@unlink($path.$file);
+						}
+
+						if ($this->upload->do_upload('foto_produk')) {
+							$uploadData = $this->upload->data();
+
+							if ($hrg == 0) {
+								$data = array(
+									'nama_produk' => $this->input->post('nama_produk'),
+									'stok' => $this->input->post('stok'),
+									'foto_produk' => $uploadData['file_name'],
+									'deskripsi_produk' => $this->input->post('deskripsi_produk'),
+									'harga_produk' => $harga,
+									'id_kategori_produk' => $this->input->post('id_kategori')
+								);
+
+								$this->UMKM_Model->updateProduk($data, $id_produk);
+								$this->session->set_flashdata(
+									'notif',
+									'<div class="alert alert-success text-center"style="width: 100%">
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+									Berhasil update produk UMKM
+									</div>'
+								);
+								redirect('UMKM/Produk','refresh');
+							}else{
+								$data = array(
+									'nama_produk' => $this->input->post('nama_produk'),
+									'stok' => $this->input->post('stok'),
+									'foto_produk' => $uploadData['file_name'],
+									'deskripsi_produk' => $this->input->post('deskripsi_produk'),
+									'harga_produk' => $hrg,
+									'id_kategori_produk' => $this->input->post('id_kategori')
+								);
+
+								$this->UMKM_Model->updateProduk($data, $id_produk);
+								$this->session->set_flashdata(
+									'notif',
+									'<div class="alert alert-success text-center"style="width: 100%">
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+									Berhasil update produk UMKM
+									</div>'
+								); 
+								redirect('UMKM/Produk','refresh');
+							}
+
+							
+						} else {
+							$this->session->set_flashdata(
+								'notif',
+								'<div class="alert alert-success text-center"style="width: 100%">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+								Gagal upload foto produk UMKM
+								</div>'
+							);
+							redirect('UMKM/EditProduk/'.$id_produk,'refresh');
+						}
+					}else{
+						if ($hrg == 0) {
+							$data = array(
+								'nama_produk' => $this->input->post('nama_produk'),
+								'stok' => $this->input->post('stok'),
+								'deskripsi_produk' => $this->input->post('deskripsi_produk'),
+								'harga_produk' => $harga,
+								'id_kategori_produk' => $this->input->post('id_kategori')
+							);
+
+							$this->UMKM_Model->updateProduk($data, $id_produk);
+							$this->session->set_flashdata(
+								'notif',
+								'<div class="alert alert-success text-center"style="width: 100%">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+								Berhasil update produk UMKM 
+								</div>'
+							); 
+							redirect('UMKM/Produk','refresh');
+						}else{
+							$data = array(
+								'nama_produk' => $this->input->post('nama_produk'),
+								'stok' => $this->input->post('stok'),
+								'deskripsi_produk' => $this->input->post('deskripsi_produk'),
+								'harga_produk' => $hrg,
+								'id_kategori_produk' => $this->input->post('id_kategori')
+							);
+
+							$this->UMKM_Model->updateProduk($data, $id_produk);
+							$this->session->set_flashdata(
+								'notif',
+								'<div class="alert alert-success text-center"style="width: 100%">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+								Berhasil update produk UMKM 
+								</div>'
+							); 
+							redirect('UMKM/Produk','refresh');
+						}
+
+					}
+
 			}
-
-		}
 	}
 
 	public function HapusProduk($id)
@@ -592,60 +654,85 @@ class UMKM extends CI_Controller {
 	{
 		$user = $this->user_umkm();
 
-		if (!empty($_FILES['foto_portofolio']['name'])) {
-			$config['upload_path']      = './assets/foto_portofolio/';
-			$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
+			$this->form_validation->set_rules('judul_portofolio','Judul Portofolio','required|min_length[5]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',
+				 'min_length' => 'Judul portofolio minimal 5 karakter'
+			 ));
+			$this->form_validation->set_rules('keterangan','Keterangan','required|min_length[15]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',				 
+				 'min_length' => 'Keterangan portofolio minimal 15 karakter'
+			 ));
+			$this->form_validation->set_rules('alamat','Alamat','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			$this->form_validation->set_rules('tanggal','Tanggal Portofolio','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
 
-			$this->load->library('upload', $config);
-			$this->upload->initialize($config);
-
-			if ($this->upload->do_upload('foto_portofolio')) {
-				$uploadData = $this->upload->data();
-
-				$data = array(
-					'foto_portofolio' => $uploadData['file_name'],
-					'id_umkm' => $user['id_umkm'],
-					'judul_portofolio' => $this->input->post('judul_portofolio'),
-					'alamat' => $this->input->post('alamat'),
-					'keterangan' => $this->input->post('keterangan'),
-					'tanggal' => $this->input->post('tanggal'),
-				);
-				$this->UMKM_Model->insertPortofolio($data);
-				$this->session->set_flashdata(
-					'notif',
-					'<div class="alert alert-success text-center"style="width: 100%">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					Berhasil tambah portofolio
-					</div>'
-				); 
-				redirect('UMKM/TampilPortofolio/'.$user['id_umkm'],'refresh');
-			} else {
-				$this->session->set_flashdata(
-					'notif',
-					'<div class="alert alert-danger text-center"style="width: 100%">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					Gagal menambahkan foto portofolio
-					</div>'
-				); 
-				redirect('UMKM/TambahPortofolio/'.$user['id_umkm'],'refresh');
-			}
+		if($this->form_validation->run() == FALSE){
+				 $this->TambahPortofolio($id_umkm);
 		}else{
-			$data = array(
-				'id_umkm' => $user['id_umkm'],
-				'judul_portofolio' => $this->input->post('judul_portofolio'),
-				'alamat' => $this->input->post('alamat'),
-				'keterangan' => $this->input->post('keterangan'),
-				'tanggal' => $this->input->post('tanggal'),
-			);
-			$this->UMKM_Model->insertPortofolio($data);
-			$this->session->set_flashdata(
-				'notif',
-				'<div class="alert alert-success text-center"style="width: 100%">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				Berhasil tambah portofolio tanpa foto
-				</div>'
-			); 
-			redirect('UMKM/TampilPortofolio/'.$user['id_umkm'],'refresh');
+
+				if (!empty($_FILES['foto_portofolio']['name'])) {
+					$config['upload_path']      = './assets/foto_portofolio/';
+					$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
+
+					$this->load->library('upload', $config);
+					$this->upload->initialize($config);
+
+					if ($this->upload->do_upload('foto_portofolio')) {
+						$uploadData = $this->upload->data();
+
+						$data = array(
+							'foto_portofolio' => $uploadData['file_name'],
+							'id_umkm' => $user['id_umkm'],
+							'judul_portofolio' => $this->input->post('judul_portofolio'),
+							'alamat' => $this->input->post('alamat'),
+							'keterangan' => $this->input->post('keterangan'),
+							'tanggal' => $this->input->post('tanggal'),
+						);
+						$this->UMKM_Model->insertPortofolio($data);
+						$this->session->set_flashdata(
+							'notif',
+							'<div class="alert alert-success text-center"style="width: 100%">
+							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+							Berhasil tambah portofolio
+							</div>'
+						); 
+						redirect('UMKM/TampilPortofolio/'.$user['id_umkm'],'refresh');
+					} else {
+						$this->session->set_flashdata(
+							'notif',
+							'<div class="alert alert-danger text-center"style="width: 100%">
+							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+							Gagal menambahkan foto portofolio
+							</div>'
+						); 
+						redirect('UMKM/TambahPortofolio/'.$user['id_umkm'],'refresh');
+					}
+				}else{
+					$data = array(
+						'id_umkm' => $user['id_umkm'],
+						'judul_portofolio' => $this->input->post('judul_portofolio'),
+						'alamat' => $this->input->post('alamat'),
+						'keterangan' => $this->input->post('keterangan'),
+						'tanggal' => $this->input->post('tanggal'),
+					);
+					$this->UMKM_Model->insertPortofolio($data);
+					$this->session->set_flashdata(
+						'notif',
+						'<div class="alert alert-success text-center"style="width: 100%">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						Berhasil tambah portofolio tanpa foto
+						</div>'
+					); 
+					redirect('UMKM/TampilPortofolio/'.$user['id_umkm'],'refresh');
+				}
+
 		}
 	}
 
@@ -684,71 +771,95 @@ class UMKM extends CI_Controller {
 		
 		$user = $this->user_umkm();
 
-		$judul_portofolio = $this->input->post('judul_portofolio');
-		$keterangan = $this->input->post('keterangan');
-		$alamat = $this->input->post('alamat');
-		$tanggal = $this->input->post('tanggal');
-		$id_portofolio = $this->input->post('id_portofolio');
+		$this->form_validation->set_rules('judul_portofolio','Judul Portofolio','required|min_length[5]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',
+				 'min_length' => 'Judul portofolio minimal 5 karakter'
+			 ));
+			$this->form_validation->set_rules('keterangan','Keterangan','required|min_length[15]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',				 
+				 'min_length' => 'Keterangan portofolio minimal 15 karakter'
+			 ));
+			$this->form_validation->set_rules('alamat','Alamat','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			$this->form_validation->set_rules('tanggal','Tanggal Portofolio','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
 
-		if (!empty($_FILES['foto_portofolio']['name'])) {
-			$config['upload_path']      = './assets/foto_portofolio/';
-			$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
-
-			$this->load->library('upload', $config);
-			$this->upload->initialize($config);
-
-			if ($this->upload->do_upload('foto_portofolio')) {
-				$uploadData = $this->upload->data();
-
-				$data = array(
-					'id_umkm' => $user['id_umkm'],
-					'judul_portofolio' => $judul_portofolio,
-					'foto_portofolio' => $uploadData['file_name'],
-					'keterangan' => $keterangan,
-					'alamat' => $alamat,
-					'tanggal' => $tanggal,
-				);
-				// print_r($data);
-				$this->UMKM_Model->updatePortofolio($data, $id_portofolio);
-				$this->session->set_flashdata(
-					'notif',
-					'<div class="alert alert-success text-center"style="width: 100%">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					Berhasil update portofolio
-					</div>'
-				); 
-				redirect('UMKM/TampilPortofolio/'.$user['id_umkm'],'refresh');
-
-			}else{
-				$this->session->set_flashdata(
-					'notif',
-					'<div class="alert alert-success text-center"style="width: 100%">
-					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					Gagal upload foto portofolio
-					</div>'
-				); 
-				redirect('UMKM/CreatePortofolio/'.$user['id_umkm'],'refresh');
-			}
-
+		if($this->form_validation->run() == FALSE){
+				 $this->EditPortofolio($id_portofolio);
 		}else{
 
-			$data = array(
-				'id_umkm' => $user['id_umkm'],
-				'judul_portofolio' => $judul_portofolio,
-				'keterangan' => $keterangan,
-				'alamat' => $alamat,
-				'tanggal' => $tanggal,
-			);
-			$this->UMKM_Model->updatePortofolio($data, $id_portofolio);
-			$this->session->set_flashdata(
-				'notif',
-				'<div class="alert alert-success text-center"style="width: 100%">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				Berhasil update portofolio
-				</div>'
-			); 
-			redirect('UMKM/TampilPortofolio/'.$user['id_umkm'],'refresh');
+				$judul_portofolio = $this->input->post('judul_portofolio');
+				$keterangan = $this->input->post('keterangan');
+				$alamat = $this->input->post('alamat');
+				$tanggal = $this->input->post('tanggal');
+				$id_portofolio = $this->input->post('id_portofolio');
 
+				if (!empty($_FILES['foto_portofolio']['name'])) {
+					$config['upload_path']      = './assets/foto_portofolio/';
+					$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
+
+					$this->load->library('upload', $config);
+					$this->upload->initialize($config);
+
+					if ($this->upload->do_upload('foto_portofolio')) {
+						$uploadData = $this->upload->data();
+
+						$data = array(
+							'id_umkm' => $user['id_umkm'],
+							'judul_portofolio' => $judul_portofolio,
+							'foto_portofolio' => $uploadData['file_name'],
+							'keterangan' => $keterangan,
+							'alamat' => $alamat,
+							'tanggal' => $tanggal,
+						);
+						// print_r($data);
+						$this->UMKM_Model->updatePortofolio($data, $id_portofolio);
+						$this->session->set_flashdata(
+							'notif',
+							'<div class="alert alert-success text-center"style="width: 100%">
+							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+							Berhasil update portofolio
+							</div>'
+						); 
+						redirect('UMKM/TampilPortofolio/'.$user['id_umkm'],'refresh');
+
+					}else{
+						$this->session->set_flashdata(
+							'notif',
+							'<div class="alert alert-success text-center"style="width: 100%">
+							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+							Gagal upload foto portofolio
+							</div>'
+						); 
+						redirect('UMKM/CreatePortofolio/'.$user['id_umkm'],'refresh');
+					}
+
+				}else{
+
+					$data = array(
+						'id_umkm' => $user['id_umkm'],
+						'judul_portofolio' => $judul_portofolio,
+						'keterangan' => $keterangan,
+						'alamat' => $alamat,
+						'tanggal' => $tanggal,
+					);
+					$this->UMKM_Model->updatePortofolio($data, $id_portofolio);
+					$this->session->set_flashdata(
+						'notif',
+						'<div class="alert alert-success text-center"style="width: 100%">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						Berhasil update portofolio
+						</div>'
+					); 
+					redirect('UMKM/TampilPortofolio/'.$user['id_umkm'],'refresh');
+
+				}
 		}
 	}
 

@@ -44,35 +44,40 @@
                   <div class="col-md-8">
                       <div class="form-group">
                           <label for="namaProduk">Nama Produk</label>
-                          <input type="text" name="nama_produk" class="form-control" value="<?=$product->nama_produk?>" required>
+                          <input type="text" name="nama_produk" class="form-control" value="<?=$product->nama_produk?>">
+                          <?php echo form_error('nama_produk'); ?>
                         </div>
 
                          <div class="form-group">
                           <label for="stok">Stok</label>
-                          <input type="number" name="stok" min="0" class="form-control" value="<?=$product->stok?>" required>
+                          <input type="number" name="stok" min="0" class="form-control" value="<?=$product->stok?>">
+                          <?php echo form_error('stok'); ?>
                         </div>
                      
                          <div class="form-group">
                             <label for="keterangan">Deskripsi Produk</label>
                             <div class="form-group">
-                                <textarea name="deskripsi_produk" class="form-control" required="required">
+                                <textarea name="deskripsi_produk" class="form-control">
                                   <?=$product->deskripsi_produk?>
                                 </textarea>
+                                <?php echo form_error('deskripsi_produk'); ?>
                             </div>
                           </div>
                         <div class="form-group">
                           <label for="harga">Harga</label>
                           <!-- <input type="text" name="harga" class="form-control" value="<?=$product->harga?>" required> -->
                           <input type="text" class="form-control uang" id="rupiah" value="<?=$product->harga_produk?>" name="harga" required>
+                          <?php echo form_error('harga'); ?>
                         </div>
                         <div class="form-group">
                                   <label for="kategori">Kategori Produk</label>
-                                  <select class="form-control" name="id_kategori" required="required">
+                                  <select class="form-control" name="id_kategori">
                                     <option value="" selected disabled>==PILIH==</option>
                                     <?php foreach($kategori as $key){ ?>
                                       <option value="<?=$key->id_kategori_produk?>"  <?php if($key->id_kategori_produk==$product->id_kategori_produk) echo "selected" ?>> <?=$key->nama_kategori_produk?> </option>
                                     <?php  } ?>
                                   </select>
+                                  <?php echo form_error('id_kategori'); ?>
                         </div>
                   </div>
                 </div>
@@ -102,7 +107,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <p>Anda yakin ingin mengubah data produk UMKM?</p>
+          <p>Anda yakin ingin mengubah data produk ini?</p>
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>

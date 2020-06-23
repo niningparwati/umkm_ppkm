@@ -52,14 +52,9 @@
                            </a>  
                         </td>
                         <td><?= $value->alamat ?></td>
-                        <td><?= $value->tanggal ?></td>
-                 <!--        <td style="text-align: center">
-                          <a href="<?= base_url()?>UMKM/DetailPortofolio/<?= $value->id_portofolio ?>">
-                            <button class="btn btn-info">
-                              <div><i class="fa fa-fw fa-eye"></i>Detail</div>
-                            </button>
-                          </a>
-                        </td> -->
+                        <td>
+                          <?php $time = strtotime($value->tanggal); echo date('d F Y',$time); ?>
+                        </td>
                         <td style="text-align: center">
                           <a href="<?= base_url()?>UMKM/EditPortofolio/<?= $value->id_portofolio ?>">
                             <button class="btn btn-warning">

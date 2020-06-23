@@ -28,7 +28,8 @@
               <div class="box-body">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Judul</label>
-                  <input type="text" name="judul_portofolio" class="form-control" id="Judul" required>
+                  <input type="text" name="judul_portofolio" class="form-control" id="Judul" value="<?php echo set_value('judul_portofolio'); ?>">
+                    <?php echo form_error('judul_portofolio'); ?>
                 </div>  
                 <div class="form-group">
                   <label for="exampleInputEmail1">Unggah Foto Portofolio</label>
@@ -36,20 +37,25 @@
                 </div>       
                 <div class="form-group">
                   <label for="exampleInputEmail1">Keterangan</label><br>
-                  <textarea name="keterangan" id="Keterangan" style="height: 100px; width: 100%" required></textarea>
+                  <textarea name="keterangan" id="Keterangan" style="height: 100px; width: 100%" class="form-control">
+                    <?php echo set_value('keterangan'); ?>
+                  </textarea>
+                   <?php echo form_error('keterangan'); ?>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Tempat</label>
-                  <input type="text" name="alamat" class="form-control" id="Tempat" required>
+                  <input type="text" name="alamat" class="form-control" id="Tempat" value="<?php echo set_value('alamat'); ?>">
+                    <?php echo form_error('alamat'); ?>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Tanggal</label>
-                  <input type="date" name="tanggal" class="form-control" id="Tanggal" required>
+                  <input type="date" name="tanggal" class="form-control" id="Tanggal"  value="<?php echo set_value('tanggal'); ?>">
+                    <?php echo form_error('tanggal'); ?>
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">
                   <a href="<?= base_url()?>UMKM/TampilPortofolio/<?= $id_umkm ?>" class="btn btn-danger"><i class="fa fa-fw fa-arrow-left"></i>Kembali</a>
-                  <a class="btn btn-primary pull-right" data-toggle="modal" href="#" data-target="#addData">Simpan</a>
+                  <button type="submit"  class="btn btn-primary pull-right">Simpan</button>
                 </div>
               </form>
             </div>
@@ -59,29 +65,6 @@
       </section>
       <!-- /.content -->
     </div>
-
-    <div class="modal fade" id="addData" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="ExampleModalLabel">Konfirmasi Tambah Portofolio</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>Anda yakin ingin menambah portofolio?</p>
-          </div>
-          <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
-            <button type="submit" class="btn btn-primary" form="tambah">Iya</button>
-          </div>
-        </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
 
   </body>
   </html>

@@ -45,19 +45,23 @@
                         <div class="form-group">
                           <label for="exampleInputUjudl">Judul</label>
                           <input type="text" name="judul_portofolio" class="form-control" id="Judul" value="<?= $tampil->judul_portofolio ?>">
+                          <?php echo form_error('judul_portofolio'); ?>
                         </div>
                      
                         <div class="form-group">
                           <label for="exampleInputKeterangan">Keterangan</label><br>
-                          <textarea name="keterangan" style="height: 150px; width: 100%"><?= $tampil->keterangan?></textarea>
+                          <textarea name="keterangan" style="height: 150px; width: 100%" class="form-control"><?= $tampil->keterangan?></textarea>
+                          <?php echo form_error('keterangan'); ?>
                         </div>
                         <div class="form-group">
                           <label for="exampleInputTempat">Tempat</label>
                           <input type="text" name="alamat" class="form-control" id="Tempat" value="<?= $tampil->alamat ?>">
+                          <?php echo form_error('alamat'); ?>
                         </div>
                         <div class="form-group">
                           <label for="exampleInputTanggal">Tanggal</label>
-                          <input type="text" name="tanggal" class="form-control" id="Tanggal" value="<?= $tampil->tanggal ?>">
+                          <input type="date" name="tanggal" class="form-control" id="Tanggal" value="<?= $tampil->tanggal ?>">
+                           <?php echo form_error('tanggal'); ?>
                         </div>
                   </div>
                   

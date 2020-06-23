@@ -27,42 +27,55 @@
             <?= $this->session->flashdata('notif')?>
             <form role="form" id="tambah" action="<?= $action?>" method="post" enctype="multipart/form-data">
               <div class="box-body">
-                <div class="form-group">
-                  <label for="namaProduk">Nama Produk</label>
-                  <input type="text" name="nama_produk" class="form-control" required>
-                </div>
-                <div class="form-group">
-                  <label for="stokProduk">Stok Produk</label>
-                  <input type="number" min="0" name="stok" class="form-control" required>
-                </div>
-                <div class="form-group">
-                  <label for="fotoProduk">Foto Produk</label>
-                  <input type="file" name="foto_produk" class="form-control">
-                </div>
-                <div class="form-group">
-                  <label for="keterangan">Deskripsi Produk</label>
-                  <div class="form-group">
-                      <textarea name="deskripsi_produk" class="form-control" required="required"></textarea>
+                <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="namaProduk">Nama Produk</label>
+                        <!-- <input type="text" name="nama_produk" id="nama_produk" class="form-control" required> -->
+                        <input type="text" class="form-control" id="nama_produk" name="nama_produk" value="<?php echo set_value('nama_produk'); ?>">
+                        <?php echo form_error('nama_produk'); ?>
+                      </div>
+                      <div class="form-group">
+                        <label for="stokProduk">Stok Produk</label>
+                        <input type="number" min="0" name="stok" class="form-control" value="<?php echo set_value('stok'); ?>">
+                        <?php echo form_error('stok'); ?>
+                      </div>
+                      <div class="form-group">
+                        <label for="fotoProduk">Foto Produk</label>
+                        <input type="file" name="foto_produk" class="form-control">
+                      </div>
                   </div>
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="keterangan">Deskripsi Produk</label>
+                        <div class="form-group">
+                            <textarea name="deskripsi_produk" class="form-control"><?php echo set_value('deskripsi_produk'); ?></textarea>
+                        <?php echo form_error('deskripsi_produk'); ?>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="harga">Harga</label>
+                        <input type="text" class="form-control uang" id="rupiah" name="harga" value="<?php echo set_value('harga'); ?>" >
+                        <?php echo form_error('harga'); ?>
+                      </div>
+                      <div class="form-group">
+                        <label for="kategori">Kategori</label>
+                        <select class="form-control" name="id_kategori">
+                          <option value="" selected disabled>==PILIH==</option>
+                          <?php foreach($kategori as $key){ ?>
+                            <option value="<?=$key->id_kategori_produk?>"><?=$key->nama_kategori_produk?></option>
+                          <?php  } ?>
+                        </select>
+                         <?php echo form_error('id_kategori'); ?>
+                      </div>
+                  </div>                  
                 </div>
-                <div class="form-group">
-                  <label for="harga">Harga</label>
-                  <input type="text" class="form-control uang" id="rupiah" name="harga" required>
-                </div>
-                <div class="form-group">
-                  <label for="kategori">Kategori</label>
-                  <select class="form-control" name="id_kategori">
-                    <option value="" selected disabled>==PILIH==</option>
-                    <?php foreach($kategori as $key){ ?>
-                      <option value="<?=$key->id_kategori_produk?>"><?=$key->nama_kategori_produk?></option>
-                    <?php  } ?>
-                  </select>
-                </div>
+              
               </div>
               <!-- /.box-body -->
               <div class="box-footer">
-                <a href="<?= base_url()?>UMKM/Produk" class="btn btn-danger"><i class="fa fa-fw fa-arrow-left"></i>Kembali</a>
-                <a class="btn btn-primary pull-right" data-toggle="modal" href="#" data-target="#addData">Simpan</a>
+                <a href="<?= base_url()?>UMKM/Produk" class="btn btn-danger"><i class="fa fa-fw fa-arrow-left"></i>Kembali</a> 
+                <button type="submit"  class="btn btn-primary pull-right">Simpan</button>
               </div>
             </form>
           </div>
@@ -72,29 +85,6 @@
     </section>
     <!-- /.content -->
   </div>
-
-  <div class="modal fade" id="addData" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="ExampleModalLabel">Konfirmasi Tambah Produk</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Anda yakin ingin menambah produk umkm?</p>
-        </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
-          <button type="submit" class="btn btn-primary" form="tambah">Iya</button>
-        </div>
-      </div>
-      <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-  </div>
-  <!-- /.modal -->
 
 </body>
 <script type="text/javascript">
