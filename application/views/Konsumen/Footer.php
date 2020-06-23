@@ -5,7 +5,7 @@
   <div class="f_navigation">
     <div class="container_12">
       <div class="grid_6">
-        <h3>Contact Us</h3>
+        <h3>Kontak Kami</h3>
         <ul class="f_contact">
           <li><?=$cek->alamat?></li>
           <li><?=$cek->telepon?></li>
@@ -14,7 +14,7 @@
       </div><!-- .grid_3 -->
       
       <div class="grid_6">
-        <h3>Social Media</h3>
+        <h3>Sosial Media</h3>
         <nav class="f_menu">
           <ul>
             <li><a href="#">Website : <?=$cek->website?></a></li>

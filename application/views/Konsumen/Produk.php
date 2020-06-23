@@ -32,8 +32,8 @@
 								</div>
 							</div>
 							<div style="color: #2e9f9a;">
-								Stok : <br>
-								<?=$key->stok?> produk
+								<span style="padding-left: 10px">Stok : <br></span>
+								<span style="padding-left: 10px"><?=$key->stok?> produk</span>
 							</div>
 						</div><!-- .cart -->
 					</div><!-- .grid_3 -->
@@ -43,6 +43,10 @@
 			</div><!-- .grid_product -->
 
 			<div class="clear"></div>
+
+			<?php if (empty($produk)) {
+				echo "<center><h4>Produk kategori <?=$jenis?> tidak ditemukan</h4></center>";
+			} ?>
 
 			<?php if ($jumlah > $batas) { ?>
 				<div class="pagination">

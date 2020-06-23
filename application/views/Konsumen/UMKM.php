@@ -56,9 +56,8 @@
          $produk = $this->M_konsumen->jmlProdukByUmkm($key->id_umkm);
          ?>
          <div class="price_old">Terdapat <?=$produk->jumlah?> produk</div>
-         <div class="price_old">$725.00</div>
        </div>
-       <a href="<?=base_url()?>Konsumen/detailUmkm/<?=$key->id_umkm?>/semua" class="bay">Learn more ... </a>
+       <a href="<?=base_url()?>Konsumen/detailUmkm/<?=$key->id_umkm?>/semua" class="bay">Selengkapnya ... </a>
      </div><!-- .cart -->
    </div><!-- .grid_2 -->
 
@@ -74,8 +73,8 @@
   <div class="pagination">
     <?php echo $pagination; ?>
   </div><!-- .pagination -->
-<?php }elseif(($jumlah < $batas) AND ($jumlah >0)){ ?>
-  
+<?php } if(($jumlah < $batas) AND ($jumlah >0)){ ?>
+
 <?php } ?>
 
 </div><!-- #content -->

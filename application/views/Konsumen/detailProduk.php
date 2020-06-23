@@ -55,7 +55,7 @@
 					</div><!-- .entry_content -->
 				</div><!-- .grid_5 -->
 
-				<div class="clear"></div>>
+				<div class="clear"></div>
 
 				<?php if (!empty($serupa)) {?>
 					<div class="related">

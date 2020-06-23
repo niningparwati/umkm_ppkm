@@ -316,7 +316,7 @@ class Konsumen extends CI_Controller {
 		);		
 		$this->load->view('Konsumen/Head');
 		$this->load->view('Konsumen/Header', $data);
-		$this->load->view('Konsumen/detailProduk', $data);
+		$this->load->view('Konsumen/DetailProduk', $data);
 		$this->load->view('Konsumen/Footer');
 	}
 
@@ -448,7 +448,7 @@ class Konsumen extends CI_Controller {
 			);
 			$this->load->view('Konsumen/Head');
 			$this->load->view('Konsumen/Header', $data);
-			$this->load->view('Konsumen/detailUMKM', $data);
+			$this->load->view('Konsumen/DetailUMKM', $data);
 			$this->load->view('Konsumen/Footer');
 		}elseif ($key != 'semua') {
 			$cek = $this->M_konsumen->umkmById($idUmkm);	// ambil detail umkm berdasarkan produk tertentu
@@ -469,7 +469,7 @@ class Konsumen extends CI_Controller {
 			);
 			$this->load->view('Konsumen/Head');
 			$this->load->view('Konsumen/Header', $data);
-			$this->load->view('Konsumen/detailUMKM', $data);
+			$this->load->view('Konsumen/DetailUMKM', $data);
 			$this->load->view('Konsumen/Footer');
 		}
 	}
@@ -979,6 +979,23 @@ class Konsumen extends CI_Controller {
 		$this->load->view('Konsumen/Head');
 		$this->load->view('Konsumen/Header', $data);
 		$this->load->view('Konsumen/Informasi', $data);
+		$this->load->view('Konsumen/Footer');
+	}
+
+	function detailInformasi($id)
+	{
+		$cek = $this->M_konsumen->detailInformasi($id);
+		$data = array(
+			'id_informasi' => $cek->id_informasi,
+			'judul_informasi' => $cek->judul_informasi,
+			'isi_informasi' => $cek->isi_informasi,
+			'gambar' => $cek->gambar,
+			'nama_umkm' => $cek->nama_umkm,
+			'id_umkm' => $cek->id_umkm
+		);
+		$this->load->view('Konsumen/Head');
+		$this->load->view('Konsumen/Header', $data);
+		$this->load->view('Konsumen/DetailInformasi', $data);
 		$this->load->view('Konsumen/Footer');
 	}
 

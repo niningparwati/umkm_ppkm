@@ -116,12 +116,14 @@
         foreach ($informasi as $key) {
           ?>
           <div class="grid_4">
-            <br>
-            <div class="bottom_block about_as">
-              <h5><?=$key->judul_informasi?></h5>
-              <p><img src="<?=base_url()?>assets/foto_informasi/<?=$key->gambar?>" style="width: 270px; height: 270px" /></p>
-              <p style="text-align: justify;"><?=$key->isi_informasi?></p>
-            </div><!-- .about_as -->
+            <a href="<?=base_url()?>Konsumen/detailInformasi/<?=$key->id_informasi?>" style="text-decoration: none; color: black">
+              <br>
+              <div class="bottom_block about_as">
+                <h5><?=$key->judul_informasi?></h5>
+                <p><img src="<?=base_url()?>assets/foto_informasi/<?=$key->gambar?>" style="width: 270px; height: 270px" /></p>
+                <p style="text-align: justify;"><?= substr($key->isi_informasi, 0, 120) ?> <br><span style="color: blue">baca selengkapnya...</span></p>
+              </div><!-- .about_as -->
+            </a>
           </div><!-- .grid_4 -->
           <?php 
         }

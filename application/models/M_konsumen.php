@@ -306,6 +306,11 @@ class M_konsumen extends CI_Model {
 		return $this->db->query("SELECT * FROM tb_informasi WHERE id_umkm='$id'")->result();
 	}
 
+	function detailInformasi($id)
+	{
+		return $this->db->query("SELECT tb_informasi.*, tb_umkm.* FROM tb_informasi JOIN tb_umkm ON tb_informasi.id_umkm=tb_umkm.id_umkm WHERE tb_informasi.id_informasi='$id'  ")->row();
+	}
+
 	// KERANJANG
 
 	function produkKeranjang($id)	// mengecek produk di keranjang
@@ -464,7 +469,7 @@ class M_konsumen extends CI_Model {
 
 	function pesananMenungguPembayaran($id)
 	{
-		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE a.status='menunggu pembayaran'")->result();
+		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE a.status='menunggu pembayaran' GROUP BY a.id_transaksi")->result();
 	}
 
 	function pesananMenungguKonfirmasi($id)

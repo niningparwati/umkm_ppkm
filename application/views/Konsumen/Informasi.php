@@ -12,10 +12,10 @@
   						?>
   						<div class="grid_3 product" style="margin:8px">
   							<div class="prev">
-  								<a href="<?=base_url()?>Konsumen/detailUmkm/<?=$key->id_umkm?>/semua"><img src="<?=base_url()?>assets/foto_informasi/<?=$key->gambar?>" style="width: 300px; height: 300px" /></a>
+  								<a href="<?=base_url()?>Konsumen/detailInformasi/<?=$key->id_informasi?>"><img src="<?=base_url()?>assets/foto_informasi/<?=$key->gambar?>" style="width: 300px; height: 300px" /></a>
   							</div><!-- .prev -->
   							<h3 class="title"><?=$key->judul_informasi?></h3>
-  							<p style="padding-left: 10px; padding-right: 10px; text-align: justify;"><?=$key->isi_informasi?></p>
+  							<p style="padding-left: 10px; padding-right: 10px; text-align: justify;"><?= substr($key->isi_informasi, 0, 50) ?> ... </p>
   						</div><!-- .grid_3 -->
   						<?php 
   					}

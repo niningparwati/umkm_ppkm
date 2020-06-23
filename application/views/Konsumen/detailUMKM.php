@@ -49,7 +49,7 @@
 								} else {
 									echo "PRODUK ".strtoupper($jenis);
 								}
-								 ?>
+								?>
 							</h2>
 						</div><!-- .grid_7 -->
 					</div><!-- .c_header -->
@@ -58,30 +58,32 @@
 						<ul id="list_product" class="list_product">
 							<?php foreach ($produk as $key) { ?>
 								<li class="">
-									<div class="grid_3 product">
-										<div class="prev">
-											<a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>"><img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" alt="" title="" style="width: 100%; height: 100%" /><br><br></a>
-										</div><!-- .prev -->
-										<h3 class="title"><?=$key->nama_produk?></h3>
-										<div class="cart">
-											<div class="price" style="width: 73%">
-												<div class="vert">
-													<div class="price_new">Rp <?=number_format($key->harga_produk,2,',','.')?></div>
-													<div style="font-size: 10px; color: black; font-family: calibri">
-														Status stok : 
-														<?php 
-														if ($key->stok > 0) {
-															echo '<span style="color: black">'.$key->stok.' produk</span>';
-														} else{
-															echo '<span style="color: red">kosong</span>';
-														}
-														?>
+									<a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>" style="text-decoration: none;color: black">
+										<div class="grid_3 product">
+											<div class="prev">
+												<img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" alt="" title="" style="width: 100%; height: 100%" /><br><br>
+											</div><!-- .prev -->
+											<h3 class="title"><?=$key->nama_produk?></h3>
+											<div class="cart">
+												<div class="price" style="width: 73%">
+													<div class="vert">
+														<div class="price_new">Rp <?=number_format($key->harga_produk,2,',','.')?></div>
+														<div style="font-size: 10px; color: black; font-family: calibri">
+															Status stok : 
+															<?php 
+															if ($key->stok > 0) {
+																echo '<span style="color: black">'.$key->stok.' produk</span>';
+															} else{
+																echo '<span style="color: red">kosong</span>';
+															}
+															?>
+														</div>
 													</div>
 												</div>
-											</div>
-											<a href="#" class="bay"></a>
-										</div><!-- .cart -->
-									</div><!-- .grid_3 -->
+												<a href="#" class="bay"></a>
+											</div><!-- .cart -->
+										</div><!-- .grid_3 -->
+									</a>
 								</li>
 							<?php } ?>
 						</ul><!-- #list_product -->
@@ -165,14 +167,16 @@
 				<ul>
 					<?php foreach ($informasi as $key) { ?>
 						<li>
-							<div class="prev">
-								<a href="#"><img src="<?=base_url()?>assets/foto_informasi/<?=$key->gambar?>" style="width: 80px;height: 80px" /></a>
-							</div>
+							<a href="<?=base_url()?>Konsumen/DetailInformasi/<?=$key->id_informasi?>" style="text-decoration: none;color: black">
+								<div class="prev">
+									<img src="<?=base_url()?>assets/foto_informasi/<?=$key->gambar?>" style="width: 80px;height: 80px" />
+								</div>
 
-							<div class="cont">
-								<b><?=$key->judul_informasi?></b>
-								<div><small><?=$key->isi_informasi?></small><br><br></div>
-							</div>
+								<div class="cont">
+									<b><?=$key->judul_informasi?></b>
+									<div><small><?= substr($key->isi_informasi, 0, 40) ?> ... </small><br><br></div>
+								</div>
+							</a>
 						</li>
 					<?php } ?>
 				</ul>

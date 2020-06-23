@@ -9,7 +9,7 @@
 
       <div class="grid_6">
         <div class="welcome">
-          Welcome visitor you can <a href="<?=base_url()?>Konsumen/index">login</a> or <a href="<?=base_url()?>Konsumen/Register">create an account</a>.
+     <!--      Welcome visitor you can <a href="<?=base_url()?>Konsumen/index">login</a> or <a href="<?=base_url()?>Konsumen/Register">create an account</a>. -->
         </div><!-- .welcome -->
       </div><!-- .grid_6 -->
 
@@ -68,9 +68,9 @@
               <li><a href="<?=base_url()?>Konsumen/Logout">Log Out</a></li>
             <?php } ?>
             <?php if (!$this->session->userdata('id_konsumen')) {?>
-              <li><a href="<?=base_url()?>Konsumen/index">Log In</a></li>
+              <li><a href="<?=base_url()?>Konsumen/index">Masuk</a></li>
               <li class="separator">|</li>
-              <li><a href="<?=base_url()?>Konsumen/Register">Sign Up</a></li>
+              <li><a href="<?=base_url()?>Konsumen/Register">Daftar</a></li>
             <?php } ?>
           </ul>
         </nav><!-- .private -->
@@ -86,7 +86,7 @@
         <nav class="primary">
           <a class="menu-select" href="#">Catalog</a>
           <ul>
-            <li class="<?php echo ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'Home') ? 'curent' : ''; ?>"><a href="<?=base_url()?>Konsumen/Home">Home</a></li>
+            <li class="<?php echo ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'Home') ? 'curent' : ''; ?>"><a href="<?=base_url()?>Konsumen/Home">Beranda</a></li>
             <li class="<?php echo ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'Umkm' AND $this->uri->segment(3) == 'semua') ? 'curent' : ''; ?>"><a href="<?=base_url()?>Konsumen/Umkm/semua/0">UMKM</a></li>
             <li  class="<?php echo ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'Produk' AND $this->uri->segment(3) == 'semua') ? 'curent' : ''; ?>"><a href="<?=base_url()?>Konsumen/Produk/semua">Produk</a></li>
             <li  class="<?php echo ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'Informasi') ? 'curent' : ''; ?>"><a href="<?=base_url()?>Konsumen/Informasi">Informasi UMKM</a></li>
