@@ -5,47 +5,13 @@
     </div>
 
     <div class="register-box-body">
-      <?php
-      if($this->session->userdata('status') != 'login'){
-       ?>
-       <p class="login-box-msg">Daftar sebagai UMKM atau Admin</p>
 
-       <form action="<?= $action?>" method="post">
+       <p class="login-box-msg">Daftar sebagai UMKM</p>
 
-
+       <form action="<?=$action?>" method="post">
         <div class="form-group">
-          <label>Daftar sebagai</label>
-          <select class="form-control select2" id="level" name="level">
-            <option value="Admin" <?= ($this->session->userdata('level_user') =='Admin') ?'selected' : ""; ?>>Admin</option>
-            <option value="UMKM" <?= ($this->session->userdata('level_user') =='UMKM') ?'selected' : ""; ?> >UMKM</option>
-          </select>
         </div>
-
-        <?php
-        if ($this->session->userdata('level_user') =='Admin') { ?>
-
-          <div class="form-group has-feedback">
-            <input type="text" class="form-control" placeholder="Username" name="username" required oninvalid="this.setCustomValidity('Username belum diisi')" oninput="setCustomValidity('')" >
-          </div>
-          <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="Password" name="password" required oninvalid="this.setCustomValidity('Password belum diisi')" oninput="setCustomValidity('')" >
-          </div>
-          <div class="form-group has-feedback">
-            <input type="text" class="form-control" placeholder="Nama Lengkap" name="nama" required oninvalid="this.setCustomValidity('Nama belum diisi')" oninput="setCustomValidity('')" >
-          </div>
-          <div class="form-group has-feedback">
-            <input type="email" class="form-control" placeholder="Email" name="email" required oninvalid="this.setCustomValidity('Email belum diisi')" oninput="setCustomValidity('')" >
-          </div>
-          <div class="form-group has-feedback">
-            <textarea name="alamat" rows="3" cols="80" class="form-control" placeholder="Alamat"  required oninvalid="this.setCustomValidity('Alamat belum diisi')" oninput="setCustomValidity('')"></textarea>
-          </div>
-          <div class="form-group has-feedback">
-            <input type="text" class="form-control" placeholder="Nomor Telp" name="nohp" required oninvalid="this.setCustomValidity('Nomor Telp belum diisi')" oninput="setCustomValidity('')" >
-          </div>
-
-        <?php }
-        elseif ($this->session->userdata('level_user') =='UMKM') { ?>
-
+        <input type="hidden" name="level" value="UMKM">
           <div class="form-group has-feedback">
             <input type="text" class="form-control" placeholder="Username" name="username" required oninvalid="this.setCustomValidity('Username belum diisi')" oninput="setCustomValidity('')" >
           </div>
@@ -79,18 +45,15 @@
             </select>
           </div>
 
-        <?php } ?>
-
         <!-- /.col -->
         <div class="col-xs-12">
           <button type="submit" name="submit" class="btn btn-primary btn-block btn-flat">Register</button>
         </div><br><br>
         <center>Sudah Punya Akun? <a href="<?=base_url()?>LoginAU" class="text-center">Login</a></center>
-        <center>Alternatif Register <a href="<?=base_url()?>Register/registAdmin" class="text-center">Admin</a> dan <a href="<?=base_url()?>Register/registerUMKM" class="text-center">UMKM</a></center>
+                <center>Alternatif Register <a href="<?=base_url()?>Register/registAdmin" class="text-center">Admin</a> dan <a href="<?=base_url()?>Register/registerUMKM" class="text-center">UMKM</a></center>
         <!-- /.col -->
 
       </form>
-    <?php } ?>
   </div>
   <!-- /.form-box -->
 

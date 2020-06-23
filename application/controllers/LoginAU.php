@@ -38,7 +38,7 @@ class LoginAU extends CI_Controller {
 					'portofolio'			=> $this->M_admin->getjumPo(),
 					'slide'						=> $this->M_admin->getjumS(),
 				);
-				$this->load->view('admin/dashboard',$data);
+				$this->load->view('admin/Dashboard',$data);
 			}else if($cek->level == 'UMKM'){
 
 				$data_session = array(
