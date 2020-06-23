@@ -61,7 +61,7 @@
                         <?php
                             if ($value->status_produk=='0') {
                         ?>
-                              <small class="label pull-right bg-red"><?php echo "disembunyika"; ?></small>
+                              <small class="label pull-right bg-red"><?php echo "disembunyikan"; ?></small>
                         <?php
                             }
                             else {
@@ -136,7 +136,7 @@
                                 </div>
                                 <div class="modal-footer justify-content-between">
                                   <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
-                                  <a href="<?= site_url()?>UMKM/ShowProduk/<?= $value->id_produk ?>" class="btn btn-danger">Iya</a>
+                                  <a href="<?= site_url()?>UMKM/ShowProduk/<?= $value->id_produk ?>" class="btn btn-success">Iya</a>
                                 </div>
                               </div>
                               <!-- /.modal-content -->

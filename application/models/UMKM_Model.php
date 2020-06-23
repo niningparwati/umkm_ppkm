@@ -277,6 +277,13 @@ class UMKM_Model extends CI_Model {
         return $this->db->query("SELECT COUNT(tb_produk.id_produk) as jumlahproduk FROM tb_produk JOIN tb_umkm ON tb_produk.id_umkm=tb_umkm.id_umkm JOIN tb_paguyuban ON tb_umkm.id_paguyuban=tb_paguyuban.id_paguyuban JOIN tb_user ON tb_paguyuban.id_user=tb_user.id_user WHERE tb_user.id_user='$id_user'")->row();
     }
 
+    ////////////PROMO////////////////
+    public function seluruhPromo($id_umkm)
+    {
+        $promo = $this->db->query("SELECT * FROM tb_promo WHERE id_umkm='$id_umkm'")->result();
+        return $promo;
+    }
+
 
     ////////////PORTOFOLIO////////////
 

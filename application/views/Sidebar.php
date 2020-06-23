@@ -176,6 +176,9 @@
           <li >
             <a href="<?php echo base_url()?>UMKM/Produk/<?= $id_umkm?>"><i class="fa fa-bitbucket-square"></i> <span>Kelola Produk</span></a>
           </li>
+           <li >
+            <a href="<?php echo base_url()?>UMKM/Promo/<?= $id_umkm ?>"><i class="fa fa-photo"></i> <span>Kelola Promo</span></a>
+          </li>
           <li >
             <a href="<?= base_url()?>UMKM/TampilPortofolio/<?= $id_umkm?>"><i class="fa fa-newspaper-o"></i> <span>Kelola Portofolio</span></a>
           </li>

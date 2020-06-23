@@ -471,6 +471,22 @@ class UMKM extends CI_Controller {
 		redirect('UMKM/Produk','refresh');
 	}
 
+	////////////PROMO////////////////
+	public function Promo()
+	{
+		$user = $this->user_umkm();
+
+		$data = array(
+			'tampil' => $this->UMKM_Model->seluruhPromo($user['id_umkm'])
+		);
+
+		$this->load->view('Head', $user);
+		$this->load->view('Header', $user);
+		$this->load->view('Sidebar', $user);
+		$this->load->view('UMKM/Tampil_Promo', $data);
+		$this->load->view('Footer');
+	}
+
 	////////////TRANSAKSI////////////
 
 	public function Transaksi($id_umkm)
