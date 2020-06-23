@@ -32,7 +32,7 @@
                 </div>
                 <div class="form-group">
                   <label for="Konten">Konten</label>
-                  <textarea name="konten" class="form-control">
+                  <textarea name="konten" class="form-control" style="height: 100px">
                     <?= $tampil->isi_informasi ?>
                   </textarea>
                    <?php echo form_error('konten'); ?>

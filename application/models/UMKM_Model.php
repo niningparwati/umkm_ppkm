@@ -216,6 +216,27 @@ class UMKM_Model extends CI_Model {
         return $promo;
     }
 
+    public function createPromo($data)
+    {
+        $this->db->insert('tb_promo', $data);
+    }
+
+
+    public function editPromo($id)
+    {
+        return $this->db->get("tb_promo WHERE id_promo='$id'")->row();
+    }
+
+    public function updatePromo($id_promo, $data)
+    {
+        $this->db->where('id_promo', $id_promo);
+        $this->db->update('tb_promo', $data);
+    }
+
+     public function Aktivasi_Promo($flag, $id_promo)
+    {
+        $this->db->query("UPDATE tb_promo SET status_promo='$flag' WHERE id_promo='$id_promo'");
+    }
 
     ////////////PORTOFOLIO////////////
 

@@ -366,7 +366,7 @@ class UMKM extends CI_Controller {
 								'notif',
 								'<div class="alert alert-success text-center"style="width: 100%">
 								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-								Berhasil tambah produk UMKM tanpa gambar
+								Berhasil tambah produk UMKM
 								</div>'
 							);
 							redirect('UMKM/Produk/'.$user['id_umkm'],'refresh');
@@ -596,7 +596,7 @@ class UMKM extends CI_Controller {
 	}
 
 	////////////PROMO////////////////
-	public function Promo()
+	public function Promo($id_umkm)
 	{
 		$user = $this->user_umkm();
 
@@ -609,6 +609,289 @@ class UMKM extends CI_Controller {
 		$this->load->view('Sidebar', $user);
 		$this->load->view('UMKM/Tampil_Promo', $data);
 		$this->load->view('Footer');
+	}
+
+	public function TambahPromo()
+	{
+		$user = $this->user_umkm();
+
+		$cek = $this->ModelUser->cekUser($user['username']);
+		$data = array(
+			'action' => site_url('UMKM/CreatePromo')
+		);
+
+		$this->load->view('Head', $user);
+		$this->load->view('Header', $user);
+		$this->load->view('Sidebar', $user);
+		$this->load->view('UMKM/Tambah_Promo', $data);
+		$this->load->view('Footer');
+	}
+
+	public function CreatePromo()
+	{
+		$user = $this->user_umkm();
+
+		$minimal_belanja 	= $this->input->post('minimal_belanja');
+		$maksimum_potongan 	= $this->input->post('maksimum_potongan');
+
+		$pric1				= substr($minimal_belanja, 4);
+		$pric2 				= substr($maksimum_potongan, 4);
+		$min_belanja 		= str_replace(".", "", $pric1);
+		$max_potongan 		= str_replace(".", "", $pric2);
+
+			$this->form_validation->set_rules('nama_promo','Nama Promo','required|min_length[5]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',
+				 'min_length' => '%s minimal 5 karakter'
+			 ));
+			$this->form_validation->set_rules('kode_promo','Kode Promo','required|min_length[5]|max_length[20]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',
+				 'min_length' => '%s minimal 5 karakter',
+				 'max_length'=> '%s maksimal 20 karakter'
+			 ));
+			$this->form_validation->set_rules('besar_promo','Besar Promo','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			$this->form_validation->set_rules('minimal_belanja','Minimal Belanja','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			$this->form_validation->set_rules('maksimum_potongan','Maksimum Potongan','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			$this->form_validation->set_rules('berlaku_sampai','Berlaku Sampai','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			
+
+			if($this->form_validation->run() == FALSE){
+				 $this->TambahPromo();
+			}else{
+
+			
+						if (!empty($_FILES['foto_promo']['name'])) {
+							$config['upload_path']      = './assets/foto_promo/';
+							$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
+
+							$this->load->library('upload', $config);
+							$this->upload->initialize($config);
+
+							if ($this->upload->do_upload('foto_promo')) {
+								$uploadData = $this->upload->data();
+
+								$data = array(
+									'nama_promo' => $this->input->post('nama_promo'),
+									'kode_promo' => $this->input->post('kode_promo'),
+									'besar_promo' => $this->input->post('besar_promo'),
+									'foto_promo' => $uploadData['file_name'],
+									'minimal_belanja' => $min_belanja ,
+									'maksimum_potongan' => $max_potongan,
+									'id_umkm' => $user['id_umkm'],
+									'status_promo' => 'aktif',
+									'berlaku_sampai' => $this->input->post('berlaku_sampai')
+								);
+								$this->UMKM_Model->createPromo($data);
+								$this->session->set_flashdata(
+									'notif',
+									'<div class="alert alert-success text-center"style="width: 100%">
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+									Berhasil tambah promo
+									</div>'
+								);
+								redirect('UMKM/Promo/'.$user['id_umkm'],'refresh');
+							} else {
+								$this->session->set_flashdata(
+									'notif',
+									'<div class="alert alert-danger text-center"style="width: 100%">
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+									Gagal tambah promo
+									</div>'
+								);
+								redirect('UMKM/TambahPromo','refresh');
+							}
+						}else{
+							$data = array(
+									'nama_promo' => $this->input->post('nama_promo'),
+									'kode_promo' => $this->input->post('kode_promo'),
+									'besar_promo' => $this->input->post('besar_promo'),
+									'minimal_belanja' => $min_belanja ,
+									'maksimum_potongan' => $max_potongan,
+									'id_umkm' => $user['id_umkm'],
+									'status_promo' => 'aktif',
+									'berlaku_sampai' => $this->input->post('berlaku_sampai')
+							);
+							$this->UMKM_Model->createPromo($data);
+							$this->session->set_flashdata(
+								'notif',
+								'<div class="alert alert-success text-center"style="width: 100%">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+								Berhasil tambah promo
+								</div>'
+							);
+							redirect('UMKM/Promo/'.$user['id_umkm'],'refresh');
+						}
+		}
+
+	}
+
+	public function EditPromo($id)
+	{
+		$user = $this->user_umkm();
+
+		$data = array(
+			'action' => site_url('UMKM/UpdatePromo'),
+			'promo' => $this->UMKM_Model->editPromo($id),
+		);
+
+		$this->load->view('Head', $user);
+		$this->load->view('Header', $user);
+		$this->load->view('Sidebar', $user);
+		$this->load->view('UMKM/Edit_Promo', $data);
+		$this->load->view('Footer');
+	}
+
+	public function UpdatePromo($id_promo){
+
+		$user = $this->user_umkm();
+
+		$minimal_belanja 	= $this->input->post('minimal_belanja');
+		$maksimum_potongan 	= $this->input->post('maksimum_potongan');
+
+		$pric1				= substr($minimal_belanja, 4);
+		$pric2 				= substr($maksimum_potongan, 4);
+		$min_belanja 		= str_replace(".", "", $pric1);
+		$max_potongan 		= str_replace(".", "", $pric2);
+
+			$this->form_validation->set_rules('nama_promo','Nama Promo','required|min_length[5]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',
+				 'min_length' => '%s minimal 5 karakter'
+			 ));
+			$this->form_validation->set_rules('kode_promo','Kode Promo','required|min_length[5]|max_length[20]',
+			 array(
+				 'required'  => '%s tidak boleh kosong',
+				 'min_length' => '%s minimal 5 karakter',
+				 'max_length'=> '%s maksimal 20 karakter'
+			 ));
+			$this->form_validation->set_rules('besar_promo','Besar Promo','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			$this->form_validation->set_rules('minimal_belanja','Minimal Belanja','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			$this->form_validation->set_rules('maksimum_potongan','Maksimum Potongan','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			$this->form_validation->set_rules('berlaku_sampai','Berlaku Sampai','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			
+
+			if($this->form_validation->run() == FALSE){
+				 $this->EditPromo($id_promo);
+			}else{
+				if (!empty($_FILES['foto_promo']['name'])) {
+							$config['upload_path']      = './assets/foto_promo/';
+							$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
+
+							$this->load->library('upload', $config);
+							$this->upload->initialize($config);
+
+							if ($this->upload->do_upload('foto_promo')) {
+								$uploadData = $this->upload->data();
+
+								$data = array(
+									'nama_promo' => $this->input->post('nama_promo'),
+									'kode_promo' => $this->input->post('kode_promo'),
+									'besar_promo' => $this->input->post('besar_promo'),
+									'foto_promo' => $uploadData['file_name'],
+									'minimal_belanja' => $min_belanja ,
+									'maksimum_potongan' => $max_potongan,
+									'id_umkm' => $user['id_umkm'],
+									'status_promo' => 'aktif',
+									'berlaku_sampai' => $this->input->post('berlaku_sampai')
+								);
+								$this->UMKM_Model->updatePromo($id_promo,$data);
+								$this->session->set_flashdata(
+									'notif',
+									'<div class="alert alert-success text-center"style="width: 100%">
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+									Berhasil edit promo
+									</div>'
+								);
+								redirect('UMKM/Promo/'.$user['id_umkm'],'refresh');
+							} else {
+								$this->session->set_flashdata(
+									'notif',
+									'<div class="alert alert-danger text-center"style="width: 100%">
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+									Gagal edit promo
+									</div>'
+								);
+								redirect('UMKM/EditPromo'.$id_promo,'refresh');
+							}
+						}else{
+							$data = array(
+									'nama_promo' => $this->input->post('nama_promo'),
+									'kode_promo' => $this->input->post('kode_promo'),
+									'besar_promo' => $this->input->post('besar_promo'),
+									'minimal_belanja' => $min_belanja ,
+									'maksimum_potongan' => $max_potongan,
+									'id_umkm' => $user['id_umkm'],
+									'status_promo' => 'aktif',
+									'berlaku_sampai' => $this->input->post('berlaku_sampai')
+							);
+							$this->UMKM_Model->updatePromo($id_promo,$data);
+							$this->session->set_flashdata(
+								'notif',
+								'<div class="alert alert-success text-center"style="width: 100%">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+								Berhasil edit promo
+								</div>'
+							);
+							redirect('UMKM/Promo/'.$user['id_umkm'],'refresh');
+						}
+			}
+
+	}
+
+	public function Aktivasi_Promo($id_promo, $nilai)
+	{
+		$user = $this->user_umkm();
+		
+		if ($nilai == 1) {
+			$flag = 'aktif';
+			$this->UMKM_Model->Aktivasi_Promo($flag, $id_promo);
+			$this->session->set_flashdata(
+				'notif',
+				'<div class="alert alert-success text-center"style="width: 100%">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				Berhasil Aktifkan Promo
+				</div>'
+			);
+			redirect('UMKM/Promo/'.$user['id_umkm'],'refresh');
+			// echo $flag." ".$id_informasi;
+		}elseif ($nilai == 0) {
+			$flag = 'tidak aktif';
+			$this->UMKM_Model->Aktivasi_Promo($flag, $id_promo);
+			$this->session->set_flashdata(
+				'notif',
+				'<div class="alert alert-success text-center"style="width: 100%">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				Berhasil Non Aktifkan Promo
+				</div>'
+			);
+			redirect('UMKM/Promo/'.$user['id_umkm'],'refresh');
+			// echo $flag." ".$id_informasi;
+		}
 	}
 
 	////////////TRANSAKSI////////////

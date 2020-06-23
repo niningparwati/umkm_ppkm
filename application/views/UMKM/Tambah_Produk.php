@@ -7,13 +7,7 @@
     <section class="content-header">
       <h1>
         Tambah Produk
-        <small>Preview</small>
       </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Forms</a></li>
-        <li class="active">General Elements</li>
-      </ol>
     </section>
 
     <!-- Main content -->
@@ -31,7 +25,6 @@
                   <div class="col-md-6">
                       <div class="form-group">
                         <label for="namaProduk">Nama Produk</label>
-                        <!-- <input type="text" name="nama_produk" id="nama_produk" class="form-control" required> -->
                         <input type="text" class="form-control" id="nama_produk" name="nama_produk" value="<?php echo set_value('nama_produk'); ?>">
                         <?php echo form_error('nama_produk'); ?>
                       </div>

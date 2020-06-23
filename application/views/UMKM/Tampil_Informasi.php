@@ -52,11 +52,18 @@
                         <?php } ?>
                       </td>
                       <td style="text-align: center;">
-                        <?php if ($value->status_informasi == 'tidak aktif') { ?>
-                          Tidak Aktif
-                        <?php }elseif ($value->status_informasi == 'aktif') { ?>
-                          Aktif
-                        <?php } ?>
+                        <?php
+                                if ($value->status_informasi=='tidak aktif') {
+                            ?>
+                                  <small class="label pull-right bg-red"><?php echo "Tidak Aktif"; ?></small>
+                            <?php
+                                }
+                                else {
+                            ?>
+                                 <small class="label pull-right bg-green"><?php echo "Aktif"; ?></small>
+                            <?php
+                                }              
+                            ?>
                       </td>
                       <td style="text-align: center">
 

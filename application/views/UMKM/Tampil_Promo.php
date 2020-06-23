@@ -10,7 +10,7 @@
               <div class="box-header">
                 <h3 class="box-title">Data Promo</h3><br><br>
                 <td>
-                  <a href="<?= base_url()?>UMKM/TambahProduk">
+                  <a href="<?= base_url()?>UMKM/TambahPromo">
                     <button class="btn btn-primary" type="button">
                       <div><i class="fa fa-fw fa-plus"></i>Tambah Data</div>
                     </button>
@@ -39,7 +39,7 @@
                       <tr>
                         <td style="text-align: center;"><?= $no++ ?></td>
                         <td><?= $value->nama_promo ?></td>
-                        <td><?= $value->kode_promo ?></td>
+                        <td><b><?= $value->kode_promo ?></b></td>
                         <td><?= $value->besar_promo ?> %</td>
                         <td>
                           <a class="btn btn-success" data-toggle="modal" href="#" data-target="#detail<?=$value->id_promo?>">
@@ -69,7 +69,7 @@
                           <?php 
                             if($value->status_promo!='tidak aktif'){
                           ?>
-                            <a class="btn btn-danger" data-toggle="modal" href="#" data-target="#nonaktifkan<?=$value->id_promo?>">
+                            <a class="btn btn-danger" data-toggle="modal" href="#" data-target="#nonAktifkan<?=$value->id_promo?>">
                               <i class="fa fa-fw fa-eye"></i> Non-aktifkan
                             </a>
                           <?php
@@ -123,13 +123,69 @@
           <p style="font-size: 20px">
             <b>Besar Promo :</b> <?= $key->besar_promo ?> % <br>
             <b>Minimal Belanja :</b> Rp <?= number_format($key->minimal_belanja) ?> <br>
-            <b>Maksimal Potongan :</b> Rp <?= number_format($key->minimal_belanja) ?> <br>
+            <b>Maksimal Potongan :</b> Rp <?= number_format($key->maksimum_potongan) ?> <br>
             <b>Status Promo :</b> <?= $key->status_promo ?> <br>
-            <b>Berlaku sampai :</b> Rp <?= $key->berlaku_sampai ?>
+            <b>Berlaku sampai :</b> <?php $time = strtotime($key->berlaku_sampai); echo date('d F Y',$time); ?><br>
+            <b>Foto Promo :</b><br>
+            <?php if ($key->foto_promo) { ?>
+                            <img src="<?= base_url()?>assets/foto_promo/<?=$key->foto_promo?>" width='100px'>
+            <?php }else{?>
+                            (foto promo belum ada. silahkan tambahkan foto)
+            <?php } ?>
           </p>
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tutup</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+<?php } ?>
+
+<?php foreach ($tampil as $key) { ?>
+  <div class="modal fade" id="nonAktifkan<?=$key->id_promo?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="ExampleModalLabel">Konfirmasi Non AKtif</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Anda Yakin Ingin Menonaktifkan Promo <b><?= $key->nama_promo ?></b> ?</p>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
+          <a href="<?= site_url()?>UMKM/Aktivasi_Promo/<?= $key->id_promo ?>/0" class="btn btn-danger">Iya</a>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+<?php } ?>
+
+<?php foreach ($tampil as $key) { ?>
+  <div class="modal fade" id="aktifkan<?=$key->id_promo?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="ExampleModalLabel">Konfirmasi Aktivasi</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Anda Yakin Ingin Mengaktifkan Promo <b><?= $key->nama_promo ?></b> ?</p>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
+          <a href="<?= site_url()?>UMKM/Aktivasi_Promo/<?= $key->id_promo ?>/1" class="btn btn-danger">Iya</a>
         </div>
       </div>
       <!-- /.modal-content -->

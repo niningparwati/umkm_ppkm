@@ -23,7 +23,7 @@
 									</ul>
 									<div class="tab-content">
 										<div class="tab-pane active" id="tab_1-1">
-											<table class="table table-stripe">
+											<table class="table table-bordered">
 													<thead>
 													<th>No.</th>
 													<th>Nama Produk</th>
