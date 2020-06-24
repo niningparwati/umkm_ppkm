@@ -349,12 +349,6 @@ class M_konsumen extends CI_Model {
 		return $this->db->query("SELECT * FROM tb_keranjang WHERE id_keranjang='$id'")->row();
 	}
 
-	// function cekIdTransaksi($data, $id)	// update jumlah barang dalam keranjang
-	// {
-	// 	$this->db->where('id_keranjang', $id);
-	// 	$this->db->update('tb_keranjang', $data);
-	// }
-
 	function hapusKeranjang($id)
 	{
 		$this->db->query("DELETE FROM tb_keranjang WHERE id_konsumen='$id'");
@@ -374,7 +368,7 @@ class M_konsumen extends CI_Model {
 
 	function cekIdTransaksi($id)		// cek transaksi yang belum dibayar (hanya 1 transaksi yang boleh dibayar)
 	{
-		return $this->db->query("SELECT * FROM tb_transaksi WHERE id_konsumen='$id' AND status='menunggu pembayaran'")->row();
+		return $this->db->query("SELECT MAX(id_transaksi) as id FROM tb_transaksi WHERE id_konsumen='$id' AND status='menunggu pembayaran'")->row();
 	}
 
 	function cekKeranjang($id)		// cek keranjang berdasarkan id keranjang
@@ -391,6 +385,11 @@ class M_konsumen extends CI_Model {
 	// {
 	// 	return $this->db->query("SELECT * FROM tb_produk WHERE id_produk='$id'")->row();
 	// }
+
+	function getTransaksi($idTransaksi)
+	{
+		return $this->db->query("SELECT * FROM tb_transaksi WHERE id_transaksi='$idTransaksi' ")->row();
+	}
 
 	function detailTransaksi($result)	// insert multiple data ke tabel detail transaksi
 	{
@@ -422,6 +421,11 @@ class M_konsumen extends CI_Model {
 	function produkBayar($id)	// mengambil data produk yang akan di checkout
 	{
 		return $this->db->query("SELECT a.*, b.*, c.*, d.* FROM tb_detail_transaksi a JOIN tb_produk b ON a.id_produk=b.id_produk JOIN tb_umkm c ON b.id_umkm=c.id_umkm JOIN tb_transaksi d ON a.id_transaksi=d.id_transaksi WHERE a.id_transaksi='$id' AND d.status='menunggu pembayaran' ")->result();
+	}
+
+	function getProduk($idTransaksi, $idUmkm)
+	{
+		return $this->db->query("SELECT SUM(jumlah_harga) as total FROM tb_detail_transaksi JOIN tb_produk ON tb_detail_transaksi.id_produk=tb_produk.id_produk WHERE tb_detail_transaksi.id_transaksi='$idTransaksi' AND tb_produk.id_umkm='$idUmkm' GROUP BY id_detail_transaksi")->row();
 	}
 
 	function updateTransaksi($data,$idKonsumen)
@@ -463,6 +467,13 @@ class M_konsumen extends CI_Model {
 	function BatalkanTransaksi2($id)	// menghapus dari tabel transaksi
 	{
 		$this->db->query("DELETE FROM tb_transaksi WHERE id_transaksi='$id'");
+	}
+
+	// KODE DISKON
+
+	function cekKodeDiskon($kode)
+	{
+		return $this->db->query("SELECT * FROM tb_promo WHERE kode_promo='$kode' ")->row();
 	}
 
 	// PESANAN
