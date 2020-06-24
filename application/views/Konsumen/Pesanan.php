@@ -58,7 +58,6 @@
             <th class="bg subtotal" style="background: #f7f7f7; text-align: center; color: black"><b>Ekspedisi Pengiriman</b></th>
             <th class="qty" style="background: #f7f7f7; text-align: center; color: black"><b>Ongkos Kirim</b></th>
             <th class="bg subtotal" style="background: #f7f7f7; text-align: center; color: black"><b>Alamat Pengiriman</b></th>
-            <th class="close" style="background: #f7f7f7; text-align: center; color: black"><b>Nomor Resi</b></th>
           </tr>
           <form method="POST" action="<?=base_url()?>Konsumen/Checkout">
 
@@ -84,14 +83,6 @@
                 </td>
                 <td>
                   <?=$key->detail_alamat.", ".$key->kota.", ".$key->provinsi?>
-                </td>
-                <td style="width: 120px">
-                  <?php 
-                  if ($key->resi) {
-                    echo $key->resi;
-                  }else{
-                    echo "belum ada nomor resi";
-                  }?>
                 </td>
               </tr>
             <?php } ?>
