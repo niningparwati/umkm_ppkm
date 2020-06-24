@@ -6,7 +6,7 @@
     <div class="container_12">
       <div class="grid_6">
         <h3>Kontak Kami</h3>
-        <ul class="f_contact">
+        <ul class="f_contact" style="color: black">
           <li><?=$cek->alamat?></li>
           <li><?=$cek->telepon?></li>
           <li><?=$cek->email?></li>
@@ -15,11 +15,11 @@
       
       <div class="grid_6">
         <h3>Sosial Media</h3>
-        <nav class="f_menu">
+        <nav class="f_contact">
           <ul>
-            <li><a href="#">Website : <?=$cek->website?></a></li>
-            <li><a href="#">Instagram : <?=$cek->instagram?></a></li>
-            <li><a href="#">Facebook : <?=$cek->facebook?></a></li>
+            <li>Website : <a href="<?=$cek->website?>" style="text-decoration: none;color: black"><?=$cek->website?></a></li>
+            <li>Instagram : <a href="https://www.instagram.com/<?=$cek->instagram?>/" style="text-decoration: none;color: black"><?=$cek->instagram?></a></li>
+            <li>Facebook : <a href="https://web.facebook.com/<?= str_replace("%20", " ", $cek->facebook) ?>" style="text-decoration: none;color: black"><?=$cek->facebook?></a></li>
           </ul>
         </nav><!-- .private -->
       </div><!-- .grid_3 -->

@@ -8,13 +8,13 @@
 			<div class="product_page">
 				<div class="grid_4 img_slid" id="products">
 					<div class="preview slides_container">
-						<div class="prev_bg">
+						<div class="prev_bg" style="width: 270px; height: 275px">
 							<?php if ($foto) { ?>
 								<a class="jqzoom" rel="gal1" href="#">
-									<img src="<?=base_url()?>assets/foto_user/<?=$foto?>"  style="width: 295px; height: 295px" title="" alt=""/>
+									<img src="<?=base_url()?>assets/foto_user/<?=$foto?>" style="width: 270px; height: 275px" title="" alt=""/>
 								</a>
 							<?php }else{ ?>
-								<img src="<?=base_url()?>assets/foto_umkm/store.png"  style="width: 100%; height: 100%" title="" alt=""/>
+								<img src="<?=base_url()?>assets/foto_umkm/store.png" style="width: 270px; height: 275px" title="" alt=""/>
 							</a>
 						<?php } ?>
 					</div>
@@ -24,7 +24,7 @@
 			<div class="grid_5">
 				<div class="entry_content">
 					<div class="availability_sku">
-						<div class="sku">
+						<div class="sku" style=" font-size: 13px">
 							<p style="text-align: justify;"><?=$deskripsi?></p>
 							<br><br>
 							Alamat : <?=$alamat?>
@@ -94,14 +94,14 @@
 
 	</div><!-- #content -->
 
-	<div id="sidebar" class="grid_3">
+	<div id="sidebar" class="grid_3" style=" font-size: 13px; color: black">
 		<aside id="categories_nav">
 			<h3>KATEGORI PRODUK</h3>
 			<nav class="left_menu">
 				<ul>
-					<li><a href="<?=base_url()?>Konsumen/detailUmkm/<?=$id_umkm?>/semua">Semua Produk</a></li>
+					<li style="border: none;"><a href="<?=base_url()?>Konsumen/detailUmkm/<?=$id_umkm?>/semua" style="text-decoration: none;">Semua Produk</a></li>
 					<?php foreach ($kategori_produk as $key) { ?>
-						<li><a href="<?=base_url()?>Konsumen/detailUmkm/<?=$id_umkm?>/<?=$key->id_kategori_produk?>"><?=$key->nama_kategori_produk?></a></li>
+						<li style="border: none;"><a href="<?=base_url()?>Konsumen/detailUmkm/<?=$id_umkm?>/<?=$key->id_kategori_produk?>" style="text-decoration: none;"><?=$key->nama_kategori_produk?></a></li>
 					<?php } ?>
 				</ul>
 			</nav><!-- .left_menu -->
@@ -114,7 +114,7 @@
 				<div class="list_carousel">
 					<ul id="list_banners">
 						<?php foreach ($cekFoto as $key) { ?>
-							<li class="banner" style="width: 48%; height: 100px"><a href="#">
+							<li class="banner" style="width: 48%; height: 100px;"><a href="#">
 								<div class="prev">
 									<img src="<?php echo base_url()?>assets/galeri_umkm/<?=$key->foto?>" style="width: 80%; height: 80px; padding-bottom: 25px" />
 								</div><!-- .prev -->
@@ -126,23 +126,23 @@
 		<?php } ?>
 
 		<?php if (!empty($portofolio)) { ?>
-			<aside id="specials" class="specials">
+			<aside id="specials" class="specials" style="font-size: 13px">
 				<h3>PORTOFOLIO</h3>
 				<ul>
 					<?php foreach ($portofolio as $key) { ?>
-						<li>
+						<li style="border: none;">
 							<div class="prev">
 								<?php if (!empty($key->foto_portofolio)) { ?>
-									<a href="#"><img src="<?=base_url()?>assets/foto_portofolio/<?=$key->foto_portofolio?>" style="width: 80px;height: 80px" /></a>
+									<img src="<?=base_url()?>assets/foto_portofolio/<?=$key->foto_portofolio?>" style="width: 80px;height: 80px" />
 								<?php }else{ ?>
-									<a href="#"><img src="<?=base_url()?>assets/foto_portofolio/portofolio.png" style="width: 80px;height: 80px" /></a>
+									<img src="<?=base_url()?>assets/foto_portofolio/portofolio.png" style="width: 80px;height: 80px" />
 								<?php } ?>
 							</div>
 
 							<div class="cont">
 								<b><?=$key->judul_portofolio?></b>
-								<div><small><?=$key->keterangan?></small><br><br></div>
-								<div><?=$key->alamat?>, <?=$key->tanggal?></div>
+								<div style=" font-size: 13px"><?=$key->keterangan?><br><br></div>
+								<div style=" font-size: 13px"><?=$key->alamat?>, <?=$key->tanggal?></div>
 							</div>
 						</li>
 					<?php } ?>
@@ -151,7 +151,7 @@
 		<?php } ?>
 
 		<?php if (!empty($market)) { ?>
-			<aside id="newsletter_signup">
+			<aside id="newsletter_signup" style=" font-size: 13px">
 				<h3>MARKET</h3>
 				<?php foreach ($market as $key) { ?>
 					<p>
@@ -169,7 +169,7 @@
 				<h3>INFORMASI</h3>
 				<ul>
 					<?php foreach ($informasi as $key) { ?>
-						<li style="height: 100px">
+						<li style="height: 100px; border: none;">
 							<a href="<?=base_url()?>Konsumen/DetailInformasi/<?=$key->id_informasi?>" style="text-decoration: none;color: black">
 								<div class="prev">
 									<?php if (!empty($key->gambar)) { ?>
@@ -178,9 +178,9 @@
 										<img src="<?=base_url()?>assets/foto_informasi/informasi.png" style="width: 80px;height: 80px" />
 									<?php } ?>
 								</div>
-								<div class="cont">
+								<div class="cont"  style=" font-size: 13px">
 									<b><?=$key->judul_informasi?></b>
-									<div><small><?= substr($key->isi_informasi, 0, 100) ?> ... </small><br><br></div>
+									<div><?= substr($key->isi_informasi, 0, 100) ?> ... <br><br></div>
 								</div>
 							</a>
 						</li>

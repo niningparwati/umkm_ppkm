@@ -35,6 +35,21 @@ if ($err) {
   <div class="container_12">
     <div class="grid_12">
       <h1 class="page_title" style="border: none;">Checkout</h1>
+      <table style="border:none; text-align: right;">
+        <form action="<?=base_url()?>Konsumen/inputDiskon/<?=$transaksi->id_transaksi?>" method="POST">
+          <tr style="float: right;">
+            <td style="border: none;">
+              Masukan kode voucher &nbsp
+            </td>
+            <td style="border: none;">
+              &nbsp &nbsp &nbsp <input type="text" name="kode_diskon" style="width: 80%; height: 30px">
+            </td>
+            <td style="border: none;">
+              <button name="submit" type="submit" style="height: 30px; padding-right: 10px; padding-left: 10px;">Kirim</button>
+            </td>
+          </tr>
+        </form>
+      </table>
       <table class="cart_product">
         <tr>
           <th class="bg name" style="text-align: center;font-weight: bold;color: black">Gambar Produk</th>
@@ -74,37 +89,24 @@ if ($err) {
               </td>
             </tr>
           <?php } ?>
-          <form action="<?=base_url()?>Konsumen/inputDiskon/<?=$transaksi->id_transaksi?>" method="POST">
-            <tr>
-              <td colspan="4" style="text-align: right; font-size: 14px; border: none; vertical-align: middle;">
-                Masukan kode voucher &nbsp
-              </td>
-              <td colspan="1" style="text-align: left; border: none;">
-                &nbsp &nbsp &nbsp <input type="text" name="kode_diskon" style="width: 80%; height: 30px">
-              </td>
-              <td colspan="1" style="float: left; border: none;">
-                <button name="submit" type="submit" style="height: 30px; padding-right: 10px; padding-left: 10px;">Kirim</button>
-              </td>
-            </tr>
-          </form>
           <tr>
-            <td colspan="4" class="cart_but" style="text-align: right;font-size: 20px; border: none;">
+            <td colspan="5" class="cart_but" style="text-align: right;font-size: 14px; border: none;">
               <br>
               <?php if (is_null($transaksi->besar_diskon)) { ?>
-                Total Harga &nbsp 
+                Total Harga &nbsp : 
               <?php }else{ ?>
-                Total Harga &nbsp <br>
-                Diskon &nbsp
+                Total Harga &nbsp : <br>
+                Diskon &nbsp :
               <?php } ?>
             </td>
-            <td colspan="2" class="cart_but" style="text-align: left; font-size: 20px; border: none;">
+            <td colspan="1" class="cart_but" style="text-align: center; font-size: 14px; border: none;">
               <br>
               <?php if (is_null($transaksi->besar_diskon)) { ?>
-                &nbsp : &nbsp  Rp <?=number_format($totalHarga,2,',','.')?>
+                &nbsp &nbsp  <b> Rp <?=number_format($totalHarga,2,',','.')?></b>
               <?php }else{ ?>
-                &nbsp : &nbsp  Rp <?=number_format($totalHarga,2,',','.')?>
+                &nbsp &nbsp  <b>Rp <?=number_format($totalHarga,2,',','.')?></b>
                 <br>
-                &nbsp : &nbsp  Rp <?= number_format($transaksi->besar_diskon,2,',','.') ?>
+                &nbsp &nbsp  <b>Rp <?= number_format($transaksi->besar_diskon,2,',','.') ?></b>
               <?php } ?>
             </td>
           </tr>
@@ -231,38 +233,39 @@ if ($err) {
        </div><!-- .grid_4 -->
      <?php } ?>
 
-     <?php if (!empty($alamat->ongkos_kirim)) { ?>
-       <div class="grid_4">
-        <div class="bottom_block total">
-          <table class="subtotal">
-            <tr>
-              <td style="width: 50%">Total Harga</td><td class="price">Rp <?=number_format($alamat->total_harga,2,',','.')?></td>
-            </tr>
+     
+     <div class="grid_4">
+      <div class="bottom_block total">
+        <table class="subtotal">
+          <tr>
+            <td style="width: 50%">Total Harga</td><td class="price">Rp <?=number_format($alamat->total_harga,2,',','.')?></td>
+          </tr>
+          <?php if (!empty($alamat->ongkos_kirim)) { ?>
             <tr>
               <td>Ongkos Kirim</td><td class="price">Rp <?=number_format($alamat->ongkos_kirim,2,',','.')?></td>
             </tr>
-            <?php if (!is_null($transaksi->besar_diskon)) { ?>
-              <tr>
-                <td>Diskon</td><td class="price">Rp <?=number_format($transaksi->besar_diskon,2,',','.')?></td>
-              </tr>
-            <?php } ?>
+          <?php }if (!is_null($transaksi->besar_diskon)) { ?>
+            <tr>
+              <td>Diskon</td><td class="price">Rp <?=number_format($transaksi->besar_diskon,2,',','.')?></td>
+            </tr>
+          <?php } ?>
 
-            <?php if (!is_null($transaksi->besar_diskon)) { ?>
-              <tr >
-                <td style="font-size: 15px"><b>Total Bayar</b></td>
-                <?php $total = $alamat->total_harga+$alamat->ongkos_kirim-$transaksi->besar_diskon ?>
-                <td class="price"><b>Rp <?=number_format($total,2,',','.')?></b></td>
-              </tr>
-            <?php }else{ ?>
-              <tr >
-                <td style="font-size: 15px"><b>Total Bayar</b></td>
-                <?php $total = $alamat->total_harga+$alamat->ongkos_kirim ?>
-                <td class="price"><b>Rp <?=number_format($total,2,',','.')?></b></td>
-              </tr>
-            <?php } ?>
-            
-          </table>
-          <a href="<?=base_url()?>Konsumen/Pembayaran/<?=$transaksi->id_transaksi?>"><button class="checkout">LANJUTKAN PEMBAYARAN</button></a>
+          <?php if (!is_null($transaksi->besar_diskon)) { ?>
+            <tr >
+              <td style="font-size: 15px"><b>Total Bayar</b></td>
+              <?php $total = $alamat->total_harga+$alamat->ongkos_kirim-$transaksi->besar_diskon ?>
+              <td class="price"><b>Rp <?=number_format($total,2,',','.')?></b></td>
+            </tr>
+          <?php }else{ ?>
+            <tr >
+              <td style="font-size: 15px"><b>Total Bayar</b></td>
+              <?php $total = $alamat->total_harga+$alamat->ongkos_kirim ?>
+              <td class="price"><b>Rp <?=number_format($total,2,',','.')?></b></td>
+            </tr>
+          <?php } ?>
+
+        </table>
+        <a href="<?=base_url()?>Konsumen/Pembayaran/<?=$transaksi->id_transaksi?>"><button class="checkout">LANJUTKAN PEMBAYARAN</button></a>
        <!--  <p class="modal1-open modal1-label close1" for="modal1-open" style="color: #777777;font-size: 15px"><b>Batalkan Transaksi</b></p>
         <input type="radio" name="modal1" value="open" id="modal1-open" class="modal1-radio"> -->
         <!-- MODAL -->
@@ -287,13 +290,13 @@ if ($err) {
         <div class="close">
           <!-- MODAL HAPUS PRODUK-->
           <!-- <div> -->
-            <label class="modal1-open modal1-label close1" for="modal1-open" style="color: #777777;font-size: 15px">Batalkan Pesanan</label>
+            <label class="modal1-open modal1-label close1" for="modal1-open" style="color: #777777;font-size: 15px; margin-bottom: 30px">Batalkan Pesanan</label>
             <input type="radio" name="modal1" value="open" id="modal1-open" class="modal1-radio">
 
             <div class="modal1">
               <label class="modal1-label overlay"><input type="radio" name="modal1" value="close1" class="modal1-radio"/></label>
-              <div class="content1">
-                <div class="top1" style="text-align: center;">
+              <div class="content1" style="height: 200px">
+                <div class="top1" style="text-align: center;font-size: 14px">
                   <b>Anda yakin membatalkan transaksi ini?</b><br><br>Jika transaksi dibatalkan, maka produk akan terhapus dari keranjang Anda!
                   <label class="modal1-label close-btn1">
                     <input type="radio" name="modal1" value="close1" class="modal1-radio"/>
@@ -301,8 +304,16 @@ if ($err) {
                 </div>
                 <div class="footer1">
                   <br>
-                  <a href="<?=base_url()?>Konsumen/Pengiriman"><button type="button" style="padding: 8px; background: #7b808a" class="btn1 btn-default pull-left1" data-dismiss="modal1-label">Tidak</button></a>
-                  <a href="<?=base_url()?>Konsumen/BatalkanTransaksi/<?=$alamat->id_transaksi?>"><button type="button" style="padding: 8px;margin-left: 350px; width: 50px; text-align: center; background: #DD4B39" class="btn1 btn-default pull-right" data-dismiss="modal1">Ya</button></a>
+                  <table style="border:none;">
+                    <tr>
+                      <td style="border:none;">
+                        <a href="<?=base_url()?>Konsumen/Pengiriman/<?=$transaksi->id_transaksi?>"><button type="button" style="padding: 8px; background: #7b808a" class="btn1 btn-default pull-left1" data-dismiss="modal1-label">Tidak</button></a>
+                      </td>
+                      <td style="border:none;">
+                        <a href="<?=base_url()?>Konsumen/BatalkanTransaksi/<?=$alamat->id_transaksi?>"><button type="button" style="padding: 8px;margin-left: 300px; width: 50px; text-align: center; background: #DD4B39" class="btn1 btn-default" data-dismiss="modal1-label">Ya</button></a>
+                      </td>
+                    </tr>
+                  </table>
                 </div>
               </div>
             </div>
@@ -314,13 +325,12 @@ if ($err) {
         </div><!-- .total -->
       </div><!-- .grid_4 -->
 
-    <?php } ?>
+      <div class="clear"></div>
 
+    </div><!-- #content_bottom -->
     <div class="clear"></div>
-  </div><!-- #content_bottom -->
-  <div class="clear"></div>
 
-</div><!-- .container_12 -->
+  </div><!-- .container_12 -->
 </section><!-- #main -->
 
 <div class="clear"></div>

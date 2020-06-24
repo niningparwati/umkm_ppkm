@@ -46,13 +46,11 @@
 								<h3 style="text-align: center;">Upload Bukti Pembayaran</h3>
 								<table>
 									<tr>
-										<td style="width: 40%;font-weight: bold;font-size: 14px;text-align: left;border: 1px solid #ffffff;">Foto Bukti Pembayaran </td>
-										<td style="border: 1px solid #ffffff;"><input type="file" name="bukti" style="width: 90%; border-radius: 2px; border: 1px solid #ccc" required /><br><small style="float: left; margin-left: 30px">(*note : file dalam format .png atau . jpg atau .jpeg)</small></td>
-									</tr>
-									<tr>
-										<td colspan="2" style="border: 1px solid #ffffff;">
+										<td style="width: 20%;font-weight: bold;font-size: 14px;text-align: left;border: 1px solid #ffffff;">Foto Bukti Pembayaran </td>
+										<td style="border: 1px solid #ffffff;"><input type="file" name="bukti" style="width: 90%; border-radius: 2px; border: 1px solid #ccc" required /><br><small style="float: left; margin-left: 30px">(*catatan : file dalam format .png atau . jpg atau .jpeg)</small></td>
+										<td style="border: 1px solid #ffffff;">
 											<br>
-											<center><input type="submit" name="submit" value="Kirim" style="width: 108px;font: bold 14px/35px Segoeui-Bold, Arial, Verdana, serif; font-weight: bold;color: #fefefe" /></center><br>
+											<center><input type="submit" name="submit" value="Kirim" style="width: 70px;font: bold 14px/35px Segoeui-Bold, Arial, Verdana, serif; font-weight: bold;color: #fefefe" /></center><br>
 										</td>
 									</tr>
 								</table>

@@ -197,14 +197,14 @@
           <div class="grid_12">
             <table style="border: none;">
               <!-- <tr> -->
-                <td style="width: 20%">
+                <td style="width: 20%; border: none;">
                   <?php if (!empty($key->gambar)) { ?>
                     <a href="<?=base_url()?>Konsumen/detailInformasi/<?=$key->id_informasi?>"><img src="<?=base_url()?>assets/foto_informasi/<?=$key->gambar?>" style="width: 190px; height: 190px;" /></a>
                   <?php }else{ ?>
                     <a href="<?=base_url()?>Konsumen/detailInformasi/<?=$key->id_informasi?>"><img src="<?=base_url()?>assets/foto_informasi/informasi.png" style="width: 190px; height: 190px" /></a>
                   <?php } ?>
                 </td>
-                <td style="text-align: justify;">
+                <td style="text-align: justify;border: none;">
                   <article class="post" style="margin-left: 20px; margin-right: 20px">
                     <h2 class="title_article"><a href="<?=base_url()?>Konsumen/detailInformasi/<?=$key->id_informasi?>"><?=$key->judul_informasi?></a></h2>
                     <div class="content_article">

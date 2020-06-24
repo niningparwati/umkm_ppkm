@@ -36,7 +36,7 @@
 										<div class="price_new">Rp <?=number_format($key->harga_produk,2,',','.')?></div>
 									</div>
 								</div>
-								<div style="color: #2e9f9a;">
+								<div style="color: #2e9f9a; font-size: 13px" >
 									<span style="padding-left: 10px">Stok : <br></span>
 									<span style="padding-left: 10px"><?=$key->stok?> produk</span>
 								</div>
@@ -69,14 +69,14 @@
 			<aside id="categories_nav">
 				<h3>Kategori Produk</h3>
 				<nav class="left_menu">
-					<ul>
-						<li><a href="<?=base_url()?>Konsumen/Produk/semua">Semua Produk</a></li>
+					<ul style=" font-size: 13px">
+						<li style="border: none;"><a href="<?=base_url()?>Konsumen/Produk/semua" style="text-decoration: none;">Semua Produk</a></li>
 						<?php 
 						foreach ($kategori as $key) {
 							$idK = $key->id_kategori_produk;
 							$produk = $this->M_konsumen->produkByKategori($idK);
 							?>
-							<li><a href="<?=base_url()?>Konsumen/Produk/<?=$key->id_kategori_produk?>"><?=$key->nama_kategori_produk?> <span>(<?=$produk->jumlah?>)</span></a></li>
+							<li style="border: none;"><a href="<?=base_url()?>Konsumen/Produk/<?=$key->id_kategori_produk?>" style="text-decoration: none;"><?=$key->nama_kategori_produk?> <span>(<?=$produk->jumlah?>)</span></a></li>
 							<?php 
 						}
 						?>

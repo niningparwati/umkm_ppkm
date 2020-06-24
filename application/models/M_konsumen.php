@@ -328,6 +328,12 @@ class M_konsumen extends CI_Model {
 		$this->db->insert('tb_keranjang', $data);
 	}
 
+	function updateKeranjang($data, $idKeranjang)
+	{
+		$this->db->where('id_keranjang', $idKeranjang);
+		$this->db->update('tb_keranjang', $data);
+	}
+
 	function updateProduk($data, $id)	// update jumlah produk yang disimpan dalam keranjang
 	{
 		$this->db->where('id_produk', $id);
@@ -458,6 +464,11 @@ class M_konsumen extends CI_Model {
 	// 	$this->db->query("UPDATE tb_transaksi SET total_harga='$biaya' WHERE id_transaksi='$id' ");
 	// }
 
+	function getDetailTransaksi($idTransaksi)
+	{
+		return $this->db->query("SELECT * FROM tb_detail_transaksi WHERE id_transaksi='$idTransaksi' ")->result();
+	}
+
 	function BatalkanTransaksi1($id)	// menghapus dari tabel detail transaksi
 	{
 		$this->db->query("DELETE FROM tb_detail_transaksi WHERE id_transaksi='$id'");
@@ -489,7 +500,7 @@ class M_konsumen extends CI_Model {
 
 	function pesananMenungguKonfirmasi($id)
 	{
-		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE a.status='menunggu konfirmasi'")->result();
+		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE a.status='menunggu konfirmasi' GROUP BY a.id_transaksi")->result();
 	}
 
 	function pesananDiproses($id)

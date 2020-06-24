@@ -13,7 +13,7 @@
             <th class="bg subtotal" style="background: #f7f7f7; text-align: center; color: black"><b>Ekspedisi Pengiriman</b></th>
             <th class="qty" style="background: #f7f7f7; text-align: center; color: black"><b>Ongkos Kirim</b></th>
             <th class="bg subtotal" style="background: #f7f7f7; text-align: center; color: black"><b>Alamat Pengiriman</b></th>
-            <th class="close" style="background: #f7f7f7; text-align: center; color: black"><b>Aksi</b></th>
+            <th class="bg subtotal" style="width: 120px; background: #f7f7f7; text-align: center; color: black"><b>Aksi</b></th>
           </tr>
           <form method="POST" action="<?=base_url()?>Konsumen/Checkout">
 
@@ -23,24 +23,34 @@
               ?>
               <tr>
                 <td><?=$no++?></td>
-                <td class="images">
+                <td class="images" style="vertical-align: middle;">
                   <?php 
                   $produk = $this->M_konsumen->getProdukPesanan($key->id_transaksi);
                   foreach ($produk as $x) {
                     echo $x->nama_produk." ( ".$x->jumlah_produk." produk)<br>";
                   } ?>
                 </td>
-                <td class="qty" style="color: black;padding-top: 40px">Rp <?=number_format($key->total_harga,2,',','.')?></td>
-                <td class="qty" style="padding-top: 40px; color: black">
+                <td class="qty" style="color: black;vertical-align: middle;">Rp 
+                  <?php if (!is_null($key->besar_diskon) AND $key->ongkos_kirim > 0 ) {?>
+                    <?=number_format($key->total_harga+$key->ongkos_kirim-$key->besar_diskon,2,',','.')?>
+                  <?php }elseif (!is_null($key->besar_diskon)) {?>
+                    <?=number_format($key->total_harga-$key->besar_diskon,2,',','.')?>
+                  <?php }elseif ($key->ongkos_kirim > 0) {?>
+                    <?=number_format($key->total_harga+$key->ongkos_kirim,2,',','.')?>
+                  <?php }else{ ?>
+                    <?=number_format($key->total_harga,2,',','.')?>
+                  <?php } ?>
+                </td>
+                <td class="qty" style="vertical-align: middle;color: black">
                   Rp <?=number_format($key->ongkos_kirim,2,',','.')?>
                 </td>
-                <td>
+                <td style="vertical-align: middle;">
                   <?=$key->ekspedisi_pengiriman."<br>".$key->estimasi_pengiriman?>
                 </td>
-                <td>
+                <td style="vertical-align: middle;">
                   <?=$key->detail_alamat.", ".$key->kota.", ".$key->provinsi?>
                 </td>
-                <td style="width: 120px">
+                <td style="width: 120px;vertical-align: middle;">
                   <a href="<?=base_url()?>Konsumen/Pengiriman/<?=$key->id_transaksi?>" style="color: blue; text-decoration: none;">Lanjutkan Pembayaran</a>
                 </td>
               </tr>
@@ -243,7 +253,7 @@
             <?php } ?>
           </form>
         </table>
-      <?php } else{ ?>
+      <?php }if(empty($menunggu_pembayaran) AND empty($menunggu_konfirmasi) AND empty($diproses) AND empty($dikirim) AND empty($selesai) ){ ?>
         <br><br>
         <center><h5>Belum ada produk yang Anda masukan ke dalam keranjang!</h5></center>
       <?php } ?>

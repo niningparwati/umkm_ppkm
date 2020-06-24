@@ -552,14 +552,14 @@ class Konsumen extends CI_Controller {
 		if ($this->session->userdata('id_konsumen')) {
 			$cek = $this->M_konsumen->getKeranjang($idKeranjang)->jumlah_barang;
 			$jml = $cek - 1;
-			if ($jml > 0) {	// jika ada produk tersebut yang dimasukan keranjang
+			if ($jml >= 1) {	// jika ada produk tersebut yang dimasukan keranjang
 				$data = array(
 					'jumlah_barang' => $jml
 				);
 				$this->M_konsumen->updateKeranjang($data, $idKeranjang);
 				redirect('Konsumen/Keranjang/'.$this->session->userdata('id_konsumen'));
 			}else{
-				echo 0;
+				redirect('Konsumen/Keranjang/'.$this->session->userdata('id_konsumen'));
 			}
 		}else{
 			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
@@ -1081,6 +1081,18 @@ function inputDiskon($idTransaksi)
 	function BatalkanTransaksi($idTransaksi)
 	{
 		if ($this->session->userdata('id_konsumen')) {
+			$cek = $this->M_konsumen->getDetailTransaksi($idTransaksi);
+			
+			for ($i=0; $i < COUNT($cek); $i++) { 
+				// echo $cek[$i]->id_produk.",".$cek[$i]->jumlah_produk.",<br>";
+				$jml = $cek[$i]->jumlah_produk;
+				$id = $cek[$i]->id_produk;
+				$stok = $this->M_konsumen->produkById($id)->stok;
+				$data = array(
+					'stok' => $stok+$jml,
+				);
+				$this->M_konsumen->updateProdukById($data, $id);
+			}
 			$this->M_konsumen->BatalkanTransaksi1($idTransaksi);
 			$this->M_konsumen->BatalkanTransaksi2($idTransaksi);
 			$this->session->set_flashdata('success', 'Transaksi dibatalkan');

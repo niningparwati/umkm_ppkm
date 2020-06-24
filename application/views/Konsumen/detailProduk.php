@@ -8,11 +8,11 @@
 			<div class="product_page">
 				<div class="grid_4 img_slid" id="products">
 					<div class="preview slides_container">
-						<div class="prev_bg">
+						<div class="prev_bg" style="width: 275px; height: 275px;">
 							<?php if (!empty($foto_produk)) {?>
-								<img src="<?=base_url()?>assets/foto_produk/<?=$foto_produk?>" style="width: 290px; height: 290px" />
+								<img src="<?=base_url()?>assets/foto_produk/<?=$foto_produk?>" style="width: 275px; height: 275px;" />
 							<?php }else{ ?>
-								<img src="<?=base_url()?>assets/foto_produk/produk_default.png" style="width: 290px; height: 290px" />
+								<img src="<?=base_url()?>assets/foto_produk/produk_default.png" style="width: 275px; height: 275px" />
 							<?php } ?>
 						</div>
 					</div><!-- .prev -->
@@ -20,18 +20,18 @@
 
 				<div class="grid_5">
 					<div class="entry_content">
-						<p><?=$deskripsi?></p>
+						<p style=" font-size: 13px"><?=$deskripsi?></p>
 						<div class="ava_price">
 							<div class="availability_sku">
-								<div class="sku">
+								<div class="sku" style=" font-size: 13px">
 									Harga Produk:
 								</div>
 								<?php if ($stok > 0) { ?>
-									<div class="availability">
+									<div class="availability" style=" font-size: 13px">
 										Stok: <span><?=$stok?> produk</span>
 									</div>
 								<?php }else{ ?>
-									<div>
+									<div style=" font-size: 13px">
 										Stok: <span style="color: red">kosong</span>
 									</div>
 								<?php } ?>
@@ -47,9 +47,9 @@
 							</div>
 							<div class="cart">
 								<form action="<?=base_url()?>Konsumen/inputKeranjang/<?=$id_produk?>" method="POST">
-									<button type="submit" name="submit" class="bay" style="width: 130px; float: right;display: block;height: 35px;color: #fefefe;text-align: center;text-decoration: none;font: bold 13px/35px Segoeui-Bold, Arial, Verdana, serif;background: #59b7c2; border-radius: 2px">Masukan keranjang</button>
+									<button type="submit" name="submit" class="bay" style="width: 110px; float: right;display: block;height: 33px;color: #fefefe;text-align: center;text-decoration: none;font-size: 13px Segoeui-Bold, Arial, Verdana, serif;background: #59b7c2; border-radius: 2px">Masukan keranjang</button>
 									<input type="text" name="qty" class="number"/>
-									<span>Quantity:</span>
+									<span style=" font-size: 13px">Quantity:</span>
 								</form>
 							</div>
 							<div class="clear"></div>
@@ -82,22 +82,15 @@
 												</div><!-- .prev -->
 												<h3 class="title"><?=$key->nama_produk?></h3>
 												<div class="cart">
-													<div class="price" style="width: 73%">
+													<div class="price" style="width: 50%">
 														<div class="vert">
 															<div class="price_new">Rp <?=number_format($key->harga_produk,2,',','.')?></div>
-															<div style="font-size: 10px; color: black; font-family: calibri">
-																Status stok : 
-																<?php 
-																if ($key->stok > 0) {
-																	echo '<span style="color: black">'.$key->stok.' produk</span>';
-																} else{
-																	echo '<span style="color: red">kosong</span>';
-																}
-																?>
-															</div>
 														</div>
 													</div>
-													<a href="#" class="bay"></a>
+													<div style="color: #2e9f9a; font-size: 13px" >
+														<span style="padding-left: 10px">Stok : <br></span>
+														<span style="padding-left: 10px"><?=$key->stok?> produk</span>
+													</div>
 												</div><!-- .cart -->
 											</div><!-- .grid_3 -->
 										</li>
@@ -118,13 +111,13 @@
 
 				<nav class="left_menu">
 					<ul>
-						<li><a href="<?=base_url()?>Konsumen/Produk/semua">Semua Produk</a></li>
+						<li style="border: none;"><a href="<?=base_url()?>Konsumen/Produk/semua" style="text-decoration: none;">Semua Produk</a></li>
 						<?php 
 						foreach ($kategori as $key) {
 							$idK = $key->id_kategori_produk;
 							$produk = $this->M_konsumen->produkByKategori($idK);
 							?>
-							<li><a href="<?=base_url()?>Konsumen/Produk/<?=$key->id_kategori_produk?>"><?=$key->nama_kategori_produk?> <span>(<?=$produk->jumlah?>)</span></a></li>
+							<li style="border: none;"><a href="<?=base_url()?>Konsumen/Produk/<?=$key->id_kategori_produk?>" style="text-decoration: none;"><?=$key->nama_kategori_produk?> <span>(<?=$produk->jumlah?>)</span></a></li>
 						<?php } ?>
 					</ul>
 				</nav><!-- .left_menu -->
