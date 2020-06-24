@@ -8,10 +8,10 @@
           <div class="col-xs-12">
             <div class="box">
               <div class="box-header">
-                <h3 class="box-title">Data Foto</h3><br><br>
+                <h3 class="box-title">Data Banner</h3><br><br>
                 <td>
                  
-                    <button class="btn btn-primary" type="button" data-toggle="modal" href="#" data-target="#tambahFoto<?=$id_umkm?>">
+                    <button class="btn btn-primary" type="button" data-toggle="modal" href="#" data-target="#tambahBanner<?=$id_umkm?>">
                       <div><i class="fa fa-fw fa-plus"></i>Tambah Data</div>
                     </button>
                   
@@ -24,8 +24,8 @@
                   <thead>
                     <tr>
                       <th style="text-align: center; width: 3%">No</th>
-                      <th style="text-align: center">Foto</th>
-                      <th style="text-align: center">Keterangan</th>
+                      <th style="text-align: center">Banner</th>
+                      <th style="text-align: center">Nama Banner</th>
                       <th style="text-align: center;">Aksi</th>
                     </tr>
                   </thead>
@@ -35,19 +35,15 @@
                     foreach ($tampil as $value) {?>
                       <tr>
                         <td><?= $no++ ?></td>
-                        <td style="text-align: center">
-                          <?php if ($value->foto) { ?>
-                            <img src="<?= base_url()?>assets/galeri_umkm/<?= $value->foto ?>" style="width: 100px">
-                          <?php }else{ ?>
-                            <img src="<?= base_url()?>assets/galeri_umkm/default.png" style="width: 100px">
-                          <?php } ?>
+                        <td style="text-align: center">                          
+                            <img src="<?= base_url()?>assets/foto_banner/<?= $value->foto_banner ?>" style="width: 100px">                          
                         </td>
-                        <td><?= $value->keterangan_foto ?></td>
+                        <td><?= $value->nama_banner ?></td>
                         <td style="text-align: center">
-                           <a class="btn btn-warning" data-toggle="modal" href="#" data-target="#edit<?=$value->id_foto?>">
+                          <a class="btn btn-warning" data-toggle="modal" href="#" data-target="#edit<?=$value->id_banner?>">
                             <i class="fa fa-fw fa-pencil"></i> Edit
                           </a>
-                          <a class="btn btn-danger" data-toggle="modal" href="#" data-target="#hapus<?=$value->id_foto?>">
+                          <a class="btn btn-danger" data-toggle="modal" href="#" data-target="#hapus<?=$value->id_banner?>">
                             <i class="fa fa-fw fa-trash"></i> Hapus
                           </a>
                         </td>
@@ -78,7 +74,7 @@
  <!-- ./wrapper -->
 
  <?php foreach ($tampil as $key) { ?>
-  <div class="modal fade" id="hapus<?=$key->id_foto?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
+  <div class="modal fade" id="hapus<?=$key->id_banner?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -88,11 +84,11 @@
           </button>
         </div>
         <div class="modal-body">
-          <p>Anda Yakin Ingin Menghapus Foto ini?</p>
+          <p>Anda Yakin Ingin Menghapus Banner ini?</p>
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
-          <a href="<?= site_url()?>UMKM/HapusFoto/<?= $value->id_foto ?>" class="btn btn-danger">Iya</a>
+          <a href="<?= site_url()?>UMKM/HapusBanner/<?= $value->id_banner ?>" class="btn btn-danger">Iya</a>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -102,36 +98,34 @@
   <!-- /.modal -->
 <?php } ?>
 
- <div class="modal fade" id="tambahFoto<?=$id_umkm?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
+ <div class="modal fade" id="tambahBanner<?=$id_umkm?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="ExampleModalLabel">Tambah Foto Galeri</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <form role="form" id="tambah" action="<?= base_url()?>UMKM/CreateFoto/<?= $id_umkm ?>" method="post" enctype="multipart/form-data">
-              <div class="box-body">
-                <div class="form-group">
-                  <label for="">Tambah Foto Galeri</label>
-                  <input type="file" name="foto" id="Foto" required="">
-                </div>
-                <div class="form-group">
-                  <label for="">Keterangan Foto *optional</label>
-                  <textarea name="keterangan_foto" class="form-control" > 
-                   
-                  </textarea>
-                </div>     
-              </div>        
-                <!-- /.box-body -->
-           
-        </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Batalkan</button>
-          <input type="submit" name="submit" value="Simpan" class="btn btn-success">
-        </div>
+          <div class="modal-header">
+              <h4 class="modal-title" id="ExampleModalLabel">Tambah Banner</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+          <form role="form" id="tambah" action="<?= base_url()?>UMKM/CreateBanner/<?= $id_umkm ?>" method="post" enctype="multipart/form-data">
+                  <div class="box-body">
+                    <div class="form-group">
+                      <label for="">Tambah Foto Banner</label>
+                      <input type="file" name="foto" id="Foto" required="">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Nama Banner</label>
+                      <input type="text" name="nama_banner" required="" class="form-control" required="">
+                    </div>     
+                  </div>        
+                    <!-- /.box-body -->
+               
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Batalkan</button>
+              <input type="submit" name="submit" value="Simpan" class="btn btn-success">
+            </div>
          </form>
       </div>
       <!-- /.modal-content -->
@@ -141,30 +135,28 @@
   <!-- /.modal -->
 
 
-  <?php foreach ($tampil as $key) { ?>
-  <div class="modal fade" id="edit<?=$key->id_foto?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
+<?php foreach ($tampil as $key) { ?>
+  <div class="modal fade" id="edit<?=$key->id_banner?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
     <div class="modal-dialog" role="document">
      <div class="modal-content">
           <div class="modal-header">
-              <h4 class="modal-title" id="ExampleModalLabel">Edit Foto</h4>
+              <h4 class="modal-title" id="ExampleModalLabel">Edit Banner</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
           </div>
           <div class="modal-body">
-          <form role="form" id="tambah" action="<?= base_url()?>UMKM/EditFoto/<?= $key->id_foto ?>" method="post" enctype="multipart/form-data">
+          <form role="form" id="tambah" action="<?= base_url()?>UMKM/EditBanner/<?= $key->id_banner ?>" method="post" enctype="multipart/form-data">
                   <div class="box-body">
                     <div class="form-group">
-                      <img src="<?= base_url()?>assets/galeri_umkm/<?=$key->foto?>" width='100px'><br><br>
+                      <img src="<?= base_url()?>assets/foto_banner/<?=$key->foto_banner?>" width='100px'><br><br>
                       <label for="">Edit Foto Banner</label>
                       <input type="file" name="foto" id="Foto">
-                      <input name="foto_old" type="hidden" value="<?=$key->foto?>">
+                      <input name="banner_old" type="hidden" value="<?=$key->foto_banner?>">
                     </div>
                     <div class="form-group">
-                       <label for="">Keterangan Foto *optional</label>
-                        <textarea name="keterangan_foto" class="form-control" > 
-                         <?= $key->keterangan_foto ?>
-                        </textarea>
+                      <label for="">Nama Banner</label>
+                      <input type="text" name="nama_banner" required="" class="form-control" value="<?php echo $key->nama_banner ?>">
                     </div>     
                   </div>        
                     <!-- /.box-body -->
@@ -182,6 +174,5 @@
   </div>
   <!-- /.modal -->
 <?php } ?>
-
 </body>
 </html>

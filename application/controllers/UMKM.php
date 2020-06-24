@@ -49,6 +49,8 @@ class UMKM extends CI_Controller {
 		$cekUMKM = $this->UMKM_Model->cekUMKM($cekUser->id_user);
 		$id_umkm = $cekUMKM->id_umkm;
 
+		//print_r($cekUMKM);
+
 		$data = array(
 			'username' => $cekUser->username,
 			'password' => $cekUser->password,
@@ -338,7 +340,7 @@ class UMKM extends CI_Controller {
 									'notif',
 									'<div class="alert alert-success text-center"style="width: 100%">
 									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-									Berhasil tambah produk UMKM
+									Berhasil tambah produk <b>'.$this->input->post('nama_produk').'</b>
 									</div>'
 								);
 								redirect('UMKM/Produk/'.$user['id_umkm'],'refresh');
@@ -366,7 +368,7 @@ class UMKM extends CI_Controller {
 								'notif',
 								'<div class="alert alert-success text-center"style="width: 100%">
 								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-								Berhasil tambah produk UMKM
+								Berhasil tambah produk <b>'.$this->input->post('nama_produk').'</b>
 								</div>'
 							);
 							redirect('UMKM/Produk/'.$user['id_umkm'],'refresh');
@@ -476,7 +478,7 @@ class UMKM extends CI_Controller {
 									'notif',
 									'<div class="alert alert-success text-center"style="width: 100%">
 									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-									Berhasil update produk UMKM
+									Berhasil update produk <b>'.$this->input->post('nama_produk').'</b>
 									</div>'
 								);
 								redirect('UMKM/Produk','refresh');
@@ -495,7 +497,7 @@ class UMKM extends CI_Controller {
 									'notif',
 									'<div class="alert alert-success text-center"style="width: 100%">
 									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-									Berhasil update produk UMKM
+									Berhasil update produk <b>'.$this->input->post('nama_produk').'</b>
 									</div>'
 								); 
 								redirect('UMKM/Produk','refresh');
@@ -527,7 +529,7 @@ class UMKM extends CI_Controller {
 								'notif',
 								'<div class="alert alert-success text-center"style="width: 100%">
 								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-								Berhasil update produk UMKM 
+								Berhasil update produk <b>'.$this->input->post('nama_produk').'</b>
 								</div>'
 							); 
 							redirect('UMKM/Produk','refresh');
@@ -545,7 +547,7 @@ class UMKM extends CI_Controller {
 								'notif',
 								'<div class="alert alert-success text-center"style="width: 100%">
 								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-								Berhasil update produk UMKM 
+								Berhasil update produk <b>'.$this->input->post('nama_produk').'</b>
 								</div>'
 							); 
 							redirect('UMKM/Produk','refresh');
@@ -699,7 +701,7 @@ class UMKM extends CI_Controller {
 									'notif',
 									'<div class="alert alert-success text-center"style="width: 100%">
 									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-									Berhasil tambah promo
+									Berhasil tambah promo <b>'.$this->input->post('nama_promo').'</b>
 									</div>'
 								);
 								redirect('UMKM/Promo/'.$user['id_umkm'],'refresh');
@@ -729,7 +731,7 @@ class UMKM extends CI_Controller {
 								'notif',
 								'<div class="alert alert-success text-center"style="width: 100%">
 								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-								Berhasil tambah promo
+								Berhasil tambah promo <b>'.$this->input->post('nama_promo').'</b>
 								</div>'
 							);
 							redirect('UMKM/Promo/'.$user['id_umkm'],'refresh');
@@ -824,7 +826,7 @@ class UMKM extends CI_Controller {
 									'notif',
 									'<div class="alert alert-success text-center"style="width: 100%">
 									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-									Berhasil edit promo
+									Berhasil edit promo <b>'.$this->input->post('nama_promo').'</b>
 									</div>'
 								);
 								redirect('UMKM/Promo/'.$user['id_umkm'],'refresh');
@@ -833,7 +835,7 @@ class UMKM extends CI_Controller {
 									'notif',
 									'<div class="alert alert-danger text-center"style="width: 100%">
 									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-									Gagal edit promo
+									Gagal edit promo <b>'.$this->input->post('nama_promo').'</b>
 									</div>'
 								);
 								redirect('UMKM/EditPromo'.$id_promo,'refresh');
@@ -854,7 +856,7 @@ class UMKM extends CI_Controller {
 								'notif',
 								'<div class="alert alert-success text-center"style="width: 100%">
 								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-								Berhasil edit promo
+								Berhasil edit promo <b>'.$this->input->post('nama_promo').'</b>
 								</div>'
 							);
 							redirect('UMKM/Promo/'.$user['id_umkm'],'refresh');
@@ -866,7 +868,7 @@ class UMKM extends CI_Controller {
 	public function Aktivasi_Promo($id_promo, $nilai)
 	{
 		$user = $this->user_umkm();
-		
+
 		if ($nilai == 1) {
 			$flag = 'aktif';
 			$this->UMKM_Model->Aktivasi_Promo($flag, $id_promo);
@@ -900,8 +902,8 @@ class UMKM extends CI_Controller {
 	{
 		$user = $this->user_umkm();
 
-		$data["transaksi"] = $this->UMKM_Model->transaksiMasuk($id_umkm)->result();
-
+		$data["transaksi"]   = $this->UMKM_Model->transaksiMasuk($id_umkm)->result();
+		
 		$this->load->view('Head', $user);
 		$this->load->view('Header', $user);
 		$this->load->view('Sidebar', $user);
@@ -1045,7 +1047,7 @@ class UMKM extends CI_Controller {
 							'notif',
 							'<div class="alert alert-success text-center"style="width: 100%">
 							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-							Berhasil tambah portofolio
+							Berhasil tambah portofolio <b>'.$this->input->post('judul_portofolio').'</b>
 							</div>'
 						); 
 						redirect('UMKM/TampilPortofolio/'.$user['id_umkm'],'refresh');
@@ -1072,7 +1074,7 @@ class UMKM extends CI_Controller {
 						'notif',
 						'<div class="alert alert-success text-center"style="width: 100%">
 						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-						Berhasil tambah portofolio tanpa foto
+						Berhasil tambah portofolio
 						</div>'
 					); 
 					redirect('UMKM/TampilPortofolio/'.$user['id_umkm'],'refresh');
@@ -1169,7 +1171,7 @@ class UMKM extends CI_Controller {
 							'notif',
 							'<div class="alert alert-success text-center"style="width: 100%">
 							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-							Berhasil update portofolio
+							Berhasil update portofolio <b>'.$this->input->post('judul_portofolio').'</b>
 							</div>'
 						); 
 						redirect('UMKM/TampilPortofolio/'.$user['id_umkm'],'refresh');
@@ -1199,7 +1201,7 @@ class UMKM extends CI_Controller {
 						'notif',
 						'<div class="alert alert-success text-center"style="width: 100%">
 						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-						Berhasil update portofolio
+						Berhasil update portofolio <b>'.$this->input->post('judul_portofolio').'</b>
 						</div>'
 					); 
 					redirect('UMKM/TampilPortofolio/'.$user['id_umkm'],'refresh');
@@ -1293,7 +1295,7 @@ class UMKM extends CI_Controller {
 				'notif',
 				'<div class="alert alert-success text-center"style="width: 100%">
 				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				Berhasil tambah market
+				Berhasil tambah market <b>'.$this->input->post('nama_market').'</b>
 				</div>'
 			);
 			redirect('UMKM/Market/'.$user['id_umkm'],'refresh');
@@ -1350,7 +1352,7 @@ class UMKM extends CI_Controller {
 					'notif',
 					'<div class="alert alert-success text-center"style="width: 100%">
 					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-					Berhasil update market
+					Berhasil update market <b>'.$this->input->post('nama_market').'</b>
 					</div>'
 				);
 				redirect('UMKM/Market/'.$id_umkm,'refresh');
@@ -1440,7 +1442,7 @@ class UMKM extends CI_Controller {
 							'notif',
 							'<div class="alert alert-success text-center"style="width: 100%">
 							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-							Berhasil tambah informasi
+							Berhasil tambah informasi <b>'.$this->input->post('judul').'</b>
 							</div>'
 						);
 						redirect('UMKM/Informasi/','refresh');
@@ -1467,7 +1469,7 @@ class UMKM extends CI_Controller {
 						'notif',
 						'<div class="alert alert-success text-center"style="width: 100%">
 						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-						Berhasil tambah informasi
+						Berhasil tambah informasi <b>'.$this->input->post('judul').'</b>
 						</div>'
 					);
 					redirect('UMKM/Informasi/','refresh');
@@ -1563,7 +1565,7 @@ class UMKM extends CI_Controller {
 							'notif',
 							'<div class="alert alert-success text-center"style="width: 100%">
 							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-							Berhasil update informasi
+							Berhasil update informasi <b>'.$this->input->post('judul').'</b>
 							</div>'
 						);
 
@@ -1590,7 +1592,7 @@ class UMKM extends CI_Controller {
 						'notif',
 						'<div class="alert alert-success text-center"style="width: 100%">
 						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-						Berhasil update informasi
+						Berhasil update informasi <b>'.$this->input->post('judul').'</b>
 						</div>'
 					);
 					redirect('UMKM/Informasi/','refresh');
@@ -1679,12 +1681,216 @@ class UMKM extends CI_Controller {
 		}	
 	}
 
+	public function EditFoto($id_foto)
+	{
+		$user = $this->user_umkm();
+
+		if (!empty($_FILES['foto']['name'])) {
+			$config['upload_path']      = './assets/galeri_umkm/';
+			$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
+
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+
+			if ($this->upload->do_upload('foto')) {
+				$uploadData = $this->upload->data();
+
+				$data = array(
+					'foto' => $uploadData['file_name'],
+					'keterangan_foto' => $this->input->post('keterangan_foto'),
+				);
+
+				$this->UMKM_Model->updateFoto($id_foto,$data);
+				$this->session->set_flashdata(
+					'notif',
+					'<div class="alert alert-success text-center"style="width: 100%">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					Berhasil Edit Foto
+					</div>'
+				); 
+				redirect('UMKM/Galeri/'.$user["id_umkm"],'refresh');
+			} else {
+
+				$this->session->set_flashdata(
+					'notif',
+					'<div class="alert alert-danger text-center"style="width: 100%">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					Gagal upload foto 
+					</div>'
+				); 
+				redirect('UMKM/Galeri/'.$user["id_umkm"],'refresh');
+			}
+		}else{
+				$data = array(
+					'foto' => $this->input->post('foto_old'),
+					'keterangan_foto' => $this->input->post('keterangan_foto'),
+				);
+
+				$this->UMKM_Model->updateFoto($id_foto,$data);
+				$this->session->set_flashdata(
+					'notif',
+					'<div class="alert alert-success text-center"style="width: 100%">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					Berhasil Edit Foto
+					</div>'
+				); 
+				redirect('UMKM/Galeri/'.$user["id_umkm"],'refresh');
+		}	
+	}
+
 	public function HapusFoto($id_foto)
 	{
 		$user = $this->user_umkm();
 
 		$this->UMKM_Model->hapusFoto($id_foto);
+		$this->session->set_flashdata(
+			'notif',
+			'<div class="alert alert-success text-center"style="width: 100%">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			Berhasil hapus foto
+			</div>'
+		);
 		redirect('UMKM/Galeri/'.$user['id_umkm']);
+	}
+
+
+	////////////////Banner////////////////////////
+	public function Banner($id_umkm)
+	{
+		$user = $this->user_umkm();
+
+		$data = array(
+			'tampil' => $this->UMKM_Model->showBanner($user["id_umkm"]),
+			'id_umkm' => $user['id_umkm']
+		);
+
+		$this->load->view('Head', $user);
+		$this->load->view('Header', $user);
+		$this->load->view('Sidebar', $user);
+		$this->load->view('UMKM/Tampil_Banner', $data);
+		$this->load->view('Footer');
+	}
+
+	public function CreateBanner($id_umkm)
+	{
+		if (!empty($_FILES['foto']['name'])) {
+			$config['upload_path']      = './assets/foto_banner/';
+			$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
+
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+
+			if ($this->upload->do_upload('foto')) {
+				$uploadData = $this->upload->data();
+
+				$data = array(
+					'id_umkm' => $id_umkm,
+					'foto_banner' => $uploadData['file_name'],
+					'nama_banner' => $this->input->post('nama_banner'),
+				);
+
+				$this->UMKM_Model->insertBanner($data);
+				$this->session->set_flashdata(
+					'notif',
+					'<div class="alert alert-success text-center"style="width: 100%">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					Berhasil tambah Banner <b>'.$this->input->post('nama_banner').'</b>
+					</div>'
+				); 
+				redirect('UMKM/Banner/'.$id_umkm,'refresh');
+			} else {
+				$this->session->set_flashdata(
+					'notif',
+					'<div class="alert alert-danger text-center"style="width: 100%">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					Gagal upload foto banner
+					</div>'
+				); 
+				redirect('UMKM/Banner/'.$id_umkm,'refresh');
+			}
+		}else{
+
+			$this->session->set_flashdata(
+				'notif',
+				'<div class="alert alert-danger text-center"style="width: 100%">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				Gagal tambah foto banner
+				</div>'
+			); 
+			redirect('UMKM/Banner/'.$id_umkm,'refresh');
+		}	
+	}
+
+	public function EditBanner($id_banner)
+	{
+		$user = $this->user_umkm();
+
+		if (!empty($_FILES['foto']['name'])) {
+			$config['upload_path']      = './assets/foto_banner/';
+			$config['allowed_types']    = 'pdf|jpg|jpeg|png|gif';
+
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+
+			if ($this->upload->do_upload('foto')) {
+				$uploadData = $this->upload->data();
+
+				$data = array(
+					'foto_banner' => $uploadData['file_name'],
+					'nama_banner' => $this->input->post('nama_banner'),
+				);
+
+				$this->UMKM_Model->editBanner($id_banner,$data);
+				$this->session->set_flashdata(
+					'notif',
+					'<div class="alert alert-success text-center"style="width: 100%">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					Berhasil Edit Banner <b>'.$this->input->post('nama_banner').'</b>
+					</div>'
+				); 
+				redirect('UMKM/Banner/'.$user["id_umkm"],'refresh');
+			} else {
+
+				$this->session->set_flashdata(
+					'notif',
+					'<div class="alert alert-danger text-center"style="width: 100%">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					Gagal upload foto banner
+					</div>'
+				); 
+				redirect('UMKM/Banner/'.$user["id_umkm"],'refresh');
+			}
+		}else{
+				$data = array(
+					'foto_banner' => $this->input->post('banner_old'),
+					'nama_banner' => $this->input->post('nama_banner'),
+				);
+
+				$this->UMKM_Model->editBanner($id_banner,$data);
+				$this->session->set_flashdata(
+					'notif',
+					'<div class="alert alert-success text-center"style="width: 100%">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					Berhasil Edit Banner <b>'.$this->input->post('nama_banner').'</b>
+					</div>'
+				); 
+				redirect('UMKM/Banner/'.$user["id_umkm"],'refresh');
+		}	
+	}
+
+	public function HapusBanner($id_banner)
+	{
+		$user = $this->user_umkm();
+
+		$this->UMKM_Model->hapusBanner($id_banner);
+		$this->session->set_flashdata(
+			'notif',
+			'<div class="alert alert-success text-center"style="width: 100%">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			Berhasil hapus banner
+			</div>'
+		);
+		redirect('UMKM/Banner/'.$user['id_umkm']);
 	}
 
 }

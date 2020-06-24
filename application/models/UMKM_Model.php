@@ -67,7 +67,6 @@ class UMKM_Model extends CI_Model {
 
     public function transaksiMasuk($id_umkm)
     {
-       
          $this->db->from('tb_transaksi a');
          $this->db->join('tb_konsumen b', 'a.id_konsumen = b.id_konsumen');
          $this->db->join('tb_detail_transaksi c', 'c.id_transaksi = a.id_transaksi', 'left');
@@ -76,8 +75,8 @@ class UMKM_Model extends CI_Model {
          $this->db->where('a.status','diproses');
          $this->db->or_where('a.status','dana dikirim');
          $this->db->or_where('a.status','selesai');
-         $this->db->where('e.id_umkm',$id_umkm);
-         $this->db->group_by('a.id_transaksi');
+         $this->db->where('d.id_umkm',$id_umkm);
+         $this->db->group_by('c.id_transaksi');
          $this->db->order_by('a.tanggal_transaksi','TIMESTAMPDIFF(DAY,Now(),`a.tanggal_transaksi`)','ASC');
          return $this->db->get();
     }
@@ -93,6 +92,16 @@ class UMKM_Model extends CI_Model {
          $this->db->where('e.id_umkm',$id_umkm);
          return $this->db->get();
     
+    }
+
+    public function total_harga($id_umkm,$id_transaksi)
+    {
+        $this->db->query("SELECT SUM(a.jumlah_harga) as 'jml_harga'
+                          FROM tb_detail_transaksi a 
+                          JOIN tb_produk b ON b.id_produk = a.id_produk
+                          JOIN tb_umkm c ON c.id_umkm = b.id_umkm
+                          WHERE a.id_transaksi = '$id_transaksi' AND c.id_umkm = '$id_umkm'
+                        ");
     }
 
    public function produk_dipesan($id_transaksi)
@@ -398,7 +407,7 @@ class UMKM_Model extends CI_Model {
         $this->db->insert('tb_foto', $data);
     }
 
-    public function updateFoto($data, $id_foto)
+    public function updateFoto($id_foto, $data)
     {
         $this->db->where('id_foto', $id_foto);
         $this->db->update('tb_foto', $data);
@@ -415,7 +424,29 @@ class UMKM_Model extends CI_Model {
         return $this->db->query("SELECT COUNT(tb_foto.id_foto) as jumlahfoto FROM tb_foto JOIN tb_umkm ON tb_foto.id_umkm=tb_umkm.id_umkm JOIN tb_user ON tb_umkm.id_user=tb_user.id_user WHERE tb_user.id_user='$id_user'")->row();
     }
 
+    //////////////BANNER////////////////////////////
 
+    public function showBanner($id_umkm)
+    {
+        return $this->db->query("SELECT * FROM tb_banner WHERE id_umkm='$id_umkm'")->result();
+    }   
+
+    public function insertBanner($data)
+    {
+        $this->db->insert('tb_banner', $data);
+    }
+
+     public function editBanner($id_banner,$data)
+    {
+        $this->db->where('id_banner', $id_banner);
+        $this->db->update('tb_banner', $data);
+    }
+
+     public function hapusBanner($id_banner)
+    {
+        $this->db->where('id_banner', $id_banner);
+        $this->db->delete('tb_banner');
+    }
 }
 
  ?>

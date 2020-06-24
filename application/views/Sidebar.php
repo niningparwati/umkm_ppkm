@@ -191,6 +191,9 @@
            <li >
             <a href="<?php echo base_url()?>UMKM/Galeri/<?= $id_umkm ?>"><i class="fa fa-photo"></i> <span>Kelola Galeri Foto</span></a>
           </li>
+           <li >
+            <a href="<?php echo base_url()?>UMKM/Banner/<?= $id_umkm ?>"><i class="fa fa-slideshare"></i> <span>Kelola Banner</span></a>
+          </li>
         </ul>
       </section>
       <!-- /.sidebar -->

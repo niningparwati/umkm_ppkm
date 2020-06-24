@@ -50,7 +50,7 @@
                     									<td colspan="4"><b>Total Item : </b><?= $total_item ?></td>
                     								</tr>
                     								<tr>
-                    									<td colspan="4"><b>Total Harga : </b>Rp<?= number_format($detail_transaksi[0]->total_harga,2) ?></td>
+                    									<td colspan="4"><b>Total Harga : </b>Rp<?= number_format($value->jumlah_harga) ?></td>
                     								</tr>
                     								<tr>
                     									<td colspan="4"><b>Alamat Pengiriman : </b> <?= $detail_transaksi[0]->detail_alamat ?></td>
