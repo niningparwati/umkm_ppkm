@@ -912,10 +912,10 @@ class UMKM extends CI_Controller {
 		//print_r($data["transaksi"]);
 	}
 
-	public function detail_transaksi($id_transaksi)
+	public function detail_transaksi($id_transaksi,$id_pengiriman)
 	{
 		$user = $this->user_umkm();
-		$data["detail_transaksi"] = $this->UMKM_Model->detail_transaksi($id_transaksi,$user["id_umkm"])->result();
+		$data["detail_transaksi"] = $this->UMKM_Model->detail_transaksi($id_transaksi,$user["id_umkm"],$id_pengiriman)->result();
 		$data["id_umkm"] = $user['id_umkm'];
 
 		$this->load->view('Head', $user);
@@ -927,13 +927,21 @@ class UMKM extends CI_Controller {
 	}
 
 
-	public function set_dikirim($id_transaksi)
+	public function set_dikirim($id_pengiriman,$id_transaksi)
 	{
 		$user = $this->user_umkm();
 		$no_resi = $_GET['resi'];
 
 		if($no_resi!=null){
-			$this->db->query("UPDATE tb_transaksi SET resi = '$no_resi' , status = 'dikirim' WHERE id_transaksi = '$id_transaksi'");
+			$this->db->query("UPDATE tb_pengiriman SET no_resi = '$no_resi' , status_pengiriman = 'dikirim' WHERE id_pengiriman = '$id_pengiriman'");
+
+			$count_pengiriman = $this->db->query("SELECT COUNT(id_pengiriman) as jml_shipment FROM tb_pengiriman WHERE id_transaksi = '$id_transaksi' ")->row();
+
+			$count_status = $this->db->query("SELECT COUNT(status_pengiriman) as jml_terkirim FROM tb_pengiriman WHERE status_pengiriman = 'dikirim' AND id_transaksi = '$id_transaksi' ")->row();
+
+			if($count_pengiriman->jml_shipment == $count_status->jml_terkirim){
+				$this->db->query("UPDATE tb_transaksi SET status = 'dikirim' WHERE id_transaksi = '$id_transaksi'");
+			}
 
 			redirect('UMKM/Transaksi/'.$user['id_umkm'],'refresh');
 			// echo "$no_resi";

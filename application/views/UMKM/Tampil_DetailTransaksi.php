@@ -69,10 +69,10 @@
                                     <tr>
                                       <td colspan="4"><b>Resi : </b> 
                                         <?php 
-                                          if($detail_transaksi[0]->resi==""){
+                                          if($detail_transaksi[0]->no_resi==""){
                                             echo "resi belum diinputkan";
                                           }else{
-                                            echo $detail_transaksi[0]->resi;
+                                            echo $detail_transaksi[0]->no_resi;
                                           }
                                         ?>
                                     </td>

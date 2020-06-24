@@ -35,14 +35,13 @@
                         <td>Rp <?= number_format($value->total) ?></td>
                         <td>
                           <center>
+                           
                              <?php
-                              if ($value->status=="diproses") {
+                              if ($value->status_pengiriman=="belum_dikirim") {
                                 ?>
-                                   <small class="label pull-right bg-red">perlu <?php echo $value->status; ?></small>
-                            <?php }elseif ($value->status=="dana dikirim"){ ?>
-                                  <small class="label pull-right bg-yellow"><?php echo $value->status; ?></small>
+                                   <small class="label pull-right bg-red"><?php echo $value->status_pengiriman; ?></small>
                             <?php }else{ ?>
-                                  <small class="label pull-right bg-green"><?php echo $value->status; ?></small>
+                                  <small class="label pull-right bg-green"><?php echo $value->status_pengiriman; ?></small>
                             <?php } ?>
                           </center>
                            
@@ -50,10 +49,10 @@
                         <td>
                           <center>
 
-                    <a href="<?php echo base_url(); ?>UMKM/detail_transaksi/<?php echo $value->id_transaksi ?>" class="btn btn-sm btn-primary">Detail</a>
+                    <a href="<?php echo base_url(); ?>UMKM/detail_transaksi/<?php echo $value->id_transaksi ?>/<?php echo $value->id_pengiriman ?>" class="btn btn-sm btn-primary">Detail</a>
 
                     <?php
-                      if ($value->status=="diproses") {
+                      if ($value->status_pengiriman=="belum_dikirim") {
                         ?>
                        
                         <a href="#" data-toggle="modal" data-target="#confirm-delete2<?php echo $value->id_transaksi ?>" class="btn btn-sm btn-danger"> <i class="fa fa-chek"></i>Kirim</a>
@@ -65,7 +64,7 @@
                                     Konfirmasi Pengiriman
                                  </div>
                                  <div class="modal-body">
-                                  <form action="<?php echo base_url(); ?>UMKM/set_dikirim/<?php echo $value->id_transaksi ?>">
+                                  <form action="<?php echo base_url(); ?>UMKM/set_dikirim/<?php echo $value->id_pengiriman ?>/<?php echo $value->id_transaksi ?>">
                                     <div class="form-group">
                                       <label>Masukkan Nomor Resi</label>&nbsp<textarea style="font-size: 40px" class="form-control" name="resi"></textarea>
                                     </div>
