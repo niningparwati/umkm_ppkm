@@ -20,7 +20,8 @@
                       <th style="text-align: center; width: 15%">Tgl Transaksi</th>
                       <th style="text-align: center;">Konsumen</th>
                       <th style="text-align: center; width: 15%">Total Tagihan</th>
-                      <th style="text-align: center; width: 15%">Status</th>
+                      <th>Status Pesanan</th>
+                      <th style="text-align: center; width: 15%">Status Pengiriman</th>
                       <th style="text-align: center">Aksi</th>
                     </tr>
                   </thead>
@@ -33,6 +34,7 @@
                         <td><?= $value->tanggal_transaksi ?></td>
                         <td><?= $value->nama_konsumen ?></td>
                         <td>Rp <?= number_format($value->total) ?></td>
+                        <td><b><?= $value->status ?></b></td>
                         <td>
                           <center>
                            

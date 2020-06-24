@@ -14,34 +14,6 @@ class UMKM extends CI_Controller {
 
 	}
 
-	public function Dashboard()
-	{
-					$umkm = $this->ModelUser->allUser($this->session->userdata('username'), $this->session->userdata('level'));
-					$cekUser = $this->ModelUser->cekUser($umkm->username);
-					$cekUMKM = $this->UMKM_Model->cekUMKM($cekUser->id_user);
-					$id_user=$umkm->id_user;
-					$id_umkm = $cekUMKM->id_umkm;
-
-					$data = array(
-							'username' => $umkm->username,
-							'level' => $umkm->level,
-							'nama' => $umkm->nama_lengkap,
-							'email' => $umkm->email,
-							'id_user' => $umkm->id_user,
-							'foto' => $umkm->foto_user,
-							'id_umkm' => $id_umkm,
-							'jumlahProduk' => $this->UMKM_Model->ProdukByUMKM($id_user),
-							'jumlahPortofolio' => $this->UMKM_Model->PortofolioByUMKM($id_user),
-							'jumlahMarket' => $this->UMKM_Model->MarketByUMKM($id_user),
-						);
-
-						$this->load->view('Head');
-						$this->load->view('Header', $data);
-						$this->load->view('Sidebar', $data);
-						$this->load->view('UMKM/Home', $data);
-						$this->load->view('Footer');
-	}
-
 	public function user_umkm()
 	{
 		$username = $this->session->userdata('username');
@@ -63,6 +35,26 @@ class UMKM extends CI_Controller {
 		);
 
 		return $data;
+	}
+
+
+	public function Dashboard()
+	{
+					$user = $this->user_umkm();
+
+					$data = array(
+							'jumlahProduk' => $this->UMKM_Model->ProdukByUMKM($user["id_user"]),
+							'jumlahMenungguDikirim' => $this->UMKM_Model->menungguPengiriman($user["id_umkm"]),
+							'jumlahDikirim' => $this->UMKM_Model->dikirim($user["id_umkm"]),
+							'jumlahSelesai' => $this->UMKM_Model->selesai($user["id_umkm"]),
+						);
+
+					$this->load->view('Head', $user);
+					$this->load->view('Header', $user);
+					$this->load->view('Sidebar', $user);
+					$this->load->view('UMKM/Home', $data);
+					$this->load->view('Footer');
+
 	}
 
 

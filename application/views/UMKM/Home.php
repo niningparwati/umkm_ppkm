@@ -18,6 +18,54 @@
     <section class="content">
       <!-- Small boxes (Stat box) -->
       <div class="row">
+          <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3><?= $jumlahMenungguDikirim->jumlahpengiriman ?></h3>
+
+              <p>MENUNGGU PENGIRIMAN</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-clock-o"></i>
+            </div>
+           
+          </div>
+        </div>
+
+         <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3><?= $jumlahDikirim->jumlahdikirim?></h3>
+
+              <p>TRANSAKSI DIKIRIM</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-truck"></i>
+            </div>
+           
+          </div>
+        </div>
+
+          <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3><?= $jumlahSelesai->jumlahselesai?></h3>
+
+              <p>TRANSAKSI SELESAI</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-dropbox"></i>
+            </div>
+           
+          </div>
+        </div>
+
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-aqua">
@@ -29,39 +77,10 @@
             <div class="icon">
               <i class="ion ion-bag"></i>
             </div>
-            <a href="<?php echo base_url()?>UMKM/Produk/<?= $id_umkm?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+           
           </div>
         </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-yellow">
-            <div class="inner">
-              <h3><?= $jumlahPortofolio->jumlahportofolio ?></h3>
-
-              <p>PORTOFOLIO</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-person-add"></i>
-            </div>
-            <a href="<?= base_url()?>UMKM/TampilPortofolio/<?= $id_umkm?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-red">
-            <div class="inner">
-              <h3><?= $jumlahMarket->jumlahmarket ?></h3>
-
-              <p>MARKET UMKM</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-pie-graph"></i>
-            </div>
-            <a href="<?php echo base_url()?>UMKM/Market/<?= $id_umkm?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
+       
         <!-- ./col -->
       </div>
       <!-- /.row -->

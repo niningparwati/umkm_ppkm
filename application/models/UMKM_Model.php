@@ -106,6 +106,20 @@ class UMKM_Model extends CI_Model {
                         ");
     }
 
+   public function menungguPengiriman($id_umkm)
+    {
+        return $this->db->query("SELECT COUNT(tb_pengiriman.id_pengiriman) as jumlahpengiriman FROM tb_pengiriman JOIN tb_umkm ON tb_pengiriman.id_umkm=tb_umkm.id_umkm WHERE tb_umkm.id_umkm='$id_umkm' AND tb_pengiriman.status_pengiriman='belum_dikirim'")->row();
+    }
+
+    public function dikirim($id_umkm)
+    {
+        return $this->db->query("SELECT COUNT(tb_pengiriman.id_pengiriman) as jumlahdikirim FROM tb_pengiriman JOIN tb_umkm ON tb_pengiriman.id_umkm=tb_umkm.id_umkm WHERE tb_umkm.id_umkm='$id_umkm' AND tb_pengiriman.status_pengiriman='dikirim'")->row();
+    }
+
+     public function selesai($id_umkm)
+    {
+        return $this->db->query("SELECT COUNT(tb_transaksi.id_transaksi) as jumlahselesai FROM tb_transaksi JOIN tb_pengiriman ON tb_pengiriman.id_transaksi=tb_transaksi.id_transaksi JOIN tb_umkm ON tb_pengiriman.id_umkm=tb_umkm.id_umkm WHERE tb_umkm.id_umkm='$id_umkm' AND tb_transaksi.status='selesai'")->row();
+    }
 
     ////////////PRODUK////////////
 
