@@ -428,10 +428,9 @@ class M_konsumen extends CI_Model {
 		return $this->db->query("SELECT SUM(jumlah_harga) as total FROM tb_detail_transaksi JOIN tb_produk ON tb_detail_transaksi.id_produk=tb_produk.id_produk WHERE tb_detail_transaksi.id_transaksi='$idTransaksi' AND tb_produk.id_umkm='$idUmkm' GROUP BY id_detail_transaksi")->row();
 	}
 
-	function updateTransaksi($data,$idKonsumen)
+	function updateTransaksi($data,$idTransaksi)
 	{
-		$this->db->where('status', 'menunggu pembayaran');
-		$this->db->where('id_konsumen', $idKonsumen);
+		$this->db->where('id_transaksi', $idTransaksi);
 		$this->db->update('tb_transaksi',$data);
 	}
 
@@ -562,6 +561,20 @@ class M_konsumen extends CI_Model {
 	function Kontak()
 	{
 		return $this->db->query("SELECT * FROM tb_kontak LIMIT 1")->row();
+	}
+
+	// PROMO
+
+	function getPromo()
+	{
+		return $this->db->query("SELECT * FROM tb_promo WHERE status_promo='aktif' ")->result();
+	}
+
+	// BANNER
+
+	function getBanner()
+	{
+		return $this->db->query("SELECT * FROM tb_banner LIMIT 3")->result();
 	}
 
 }

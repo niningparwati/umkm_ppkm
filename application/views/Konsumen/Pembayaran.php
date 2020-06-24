@@ -6,7 +6,14 @@
 					<li class="active">
 						<div class="list_header">Pembayaran</div>
 						<div class="list_body">
-							<div style="text-align: right;"><span style="font-size: 12px">Total yang harus dibayar : </span><span style="font-weight: bold;">Rp <?=number_format($total,2,',','.')?></span></div>
+							<div style="text-align: right;"><span style="font-size: 12px">Total yang harus dibayar : </span><span style="font-weight: bold;">
+								<?php if (!is_null($transaksi->besar_diskon)) { ?>
+									Rp <?=number_format($transaksi->total_harga+$transaksi->ongkos_kirim-$transaksi->besar_diskon,2,',','.')?>
+								<?php }else{ ?>
+									Rp <?=number_format($transaksi->total_harga+$transaksi->ongkos_kirim,2,',','.')?>
+								<?php } ?>
+
+							</span></div>
 							<form class="checkout_or" style="width: 50%;">
 								<h3>ATM</h3>
 								<strong>Petunjuk Pembayaran Melalui ATM</strong><br/>
@@ -35,13 +42,9 @@
 								</p>
 								<br>
 							</form>
-							<form class="login"  style="width: 100%;" method="POST" action="<?=base_url()?>Konsumen/buktiBayar/<?=$id_transaksi?>" enctype="multipart/form-data">
+							<form class="login"  style="width: 100%;" method="POST" action="<?=base_url()?>Konsumen/buktiBayar/<?=$transaksi->id_transaksi?>" enctype="multipart/form-data">
 								<h3 style="text-align: center;">Upload Bukti Pembayaran</h3>
 								<table>
-									<tr>
-										<td style="width: 40%;font-weight: bold;font-size: 14px;text-align: left;border: 1px solid #ffffff;">Nama Pemilik Rekening </td>
-										<td style="border: 1px solid #ffffff;"><input type="text" name="pemilik_rekening" style="width: 90%; border-radius: 2px; border: 1px solid #ccc" required />	</td>
-									</tr>
 									<tr>
 										<td style="width: 40%;font-weight: bold;font-size: 14px;text-align: left;border: 1px solid #ffffff;">Foto Bukti Pembayaran </td>
 										<td style="border: 1px solid #ffffff;"><input type="file" name="bukti" style="width: 90%; border-radius: 2px; border: 1px solid #ccc" required /><br><small style="float: left; margin-left: 30px">(*note : file dalam format .png atau . jpg atau .jpeg)</small></td>
@@ -49,7 +52,7 @@
 									<tr>
 										<td colspan="2" style="border: 1px solid #ffffff;">
 											<br>
-											<center><input type="submit" name="submit" value="Login" style="width: 108px;font: bold 14px/35px Segoeui-Bold, Arial, Verdana, serif; font-weight: bold;color: #fefefe" /></center><br>
+											<center><input type="submit" name="submit" value="Kirim" style="width: 108px;font: bold 14px/35px Segoeui-Bold, Arial, Verdana, serif; font-weight: bold;color: #fefefe" /></center><br>
 										</td>
 									</tr>
 								</table>

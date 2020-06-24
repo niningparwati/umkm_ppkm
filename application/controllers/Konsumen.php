@@ -143,6 +143,8 @@ class Konsumen extends CI_Controller {
 			'produk' => $this->M_konsumen->getProdukHome(),
 			'umkm' => $this->M_konsumen->getUmkmHome(),
 			'informasi' => $this->M_konsumen->getInformasiHome(),
+			'promo' => $this->M_konsumen->getPromo(),
+			'banner' => $this->M_konsumen->getBanner(),
 		);
 		$this->load->view('Konsumen/Head');
 		$this->load->view('Konsumen/Header');
@@ -924,7 +926,7 @@ class Konsumen extends CI_Controller {
 						'detail_alamat' => $this->input->post('detail_alamat'),
 						// 'ongkir' => $response
 					);
-					$this->M_konsumen->updateTransaksi($alamat,$this->session->userdata('id_konsumen'));
+					$this->M_konsumen->updateTransaksi($alamat,$idTransaksi);
 					$data = array(
 						'produk' => $this->M_konsumen->produkBayar($idTransaksi),
 						'ongkir' => $response,
@@ -1056,11 +1058,11 @@ function inputDiskon($idTransaksi)
 		}
 	}
 
-	function updateBiaya($service,$level,$biaya,$hari)
+	function updateBiaya($idTransaksi,$service,$level,$biaya,$hari)
 	{
 		if ($this->session->userdata('id_konsumen')) {
-			$transaksi = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'));
-			$idTransaksi = $transaksi->id_transaksi;
+			// $transaksi = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'));
+			// $idTransaksi = $transaksi->id_transaksi;
 			$awal = $this->M_konsumen->getTotalHarga($idTransaksi)->total;
 			$total = $awal+$biaya;
 			$data = array(
@@ -1069,7 +1071,7 @@ function inputDiskon($idTransaksi)
 				'ongkos_kirim' => $biaya
 			);
 			$this->M_konsumen->inputOngkir($data,$idTransaksi);
-			redirect('Konsumen/Pengiriman');
+			redirect('Konsumen/Pengiriman/'.$idTransaksi);
 		}else{
 			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
@@ -1089,16 +1091,16 @@ function inputDiskon($idTransaksi)
 		}
 	}
 
-	function Pembayaran()
+	function Pembayaran($idTransaksi)
 	{
 		if ($this->session->userdata('id_konsumen')) {
-			$cek = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'));
+			$cek = $this->M_konsumen->getTransaksi($idTransaksi);
 			if (!empty($cek->provinsi) AND !empty($cek->kota) AND !empty($cek->detail_alamat) AND !empty($cek->ekspedisi_pengiriman) AND !empty($cek->estimasi_pengiriman) AND !empty($cek->ongkos_kirim) ) {		// sudah terisi semua
 
 				$data = array(
-					'total' => $cek->total_harga+$cek->ongkos_kirim,
 					'kontak' =>$this->M_konsumen->Kontak(),
-					'id_transaksi' => $cek->id_transaksi,
+					'id_transaksi' => $idTransaksi,
+					'transaksi' => $cek
 				);
 				$this->load->view('Konsumen/Head');
 				$this->load->view('Konsumen/Header', $data);
@@ -1108,12 +1110,12 @@ function inputDiskon($idTransaksi)
 			}elseif (!empty($cek->ekspedisi_pengiriman) AND !empty($cek->estimasi_pengiriman) AND !empty($cek->ongkos_kirim) ) {	// ongkir belum diisi
 
 				$this->session->set_flashdata('warning', 'pastikan ekpedisi pengiriman sudah dipilih!');
-				redirect('Konsumen/Pengiriman');
+				redirect('Konsumen/Pengiriman/'.$idTransaksi);
 
 			}else{
 
 				$this->session->set_flashdata('warning', 'pastikan alamat sudah terisi dan ekpedisi pengiriman sudah dipilih!');
-				redirect('Konsumen/Pengiriman');
+				redirect('Konsumen/Pengiriman/'.$idTransaksi);
 
 			}
 		}else{
@@ -1137,7 +1139,6 @@ function inputDiskon($idTransaksi)
 					$uploadData = $this->upload->data();
 					$data = array(
 						'bukti_pembayaran' => $uploadData['file_name'],
-						'pemilik_rekening' => $this->input->post('pemilik_rekening'),
 						'tanggal_transaksi' => date('Y-m-d H-i-s'),
 						'status' => 'menunggu konfirmasi'
 					);

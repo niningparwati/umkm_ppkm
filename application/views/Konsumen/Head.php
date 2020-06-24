@@ -14,6 +14,10 @@
   <link rel="stylesheet" href="<?=base_url()?>assets/konsumen/css/jquery.jqzoom.css" type="text/css">
   <link rel="stylesheet" href="<?=base_url()?>assets/konsumen/modal.css" type="text/css">
 
+  <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/konsumen/vendor/bootstrap/css/bootstrap.min.css">
+  <script type="text/javascript" src="<?=base_url()?>assets/konsumen/vendor/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="<?=base_url()?>assets/konsumen/vendor/bootstrap/js/bootstrap.min.js"></script>
+
   <script src="<?=base_url()?>assets/konsumen/js/jquery-1.7.2.min.js"></script> 
   <script src="<?=base_url()?>assets/konsumen/js/html5.js"></script>
   <script src="<?=base_url()?>assets/konsumen/js/main.js"></script>
@@ -24,6 +28,6 @@
   <!-- <script src="<?=base_url()?>assets/konsumen/js/selectBox.js"></script> -->
   <script src="<?=base_url()?>assets/konsumen/js/jquery.jqzoom-core.js"></script>
   <!-- Bootstrap CSS-->
-    <!-- <link rel="stylesheet" href="<?=base_url()?>assets/konsumen/vendor/bootstrap/css/bootstrap.min.css"> -->
+  <!-- <link rel="stylesheet" href="<?=base_url()?>assets/konsumen/vendor/bootstrap/css/bootstrap.min.css"> -->
 
 </head>

@@ -90,7 +90,7 @@ if ($err) {
           <tr>
             <td colspan="4" class="cart_but" style="text-align: right;font-size: 20px; border: none;">
               <br>
-              <?php if (empty($transaksi->besar_diskon)) { ?>
+              <?php if (is_null($transaksi->besar_diskon)) { ?>
                 Total Harga &nbsp 
               <?php }else{ ?>
                 Total Harga &nbsp <br>
@@ -99,10 +99,10 @@ if ($err) {
             </td>
             <td colspan="2" class="cart_but" style="text-align: left; font-size: 20px; border: none;">
               <br>
-              <?php if (empty($transaksi->besar_diskon)) { ?>
+              <?php if (is_null($transaksi->besar_diskon)) { ?>
                 &nbsp : &nbsp  Rp <?=number_format($totalHarga,2,',','.')?>
               <?php }else{ ?>
-                &nbsp : &nbsp  Rp <?=number_format(($totalHarga-$transaksi->besar_diskon),2,',','.')?>
+                &nbsp : &nbsp  Rp <?=number_format($totalHarga,2,',','.')?>
                 <br>
                 &nbsp : &nbsp  Rp <?= number_format($transaksi->besar_diskon,2,',','.') ?>
               <?php } ?>
@@ -222,7 +222,7 @@ if ($err) {
                  Biaya ongkir: <b>Rp <?=number_format($key['cost'][0]['value'],2,',','.')?></b><br>
                  Estimasi pengiriman : <b><?=$key['cost'][0]['etd']?> hari</b>
                </p>
-               <a href="<?=base_url()?>Konsumen/updateBiaya/<?=$biaya['rajaongkir']['results'][0]['code']?>/<?=$key['service']?>/<?=$key['cost'][0]['value']?>/<?=$key['cost'][0]['etd']?>"><input type="submit" id="apply_coupon" value="Pilih" /></a>
+               <a href="<?=base_url()?>Konsumen/updateBiaya/<?=$transaksi->id_transaksi?>/<?=$biaya['rajaongkir']['results'][0]['code']?>/<?=$key['service']?>/<?=$key['cost'][0]['value']?>/<?=$key['cost'][0]['etd']?>"><input type="submit" id="apply_coupon" value="Pilih" /></a>
                <?php
              }
            }
@@ -241,13 +241,28 @@ if ($err) {
             <tr>
               <td>Ongkos Kirim</td><td class="price">Rp <?=number_format($alamat->ongkos_kirim,2,',','.')?></td>
             </tr>
-            <tr >
-              <td style="font-size: 15px"><b>Total Bayar</b></td>
-              <?php $total = $alamat->total_harga+$alamat->ongkos_kirim ?>
-              <td class="price"><b>Rp <?=number_format($total,2,',','.')?></b></td>
-            </tr>
+            <?php if (!is_null($transaksi->besar_diskon)) { ?>
+              <tr>
+                <td>Diskon</td><td class="price">Rp <?=number_format($transaksi->besar_diskon,2,',','.')?></td>
+              </tr>
+            <?php } ?>
+
+            <?php if (!is_null($transaksi->besar_diskon)) { ?>
+              <tr >
+                <td style="font-size: 15px"><b>Total Bayar</b></td>
+                <?php $total = $alamat->total_harga+$alamat->ongkos_kirim-$transaksi->besar_diskon ?>
+                <td class="price"><b>Rp <?=number_format($total,2,',','.')?></b></td>
+              </tr>
+            <?php }else{ ?>
+              <tr >
+                <td style="font-size: 15px"><b>Total Bayar</b></td>
+                <?php $total = $alamat->total_harga+$alamat->ongkos_kirim ?>
+                <td class="price"><b>Rp <?=number_format($total,2,',','.')?></b></td>
+              </tr>
+            <?php } ?>
+            
           </table>
-          <a href="<?=base_url()?>Konsumen/Pembayaran"><button class="checkout">LANJUTKAN PEMBAYARAN</button></a>
+          <a href="<?=base_url()?>Konsumen/Pembayaran/<?=$transaksi->id_transaksi?>"><button class="checkout">LANJUTKAN PEMBAYARAN</button></a>
        <!--  <p class="modal1-open modal1-label close1" for="modal1-open" style="color: #777777;font-size: 15px"><b>Batalkan Transaksi</b></p>
         <input type="radio" name="modal1" value="open" id="modal1-open" class="modal1-radio"> -->
         <!-- MODAL -->
