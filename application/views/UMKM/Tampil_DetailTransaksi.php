@@ -34,7 +34,7 @@
 													<?php
 														$no = 1;
 														$total_item = 0;
-                    									foreach ($produk_dipesan as $key => $value) {
+                    									foreach ($detail_transaksi as $key => $value) {
                     								?>
                     									<tr>
                     										<td><?= $no++; ?></td>
@@ -50,7 +50,7 @@
                     									<td colspan="4"><b>Total Item : </b><?= $total_item ?></td>
                     								</tr>
                     								<tr>
-                    									<td colspan="4"><b>Total Harga : </b>Rp<?= number_format($value->jumlah_harga) ?></td>
+                    									<td colspan="4"><b>Total Harga : </b>Rp<?= number_format($value->total) ?></td>
                     								</tr>
                     								<tr>
                     									<td colspan="4"><b>Alamat Pengiriman : </b> <?= $detail_transaksi[0]->detail_alamat ?></td>

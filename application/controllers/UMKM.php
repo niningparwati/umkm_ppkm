@@ -916,7 +916,6 @@ class UMKM extends CI_Controller {
 	{
 		$user = $this->user_umkm();
 		$data["detail_transaksi"] = $this->UMKM_Model->detail_transaksi($id_transaksi,$user["id_umkm"])->result();
-		$data["produk_dipesan"] = $this->UMKM_Model->produk_dipesan($id_transaksi)->result();
 		$data["id_umkm"] = $user['id_umkm'];
 
 		$this->load->view('Head', $user);

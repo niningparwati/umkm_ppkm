@@ -67,29 +67,39 @@ class UMKM_Model extends CI_Model {
 
     public function transaksiMasuk($id_umkm)
     {
+         // $this->db->from('tb_transaksi a');
+         // $this->db->join('tb_konsumen b', 'a.id_konsumen = b.id_konsumen');
+         // $this->db->join('tb_detail_transaksi c', 'c.id_transaksi = a.id_transaksi', 'left');
+         // $this->db->join('tb_produk d', 'c.id_produk = d.id_produk');
+         // $this->db->join('tb_umkm e', 'e.id_umkm = d.id_umkm');
+         // $this->db->where('a.status','diproses');
+         // $this->db->or_where('a.status','dana dikirim');
+         // $this->db->or_where('a.status','selesai');
+         // $this->db->where('d.id_umkm',$id_umkm);
+         // $this->db->group_by('c.id_transaksi');
+         // $this->db->order_by('a.tanggal_transaksi','TIMESTAMPDIFF(DAY,Now(),`a.tanggal_transaksi`)','ASC');
+         // return $this->db->get();
+
+         $this->db->select('a.*, d.* , c.nama_produk, b.jumlah_produk, c.harga_produk, SUM(b.jumlah_produk * c.harga_produk) as total');
          $this->db->from('tb_transaksi a');
-         $this->db->join('tb_konsumen b', 'a.id_konsumen = b.id_konsumen');
-         $this->db->join('tb_detail_transaksi c', 'c.id_transaksi = a.id_transaksi', 'left');
-         $this->db->join('tb_produk d', 'c.id_produk = d.id_produk');
-         $this->db->join('tb_umkm e', 'e.id_umkm = d.id_umkm');
-         $this->db->where('a.status','diproses');
-         $this->db->or_where('a.status','dana dikirim');
-         $this->db->or_where('a.status','selesai');
-         $this->db->where('d.id_umkm',$id_umkm);
-         $this->db->group_by('c.id_transaksi');
-         $this->db->order_by('a.tanggal_transaksi','TIMESTAMPDIFF(DAY,Now(),`a.tanggal_transaksi`)','ASC');
+         $this->db->join('tb_detail_transaksi b', 'b.id_transaksi = a.id_transaksi');
+         $this->db->join('tb_produk c', 'c.id_produk = b.id_produk');
+         $this->db->join('tb_konsumen d', 'd.id_konsumen = a.id_konsumen');
+         $this->db->where('c.id_umkm',$id_umkm);
+         $this->db->group_by('a.id_transaksi');
          return $this->db->get();
     }
 
     public function detail_transaksi($id_transaksi,$id_umkm)
     {
+         $this->db->select('a.*, d.*, c.nama_produk, b.jumlah_produk, c.harga_produk, SUM(b.jumlah_produk * c.harga_produk) as total');
          $this->db->from('tb_transaksi a');
-         $this->db->join('tb_konsumen b', 'a.id_konsumen = b.id_konsumen');
-         $this->db->join('tb_detail_transaksi c', 'c.id_transaksi = a.id_transaksi', 'left');
-         $this->db->join('tb_produk d', 'c.id_produk = d.id_produk');
-         $this->db->join('tb_umkm e', 'e.id_umkm = d.id_umkm');
+         $this->db->join('tb_detail_transaksi b', 'b.id_transaksi = a.id_transaksi');
+         $this->db->join('tb_produk c', 'c.id_produk = b.id_produk');
+         $this->db->join('tb_konsumen d', 'd.id_konsumen = a.id_konsumen');
+         $this->db->where('c.id_umkm',$id_umkm);
          $this->db->where('a.id_transaksi',$id_transaksi);
-         $this->db->where('e.id_umkm',$id_umkm);
+         $this->db->group_by('a.id_transaksi');
          return $this->db->get();
     
     }
@@ -104,14 +114,6 @@ class UMKM_Model extends CI_Model {
                         ");
     }
 
-   public function produk_dipesan($id_transaksi)
-   {
-         $this->db->from('tb_detail_transaksi a');
-         $this->db->join('tb_produk b', 'b.id_produk = a.id_produk');
-         $this->db->join('tb_umkm c', 'c.id_umkm = b.id_umkm');
-         $this->db->where('a.id_transaksi',$id_transaksi);
-         return $this->db->get();
-   }
 
     ////////////PRODUK////////////
 

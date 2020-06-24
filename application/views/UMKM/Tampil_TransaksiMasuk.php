@@ -32,7 +32,7 @@
                         <td><?= $no++ ?></td>
                         <td><?= $value->tanggal_transaksi ?></td>
                         <td><?= $value->nama_konsumen ?></td>
-                        <td>Rp <?= number_format($value->jumlah_harga) ?></td>
+                        <td>Rp <?= number_format($value->total) ?></td>
                         <td>
                           <center>
                              <?php
