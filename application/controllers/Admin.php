@@ -534,6 +534,215 @@ class Admin extends CI_Controller {
       $this->load->view('admin/KelolaProdukUMKM',$data);
     }
 
+
+		//Kelola Promo
+		public function kelolaPromo()
+		{
+			$user = $this->session->username;
+			$data = array(
+				'promo'  => $this->M_admin->getPromo(),
+				'akun'	 => $this->M_admin->getAkun($user),
+			);
+      $this->load->view('admin/Kelolapromo',$data);
+		}
+
+		public function tambahPromo()
+		{
+			$user = $this->session->username;
+			$data = array(
+				'akun'	 => $this->M_admin->getAkun($user),
+			);
+      $this->load->view('admin/Tambahpromo',$data);
+		}
+
+		public function createPromo()
+		{
+				$config['upload_path'] = "./assets/foto_promo/";
+				$config['allowed_types'] = "gif|jpg|png";
+				$config['max_size'] = 2000;
+				$config['encrypt_name'] = TRUE;
+
+					$this->form_validation->set_rules('namapromo','Nama Promo','required',
+				 	array(
+					 	'required'  => '%s tidak boleh kosong'
+				 	));
+					$this->form_validation->set_rules('kodepromo','Kode Promo','required',
+				 	array(
+					 	'required'  => '%s tidak boleh kosong'
+				 	));
+					$this->form_validation->set_rules('besarpromo','Besar Promo','required',
+				 	array(
+					 	'required'  => '%s tidak boleh kosong'
+				 	));
+					$this->form_validation->set_rules('minimal','Minimal Belanja','required',
+				 	array(
+					 	'required'  => '%s tidak boleh kosong'
+				 	));
+					$this->form_validation->set_rules('maksimum','Maksimum Potongan','required',
+				 	array(
+					 	'required'  => '%s tidak boleh kosong'
+				 	));
+					$this->form_validation->set_rules('berlaku_sampai','Ini','required',
+				 	array(
+					 	'required'  => '%s tidak boleh kosong'
+				 	));
+					$this->form_validation->set_rules('status','Status','required',
+					array(
+						'required'  => '%s tidak boleh kosong'
+					));
+				 if($this->form_validation->run() == FALSE){
+					 $this->tambahPromo();
+				 }else{
+				$this->load->library('upload',$config);
+				if ($this->upload->do_upload('foto')) {
+					$foto = $this->upload->data();
+					$data = array(
+					'nama_promo' => $this->input->post('namapromo'),
+					'kode_promo'  => $this->input->post('kodepromo'),
+					'besar_promo'  => $this->input->post('besarpromo'),
+					'minimal_belanja'  => $this->input->post('minimal'),
+					'maksimum_potongan'  => $this->input->post('maksimum'),
+					'status_promo'   => $this->input->post('status'),
+					'foto_promo'   => $foto['file_name'],
+					'berlaku_sampai'   => $this->input->post('berlaku_sampai'),
+					);
+				}else{
+					$data = array(
+						'nama_promo' => $this->input->post('namapromo'),
+						'kode_promo'  => $this->input->post('kodepromo'),
+						'besar_promo'  => $this->input->post('besarpromo'),
+						'minimal_belanja'  => $this->input->post('minimal'),
+						'maksimum_potongan'  => $this->input->post('maksimum'),
+						'status_promo'   => $this->input->post('status'),
+						'berlaku_sampai'   => $this->input->post('berlaku_sampai'),
+					);
+				}
+			$cek = $this->M_admin->create_promo($data);
+			redirect('Admin/kelolaPromo');
+		}
+		}
+
+		public function pilihPromo($id)
+		{
+			$user = $this->session->username;
+			$data = array(
+				'akun'	=> $this->M_admin->getAkun($user),
+				'promo' => $this->M_admin->getPromoId($id),
+			);
+			$this->load->view('admin/Editpromo',$data);
+		}
+
+		public function updatePromo()
+		{
+				$config['upload_path'] = "./assets/foto_promo/";
+				$config['allowed_types'] = "gif|jpg|png";
+				$config['max_size'] = 2000;
+				$config['encrypt_name'] = TRUE;
+
+					$this->form_validation->set_rules('namapromo','Nama Promo','required',
+				 	array(
+					 	'required'  => '%s tidak boleh kosong'
+				 	));
+					$this->form_validation->set_rules('kodepromo','Kode Promo','required',
+				 	array(
+					 	'required'  => '%s tidak boleh kosong'
+				 	));
+					$this->form_validation->set_rules('besarpromo','Besar Promo','required',
+				 	array(
+					 	'required'  => '%s tidak boleh kosong'
+				 	));
+					$this->form_validation->set_rules('minimal','Minimal Belanja','required',
+				 	array(
+					 	'required'  => '%s tidak boleh kosong'
+				 	));
+					$this->form_validation->set_rules('maksimum','Maksimum Potongan','required',
+				 	array(
+					 	'required'  => '%s tidak boleh kosong'
+				 	));
+					$this->form_validation->set_rules('berlaku_sampai','Ini','required',
+				 	array(
+					 	'required'  => '%s tidak boleh kosong'
+				 	));
+					$this->form_validation->set_rules('status','Status','required',
+					array(
+						'required'  => '%s tidak boleh kosong'
+					));
+				 if($this->form_validation->run() == FALSE){
+					 $this->tambahPromo();
+				 }else{
+				$this->load->library('upload',$config);
+				$id = $this->input->post('idpromo');
+				if ($this->upload->do_upload('foto')) {
+					$foto = $this->upload->data();
+					$data = array(
+					'nama_promo' => $this->input->post('namapromo'),
+					'kode_promo'  => $this->input->post('kodepromo'),
+					'besar_promo'  => $this->input->post('besarpromo'),
+					'minimal_belanja'  => $this->input->post('minimal'),
+					'maksimum_potongan'  => $this->input->post('maksimum'),
+					'status_promo'   => $this->input->post('status'),
+					'foto_promo'   => $foto['file_name'],
+					'berlaku_sampai'   => $this->input->post('berlaku_sampai'),
+					);
+				}else{
+					$data = array(
+						'nama_promo' => $this->input->post('namapromo'),
+						'kode_promo'  => $this->input->post('kodepromo'),
+						'besar_promo'  => $this->input->post('besarpromo'),
+						'minimal_belanja'  => $this->input->post('minimal'),
+						'maksimum_potongan'  => $this->input->post('maksimum'),
+						'status_promo'   => $this->input->post('status'),
+						'berlaku_sampai'   => $this->input->post('berlaku_sampai'),
+					);
+				}
+			$cek = $this->M_admin->update_promo($data,$id);
+			redirect('Admin/kelolaPromo');
+		}
+		}
+
+		public function hapusPromo($id)
+		{
+			$cek = $this->M_admin->hapus_promo($id);
+			redirect('admin/kelolaPromo');
+		}
+
+		public function kelolaPromoUMKM()
+		{
+			$user = $this->session->username;
+			$data = array(
+				'akun'	 => $this->M_admin->getAkun($user),
+				'promoumkm' =>$this->M_admin->getPromoUMKM()
+			);
+			$this->load->view('admin/KelolapromoUMKM',$data);
+		}
+
+		public function updateAktif($id)
+		{
+			$data = array(
+				'status_promo'			=> 'aktif',
+			);
+			$cek = $this->M_admin->update_promo($data,$id);
+			redirect('Admin/kelolaPromoUMKM');
+		}
+
+		public function updateTdkAktif($id)
+		{
+			$data = array(
+				'status_promo'			=> 'tidak aktif',
+			);
+			$cek = $this->M_admin->update_promo($data,$id);
+			redirect('Admin/kelolaPromoUMKM');
+		}
+
+		public function updateExpired($id)
+		{
+			$data = array(
+				'status_promo'			=> 'expired',
+			);
+			$cek = $this->M_admin->update_promo($data,$id);
+			redirect('Admin/kelolaPromoUMKM');
+		}
+
 	//Kelola transaksi
 		//Transaksi Produk
 	    public function kelolaTransaksi()
@@ -739,6 +948,163 @@ class Admin extends CI_Controller {
 					}
 				$cek = $this->M_admin->update_slide($data,$id);
 				redirect('Admin/kelolaSlide');
+			}
+
+			//Kelola Banner
+			public function kelolaBanner()
+			{
+				$user = $this->session->username;
+				$data = array(
+					'akun'	=> $this->M_admin->getAkun($user),
+					'slide' => $this->M_admin->getBanner(),
+				);
+				$this->load->view('admin/Kelolabanner',$data);
+			}
+
+			public function tambahBanner()
+			{
+				$user = $this->session->username;
+				$data = array(
+					'akun'	=> $this->M_admin->getAkun($user),
+					'umkm'	=> $this->M_admin->getUMKM()
+				);
+				$this->load->view('admin/Tambahbanner',$data);
+			}
+
+			public function createBanner()
+			{
+					$config['upload_path'] = "./assets/foto_banner/";
+					$config['allowed_types'] = "gif|jpg|png";
+					$config['max_size'] = 2000;
+					$config['encrypt_name'] = TRUE;
+
+					$this->form_validation->set_rules('namabanner','Nama Banner','required',
+					 array(
+						 'required'  => '%s tidak boleh kosong'
+					 ));
+					 $u = $this->input->post('idumkm');
+					 if($this->form_validation->run() == FALSE){
+						 $this->tambahBanner();
+					 }else{
+					$this->load->library('upload',$config);
+					if ($this->upload->do_upload('foto')) {
+						if ($u == 'NULL') {
+							$gambar = $this->upload->data();
+							$data = array(
+								'nama_banner' => $this->input->post('namabanner'),
+								'foto_banner'   => $gambar['file_name'],
+							);
+						}else{
+							$gambar = $this->upload->data();
+							$data = array(
+								'nama_banner' => $this->input->post('namabanner'),
+								'id_umkm'  => $this->input->post('idumkm'),
+								'foto_banner'   => $gambar['file_name'],
+							);
+						}
+					}else{
+						if ($u == 'NULL') {
+							$data = array(
+								'nama_banner' => $this->input->post('namabanner'),
+							);
+						}else{
+							$data = array(
+								'nama_banner' => $this->input->post('namabanner'),
+								'id_umkm'  => $this->input->post('idumkm'),
+							);
+						}
+					}
+				$cek = $this->M_admin->create_banner($data);
+				redirect('Admin/kelolaBanner');
+			}
+			}
+
+			public function hapusBanner($id)
+			{
+				$cek = $this->M_admin->hapus_banner($id);
+				redirect('admin/kelolaBanner');
+			}
+
+			public function pilihBanner($id)
+			{
+				$user = $this->session->username;
+				$data = array(
+					'akun'	=> $this->M_admin->getAkun($user),
+					'banner' => $this->M_admin->getBannerId($id),
+					'umkm'	=> $this->M_admin->getUMKM()
+				);
+				if ($data['banner']->id_umkm == NULL) {
+					$this->load->view('admin/Editbanners',$data);
+				}else{
+					$this->load->view('admin/Editbanner',$data);
+				}
+			}
+
+			public function updateBanner()
+			{
+				$config['upload_path'] = "./assets/foto_banner/";
+				$config['allowed_types'] = "gif|jpg|png";
+				$config['max_size'] = 2000;
+				$config['encrypt_name'] = TRUE;
+
+				$this->form_validation->set_rules('namabanner','Nama Banner','required',
+				 array(
+					 'required'  => '%s tidak boleh kosong'
+				 ));
+				 $u = $this->input->post('idumkm');
+				 if($this->form_validation->run() == FALSE){
+					 $this->tambahBanner();
+				 }else{
+				$this->load->library('upload',$config);
+				if ($this->upload->do_upload('foto')) {
+						$gambar = $this->upload->data();
+						$data = array(
+							'nama_banner' => $this->input->post('namabanner'),
+							'id_umkm'  => $this->input->post('idumkm'),
+							'foto_banner'   => $gambar['file_name'],
+						);
+				}else{
+						$data = array(
+							'nama_banner' => $this->input->post('namabanner'),
+							'id_umkm'  => $this->input->post('idumkm'),
+						);
+					}
+				$id = $this->input->post('id_banner');
+				$cek = $this->M_admin->update_banner($data,$id);
+				redirect('Admin/kelolaBanner');
+				}}
+
+		public function updateBanners()
+		{
+			$config['upload_path'] = "./assets/foto_banner/";
+			$config['allowed_types'] = "gif|jpg|png";
+			$config['max_size'] = 2000;
+			$config['encrypt_name'] = TRUE;
+
+			$this->form_validation->set_rules('namabanner','Nama Banner','required',
+			 array(
+				 'required'  => '%s tidak boleh kosong'
+			 ));
+			 $u = $this->input->post('idumkm');
+			 if($this->form_validation->run() == FALSE){
+				 $this->pilihBanner();
+			 }else{
+			$this->load->library('upload',$config);
+			if ($this->upload->do_upload('foto')) {
+					$gambar = $this->upload->data();
+					$data = array(
+						'nama_banner' => $this->input->post('namabanner'),
+						'foto_banner'   => $gambar['file_name'],
+					);
+			}else{
+					$data = array(
+						'nama_banner' => $this->input->post('namabanner'),
+					);
+				}
+			}
+			$id = $this->input->post('id_banner');
+			$cek = $this->M_admin->update_banner($data,$id);
+			redirect('Admin/kelolaBanner');
 			}
 
   //Kelola Kontak

@@ -193,6 +193,37 @@ class M_admin extends CI_Model {
     return $this->db->delete('tb_kategori_produk');
 	}
 
+//Kelola Promo
+	public function getPromo()
+	{
+		return $this->db->get('tb_promo')->result();
+	}
+
+	public function getPromoId($id)
+	{
+		return $this->db->query("SELECT * FROM tb_promo WHERE id_promo = '$id'")->row();
+	}
+
+	public function create_promo($data){
+		return $this->db->insert('tb_promo',$data);
+	}
+
+	public function update_promo($data,$id){
+	 $this->db->where('id_promo',$id);
+	 $o = $this->db->update('tb_promo',$data);
+	 return $o;
+	}
+
+	public function hapus_promo($id){
+		$this->db->where('id_promo',$id);
+    return $this->db->delete('tb_promo');
+	}
+
+	public function getPromoUMKM()
+	{
+		return $this->db->query("SELECT * FROM tb_promo WHERE id_umkm IS NOT NULL")->result();
+	}
+
 //Kelola Produk
 	public function getProduk(){
 		return $this->db->query('SELECT * FROM tb_produk JOIN tb_kategori_produk USING(id_kategori_produk) JOIN tb_umkm USING(id_umkm)')->result();
@@ -253,6 +284,30 @@ class M_admin extends CI_Model {
 	 return $o;
 	}
 
+//Kelola Banner
+//Kelola Slide
+	public function getBanner(){
+		return $this->db->get('tb_banner')->result();
+	}
+
+	public function getBannerId($id){
+		return $this->db->query("SELECT * FROM tb_banner WHERE id_banner = '$id'")->row();
+	}
+
+	public function create_banner($data){
+		return $this->db->insert('tb_banner',$data);
+	}
+
+	public function hapus_banner($id){
+		$this->db->where('id_banner',$id);
+		return $this->db->delete('tb_banner');
+	}
+
+	public function update_banner($data,$id){
+	 $this->db->where('id_banner',$id);
+	 $o = $this->db->update('tb_banner',$data);
+	 return $o;
+	}
 //Kelola Kontak
 	public function getKontak(){
 		return $this->db->get('tb_kontak')->row();

@@ -57,6 +57,19 @@
       </li>
       <li class="treeview">
         <a href="#">
+          <i class="fa fa-credit-card"></i>
+          <span>Kelola Promo</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="<?php echo base_url()?>Admin/kelolaPromo"><i class="fa fa-circle-o"></i> Kelola Promo</a></li>
+          <li><a href="<?php echo base_url()?>Admin/kelolaPromoUMKM"><i class="fa fa-circle-o"></i> Kelola Promo UMKM</a></li>
+        </ul>
+      </li>
+      <li class="treeview">
+        <a href="#">
           <i class="fa fa-shopping-cart"></i>
           <span>Kelola Transaksi</span>
           <span class="pull-right-container">
@@ -86,6 +99,11 @@
       <li>
         <a href="<?php echo base_url()?>Admin/kelolaSlide">
           <i class="fa fa-slideshare"></i> <span>Kelola Slide UMKM</span>
+        </a>
+      </li>
+      <li>
+        <a href="<?php echo base_url()?>Admin/kelolaBanner">
+          <i class="fa fa-photo"></i> <span>Kelola Banner</span>
         </a>
       </li>
       <li>
