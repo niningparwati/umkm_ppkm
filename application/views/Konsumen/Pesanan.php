@@ -41,7 +41,7 @@
                   <?=$key->detail_alamat.", ".$key->kota.", ".$key->provinsi?>
                 </td>
                 <td style="width: 120px">
-                  <a href="<?=base_url()?>Konsumen/Pengiriman" style="color: blue; text-decoration: none;">Lanjutkan Pembayaran</a>
+                  <a href="<?=base_url()?>Konsumen/Pengiriman/<?=$key->id_transaksi?>" style="color: blue; text-decoration: none;">Lanjutkan Pembayaran</a>
                 </td>
               </tr>
             <?php } ?>

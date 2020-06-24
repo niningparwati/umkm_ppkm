@@ -11,7 +11,7 @@ curl_setopt_array($curl, array(
   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   CURLOPT_CUSTOMREQUEST => "GET",
   CURLOPT_HTTPHEADER => array(
-    "key: 28b6e68fb3460455044054d3d955e252"
+    "key: 590213f97cfe285c488355e8c2138907"
   ),
 ));
 
@@ -41,15 +41,14 @@ if ($err) {
           <th class="bg name" style="text-align: center;font-weight: bold;color: black">Nama Produk</th>
           <th class="bg price" style="text-align: center;font-weight: bold;color: black">Harga Produk</th>
           <th class="bg name" style="text-align: center;font-weight: bold;color: black">Jumlah Produk</th>
-          <th class="bg subtotal" style="text-align: center;font-weight: bold;color: black">Subtotal</th>
+          <th colspan="2" class="bg subtotal" style="text-align: center;font-weight: bold;color: black">Subtotal</th>
         </tr>
-        <form method="POST" action="<?=base_url()?>Konsumen/Transaksi">
-
+        <!-- <form method="POST" action="<?=base_url()?>Konsumen/Transaksi"> -->
           <?php
           foreach ($produk as $key) {
             ?>
             <tr>
-              <td class="images">
+              <td class="images" style="border: none; vertical-align: middle;">
                 <a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>">
                   <?php if (!empty($key->foto_produk)) { ?>
                     <img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" alt="Product Slide 1">
@@ -58,16 +57,14 @@ if ($err) {
                   <?php } ?>
                 </a>  
               </td>
-              <td class="qty">
-                <a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>" style="text-decoration: none; color: black">
-                  <b><?=$key->nama_produk?></b>
-                </a>
+              <td class="qty" style="border: none; vertical-align: middle;">
+                <a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>" style="text-decoration: none; color: black"><?=$key->nama_produk?></a>
               </td>
-              <td class="qty">Rp <?=number_format($key->harga_produk,2,',','.')?></td>
-              <td class="qty" style="padding-top: 30px">
+              <td class="qty" style="border: none; vertical-align: middle;">Rp <?=number_format($key->harga_produk,2,',','.')?></td>
+              <td class="qty" style="padding-top: 30px; border: none; vertical-align: middle;">
                 <?=$key->jumlah_produk?>
               </td>
-              <td class="qty">
+              <td class="qty" colspan="2" style="border: none; vertical-align: middle;">
                 <?php 
                 $jml = $key->jumlah_produk;
                 $hrg = $key->harga_produk;
@@ -77,48 +74,74 @@ if ($err) {
               </td>
             </tr>
           <?php } ?>
+          <form action="<?=base_url()?>Konsumen/inputDiskon/<?=$transaksi->id_transaksi?>" method="POST">
+            <tr>
+              <td colspan="4" style="text-align: right; font-size: 14px; border: none; vertical-align: middle;">
+                Masukan kode voucher &nbsp
+              </td>
+              <td colspan="1" style="text-align: left; border: none;">
+                &nbsp &nbsp &nbsp <input type="text" name="kode_diskon" style="width: 80%; height: 30px">
+              </td>
+              <td colspan="1" style="float: left; border: none;">
+                <button name="submit" type="submit" style="height: 30px; padding-right: 10px; padding-left: 10px;">Kirim</button>
+              </td>
+            </tr>
+          </form>
           <tr>
-            <td colspan="4" class="cart_but" style="float: center;font-size: 20px">
-              Total Harga
+            <td colspan="4" class="cart_but" style="text-align: right;font-size: 20px; border: none;">
+              <br>
+              <?php if (empty($transaksi->besar_diskon)) { ?>
+                Total Harga &nbsp 
+              <?php }else{ ?>
+                Total Harga &nbsp <br>
+                Diskon &nbsp
+              <?php } ?>
             </td>
-            <td colspan="2" style="float: center; font-size: 20px;">
-              Rp<?=number_format($totalHarga,2,',','.')?>
+            <td colspan="2" class="cart_but" style="text-align: left; font-size: 20px; border: none;">
+              <br>
+              <?php if (empty($transaksi->besar_diskon)) { ?>
+                &nbsp : &nbsp  Rp <?=number_format($totalHarga,2,',','.')?>
+              <?php }else{ ?>
+                &nbsp : &nbsp  Rp <?=number_format(($totalHarga-$transaksi->besar_diskon),2,',','.')?>
+                <br>
+                &nbsp : &nbsp  Rp <?= number_format($transaksi->besar_diskon,2,',','.') ?>
+              <?php } ?>
             </td>
           </tr>
-        </form>
-      </table>
-    </div><!-- .grid_12 -->
+          <!-- </form> -->
+        </table>
+      </div><!-- .grid_12 -->
 
-    <div class="clear"></div>
+      <div class="clear"></div>
 
-    <div id="content_bottom" class="shopping_box">
-      <div class="grid_4">
-        <div class="bottom_block estimate">
-          <h3>Alamat Pengiriman</h3>
+      <div id="content_bottom" class="shopping_box">
+        <div class="grid_4">
+          <div class="bottom_block estimate">
+            <h3>Alamat Pengiriman</h3>
 
-          <p>Lengkapi alamat perngiriman produk!</p>
-          <form method="POST">
-            <p>
-              <!-- <strong>Provinsi Asal:</strong><sup class="surely">*</sup><br/> -->
-              <input type="hidden" name="provinsi" value="9" selected>
-              <!-- <select id="provinsi" name="provinsi" style="width: 100%" hidden> -->
-                <!-- <option value="9" selected="selected" >Jawa Barat</option> -->
-                <?php 
+            <p>Lengkapi alamat perngiriman produk!</p>
+            <form method="POST">
+              <p>
+                <!-- <strong>Provinsi Asal:</strong><sup class="surely">*</sup><br/> -->
+                <input type="hidden" name="provinsi" value="9" selected>
+                <!-- <select id="provinsi" name="provinsi" style="width: 100%" hidden> -->
+                  <!-- <option value="9" selected="selected" >Jawa Barat</option> -->
+                  <?php 
                 // $biaya = json_decode($ongkir);
                 // if ($provinsi['rajaongkir']['status']['code'] == '200') {
                 //   foreach ($provinsi['rajaongkir']['results'] as $prov) {
-                ?>
-                <!--       echo "<option value='".$prov['province_id']."' ".($prov['province_id'] == $this->input->post('provinsi') ? "selected" : "").">".$prov['province']."</option>"; -->
-                <!-- <option value="<?=$prov['province_id']?>" <?php if( $prov['province_id'] ==  $this->input->post('provinsi') ){ ?> selected="selected" <?php }?>><?=$prov['province']?></option> -->
-                <?php
+                  ?>
+                  <!--       echo "<option value='".$prov['province_id']."' ".($prov['province_id'] == $this->input->post('provinsi') ? "selected" : "").">".$prov['province']."</option>"; -->
+                  <!-- <option value="<?=$prov['province_id']?>" <?php if( $prov['province_id'] ==  $this->input->post('provinsi') ){ ?> selected="selected" <?php }?>><?=$prov['province']?></option> -->
+                  <?php
                 //   }
                 // }
-                ?>
-                <!-- </select> -->
-              </p>
-              <p>
-                <!-- <strong>Kota Asal:</strong><br/> -->
-                <input type="hidden" name="kota" value="22" selected>
+                  ?>
+                  <!-- </select> -->
+                </p>
+                <p>
+                  <!-- <strong>Kota Asal:</strong><br/> -->
+                  <input type="hidden" name="kota" value="22" selected>
               <!-- <select id="kota" name="kota" style="width: 100%" hidden>
                 <option>Bandung</option>
               </select> -->
@@ -169,9 +192,10 @@ if ($err) {
         </div><!-- .estimate -->
       </div><!-- .grid_4 -->
 
-      <div class="grid_4">
-        <div class="bottom_block discount">
-          <?php if ($alamat->provinsi AND $alamat->kota AND $alamat->detail_alamat) { ?>
+      <?php if (!empty($alamat->provinsi) AND !empty($alamat->kota) AND !empty($alamat->detail_alamat)) { ?>
+        <div class="grid_4">
+          <div class="bottom_block discount">
+
             <h3>Alamat Pengiriman</h3>
             <p>
               <b>Provinsi :</b><br><?=$alamat->provinsi?><br>
@@ -179,49 +203,51 @@ if ($err) {
               <b>Detail Alamat :</b><br>
               <?=$alamat->detail_alamat?>
             </p>
-          <?php } ?>
-          <h3>Estimasi Ongkos Kirim</h3>
-          <?php if (!empty($alamat->ekspedisi_pengiriman) AND !empty($alamat->estimasi_pengiriman) AND !empty($alamat->ongkos_kirim)) {?>
-            <b>Rp <?=number_format($alamat->ongkos_kirim,2,',','.')?></b><br>
-            <?=$alamat->ekspedisi_pengiriman?><br>
-            durasi pengiriman : <?=strtolower($alamat->estimasi_pengiriman) ?>
-          <?php } ?>
-          <?php 
-          $biaya = json_decode($ongkir,true);
-          if ($biaya['rajaongkir']['status']['code'] == '200') {
-            foreach ($biaya['rajaongkir']['results'][0]['costs'] as $key) {
-              ?>
-              <!-- echo $key['service']; -->
-              <b><?=$key['service']?></b>
-              <p style="font-size: 12px">
-               Biaya ongkir: <b>Rp <?=number_format($key['cost'][0]['value'],2,',','.')?></b><br>
-               Estimasi pengiriman : <b><?=$key['cost'][0]['etd']?> hari</b>
-             </p>
-             <a href="<?=base_url()?>Konsumen/updateBiaya/<?=$biaya['rajaongkir']['results'][0]['code']?>/<?=$key['service']?>/<?=$key['cost'][0]['value']?>/<?=$key['cost'][0]['etd']?>"><input type="submit" id="apply_coupon" value="Pilih" /></a>
-             <?php
+
+            <?php if (!empty($alamat->ekspedisi_pengiriman) AND !empty($alamat->estimasi_pengiriman) AND !empty($alamat->ongkos_kirim)) {?>
+              <h3>Estimasi Ongkos Kirim</h3>
+              <b>Rp <?=number_format($alamat->ongkos_kirim,2,',','.')?></b><br>
+              <?=$alamat->ekspedisi_pengiriman?><br>
+              durasi pengiriman : <?=strtolower($alamat->estimasi_pengiriman) ?>
+            <?php } ?>
+
+            <?php 
+            $biaya = json_decode($ongkir,true);
+            if ($biaya['rajaongkir']['status']['code'] == '200') {
+              foreach ($biaya['rajaongkir']['results'][0]['costs'] as $key) {
+                ?>
+                <!-- echo $key['service']; -->
+                <b><?=$key['service']?></b>
+                <p style="font-size: 12px">
+                 Biaya ongkir: <b>Rp <?=number_format($key['cost'][0]['value'],2,',','.')?></b><br>
+                 Estimasi pengiriman : <b><?=$key['cost'][0]['etd']?> hari</b>
+               </p>
+               <a href="<?=base_url()?>Konsumen/updateBiaya/<?=$biaya['rajaongkir']['results'][0]['code']?>/<?=$key['service']?>/<?=$key['cost'][0]['value']?>/<?=$key['cost'][0]['etd']?>"><input type="submit" id="apply_coupon" value="Pilih" /></a>
+               <?php
+             }
            }
-         }
-         ?>
+           ?>
+         </div><!-- .discount -->
+       </div><!-- .grid_4 -->
+     <?php } ?>
 
-       </div><!-- .discount -->
-     </div><!-- .grid_4 -->
-
-     <div class="grid_4">
-      <div class="bottom_block total">
-        <table class="subtotal">
-          <tr>
-            <td style="width: 50%">Total Harga</td><td class="price">Rp <?=number_format($alamat->total_harga,2,',','.')?></td>
-          </tr>
-          <tr>
-            <td>Ongkos Kirim</td><td class="price">Rp <?=number_format($alamat->ongkos_kirim,2,',','.')?></td>
-          </tr>
-          <tr >
-            <td style="font-size: 15px"><b>Total Bayar</b></td>
-            <?php $total = $alamat->total_harga+$alamat->ongkos_kirim ?>
-            <td class="price"><b>Rp <?=number_format($total,2,',','.')?></b></td>
-          </tr>
-        </table>
-        <a href="<?=base_url()?>Konsumen/Pembayaran"><button class="checkout">LANJUTKAN PEMBAYARAN</button></a>
+     <?php if (!empty($alamat->ongkos_kirim)) { ?>
+       <div class="grid_4">
+        <div class="bottom_block total">
+          <table class="subtotal">
+            <tr>
+              <td style="width: 50%">Total Harga</td><td class="price">Rp <?=number_format($alamat->total_harga,2,',','.')?></td>
+            </tr>
+            <tr>
+              <td>Ongkos Kirim</td><td class="price">Rp <?=number_format($alamat->ongkos_kirim,2,',','.')?></td>
+            </tr>
+            <tr >
+              <td style="font-size: 15px"><b>Total Bayar</b></td>
+              <?php $total = $alamat->total_harga+$alamat->ongkos_kirim ?>
+              <td class="price"><b>Rp <?=number_format($total,2,',','.')?></b></td>
+            </tr>
+          </table>
+          <a href="<?=base_url()?>Konsumen/Pembayaran"><button class="checkout">LANJUTKAN PEMBAYARAN</button></a>
        <!--  <p class="modal1-open modal1-label close1" for="modal1-open" style="color: #777777;font-size: 15px"><b>Batalkan Transaksi</b></p>
         <input type="radio" name="modal1" value="open" id="modal1-open" class="modal1-radio"> -->
         <!-- MODAL -->
@@ -273,11 +299,13 @@ if ($err) {
         </div><!-- .total -->
       </div><!-- .grid_4 -->
 
-      <div class="clear"></div>
-    </div><!-- #content_bottom -->
-    <div class="clear"></div>
+    <?php } ?>
 
-  </div><!-- .container_12 -->
+    <div class="clear"></div>
+  </div><!-- #content_bottom -->
+  <div class="clear"></div>
+
+</div><!-- .container_12 -->
 </section><!-- #main -->
 
 <div class="clear"></div>
