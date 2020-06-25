@@ -209,8 +209,8 @@ if ($err) {
             <?php if (!empty($alamat->ekspedisi_pengiriman) AND !empty($alamat->estimasi_pengiriman) AND !empty($alamat->ongkos_kirim)) {?>
               <h3>Estimasi Ongkos Kirim</h3>
               <b>Rp <?=number_format($alamat->ongkos_kirim,2,',','.')?></b><br>
-              <?=$alamat->ekspedisi_pengiriman?><br>
-              durasi pengiriman : <?=strtolower($alamat->estimasi_pengiriman) ?>
+              <span style="font-size: 13px">Ekspedisi Pengiriman : <?=$alamat->ekspedisi_pengiriman?><br></span>
+              <span style="font-size: 13px">durasi pengiriman : <?=strtolower($alamat->estimasi_pengiriman) ?></span>
             <?php } ?>
 
             <?php 
@@ -224,7 +224,7 @@ if ($err) {
                  Biaya ongkir: <b>Rp <?=number_format($key['cost'][0]['value'],2,',','.')?></b><br>
                  Estimasi pengiriman : <b><?=$key['cost'][0]['etd']?> hari</b>
                </p>
-               <a href="<?=base_url()?>Konsumen/updateBiaya/<?=$transaksi->id_transaksi?>/<?=$biaya['rajaongkir']['results'][0]['code']?>/<?=$key['service']?>/<?=$key['cost'][0]['value']?>/<?=$key['cost'][0]['etd']?>"><input type="submit" id="apply_coupon" value="Pilih" /></a>
+               <a href="<?=base_url()?>Konsumen/updateBiaya/<?=$transaksi->id_transaksi?>/<?=$biaya['rajaongkir']['results'][0]['code']?>/<?=$key['service']?>/<?=$key['cost'][0]['value']?>/<?=$key['cost'][0]['etd']?>" style="text-decoration: none;"><input type="submit" id="apply_coupon" value="Pilih" /></a>
                <?php
              }
            }
@@ -304,16 +304,8 @@ if ($err) {
                 </div>
                 <div class="footer1">
                   <br>
-                  <table style="border:none;">
-                    <tr>
-                      <td style="border:none;">
-                        <a href="<?=base_url()?>Konsumen/Pengiriman/<?=$transaksi->id_transaksi?>"><button type="button" style="padding: 8px; background: #7b808a" class="btn1 btn-default pull-left1" data-dismiss="modal1-label">Tidak</button></a>
-                      </td>
-                      <td style="border:none;">
-                        <a href="<?=base_url()?>Konsumen/BatalkanTransaksi/<?=$alamat->id_transaksi?>"><button type="button" style="padding: 8px;margin-left: 300px; width: 50px; text-align: center; background: #DD4B39" class="btn1 btn-default" data-dismiss="modal1-label">Ya</button></a>
-                      </td>
-                    </tr>
-                  </table>
+                  <a href="<?=base_url()?>Konsumen/Pengiriman/<?=$transaksi->id_transaksi?>"><button type="button" style="padding: 8px; background: #7b808a" class="btn1 btn-default pull-left1" data-dismiss="modal1-label">Tidak</button></a>
+                  <a href="<?=base_url()?>Konsumen/BatalkanTransaksi/<?=$alamat->id_transaksi?>"><button type="button" style="padding: 8px; width: 50px; text-align: center; background: #DD4B39" class="btn1 btn-default" data-dismiss="modal1-label">Ya</button></a>
                 </div>
               </div>
             </div>

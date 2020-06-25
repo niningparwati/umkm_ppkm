@@ -11,7 +11,7 @@
         <h2>Registrasi Akun</h2>
         <p>Jika Anda belum mempunyai akun, silahkan lakukan pendaftaran akun! <br>Dengan membuat sebuah akun pada aplikasi ini, akan mempermudah Anda dalam melakukan transaksi pembelian produk-produk UMKM dengan proses yang cepat.</p>
         <div class="clear"></div>
-        <a href="<?=base_url()?>Konsumen/Register"><button class="account">Daftar Akun</button></a>
+        <a href="<?=base_url()?>Konsumen/Register" style="text-decoration: none;"><button class="account">Daftar Akun</button></a>
       </div><!-- .grid_6 -->
 
       <div class="grid_6">

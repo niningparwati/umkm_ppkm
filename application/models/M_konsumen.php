@@ -340,6 +340,13 @@ class M_konsumen extends CI_Model {
 		$this->db->update('tb_keranjang', $data);
 	}
 
+	function updateProdukKonsumen($data, $id, $idK)	// update jumlah produk yang disimpan dalam keranjang
+	{
+		$this->db->where('id_konsumen', $idK);
+		$this->db->where('id_produk', $id);
+		$this->db->update('tb_keranjang', $data);
+	}
+
 	function cekKeranjangKonsumen($id)
 	{
 		return $this->db->query("SELECT * FROM tb_keranjang WHERE id_konsumen='$id'")->row();
@@ -495,32 +502,37 @@ class M_konsumen extends CI_Model {
 
 	function pesananMenungguPembayaran($id)
 	{
-		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE a.status='menunggu pembayaran' GROUP BY a.id_transaksi")->result();
+		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE a.status='menunggu pembayaran' AND a.id_konsumen='$id' GROUP BY a.id_transaksi")->result();
 	}
 
 	function pesananMenungguKonfirmasi($id)
 	{
-		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE a.status='menunggu konfirmasi' GROUP BY a.id_transaksi")->result();
+		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE a.status='menunggu konfirmasi' AND a.id_konsumen='$id' GROUP BY a.id_transaksi")->result();
 	}
 
 	function pesananDiproses($id)
 	{
-		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE a.status='diproses'")->result();
+		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE a.status='diproses'  AND a.id_konsumen='$id' GROUP BY a.id_transaksi ")->result();
 	}
 
 	function pesananDikirim($id)
 	{
-		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE a.status='dikirim'")->result();
+		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE a.status='dikirim'  AND a.id_konsumen='$id' GROUP BY a.id_transaksi")->result();
 	}
 
 	function pesananSelesai($id)
 	{
-		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE a.status='diterima' OR a.status='selesai' OR a.status='dana dikirim' OR a.status='selesai' ")->result();
+		return $this->db->query("SELECT a.*, b.*, c.* FROM tb_transaksi a JOIN tb_detail_transaksi b ON a.id_transaksi=b.id_transaksi JOIN tb_produk c ON b.id_produk=c.id_produk WHERE (a.status='diterima' OR a.status='selesai' OR a.status='dana dikirim' OR a.status='selesai')  AND a.id_konsumen='$id' GROUP BY a.id_transaksi")->result();
 	}
 
 	function getProdukPesanan($id)
 	{
 		return $this->db->query("SELECT a.*, b.* FROM tb_detail_transaksi a JOIN tb_produk b ON a.id_produk=b.id_produk WHERE a.id_transaksi='$id'")->result();
+	}
+
+	function getResi($idTransaksi)
+	{
+		return $this->db->query("SELECT * FROM tb_pengiriman WHERE id_transaksi='$idTransaksi' ")->result();
 	}
 
 	// INFORMASI

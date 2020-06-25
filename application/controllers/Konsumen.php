@@ -127,10 +127,10 @@ class Konsumen extends CI_Controller {
 	function Konfirmasi($key)
 	{
 		if ($this->M_konsumen->verifyEmail($key)) {
-			$this->session->set_flashdata('success', 'verifikasi Eeail berhasil');
+			$this->session->set_flashdata('success', 'berhasil verifikasi email');
 			redirect('Konsumen/index');
 		}else{
-			$this->session->set_flashdata('warning', 'verifikasi email gagal');
+			$this->session->set_flashdata('warning', 'gagal verifikasi email');
 			redirect('Konsumen/Register');
 		}
 	}
@@ -482,8 +482,8 @@ class Konsumen extends CI_Controller {
 	{
 		if ($this->session->userdata('id_konsumen')) {
 			$cek = $this->M_konsumen->produkById($idProduk);	// mengambil data produk dari tabel produk
-			$produk = $this->M_konsumen->produkKeranjang($idProduk);	// mengecek apakah produk sudah ada di keranjang atau belum
-			$cekCheckout = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'));	// mengecek apakah ada yang status transaksi menunggu pembayaran
+			$produk = $this->M_konsumen->cekKeranjangKonsumen($idProduk, $this->session->userdata('id_konsumen'));	// mengecek apakah produk sudah ada di keranjang atau belum
+			// $cekCheckout = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'));	// mengecek apakah ada yang status transaksi menunggu pembayaran
 
 			if ($produk->id_produk != $idProduk) {		// jika produk belum ada di keranjang
 				$jumlah = $this->input->post('qty');
@@ -508,8 +508,8 @@ class Konsumen extends CI_Controller {
 						$data1 = array(
 							'jumlah_barang' => $jumlah,
 						);
-						$this->M_konsumen->updateProduk($data1,$idProduk);
-						$this->session->set_flashdata('success', $cek->nama_produk.' berhasil menambah jumlah produk ke keranjang!');
+						$this->M_konsumen->updateProdukKonsumen($data1,$idProduk,$this->session->userdata('id_konsumen'));
+						$this->session->set_flashdata('success', ' berhasil menambah '.$cek->nama_produk.'ke keranjang!');
 						redirect('Konsumen/detailProduk/'.$idProduk);
 						print_r($data1);
 					}else{
@@ -924,6 +924,7 @@ class Konsumen extends CI_Controller {
 						'provinsi' => $biaya['rajaongkir']['destination_details']['province'],
 						'kota' => $biaya['rajaongkir']['destination_details']['city_name'],
 						'detail_alamat' => $this->input->post('detail_alamat'),
+						'tanggal_transaksi' => date('Y-m-d H-i-s'),
 						// 'ongkir' => $response
 					);
 					$this->M_konsumen->updateTransaksi($alamat,$idTransaksi);
@@ -979,24 +980,28 @@ function inputDiskon($idTransaksi)
 							$besarDiskon = ($transaksi->total_harga*$cekKode->besar_promo)/100;
 							if ($besarDiskon <= $cekKode->maksimum_potongan) {	// jika diskon kurang dari maksimal potongan
 								$data1 = array(
-									'id_promo' => $cekKode->id_promo
+									'id_promo' => $cekKode->id_promo,
+									'tanggal_transaksi' => date('Y-m-d H-i-s'),
 								);
 								$this->M_konsumen->terimaPesanan($idTransaksi, $data1);	// masukan id_promo ke tabel transaksi
 
 								$data2 = array(
 									'besar_diskon' => $besarDiskon,
+									'tanggal_transaksi' => date('Y-m-d H-i-s'),
 								);
 								$this->M_konsumen->terimaPesanan($idTransaksi, $data2);	// masukan besar diskon yang diterima ke tabel transaksi
 								$this->session->set_flashdata('success', 'voucher diskon berhasil digunakan!');
 								redirect('Konsumen/Pengiriman/'.$idTransaksi);
 							}else{		// jika diskon melebihi maksimal potongan
 								$data1 = array(
-									'id_promo' => $cekKode->id_promo
+									'id_promo' => $cekKode->id_promo,
+									'tanggal_transaksi' => date('Y-m-d H-i-s'),
 								);
 								$this->M_konsumen->terimaPesanan($idTransaksi, $data1);	// masukan id_promo ke tabel transaksi
 
 								$data2 = array(
 									'besar_diskon' => $cekKode->maksimum_potongan,
+									'tanggal_transaksi' => date('Y-m-d H-i-s'),
 								);
 								$this->M_konsumen->terimaPesanan($idTransaksi, $data2);	// masukan besar diskon yang diterima ke tabel transaksi
 								$this->session->set_flashdata('success', 'voucher diskon berhasil digunakan!');
@@ -1015,24 +1020,28 @@ function inputDiskon($idTransaksi)
 						$besarDiskon = ($transaksi->total_harga*$cekKode->besar_promo)/100;
 							if ($besarDiskon <= $cekKode->maksimum_potongan) {	// jika diskon kurang dari maksimal potongan
 								$data1 = array(
-									'id_promo' => $cekKode->id_promo
+									'id_promo' => $cekKode->id_promo,
+									'tanggal_transaksi' => date('Y-m-d H-i-s'),
 								);
 								$this->M_konsumen->terimaPesanan($idTransaksi, $data1);	// masukan id_promo ke tabel transaksi
 
 								$data2 = array(
 									'besar_diskon' => $besarDiskon,
+									'tanggal_transaksi' => date('Y-m-d H-i-s'),
 								);
 								$this->M_konsumen->terimaPesanan($idTransaksi, $data2);	// masukan besar diskon yang diterima ke tabel transaksi
 								$this->session->set_flashdata('success', 'voucher diskon berhasil digunakan!');
 								redirect('Konsumen/Pengiriman/'.$idTransaksi);
 							}else{		// jika diskon melebihi maksimal potongan
 								$data1 = array(
-									'id_promo' => $cekKode->id_promo
+									'id_promo' => $cekKode->id_promo,
+									'tanggal_transaksi' => date('Y-m-d H-i-s'),
 								);
 								$this->M_konsumen->terimaPesanan($idTransaksi, $data1);	// masukan id_promo ke tabel transaksi
 
 								$data2 = array(
 									'besar_diskon' => $cekKode->maksimum_potongan,
+									'tanggal_transaksi' => date('Y-m-d H-i-s'),
 								);
 								$this->M_konsumen->terimaPesanan($idTransaksi, $data2);	// masukan besar diskon yang diterima ke tabel transaksi
 								$this->session->set_flashdata('success', 'voucher diskon berhasil digunakan!');
@@ -1068,7 +1077,8 @@ function inputDiskon($idTransaksi)
 			$data = array(
 				'ekspedisi_pengiriman' => strtoupper($service)." (".str_replace('%20', ' ', $level).")",
 				'estimasi_pengiriman' => str_replace('%20', ' ', $hari),
-				'ongkos_kirim' => $biaya
+				'ongkos_kirim' => $biaya,
+				'tanggal_transaksi' => date('Y-m-d H-i-s'),
 			);
 			$this->M_konsumen->inputOngkir($data,$idTransaksi);
 			redirect('Konsumen/Pengiriman/'.$idTransaksi);
@@ -1112,7 +1122,7 @@ function inputDiskon($idTransaksi)
 				$data = array(
 					'kontak' =>$this->M_konsumen->Kontak(),
 					'id_transaksi' => $idTransaksi,
-					'transaksi' => $cek
+					'transaksi' => $cek,
 				);
 				$this->load->view('Konsumen/Head');
 				$this->load->view('Konsumen/Header', $data);
@@ -1306,13 +1316,22 @@ function inputDiskon($idTransaksi)
 					);
 					$this->M_konsumen->updateProfil($data,$this->session->userdata('id_konsumen'));	// update data 
 					$this->session->set_flashdata('success', 'Profil berhasil diupdate!');
-					redirect('Konsumen/Home');
+					redirect('Konsumen/Profil');
 				}else{
 					$this->session->set_flashdata('warning', 'fotmat foto profile tidak sesuai!');
 					redirect('Konsumen/Profil');
 				}
 			}else{
-				$this->session->set_flashdata('warning', 'Foto profil wajib diupload!');
+				$data = array(
+					'nama_konsumen' => $this->input->post('nama_konsumen'),
+					'username_konsumen' => $this->input->post('username_konsumen'),
+					'email_konsumen' => $this->input->post('email_konsumen'),
+					'nomor_telp_konsumen' => $this->input->post('nomor_telp_konsumen'),
+					'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+					'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+				);
+				$this->M_konsumen->updateProfil($data,$this->session->userdata('id_konsumen'));	// update data 
+				$this->session->set_flashdata('success', 'Profil berhasil diupdate!');
 				redirect('Konsumen/Profil');
 			}
 		}else{

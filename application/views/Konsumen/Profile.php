@@ -21,44 +21,49 @@
 							<br>
 						</div>
 					<?php } ?>
-					<div class="name" style="width: 100%">
-						<strong>Foto Profile :</strong><sup class="surely">*</sup><br/>
-						<input type="file" name="foto_konsumen" style="width: 100%;border: 1px solid #ccc; height: 30px" required />
+					<div class="name" style="width: 98%">
+						<strong>Foto Profile </strong><small style="font-size: 10px">(format png, jpg, atau jpeg)</small><br/>
+						<input type="file" name="foto_konsumen" style="width: 100%;border: 1px solid #ccc; height: 30px" />
 					</div><!-- .name -->
 
 					<div class="name" style="width: 100%">
 						<br>
-						<strong>Nama Lengkap :</strong><sup class="surely">*</sup><br/>
+						<strong>Nama Lengkap </strong><sup class="surely">*</sup><br/>
 						<input type="text" name="nama_konsumen" value="<?=$nama_konsumen?>" style="width: 98%" required />
 					</div><!-- .name -->
 
 					<div class="username" style="width: 100%">
-						<strong>Username : </strong><sup class="surely">*</sup><br/>
+						<strong>Username  </strong><sup class="surely">*</sup><br/>
 						<input type="text" name="username_konsumen" value="<?=$username_konsumen?>" style="width: 98%" required />
 					</div><!-- .email -->
 
 					<div class="phone" style="width: 100%">
-						<strong>Email :</strong><br/>
+						<strong>Email </strong><br/>
 						<input type="email" name="email_konsumen" value="<?=$email_konsumen?>" style="width: 98%" required />
 					</div><!-- .phone -->
 
 					<div class="phone" style="width: 100%">
-						<strong>Nomor Telepon :</strong><br/>
+						<strong>Nomor Telepon </strong><br/>
 						<input type="text" name="nomor_telp_konsumen" value="<?=$no_telp?>" style="width: 98%" required />
 					</div><!-- .phone -->
 
 					<div class="phone" style="width: 100%">
-						<strong>Jenis Kelamin :</strong><br/>
-						<select name="jenis_kelamin" style="width: 100%" >
-							<option value="Laki-Laki">Laki-Laki</option>
-							<option value="Perempuan">Perempuan</option>
+						<strong>Jenis Kelamin </strong><br/>
+						<select name="jenis_kelamin" style="width: 98%" >
+							<?php if ($jenis_kelamin == 'Laki-Laki') {?>
+								<option value="Laki-Laki">Laki-Laki</option>
+								<option value="Perempuan">Perempuan</option>
+							<?php }else{ ?>
+								<option value="Perempuan">Perempuan</option>
+								<option value="Laki-Laki">Laki-Laki</option>
+							<?php } ?>
 						</select>
 					</div><!-- .phone -->
 
 					<div class="comment" style="width: 100%">
 						<br>
-						<strong>Tanggal Lahir:</strong><sup class="surely">*</sup><br/>
-						<input type="date" name="tanggal_lahir" value="<?=$tanggal_lahir?>" style="width: 100%; border: 1px solid #ccc; height: 30px" required />
+						<strong>Tanggal Lahir</strong><sup class="surely">*</sup><br/>
+						<input type="date" name="tanggal_lahir" value="<?=$tanggal_lahir?>" max="<?=date('Y-m-d', strtotime('-1 days', strtotime(date('Y-m-d'))))?>" style="width: 98%; border: 1px solid #ccc; height: 30px" required />
 					</div><!-- .comment -->
 
 					<div class="submit" style="float: right;">

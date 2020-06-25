@@ -43,14 +43,14 @@
                 <img src="<?=base_url()?>assets/foto_produk/produk_default.png" alt="Product Slide 1" style="width: 100px; height: 100px">
               <?php } ?>
             </a></td>
-            <td class="qty" style="color: black; border: none;"><b><?=$key->nama_produk?></b><br/><?=$key->deskripsi_produk?></td>
-            <td class="qty" style="color: black;padding-top: 40px; border: none;">Rp <?=number_format($key->harga_produk,2,',','.')?></td>
-            <td class="qty" style="padding-top: 40px; color: black;border: none;">
+            <td class="qty" style="color: black; border: none;vertical-align: middle;"><b><?=$key->nama_produk?></b><br/><?=$key->deskripsi_produk?></td>
+            <td class="qty" style="color: black;padding-top: 40px; border: none;vertical-align: middle;">Rp <?=number_format($key->harga_produk,2,',','.')?></td>
+            <td class="qty" style="padding-top: 40px; color: black;border: none;vertical-align: middle;">
               <a href="<?=base_url()?>Konsumen/kurangiBarang/<?=$key->id_keranjang?>"><img src="<?=base_url()?>assets/konsumen/images/primary-minus.png" style="width: 18px; padding-right: 10px"></a>
               <?=$key->jumlah_barang?>
               <a href="<?=base_url()?>Konsumen/tambahBarang/<?=$key->id_keranjang?>"><img src="<?=base_url()?>assets/konsumen/images/primary-plus.png" style="width: 18px; padding-left: 10px"></a>
             </td>
-            <td class="qty" style="border: none;">
+            <td class="qty" style="border: none;vertical-align: middle;">
               <?php 
               $jml = $key->jumlah_barang;
               $hrg = $key->harga_produk;
@@ -58,7 +58,7 @@
               echo 'Rp '.number_format($total,2,',','.');
               ?>
             </td>
-            <td class="close" style="border: none;">
+            <td class="close" style="border: none;vertical-align: middle;">
               <!-- MODAL HAPUS PRODUK-->
               <div>
                 <label class="modal1-open modal1-label close1" for="modal1-open"><img src="<?=base_url()?>assets/konsumen/images/close.png"></label>

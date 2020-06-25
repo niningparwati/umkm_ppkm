@@ -21,7 +21,7 @@
 				<div class="grid_5">
 					<div class="entry_content">
 						<p style=" font-size: 13px"><?=$deskripsi?></p>
-						<div class="ava_price">
+						<div class="ava_price" style="border: none;">
 							<div class="availability_sku">
 								<div class="sku" style=" font-size: 13px">
 									Harga Produk:

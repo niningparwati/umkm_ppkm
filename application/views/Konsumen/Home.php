@@ -27,21 +27,21 @@
                     <?php if ($key->id_umkm) {
                       $nama_umkm = $this->M_konsumen->umkmById($key->id_umkm)->nama_umkm;
                     } ?>
-                    <?php if (!empty($key->minimal_belanja) AND !empty($key->maksimum_potongan)) { ?>
+                    <?php if ($key->minimal_belanja!=0 AND $key->maksimum_potongan!=0 ) { ?>
 
-                      Voucher diskon sebesar <?=$key->besar_promo?>% <?php if(!empty($key->id_umkm)) { ?> hanya untuk pembelian produk di <?=$nama_umkm?> <?php } ?> . Berlaku untuk transaksi dengan minimal pembelian Rp <?= number_format($key->minimal_belanja,2,',','.') ?> dengan maksimum diskon yang dapat digunakan sebesar Rp <?= number_format($key->maksimum_potongan,2,',','.') ?>. Voucher diskon hanya berlaku sampai <?= tgl_indo($key->berlaku_sampai) ?> .
+                      Voucher diskon sebesar <?=$key->besar_promo?>% <?php if(!is_null($key->id_umkm)) { ?> hanya untuk pembelian produk di <?=$nama_umkm?> <?php } ?> . Berlaku untuk transaksi dengan minimal pembelian Rp <?= number_format($key->minimal_belanja,2,',','.') ?> dengan maksimum diskon yang dapat digunakan sebesar Rp <?= number_format($key->maksimum_potongan,2,',','.') ?>. Voucher diskon hanya berlaku sampai <?= tgl_indo($key->berlaku_sampai) ?> .
 
-                    <?php }elseif (!empty($key->minimal_belanja)) { ?>
+                    <?php }elseif ($key->minimal_belanja!=0) { ?>
 
-                     Voucher diskon sebesar <?=$key->besar_promo?>% <?php if(!empty($key->id_umkm)) { ?> hanya untuk pembelian produk di <?=$key->nama_umkm?> <?php } ?> . Berlaku untuk transaksi dengan minimal pembelian Rp <?= number_format($key->minimal_belanja,2,',','.') ?> . Voucher diskon hanya berlaku sampai <?= tgl_indo($key->berlaku_sampai) ?> .
+                     Voucher diskon sebesar <?=$key->besar_promo?>% <?php if(!is_null($key->id_umkm)) { ?> hanya untuk pembelian produk di <?=$key->nama_umkm?> <?php } ?> . Berlaku untuk transaksi dengan minimal pembelian Rp <?= number_format($key->minimal_belanja,2,',','.') ?> . Voucher diskon hanya berlaku sampai <?= tgl_indo($key->berlaku_sampai) ?> .
 
-                   <?php }elseif (!empty($key->maksimum_potongan)) { ?>
+                   <?php }elseif ($key->maksimum_potongan!=0) { ?>
 
-                     Voucher diskon sebesar <?=$key->besar_promo?>% <?php if(!empty($key->id_umkm)) { ?> hanya untuk pembelian produk di <?=$key->nama_umkm?> <?php } ?> . Maksimum diskon yang dapat digunakan sebesar Rp <?= number_format($key->maksimum_potongan,2,',','.') ?>. Voucher diskon hanya berlaku sampai <?= tgl_indo($key->berlaku_sampai) ?> .
+                     Voucher diskon sebesar <?=$key->besar_promo?>% <?php if(!is_null($key->id_umkm)) { ?> hanya untuk pembelian produk di <?=$key->nama_umkm?> <?php } ?> . Maksimum diskon yang dapat digunakan sebesar Rp <?= number_format($key->maksimum_potongan,2,',','.') ?>. Voucher diskon hanya berlaku sampai <?= tgl_indo($key->berlaku_sampai) ?> .
 
                    <?php }else{ ?>
 
-                    Voucher diskon sebesar <?=$key->besar_promo?>% <?php if(!empty($key->id_umkm)) { ?> hanya untuk pembelian produk di <?=$key->nama_umkm?> <?php } ?> . Voucher diskon hanya berlaku sampai <?= tgl_indo($key->berlaku_sampai) ?> .
+                    Voucher diskon sebesar <?=$key->besar_promo?>% <?php if(!is_null($key->id_umkm)) { ?> hanya untuk pembelian produk di <?=$nama_umkm?> <?php } ?> . Voucher diskon hanya berlaku sampai <?= tgl_indo($key->berlaku_sampai) ?> .
 
                   <?php } ?>
                 </p>
