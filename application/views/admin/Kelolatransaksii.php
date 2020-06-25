@@ -172,46 +172,9 @@
        <p style=""><?=$key->tanggal_transaksi ?></p>
      </div>
    </div>
-
    <div class="modal-body">
       <p>Tampilkan disini barang apa saja yang dibeli, dari umkm apa dan berapa banyak</p>
-      <table border="1" cellpadding="10" width="100%" class="table table-bordered">
-        <tr>
-          <td>Nama</td>
-          <td>:</td>
-          <td> <b><?php echo $key->nama_konsumen ?></b> </td>
-        </tr>
-        <tr>
-          <td>Jumlah Item yang Diorder</td>
-          <td>:</td>
-          <td><?php echo $key->jml_item ?></td>
-        </tr>
-        <tr>
-          <td>Barang yang Diorder</td>
-          <td>:</td>
-          <td>
-            <?php $ini = $this->M_admin->iniproduk($key->id_transaksi);
-              foreach ($ini as $e) { ?>
-                <ul>
-                  <li><?php echo $e->nama_umkm ?><br>
-                      <img src="<?=base_url()?>assets/foto_produk/<?php echo $e->foto_produk ?>" width="100px"><br>
-                      <p><?php echo $e->nama_produk ?> - <span style="color:red"><?php echo $e->harga_produk ?></span></p>
-                  </li>
-                </ul>
-              <?php } ?>
-          </td>
-        </tr>
-        <tr>
-          <td>Total Bayar</td>
-          <td>:</td>
-          <td> <b style="color:red"><?php echo "Rp ".number_format($u->total_harga) ?></b> </td>
-        </tr>
-        <tr>
-          <td>Status Order</td>
-          <td>:</td>
-          <td><?php echo $key->status ?></td>
-        </tr>
-      </table>
+      <?php echo $key-> ?>
    </div>
    <div class="modal-footer justify-content-between">
      <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tutup</button>
