@@ -755,11 +755,20 @@ class Admin extends CI_Controller {
 	      $this->load->view('admin/Kelolatransaksi',$data);
 	    }
 
-			public function updateDiproses($id)
+			public function updateDiproses($id,$um)
 			{
 				$data = array(
 					'status'			=> 'diproses',
 				);
+				$dataq = array(
+					'id_umkm'				=> $um,
+					'id_transaksi'	=> $id
+				);
+				$ini = $this->M_admin->hitung($id);
+				$a = $ini->hasil;
+				for ($i=0; $i<$a ; $i++) {
+					$ceq = $this->M_admin->create_pengiriman($dataq);
+				}
 				$cek = $this->M_admin->update_transaksi($data,$id);
 				redirect('Admin/kelolaTransaksi');
 			}

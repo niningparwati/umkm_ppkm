@@ -232,7 +232,15 @@ class M_admin extends CI_Model {
 //Kelola Transaksi
 	//Transaksi produk
 	public function getTransaksi(){
-		return $this->db->query("SELECT nama_konsumen, nama_produk, harga_produk, jumlah_produk, id_transaksi, tanggal_transaksi, total_harga, bukti_pembayaran, status FROM tb_konsumen JOIN tb_transaksi USING(id_konsumen) JOIN tb_detail_transaksi USING(id_transaksi) JOIN tb_produk USING(id_produk) WHERE status!='dana dikirim' AND status!='selesai'")->result();
+		return $this->db->query("SELECT id_umkm,nama_konsumen, nama_produk, harga_produk, jumlah_produk, id_transaksi, tanggal_transaksi, jumlah_harga, bukti_pembayaran, status FROM tb_konsumen JOIN tb_transaksi USING(id_konsumen) JOIN tb_detail_transaksi USING(id_transaksi) JOIN tb_produk USING(id_produk) WHERE status!='dana dikirim' AND status!='selesai'")->result();
+	}
+
+	public function hitung($id)
+	{
+		return $this->db->query("SELECT COUNT(id_transaksi) as hasil FROM tb_detail_transaksi WHERE id_transaksi = $id")->row();
+	}
+	public function create_pengiriman($data){
+		return $this->db->insert('tb_pengiriman',$data);
 	}
 
 	public function update_transaksi($data,$id){

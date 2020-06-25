@@ -35,6 +35,7 @@
               <th>Nama Produk</th>
               <th>Harga</th>
               <th>Jumlah Produk</th>
+              <th>ID Transaksi</th>
               <th>Tanggal Transaksi</th>
               <th>Total</th>
               <th>Bukti Pembayaran</th>
@@ -52,8 +53,9 @@
               <td><?php echo $u->nama_produk ?></td>
               <td><?php echo $u->harga_produk ?></td>
               <td><?php echo $u->jumlah_produk ?></td>
+              <td>ID <?php echo $u->id_transaksi ?></td>
               <td><?php echo $u->tanggal_transaksi ?></td>
-              <td><?php echo $u->total_harga ?></td>
+              <td><?php echo $u->jumlah_harga ?></td>
               <td>
                 <a class="btn btn-info" data-toggle="modal" href="#" data-target="#bukti<?=$u->id_transaksi?>">
                   <i class="fa fa-fw fa-camera"></i> Bukti
@@ -68,13 +70,13 @@
                 <?php }else if ($u->status =='diterima'){?>
                 <?php echo 'terkirim pada konsumen';
                         }else if ($u->status =='menunggu konfirmasi'){?>
-                      <a class="btn btn-primary" href="<?=base_url()?>Admin/updateDiproses/<?=$u->id_transaksi?>">
+                      <a class="btn btn-primary" href="<?=base_url()?>Admin/updateDiproses/<?=$u->id_transaksi?>/<?=$u->id_umkm?>">
                           <i class="fa fa-fw fa-check-square"></i> Approval
                       </a>
                   <?php }else if ($u->status =='menunggu pembayaran'){
                         echo 'belum dibayar';
                         }else if ($u->status =='ditolak'){?>
-                          <a class="btn btn-primary" href="<?=base_url()?>Admin/updateDiproses/<?=$u->id_transaksi?>">
+                          <a class="btn btn-primary" href="<?=base_url()?>Admin/updateDiproses/<?=$u->id_transaksi?>/<?=$u->id_umkm?>">
                               <i class="fa fa-fw fa-check-square"></i> Approval
                           </a>
                   <?php
