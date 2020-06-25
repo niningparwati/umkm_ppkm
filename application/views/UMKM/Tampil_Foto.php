@@ -34,12 +34,12 @@
                     $no = 1;
                     foreach ($tampil as $value) {?>
                       <tr>
-                        <td><?= $no++ ?></td>
+                        <td  style="text-align: center;"><?= $no++ ?></td>
                         <td style="text-align: center">
                           <?php if ($value->foto) { ?>
-                            <img src="<?= base_url()?>assets/galeri_umkm/<?= $value->foto ?>" style="width: 100px">
+                            <img src="<?= base_url()?>assets/galeri_umkm/<?= $value->foto ?>" style="width: 70px">
                           <?php }else{ ?>
-                            <img src="<?= base_url()?>assets/galeri_umkm/default.png" style="width: 100px">
+                            <img src="<?= base_url()?>assets/galeri_umkm/default.png" style="width: 70px">
                           <?php } ?>
                         </td>
                         <td><?= $value->keterangan_foto ?></td>

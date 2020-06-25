@@ -755,22 +755,27 @@ class Admin extends CI_Controller {
 	      $this->load->view('admin/Kelolatransaksi',$data);
 	    }
 
-			public function updateDiproses($id,$um)
+			public function updateDiproses($id)
 			{
 				$data = array(
 					'status'			=> 'diproses',
 				);
-				$dataq = array(
-					'id_umkm'				=> $um,
-					'id_transaksi'	=> $id
-				);
-				$ini = $this->M_admin->hitung($id);
+				
+				$ini = $this->M_admin->hitung($id);//hitung ada brapa toko/umkm dalam satu transaksi
+				$umkm = $this->M_admin->ambil_umkm($id);//ambil id umkm nya
 				$a = $ini->hasil;
 				for ($i=0; $i<$a ; $i++) {
+					$dataq = array(
+					'id_umkm'				=> $umkm[$i]->umkm,
+					'id_transaksi'	=> $id
+					);
 					$ceq = $this->M_admin->create_pengiriman($dataq);
 				}
 				$cek = $this->M_admin->update_transaksi($data,$id);
 				redirect('Admin/kelolaTransaksi');
+
+				//echo "$a";
+				//print_r($umkm);
 			}
 
 			public function updateBatal($id)

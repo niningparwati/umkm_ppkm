@@ -23,7 +23,7 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th style="text-align: center; width: 1%">No</th>
+                      <th style="text-align: center; width: 3%">No</th>
                       <th style="text-align: center; width: 10%">Judul</th>
                       <th style="text-align: center; width: 10%">Konten</th>
                       <th style="text-align: center; width: 10%">Gambar</th>
@@ -36,9 +36,9 @@
                     $no = 1;
                     foreach ($informasi as $value) {?>
                       <tr>
-                        <td><?= $no++ ?></td>
+                        <td style="text-align: center;"><?= $no++ ?></td>
                         <td><?= $value->judul_informasi ?></td>
-                        <td>
+                        <td  style="text-align: center;">
                            <a class="btn btn-success" data-toggle="modal" href="#" data-target="#konten<?=$value->id_informasi?>">
                             <i class="fa fa-fw fa-eye"></i> Lihat Konten
                            </a>  
@@ -46,21 +46,21 @@
                         <td style="text-align: center">
                           <?php 
                           if (!$value->gambar) { ?>
-                           <img src="<?= base_url()?>assets/foto_informasi/informasi.png" width='70px'>
+                           <img src="<?= base_url()?>assets/foto_informasi/informasi.png" width='50px'>
                          <?php } else { ?>
-                          <img src="<?= base_url()?>assets/foto_informasi/<?=$value->gambar ?>"  width='70px'>
+                          <img src="<?= base_url()?>assets/foto_informasi/<?=$value->gambar ?>"  width='50px'>
                         <?php } ?>
                       </td>
                       <td style="text-align: center;">
                         <?php
                                 if ($value->status_informasi=='tidak aktif') {
                             ?>
-                                  <small class="label pull-right bg-red"><?php echo "Tidak Aktif"; ?></small>
+                                  <small class="label bg-red"><?php echo "Tidak Aktif"; ?></small>
                             <?php
                                 }
                                 else {
                             ?>
-                                 <small class="label pull-right bg-green"><?php echo "Aktif"; ?></small>
+                                 <small class="label bg-green"><?php echo "Aktif"; ?></small>
                             <?php
                                 }              
                             ?>

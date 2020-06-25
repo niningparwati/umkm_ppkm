@@ -32,12 +32,10 @@
             <tr>
               <th>No.</th>
               <th>Konsumen</th>
-              <th>Nama Produk</th>
-              <th>Harga</th>
-              <th>Jumlah Produk</th>
-              <th>ID Transaksi</th>
+              <th>Jumlah Item Dibeli</th>
               <th>Tanggal Transaksi</th>
               <th>Total</th>
+              <th>Detail</th>
               <th>Bukti Pembayaran</th>
               <th>Status</th>
               <th>Aksi</th>
@@ -50,12 +48,14 @@
             <tr>
               <td><?php echo $n++ ?></td>
               <td><?php echo $u->nama_konsumen ?></td>
-              <td><?php echo $u->nama_produk ?></td>
-              <td><?php echo $u->harga_produk ?></td>
-              <td><?php echo $u->jumlah_produk ?></td>
-              <td>ID <?php echo $u->id_transaksi ?></td>
+              <td><?php echo $u->jml_item ?></td>
               <td><?php echo $u->tanggal_transaksi ?></td>
-              <td><?php echo $u->jumlah_harga ?></td>
+              <td><?php echo "Rp ".number_format($u->total_harga) ?></td>
+              <td>
+                <a class="btn btn-info" data-toggle="modal" href="#" data-target="#detail<?=$u->id_transaksi?>">
+                  <i class="fa fa-fw fa-camera"></i> Detail
+                </a>
+              </td>
               <td>
                 <a class="btn btn-info" data-toggle="modal" href="#" data-target="#bukti<?=$u->id_transaksi?>">
                   <i class="fa fa-fw fa-camera"></i> Bukti
@@ -70,13 +70,13 @@
                 <?php }else if ($u->status =='diterima'){?>
                 <?php echo 'terkirim pada konsumen';
                         }else if ($u->status =='menunggu konfirmasi'){?>
-                      <a class="btn btn-primary" href="<?=base_url()?>Admin/updateDiproses/<?=$u->id_transaksi?>/<?=$u->id_umkm?>">
+                      <a class="btn btn-primary" href="<?=base_url()?>Admin/updateDiproses/<?=$u->id_transaksi?>">
                           <i class="fa fa-fw fa-check-square"></i> Approval
                       </a>
                   <?php }else if ($u->status =='menunggu pembayaran'){
                         echo 'belum dibayar';
                         }else if ($u->status =='ditolak'){?>
-                          <a class="btn btn-primary" href="<?=base_url()?>Admin/updateDiproses/<?=$u->id_transaksi?>/<?=$u->id_umkm?>">
+                          <a class="btn btn-primary" href="<?=base_url()?>Admin/updateDiproses/<?=$u->id_transaksi?>">
                               <i class="fa fa-fw fa-check-square"></i> Approval
                           </a>
                   <?php
@@ -146,6 +146,31 @@
      }else{?>
     <img src="<?=base_url()?>assets/foto_bukti/<?= $key->bukti_pembayaran ?>" width="300px">
   <?php } ?>
+   </div>
+   <div class="modal-footer justify-content-between">
+     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tutup</button>
+   </div>
+ </div>
+ <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<?php } ?>
+
+<!-- ini bagian detail barang dibeli -->
+<?php foreach ($transaksi as $key) { ?>
+<div class="modal fade" id="detail<?=$key->id_transaksi?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
+<div class="modal-dialog" role="document">
+ <div class="modal-content">
+   <div class="modal-header">
+     <h4 class="modal-title" id="ExampleModalLabel">Detail Transaksi</h4>
+     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+     </button>
+   </div>
+   <div class="modal-body">
+      <p>Tampilkan disini barang apa saja yang dibeli, dari umkm apa dan berapa banyak</p>
    </div>
    <div class="modal-footer justify-content-between">
      <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tutup</button>
