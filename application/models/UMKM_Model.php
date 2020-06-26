@@ -113,7 +113,7 @@ class UMKM_Model extends CI_Model {
 
     public function dikirim($id_umkm)
     {
-        return $this->db->query("SELECT COUNT(tb_pengiriman.id_pengiriman) as jumlahdikirim FROM tb_pengiriman JOIN tb_umkm ON tb_pengiriman.id_umkm=tb_umkm.id_umkm WHERE tb_umkm.id_umkm='$id_umkm' AND tb_pengiriman.status_pengiriman='dikirim'")->row();
+        return $this->db->query("SELECT COUNT(tb_pengiriman.id_pengiriman) as jumlahdikirim FROM tb_pengiriman JOIN tb_umkm ON tb_pengiriman.id_umkm=tb_umkm.id_umkm JOIN tb_transaksi ON tb_transaksi.id_transaksi = tb_pengiriman.id_transaksi WHERE tb_umkm.id_umkm='$id_umkm' AND tb_pengiriman.status_pengiriman='dikirim' AND tb_transaksi.status='dikirim' ")->row();
     }
 
      public function selesai($id_umkm)
