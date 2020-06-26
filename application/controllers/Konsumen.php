@@ -90,7 +90,7 @@ class Konsumen extends CI_Controller {
 				'status_konsumen' => 'tidak aktif',
 			);
 			$this->M_konsumen->registrasi($data);
-			if (!is_null($this->M_konsumen->cekByEmail($email))) {	// cek email untuk melanjutkan validasi
+			if (!empty($this->M_konsumen->cekByEmail($email))) {	// cek email untuk melanjutkan validasi
 				if ($this->sendEmail($email, $saltid)) {
 					$this->session->set_flashdata('success', 'silahkan cek email Anda untuk menyelesaikan proses registrasi!');
 					redirect('Konsumen/index');
