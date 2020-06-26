@@ -23,11 +23,11 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th>No</th>
+                      <th style="text-align: center; width: 3%">No</th>
                       <th style="text-align: center; width: 15%">Nama Market</th>
                       <th style="text-align: center; width: 15%">Alamat</th>
                       <th style="text-align: center; width: 20%">Link</th>
-                      <th style="text-align: center">Aksi</th>
+                      <th style="text-align: center; width: 18%">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -35,7 +35,7 @@
                     $no = 1;
                     foreach ($tampil as $value) { ?>
                       <tr>
-                        <td><?= $no++ ?></td>
+                        <td style="text-align: center;"><?= $no++ ?></td>
                         <td><?= $value->nama_market ?></td>
                         <td><?= $value->alamat_market ?></td>
                         <td><?= $value->link_market ?></td>  

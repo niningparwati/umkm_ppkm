@@ -37,16 +37,16 @@
                     $no = 1;
                     foreach ($tampil as $value) {?>
                       <tr>
-                        <td><?= $no++ ?></td>
+                        <td style="text-align: center;"><?= $no++ ?></td>
                         <td><?= $value->judul_portofolio ?></td>
                         <td>
                           <?php if ($value->foto_portofolio) { ?>
-                            <img src="<?= base_url()?>assets/foto_portofolio/<?= $value->foto_portofolio ?>" style="width: 100px">
+                            <img src="<?= base_url()?>assets/foto_portofolio/<?= $value->foto_portofolio ?>" style="width: 70px">
                           <?php }else{ ?>
-                            <img src="<?= base_url()?>assets/foto_portofolio/portofolio.png" style="width: 100px">
+                            <img src="<?= base_url()?>assets/foto_portofolio/portofolio.png" style="width: 70px">
                           <?php } ?>
                         </td>
-                        <td>
+                        <td style="text-align: center;">
                            <a class="btn btn-success" data-toggle="modal" href="#" data-target="#konten<?=$value->id_portofolio?>">
                             <i class="fa fa-fw fa-eye"></i> Lihat Konten
                            </a>  

@@ -231,8 +231,49 @@ class M_admin extends CI_Model {
 
 //Kelola Transaksi
 	//Transaksi produk
-	public function getTransaksi(){
-		return $this->db->query("SELECT nama_konsumen, nama_produk, harga_produk, jumlah_produk, id_transaksi, tanggal_transaksi, total_harga, bukti_pembayaran, status FROM tb_konsumen JOIN tb_transaksi USING(id_konsumen) JOIN tb_detail_transaksi USING(id_transaksi) JOIN tb_produk USING(id_produk) WHERE status!='dana dikirim' AND status!='selesai'")->result();
+	// public function getTransaksi(){
+	// 	return $this->db->query("SELECT id_umkm,nama_konsumen, nama_produk, harga_produk, jumlah_produk, id_transaksi, tanggal_transaksi, jumlah_harga, bukti_pembayaran, status FROM tb_konsumen JOIN tb_transaksi USING(id_konsumen) JOIN tb_detail_transaksi USING(id_transaksi) JOIN tb_produk USING(id_produk) WHERE status!='dana dikirim' AND status!='selesai'")->result();
+	// }
+
+	public function getTransaksi()
+	{
+		return $this->db->query("SELECT a.*, b.*, c.*, d.*, e.*, SUM(b.jumlah_produk) as jml_item FROM tb_transaksi a
+								JOIN tb_detail_transaksi b ON b.id_transaksi = a.id_transaksi
+								JOIN tb_konsumen c ON c.id_konsumen = a.id_konsumen
+								JOIN tb_produk d ON d.id_produk = b.id_produk
+								JOIN tb_umkm e ON e.id_umkm = d.id_umkm
+								GROUP BY a.id_transaksi
+						")->result();
+	}
+
+	public function hitung($id)
+	{
+		return $this->db->query("SELECT COUNT(id_umkm) as hasil FROM tb_produk
+								JOIN tb_detail_transaksi USING(id_produk)
+								WHERE id_transaksi = '$id'
+								GROUP BY id_umkm
+								")->row();
+	}
+
+	public function ambil_umkm($id_transaksi)
+	{
+		return $this->db->query("SELECT d.id_umkm as umkm,d.* FROM tb_transaksi a
+								JOIN tb_detail_transaksi b ON b.id_transaksi = a.id_transaksi
+								JOIN tb_konsumen c ON c.id_konsumen = a.id_konsumen
+								JOIN tb_produk d ON d.id_produk = b.id_produk
+								JOIN tb_umkm e ON e.id_umkm = d.id_umkm
+								GROUP BY a.id_transaksi
+								")->result();
+	}
+
+	public function iniproduk($id)
+	{
+		return $this->db->query("SELECT * FROM tb_detail_transaksi JOIN tb_produk USING(id_produk) JOIN tb_umkm USING (id_umkm) WHERE id_transaksi = $id")->result();
+	}
+
+
+	public function create_pengiriman($data){
+		return $this->db->insert('tb_pengiriman',$data);
 	}
 
 	public function update_transaksi($data,$id){

@@ -82,7 +82,7 @@ class UMKM_Model extends CI_Model {
 
     public function detail_transaksi($id_transaksi,$id_umkm,$id_pengiriman)
     {
-         $this->db->select('a.*, d.*, e.*, c.nama_produk, b.jumlah_produk, c.harga_produk, SUM(b.jumlah_produk * c.harga_produk) as total');
+         $this->db->select('a.*, d.*, e.*, c.nama_produk, b.jumlah_produk, c.harga_produk');
          $this->db->from('tb_transaksi a');
          $this->db->join('tb_detail_transaksi b', 'b.id_transaksi = a.id_transaksi');
          $this->db->join('tb_produk c', 'c.id_produk = b.id_produk');
@@ -91,7 +91,7 @@ class UMKM_Model extends CI_Model {
          $this->db->where('c.id_umkm',$id_umkm);
          $this->db->where('a.id_transaksi',$id_transaksi);
          $this->db->where('e.id_pengiriman',$id_pengiriman);
-         $this->db->group_by('a.id_transaksi');
+         $this->db->group_by('b.id_detail_transaksi');
          return $this->db->get();
     
     }

@@ -29,9 +29,8 @@
                       <th style="text-align: center;">Foto</th>
                       <th style="text-align: center;">Deskripsi</th>
                       <th style="text-align: center;width: 15%">Harga</th>
-                      <th style="text-align: center;">Kategori</th>
                       <th style="text-align: center;">Status</th>
-                      <th style="text-align: center;width: 18%">Aksi</th>
+                      <th style="text-align: center;width: 20%">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -41,7 +40,7 @@
                       <tr>
                         <td style="text-align: center;"><?= $no++ ?></td>
                         <td><?= $value->nama_produk ?></td>
-                        <td><?= $value->stok ?></td>
+                        <td style="text-align: center;"><?= $value->stok ?></td>
                         <td style="text-align: center">
                           <?php 
                           if (!$value->foto_produk) { ?>
@@ -50,23 +49,22 @@
                           <img src="<?= base_url()?>assets/foto_produk/<?=$value->foto_produk ?>"  width='50px'>
                         <?php } ?>
                       </td>
-                      <td>
+                      <td style="text-align: center;">
                         <a class="btn btn-success" data-toggle="modal" href="#" data-target="#deskripsi<?=$value->id_produk?>">
                             <i class="fa fa-fw fa-eye"></i> Lihat Konten
                         </a>  
                       </td>
                       <td>Rp <?= number_format($value->harga_produk,2,',','.') ?></td>
-                      <td><?= $value->nama_kategori_produk ?></td>
-                      <td>
+                      <td style="text-align: center;">
                         <?php
                             if ($value->status_produk=='0') {
                         ?>
-                              <small class="label pull-right bg-red"><?php echo "disembunyikan"; ?></small>
+                              <small class="label bg-red"><?php echo "disembunyikan"; ?></small>
                         <?php
                             }
                             else {
                         ?>
-                             <small class="label pull-right bg-green"><?php echo "ditampilkan"; ?></small>
+                             <small class="label bg-green"><?php echo "ditampilkan"; ?></small>
                         <?php
                             }              
                         ?>
@@ -180,7 +178,11 @@
           </button>
         </div>
         <div class="modal-body">
-          <p><?= $key->deskripsi_produk ?></p>
+          <p>
+            <b>Kategori :</b><?= $key->nama_kategori_produk ?><br><br>
+            <b>Deskripsi :</b><br>
+            <?= $key->deskripsi_produk ?>
+          </p>
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tutup</button>

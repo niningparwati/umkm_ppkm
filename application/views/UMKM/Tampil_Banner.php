@@ -34,9 +34,9 @@
                     $no = 1;
                     foreach ($tampil as $value) {?>
                       <tr>
-                        <td><?= $no++ ?></td>
+                        <td  style="text-align: center;"><?= $no++ ?></td>
                         <td style="text-align: center">                          
-                            <img src="<?= base_url()?>assets/foto_banner/<?= $value->foto_banner ?>" style="width: 100px">                          
+                            <img src="<?= base_url()?>assets/foto_banner/<?= $value->foto_banner ?>" style="width: 70px">                          
                         </td>
                         <td><?= $value->nama_banner ?></td>
                         <td style="text-align: center">

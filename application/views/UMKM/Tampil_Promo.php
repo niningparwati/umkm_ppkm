@@ -29,7 +29,7 @@
                       <th style="text-align: center;">Besar Promo (%)</th>
                       <th style="text-align: center;">Detail</th>
                       <th style="text-align: center;">Status</th>
-                      <th style="text-align: center;width: 18%">Aksi</th>
+                      <th style="text-align: center;width: 20%">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -39,23 +39,23 @@
                       <tr>
                         <td style="text-align: center;"><?= $no++ ?></td>
                         <td><?= $value->nama_promo ?></td>
-                        <td><b><?= $value->kode_promo ?></b></td>
-                        <td><?= $value->besar_promo ?> %</td>
-                        <td>
+                        <td style="text-align: center;"><b><?= $value->kode_promo ?></b></td>
+                        <td style="text-align: center;"><?= $value->besar_promo ?> %</td>
+                        <td style="text-align: center;">
                           <a class="btn btn-success" data-toggle="modal" href="#" data-target="#detail<?=$value->id_promo?>">
                               <i class="fa fa-fw fa-eye"></i> Lihat Konten
                           </a>  
                         </td>
-                        <td>
+                        <td style="text-align: center;">
                             <?php
                                 if ($value->status_promo=='tidak aktif') {
                             ?>
-                                  <small class="label pull-right bg-red"><?php echo "Tidak Aktif"; ?></small>
+                                  <small class="label bg-red"><?php echo "Tidak Aktif"; ?></small>
                             <?php
                                 }
                                 else {
                             ?>
-                                 <small class="label pull-right bg-green"><?php echo "Aktif"; ?></small>
+                                 <small class="label bg-green"><?php echo "Aktif"; ?></small>
                             <?php
                                 }              
                             ?>

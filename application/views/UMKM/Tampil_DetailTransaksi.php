@@ -25,38 +25,42 @@
 										<div class="tab-pane active" id="tab_1-1">
 											<table class="table table-bordered">
 													<thead>
-													<th>No.</th>
-													<th>Nama Produk</th>
-													<th>Harga</th>
-													<th>Jumlah Beli</th>
+													<th style="text-align: center;">No.</th>
+													<th style="text-align: center;">Nama Produk</th>
+													<th style="text-align: center;">Harga</th>
+													<th style="text-align: center;">Jumlah Beli</th>
+                          <th style="text-align: center;">Total</th>
 												</thead>
 												<tbody>
 													<?php
 														$no = 1;
 														$total_item = 0;
+                            $grad_total = 0;
                     									foreach ($detail_transaksi as $key => $value) {
                     								?>
                     									<tr>
-                    										<td><?= $no++; ?></td>
-                    										<td><?= $value->nama_produk; ?></td>
-                    										<td><?= "Rp ".number_format($value->harga_produk,2); ?></td>
-                    										<td><?= $value->jumlah_produk; ?></td>
+                    										<td style="text-align: center;"><?= $no++; ?></td>
+                    										<td style="text-align: center;"><?= $value->nama_produk; ?></td>
+                    										<td style="text-align: center;"><?= "Rp ".number_format($value->harga_produk,2); ?></td>
+                    										<td style="text-align: center;"><?= $value->jumlah_produk; ?></td>
+                                        <td style="text-align: center;"><?= "Rp ".number_format($value->harga_produk * $value->jumlah_produk) ?></td>
                     									</tr>
                     								<?php
                     									$total_item += $value->jumlah_produk;
+                                      $grad_total += ($value->harga_produk * $value->jumlah_produk);
                     									}
                     								?>
+                                    <tr>
+                                      <td colspan="2"></td>
+                                      <td style="text-align: right;"><b>TOTAL</b></td>
+                                      <td style="text-align: center;"><b><?= $total_item ?></b></td>
+                                      <td style="text-align: center;"><b>Rp <?= number_format($grad_total) ?></b></td>
+                                    </tr>
                     								<tr>
-                    									<td colspan="4"><b>Total Item : </b><?= $total_item ?></td>
-                    								</tr>
-                    								<tr>
-                    									<td colspan="4"><b>Total Harga : </b>Rp<?= number_format($value->total) ?></td>
-                    								</tr>
-                    								<tr>
-                    									<td colspan="4"><b>Alamat Pengiriman : </b> <?= $detail_transaksi[0]->detail_alamat ?></td>
+                    									<td colspan="5"><b>Alamat Pengiriman : </b> <?= $detail_transaksi[0]->detail_alamat ?></td>
                     								</tr>
                                      <tr>
-                                      <td colspan="4"><b>Tanggal Transaksi : </b> 
+                                      <td colspan="5"><b>Tanggal Transaksi : </b> 
                                         <?php 
                                         $date = strtotime($detail_transaksi[0]->tanggal_transaksi);
                                         echo date('d F Y', $date); 
@@ -64,10 +68,10 @@
                                       </td>
                                     </tr>
                                     <tr>
-                                      <td colspan="4"><b>Ekspedisi Pengiriman : </b> <?= $detail_transaksi[0]->ekspedisi_pengiriman ?></td>
+                                      <td colspan="5"><b>Ekspedisi Pengiriman : </b> <?= $detail_transaksi[0]->ekspedisi_pengiriman ?></td>
                                     </tr>
                                     <tr>
-                                      <td colspan="4"><b>Resi : </b> 
+                                      <td colspan="5"><b>Resi : </b> 
                                         <?php 
                                           if($detail_transaksi[0]->no_resi==""){
                                             echo "resi belum diinputkan";
@@ -77,7 +81,7 @@
                                         ?>
                                     </td>
                                     <tr>
-                                      <td colspan="4"><b>Status Transaksi : </b> <?= $detail_transaksi[0]->status ?></td>
+                                      <td colspan="5"><b>Status Transaksi : </b> <?= $detail_transaksi[0]->status ?></td>
                                     </tr>
                                     </tr>
 												</tbody>

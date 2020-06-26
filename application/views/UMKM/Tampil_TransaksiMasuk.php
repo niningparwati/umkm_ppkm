@@ -18,11 +18,11 @@
                     <tr>
                       <th style="text-align: center; width: 5%">No.</th>
                       <th style="text-align: center; width: 15%">Tgl Transaksi</th>
-                      <th style="text-align: center;">Konsumen</th>
-                      <th style="text-align: center; width: 15%">Total Tagihan</th>
-                      <th>Status Pesanan</th>
-                      <th style="text-align: center; width: 15%">Status Pengiriman</th>
-                      <th style="text-align: center">Aksi</th>
+                      <th style="text-align: center; width: 15%">Konsumen</th>
+                      <th style="text-align: center; width: 15%">Total Bayar</th>
+                      <th style="text-align: center; width: 10%">Status Pesanan</th>
+                      <th style="text-align: center; width: 10%">Status Pengiriman</th>
+                      <th style="text-align: center; width: 17%">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -30,20 +30,20 @@
                     $no = 1;
                     foreach ($transaksi as $value) {?>
                       <tr>
-                        <td><?= $no++ ?></td>
+                        <td style="text-align: center;"><?= $no++ ?></td>
                         <td><?= $value->tanggal_transaksi ?></td>
                         <td><?= $value->nama_konsumen ?></td>
-                        <td>Rp <?= number_format($value->total) ?></td>
+                        <td style="text-align: center;">Rp <?= number_format($value->total) ?></td>
                         <td><b><?= $value->status ?></b></td>
-                        <td>
+                        <td style="text-align: center;">
                           <center>
                            
                              <?php
                               if ($value->status_pengiriman=="belum_dikirim") {
                                 ?>
-                                   <small class="label pull-right bg-red"><?php echo $value->status_pengiriman; ?></small>
+                                   <small class="label bg-red"><?php echo $value->status_pengiriman; ?></small>
                             <?php }else{ ?>
-                                  <small class="label pull-right bg-green"><?php echo $value->status_pengiriman; ?></small>
+                                  <small class="label bg-green"><?php echo $value->status_pengiriman; ?></small>
                             <?php } ?>
                           </center>
                            
