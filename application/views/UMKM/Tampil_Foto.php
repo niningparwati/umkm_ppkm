@@ -92,7 +92,7 @@
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>
-          <a href="<?= site_url()?>UMKM/HapusFoto/<?= $value->id_foto ?>" class="btn btn-danger">Iya</a>
+          <a href="<?= site_url()?>UMKM/HapusFoto/<?= $key->id_foto ?>" class="btn btn-danger">Iya</a>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -156,7 +156,7 @@
                   <div class="box-body">
                     <div class="form-group">
                       <img src="<?= base_url()?>assets/galeri_umkm/<?=$key->foto?>" width='100px'><br><br>
-                      <label for="">Edit Foto Banner</label>
+                      <label for="">Edit Foto</label>
                       <input type="file" name="foto" id="Foto">
                       <input name="foto_old" type="hidden" value="<?=$key->foto?>">
                     </div>

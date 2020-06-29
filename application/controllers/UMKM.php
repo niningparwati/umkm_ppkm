@@ -1749,7 +1749,7 @@ class UMKM extends CI_Controller {
 			Berhasil hapus foto
 			</div>'
 		);
-		redirect('UMKM/Galeri/'.$user['id_umkm']);
+		redirect('UMKM/Galeri/'.$user['id_umkm'],'refresh');
 	}
 
 
@@ -1889,7 +1889,7 @@ class UMKM extends CI_Controller {
 			Berhasil hapus banner
 			</div>'
 		);
-		redirect('UMKM/Banner/'.$user['id_umkm']);
+		redirect('UMKM/Banner/'.$user['id_umkm'],'refresh');
 	}
 
 }
