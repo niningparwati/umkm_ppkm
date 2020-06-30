@@ -531,7 +531,7 @@ class Admin extends CI_Controller {
 				'akun'	 => $this->M_admin->getAkun($user),
 				'produk' => $this->M_admin->getProduk(),
 			);
-      $this->load->view('admin/KelolaProdukUMKM',$data);
+      $this->load->view('admin/KelolaprodukUMKM',$data);
     }
 
 
