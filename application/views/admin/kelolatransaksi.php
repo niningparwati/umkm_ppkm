@@ -144,7 +144,7 @@
      <?php if($key->bukti_pembayaran == NULL){
        echo "<h5>Bukti pembayaran belum ada</h5>";
      }else{?>
-    <img src="<?=base_url()?>assets/foto_bukti/<?= $key->bukti_pembayaran ?>" width="300px">
+    <img src="<?=base_url()?>assets/foto_bukti/<?= $key->bukti_pembayaran ?>" width="300px"  alt=" foto tidak ditemukan">
   <?php } ?>
    </div>
    <div class="modal-footer justify-content-between">
@@ -174,7 +174,6 @@
    </div>
 
    <div class="modal-body">
-      <p>Tampilkan disini barang apa saja yang dibeli, dari umkm apa dan berapa banyak</p>
       <table border="1" cellpadding="10" width="100%" class="table table-bordered">
         <tr>
           <td>Nama</td>
