@@ -262,8 +262,9 @@ class M_admin extends CI_Model {
 								JOIN tb_konsumen c ON c.id_konsumen = a.id_konsumen
 								JOIN tb_produk d ON d.id_produk = b.id_produk
 								JOIN tb_umkm e ON e.id_umkm = d.id_umkm
-								GROUP BY a.id_transaksi
-								")->result();
+								WHERE b.id_transaksi = '$id_transaksi'
+								GROUP BY d.id_umkm
+			 					")->result();
 	}
 
 	public function iniproduk($id)

@@ -771,10 +771,10 @@ class Admin extends CI_Controller {
 					$ceq = $this->M_admin->create_pengiriman($dataq);
 				}
 				$cek = $this->M_admin->update_transaksi($data,$id);
-				redirect('Admin/kelolaTransaksi');
+				redirect('Admin/kelolaTransaksi','refresh');
 
 				//echo "$a";
-				//print_r($umkm);
+				print_r($umkm);
 			}
 
 			public function updateBatal($id)
