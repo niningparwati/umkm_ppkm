@@ -98,7 +98,7 @@
      </button>
    </div>
    <div class="modal-body">
-     <p>Anda Yakin Akan Menghapus <?= $s->judul ?>?</p>
+     <p>Anda Yakin Akan Menghapus <?= $s->nama_banner ?>?</p>
    </div>
    <div class="modal-footer justify-content-between">
      <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak</button>

@@ -1,9 +1,9 @@
-<?php $this->load->view('admin/Head') ?>
+<?php $this->load->view('Admin/Head') ?>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-  <?php $this->load->view('admin/Header') ?>
+  <?php $this->load->view('Admin/Header') ?>
   <!-- Left side column. contains the logo and sidebar -->
-  <?php $this->load->view('admin/Sidebar') ?>
+  <?php $this->load->view('Admin/Sidebar') ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -46,6 +46,7 @@
                 </li>
                 <li class="list-group-item">
                   <b>Email</b> <a class="pull-right"><?php echo $umkm->email ?></a>
+                <br><br>
                 </li>
                 <li class="list-group-item">
                   <b>Alamat</b><br><br>
@@ -63,13 +64,14 @@
                 </li>
                 <li class="list-group-item">
                   <b>Nama Kategori</b> <a class="pull-right"><?php echo $umkm->nama_kategori_umkm ?></a>
+                    <br><br>
                 </li>
                 <li class="list-group-item">
                   <b>Status</b> <a class="pull-right"><?php echo $umkm->status?></a>
                 </li>
               </ul>
 
-              <a href="<?=base_url()?>Admin/kelolaUMKM" class="btn btn-danger btn-block"><b>Kembali</b></a>
+              <a href="<?=base_url()?>Admin/KelolaUMKM" class="btn btn-danger btn-block"><b>Kembali</b></a>
             </div>
             <!-- /.box-body -->
           </div>
@@ -212,5 +214,5 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <?php $this->load->view('admin/Footer') ?>
+  <?php $this->load->view('Admin/Footer') ?>
 </div>

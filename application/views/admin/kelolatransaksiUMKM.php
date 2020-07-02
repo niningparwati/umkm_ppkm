@@ -49,7 +49,7 @@
               <td><?php echo $u->nama_umkm ?></td>
               <td><?php echo $u->nama_produk ?></td>
               <td><?php echo $u->jumlah_produk ?></td>
-              <td><?php echo $u->total_harga ?></td>
+              <td><?php echo $u->jumlah_harga ?></td>
               <td>
                 <?php
                 if ($u->status == 'diterima') {
