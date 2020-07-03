@@ -203,7 +203,7 @@
         <tr>
           <td>Total Bayar</td>
           <td>:</td>
-          <td> <b style="color:red"><?php echo "Rp ".number_format($u->total_harga) ?></b> </td>
+          <td> <b style="color:red"><?php echo "Rp ".number_format($key->total_harga) ?></b> </td>
         </tr>
         <tr>
           <td>Status Order</td>
