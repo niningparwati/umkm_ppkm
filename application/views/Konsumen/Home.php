@@ -1,3 +1,13 @@
+<!--Sweet Alert -->
+<?php if($this->session->flashdata('success_home')) { ?>
+  <div class="success-flash" data-success="<?= $this->session->flashdata('success_home') ?>"></div>
+<?php } else if ($this->session->flashdata('error_home')) { ?>
+  <div class="error-flash" data-error="<?= $this->session->flashdata('error_home') ?>"></div>
+<?php }else if ($this->session->flashdata('warning_home')) {?>
+  <div class="warning-flash" data-warning="<?= $this->session->flashdata('warning_home') ?>"></div>
+<?php } ?>
+<!-- End Sweet Alert -->
+
   <div class="clear"></div>
 
   <?php if (!empty($promo)) {?>

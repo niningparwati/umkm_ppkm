@@ -1,10 +1,10 @@
 <!--Sweet Alert -->
-<?php if($this->session->flashdata('success')) { ?>
-  <div class="success-flash" data-success="<?= $this->session->flashdata('success') ?>"></div>
-<?php } else if ($this->session->flashdata('error')) { ?>
-  <div class="error-flash" data-error="<?= $this->session->flashdata('error') ?>"></div>
-<?php }else if ($this->session->flashdata('warning')) {?>
-  <div class="warning-flash" data-warning="<?= $this->session->flashdata('warning') ?>"></div>
+<?php if($this->session->flashdata('success_daftar')) { ?>
+  <div class="success-flash" data-success="<?= $this->session->flashdata('success_daftar') ?>"></div>
+<?php } else if ($this->session->flashdata('error_daftar')) { ?>
+  <div class="error-flash" data-error="<?= $this->session->flashdata('error_daftar') ?>"></div>
+<?php }else if ($this->session->flashdata('warning_daftar')) {?>
+  <div class="warning-flash" data-warning="<?= $this->session->flashdata('warning_daftar') ?>"></div>
 <?php } ?>
 <!-- End Sweet Alert -->
 

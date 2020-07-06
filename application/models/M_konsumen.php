@@ -426,7 +426,7 @@ class M_konsumen extends CI_Model {
 
 	function cekProdukKeranjang($idProduk, $idK)
 	{
-		return $this->db->query("SELECT * FROM tb_keranjang WHERE id_produk='$idProduk' AND id_konsumen='$idK'")->row();
+		return $this->db->query("SELECT COUNT(id_produk) as jumlah, id_produk FROM tb_keranjang WHERE id_produk='$idProduk' AND id_konsumen='$idK'")->row();
 	}
 
 	function keranjangByKonsumen($id)	// mengambil data produk di tabel keranjang berdasarkan id konsumen

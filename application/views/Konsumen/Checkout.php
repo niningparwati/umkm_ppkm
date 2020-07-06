@@ -1,3 +1,13 @@
+<!--Sweet Alert -->
+<?php if($this->session->flashdata('success_checkout')) { ?>
+  <div class="success-flash" data-success="<?= $this->session->flashdata('success_checkout') ?>"></div>
+<?php } else if ($this->session->flashdata('error_checkout')) { ?>
+  <div class="error-flash" data-error="<?= $this->session->flashdata('error_checkout') ?>"></div>
+<?php }else if ($this->session->flashdata('warning_checkout')) {?>
+  <div class="warning-flash" data-warning="<?= $this->session->flashdata('warning_checkout') ?>"></div>
+<?php } ?>
+<!-- End Sweet Alert -->
+
 <?php 
 
 $curl = curl_init();

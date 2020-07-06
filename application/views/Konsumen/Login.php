@@ -1,3 +1,13 @@
+<!--Sweet Alert -->
+<?php if($this->session->flashdata('success_login')) { ?>
+  <div class="success-flash" data-success="<?= $this->session->flashdata('success_login') ?>"></div>
+<?php } else if ($this->session->flashdata('error_login')) { ?>
+  <div class="error-flash" data-error="<?= $this->session->flashdata('error_login') ?>"></div>
+<?php }else if ($this->session->flashdata('warning_login')) {?>
+  <div class="warning-flash" data-warning="<?= $this->session->flashdata('warning_login') ?>"></div>
+<?php } ?>
+<!-- End Sweet Alert -->
+
 <div class="clear"></div>
 
 <section id="main" class="login entire_width">
