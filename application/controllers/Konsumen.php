@@ -330,6 +330,7 @@ class Konsumen extends CI_Controller {
 			'serupa' => $this->M_konsumen->produkSerupa($explode[0], $cek->nama_produk),
 			'kategori' => $this->M_konsumen->kategoriProduk(),
 			'produk_lain' => $this->M_konsumen->produkLain($cek->id_umkm, $idProduk),
+			'jml_produk_lainnya' => $this->M_konsumen->jml_produk_lainnya($cek->id_umkm, $idProduk)->jmlh,
 		);
 		$this->load->view('Konsumen/Head');
 		$this->load->view('Konsumen/Header', $data);
@@ -448,6 +449,23 @@ class Konsumen extends CI_Controller {
 	{
 		if ($key == 'semua') {
 			$cek = $this->M_konsumen->umkmById($idUmkm);	// ambil detail umkm
+
+			$q = urldecode($this->input->get('q', TRUE));
+			$start = intval($this->input->get('start'));
+			if ($q <> '') {
+				$config['base_url'] = base_url() . '/Konsumen/detailUmkm/'.$idUmkm.'/'.$key.'/?q=' . urlencode($q);
+				$config['first_url'] = base_url() . '/Konsumen/detailUmkm/'.$idUmkm.'/'.$key.'/?q=' . urlencode($q);
+			} else {
+				$config['base_url'] = base_url() . '/Konsumen/detailUmkm/'.$idUmkm.'/'.$key;
+				$config['first_url'] = base_url() . '/Konsumen/detailUmkm/'.$idUmkm.'/'.$key;
+			}
+			$config['per_page'] = 6;
+			$config['page_query_string'] = TRUE;
+			$config['total_rows'] = $this->M_konsumen->total_barang_serupa($q, $idUmkm);
+			$produk = $this->M_konsumen->get_produk_umkm($config['per_page'], $start, $q, $idUmkm);
+			$this->load->library('pagination');
+			$this->pagination->initialize($config);
+
 			$data = array(
 				'id_umkm' => $idUmkm,
 				'nama_umkm' => $cek->nama_umkm,
@@ -455,13 +473,19 @@ class Konsumen extends CI_Controller {
 				'deskripsi' => $cek->deskripsi_umkm,
 				'no_telp' => $cek->nomor_telp_umkm,
 				'foto' => $cek->foto_user,
-				'produk' => $this->M_konsumen->getProdukUmkm($idUmkm),
+				'produk' => $produk,
 				'kategori_produk' => $this->M_konsumen->kategoriProdukById($idUmkm),
 				'cekFoto' => $this->M_konsumen->semuaFotoUMKM($idUmkm),
 				'portofolio' => $this->M_konsumen->cekPortofolio($idUmkm),
 				'market' => $this->M_konsumen->cekMarket($idUmkm),
 				'informasi' => $this->M_konsumen->cekInformasi($idUmkm),
-				'jenis' => 'semua'
+				'jmlh_informasi' => $this->M_konsumen->jmlhInformasi($idUmkm)->jmlh,
+				'jenis' => 'semua',
+				'q' => $q,												// pagination
+				'pagination' => $this->pagination->create_links(),		// pagination
+				'start' => $start,										// pagination
+				'jumlah' => $this->M_konsumen->jmlhProduk($idUmkm)->jumlah,
+				'batas' => $config['per_page'],
 			);
 			$this->load->view('Konsumen/Head');
 			$this->load->view('Konsumen/Header', $data);
@@ -469,6 +493,23 @@ class Konsumen extends CI_Controller {
 			$this->load->view('Konsumen/Footer');
 		}elseif ($key != 'semua') {
 			$cek = $this->M_konsumen->umkmById($idUmkm);	// ambil detail umkm berdasarkan produk tertentu
+
+			$q = urldecode($this->input->get('q', TRUE));
+			$start = intval($this->input->get('start'));
+			if ($q <> '') {
+				$config['base_url'] = base_url() . '/Konsumen/detailUmkm/'.$idUmkm.'/'.$key.'/?q=' . urlencode($q);
+				$config['first_url'] = base_url() . '/Konsumen/detailUmkm/'.$idUmkm.'/'.$key.'/?q=' . urlencode($q);
+			} else {
+				$config['base_url'] = base_url() . '/Konsumen/detailUmkm/'.$idUmkm.'/'.$key;
+				$config['first_url'] = base_url() . '/Konsumen/detailUmkm/'.$idUmkm.'/'.$key;
+			}
+			$config['per_page'] = 6;
+			$config['page_query_string'] = TRUE;
+			$config['total_rows'] = $this->M_konsumen->total_barang_kategori($q, $idUmkm, $key);
+			$produk = $this->M_konsumen->get_produk_umkm_kategori($config['per_page'], $start, $q, $idUmkm, $key);
+			$this->load->library('pagination');
+			$this->pagination->initialize($config);
+
 			$data = array(
 				'id_umkm' => $idUmkm,
 				'nama_umkm' => $cek->nama_umkm,
@@ -476,13 +517,19 @@ class Konsumen extends CI_Controller {
 				'deskripsi' => $cek->deskripsi_umkm,
 				'no_telp' => $cek->nomor_telp_umkm,
 				'foto' => $cek->foto_user,
-				'produk' => $this->M_konsumen->produkUmkmByKategori($idUmkm, $key),
+				'produk' => $produk,
 				'kategori_produk' => $this->M_konsumen->kategoriProdukById($idUmkm),
 				'cekFoto' => $this->M_konsumen->semuaFotoUMKM($idUmkm),
 				'portofolio' => $this->M_konsumen->cekPortofolio($idUmkm),
 				'market' => $this->M_konsumen->cekMarket($idUmkm),
 				'informasi' => $this->M_konsumen->cekInformasi($idUmkm),
-				'jenis' => $this->M_konsumen->getKategoriProduk($key)->nama_kategori_produk
+				'jmlh_informasi' => $this->M_konsumen->jmlhInformasi($idUmkm)->jmlh,
+				'jenis' => $this->M_konsumen->getKategoriProduk($key)->nama_kategori_produk,
+				'q' => $q,												// pagination
+				'pagination' => $this->pagination->create_links(),		// pagination
+				'start' => $start,										// pagination
+				'jumlah' => $this->M_konsumen->jmlhProduk($idUmkm)->jumlah,
+				'batas' => $config['per_page'],
 			);
 			$this->load->view('Konsumen/Head');
 			$this->load->view('Konsumen/Header', $data);
@@ -510,10 +557,10 @@ class Konsumen extends CI_Controller {
 				$insert = $this->M_konsumen->inputKeranjang($data);
 				$this->session->set_flashdata('success', $cek->nama_produk.' berhasil ditambahkan ke keranjang!');
 				redirect('Konsumen/detailProduk/'.$idProduk);
-			}elseif($produk->id_produk != $idProduk AND $jumlah > $cek->stok){
+			}if($produk->id_produk != $idProduk AND $jumlah > $cek->stok){
 				$this->session->set_flashdata('warning', 'Stok '.$cek->nama_produk.' hanya '.$cek->stok.' produk. Anda sudah memasukan ke keranjang sebanyak '.$produk->jumlah_barang.' produk');
 				redirect('Konsumen/detailProduk/'.$idProduk);
-			}elseif($produk->id_produk == $idProduk AND $jumlah <= $cek->stok){
+			}if($produk->id_produk == $idProduk AND $jumlah <= $cek->stok){
 				$awal = $produk->jumlah_barang;
 				$tambah = $this->input->post('qty');
 				$jumlah = $awal+$tambah;
@@ -523,7 +570,7 @@ class Konsumen extends CI_Controller {
 				$this->M_konsumen->updateProdukKonsumen($data1,$idProduk,$this->session->userdata('id_konsumen'));
 				$this->session->set_flashdata('success', ' berhasil menambah '.$cek->nama_produk.'ke keranjang!');
 				redirect('Konsumen/detailProduk/'.$idProduk);
-			}elseif ($produk->id_produk == $idProduk AND $jumlah > $cek->stok) {
+			}if ($produk->id_produk == $idProduk AND $jumlah > $cek->stok) {
 				$this->session->set_flashdata('warning', 'Stok '.$cek->nama_produk.' hanya '.$cek->stok.' produk. Anda sudah memasukan ke dalam keranjang sebanyak '.$produk->jumlah_barang.' produk');
 				redirect('Konsumen/detailProduk/'.$idProduk);
 			}

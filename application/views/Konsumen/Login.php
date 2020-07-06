@@ -19,12 +19,12 @@
           <h2>Masuk</h2>
           <p>Jika sudah mempunyai akun, silahkan masuk dengan username dan password yang sudah terdaftar!</p>
           <div class="username">
-            <strong>Username:</strong><sup class="surely">*</sup><br/>
+            <strong>Username:</strong><br/>
             <input type="text" name="username" required />
           </div><!-- .email -->
 
           <div class="password">
-            <strong>Password:</strong><sup class="surely">*</sup><br/>
+            <strong>Password:</strong><br/>
             <input type="password" name="password" style="height: 33px; width: 255px; padding: 0 10px; border: 1px solid #ccc; color: #777; border-radius: 2px" class="form-control"/>
             <a class="forgot" href="#">Forgot Your Password?</a>
           </div><!-- .password -->

@@ -32,17 +32,21 @@
           </div><!-- .prev -->
         </div><!-- .grid_3 -->
 
-        <div class="grid_4" style="height: 100%;">
+        <div class="grid_3">
           <a href="<?=base_url()?>Konsumen/detailUmkm/<?=$key->id_umkm?>/semua">
            <div class="entry_content" style="font-size: 13px; color: black">
-            <a href="<?=base_url()?>Konsumen/detailUmkm/<?=$key->id_umkm?>/semua"><h3 class="title"><?=$key->nama_umkm?></h3></a>
+            <a href="<?=base_url()?>Konsumen/detailUmkm/<?=$key->id_umkm?>/semua"><h3 class="title"><?= substr($key->nama_umkm, 0, 20) ?><?php if (strlen($key->nama_umkm) > 20) { echo "..."; } ?></h3></a>
             <p>
-              <?= substr($key->deskripsi_umkm,0,60) ?> ... <br><br>
+              <?= substr($key->deskripsi_umkm, 0, 60) ?><?php if (strlen($key->deskripsi_umkm) > 60) { echo "..."; } ?> <br><br>
               <?php 
               $foto = $this->M_konsumen->fotoUmkm($key->id_umkm);
               foreach($foto as $a) { 
                 ?>
-                <img src="<?=base_url()?>assets/galeri_umkm/<?=$a->foto?>" style="width: 50px; height: 50px;">
+                <?php if (!empty($a->foto)) { ?>
+                  <img src="<?=base_url()?>assets/galeri_umkm/<?=$a->foto?>" style="width: 50px; height: 50px;">
+                <?php }else{ ?>
+                  <img src="<?=base_url()?>assets/foto_produk/produk_default.png" style="width: 50px; height: 50px;">
+                <?php } ?>
               <?php } ?>
             </p>
           </div><!-- .entry_content -->

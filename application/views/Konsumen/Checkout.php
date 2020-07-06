@@ -75,7 +75,7 @@ if ($err) {
               <td class="qty" style="border: none; vertical-align: middle;">
                 <a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>" style="text-decoration: none; color: black"><?=$key->nama_produk?></a>
               </td>
-              <td class="qty" style="border: none; vertical-align: middle;">Rp <?=number_format($key->harga_produk,2,',','.')?></td>
+              <td class="qty" style="border: none; vertical-align: middle;">Rp <?=number_format($key->harga_produk,0,',','.')?></td>
               <td class="qty" style="padding-top: 30px; border: none; vertical-align: middle;">
                 <?=$key->jumlah_produk?>
               </td>
@@ -84,7 +84,7 @@ if ($err) {
                 $jml = $key->jumlah_produk;
                 $hrg = $key->harga_produk;
                 $total = $jml*$hrg;
-                echo 'Rp '.number_format($total,2,',','.');
+                echo 'Rp '.number_format($total,0,',','.');
                 ?>
               </td>
             </tr>
@@ -102,11 +102,11 @@ if ($err) {
             <td colspan="1" class="cart_but" style="text-align: center; font-size: 14px; border: none;">
               <br>
               <?php if (is_null($transaksi->besar_diskon)) { ?>
-                &nbsp &nbsp  <b> Rp <?=number_format($totalHarga,2,',','.')?></b>
+                &nbsp &nbsp  <b> Rp <?=number_format($totalHarga,0,',','.')?></b>
               <?php }else{ ?>
-                &nbsp &nbsp  <b>Rp <?=number_format($totalHarga,2,',','.')?></b>
+                &nbsp &nbsp  <b>Rp <?=number_format($totalHarga,0,',','.')?></b>
                 <br>
-                &nbsp &nbsp  <b>Rp <?= number_format($transaksi->besar_diskon,2,',','.') ?></b>
+                &nbsp &nbsp  <b>Rp <?= number_format($transaksi->besar_diskon,0,',','.') ?></b>
               <?php } ?>
             </td>
           </tr>
@@ -208,7 +208,7 @@ if ($err) {
 
             <?php if (!empty($alamat->ekspedisi_pengiriman) AND !empty($alamat->estimasi_pengiriman) AND !empty($alamat->ongkos_kirim)) {?>
               <h3>Estimasi Ongkos Kirim</h3>
-              <b>Rp <?=number_format($alamat->ongkos_kirim,2,',','.')?></b><br>
+              <b>Rp <?=number_format($alamat->ongkos_kirim,0,',','.')?></b><br>
               <span style="font-size: 13px">Ekspedisi Pengiriman : <?=$alamat->ekspedisi_pengiriman?><br></span>
               <span style="font-size: 13px">durasi pengiriman : <?=strtolower($alamat->estimasi_pengiriman) ?></span>
             <?php } ?>
@@ -221,7 +221,7 @@ if ($err) {
                 <!-- echo $key['service']; -->
                 <b><?=$key['service']?></b>
                 <p style="font-size: 12px">
-                 Biaya ongkir: <b>Rp <?=number_format($key['cost'][0]['value'],2,',','.')?></b><br>
+                 Biaya ongkir: <b>Rp <?=number_format($key['cost'][0]['value'],0,',','.')?></b><br>
                  Estimasi pengiriman : <b><?=$key['cost'][0]['etd']?> hari</b>
                </p>
                <a href="<?=base_url()?>Konsumen/updateBiaya/<?=$transaksi->id_transaksi?>/<?=$biaya['rajaongkir']['results'][0]['code']?>/<?=$key['service']?>/<?=$key['cost'][0]['value']?>/<?=$key['cost'][0]['etd']?>" style="text-decoration: none;"><input type="submit" id="apply_coupon" value="Pilih" /></a>
@@ -238,15 +238,15 @@ if ($err) {
       <div class="bottom_block total">
         <table class="subtotal">
           <tr>
-            <td style="width: 50%">Total Harga</td><td class="price">Rp <?=number_format($alamat->total_harga,2,',','.')?></td>
+            <td style="width: 50%">Total Harga</td><td class="price">Rp <?=number_format($alamat->total_harga,0,',','.')?></td>
           </tr>
           <?php if (!empty($alamat->ongkos_kirim)) { ?>
             <tr>
-              <td>Ongkos Kirim</td><td class="price">Rp <?=number_format($alamat->ongkos_kirim,2,',','.')?></td>
+              <td>Ongkos Kirim</td><td class="price">Rp <?=number_format($alamat->ongkos_kirim,0,',','.')?></td>
             </tr>
           <?php }if (!is_null($transaksi->besar_diskon)) { ?>
             <tr>
-              <td>Diskon</td><td class="price">Rp <?=number_format($transaksi->besar_diskon,2,',','.')?></td>
+              <td>Diskon</td><td class="price">Rp <?=number_format($transaksi->besar_diskon,0,',','.')?></td>
             </tr>
           <?php } ?>
 
@@ -254,13 +254,13 @@ if ($err) {
             <tr >
               <td style="font-size: 15px"><b>Total Bayar</b></td>
               <?php $total = $alamat->total_harga+$alamat->ongkos_kirim-$transaksi->besar_diskon ?>
-              <td class="price"><b>Rp <?=number_format($total,2,',','.')?></b></td>
+              <td class="price"><b>Rp <?=number_format($total,0,',','.')?></b></td>
             </tr>
           <?php }else{ ?>
             <tr >
               <td style="font-size: 15px"><b>Total Bayar</b></td>
               <?php $total = $alamat->total_harga+$alamat->ongkos_kirim ?>
-              <td class="price"><b>Rp <?=number_format($total,2,',','.')?></b></td>
+              <td class="price"><b>Rp <?=number_format($total,0,',','.')?></b></td>
             </tr>
           <?php } ?>
 

@@ -59,7 +59,11 @@
                 <?php }else{ ?>
                   <a href="#" class="button_block best_price">
                   <?php } ?>
-                  <img src="<?=base_url()?>assets/foto_banner/<?=$key->foto_banner?>" alt="Banner 1" style="height: 100px; width: 100%" />
+                  <?php if (!empty($key->foto_banner)) { ?>
+                    <img src="<?=base_url()?>assets/foto_banner/<?=$key->foto_banner?>" alt="Banner 1" style="height: 100px; width: 100%" />
+                  <?php }else{ ?>
+                    <img src="<?=base_url()?>assets/foto_produk/produk_default.png" alt="Banner 1" style="height: 100px; width: 100%" />
+                  <?php } ?>
                 </a><!-- .best_price -->
               </div><!-- .grid_4 -->
             <?php } ?>
@@ -94,11 +98,13 @@
                             <img src="<?=base_url()?>assets/foto_produk/produk_default.png" style="width: 250px; height: 250px" />
                           <?php } ?>
                         </div><!-- .prev -->
-                        <h3 class="title"><center><?=$key->nama_produk?></center></h3>
+                        <h3 class="title"><center>
+                          <?= substr($key->nama_produk, 0, 20) ?><?php if (strlen($key->nama_produk) > 20) { echo "..."; } ?>
+                        </center></h3>
                         <div class="cart">
                           <div class="price" style="width: 50%">
                             <div class="vert">
-                              <div class="price_new">Rp <?=number_format($key->harga_produk,2,',','.')?></div>
+                              <div class="price_new">Rp <?=number_format($key->harga_produk,0,',','.')?></div>
                             </div>
                           </div>
                           <div style="color: #2e9f9a;">
@@ -183,7 +189,11 @@
                 <?php $no=1; foreach ($slide as $key) { ?>
                   <div class="carousel-item <?php if ($no == 1) { ?> active  <?php } ?>" >
                     <a href="<?=$key->url?>">
-                      <img src="<?=base_url()?>assets/gambar_slide/<?=$key->gambar?>" alt="Gambar - <?=$no++?>" width="1000" height="300">
+                      <?php if (!empty($key->gambar)) {?>
+                        <img src="<?=base_url()?>assets/gambar_slide/<?=$key->gambar?>" alt="Gambar - <?=$no++?>" width="1000" height="300">
+                      <?php }else{ ?>
+                        <img src="<?=base_url()?>assets/foto_produk/produk_default.png" alt="Gambar - <?=$no++?>" width="1000" height="300">
+                      <?php } ?>
                       <div class="carousel-caption">
                         <span style="color: black; background: white; font-weight: bold; padding: 10px; font-size: 30px"><?=$key->judul?></span>
                       </div>

@@ -32,17 +32,17 @@
                 </td>
                 <td class="qty" style="color: black;vertical-align: middle;">Rp 
                   <?php if (!is_null($key->besar_diskon) AND $key->ongkos_kirim > 0 ) {?>
-                    <?=number_format($key->total_harga+$key->ongkos_kirim-$key->besar_diskon,2,',','.')?>
+                    <?=number_format($key->total_harga+$key->ongkos_kirim-$key->besar_diskon,0,',','.')?>
                   <?php }elseif (!is_null($key->besar_diskon)) {?>
-                    <?=number_format($key->total_harga-$key->besar_diskon,2,',','.')?>
+                    <?=number_format($key->total_harga-$key->besar_diskon,0,',','.')?>
                   <?php }elseif ($key->ongkos_kirim > 0) {?>
-                    <?=number_format($key->total_harga+$key->ongkos_kirim,2,',','.')?>
+                    <?=number_format($key->total_harga+$key->ongkos_kirim,0,',','.')?>
                   <?php }else{ ?>
-                    <?=number_format($key->total_harga,2,',','.')?>
+                    <?=number_format($key->total_harga,0,',','.')?>
                   <?php } ?>
                 </td>
                 <td class="qty" style="vertical-align: middle;color: black">
-                  Rp <?=number_format($key->ongkos_kirim,2,',','.')?>
+                  Rp <?=number_format($key->ongkos_kirim,0,',','.')?>
                 </td>
                 <td style="vertical-align: middle;">
                   <?=$key->ekspedisi_pengiriman."<br>".$key->estimasi_pengiriman?>
@@ -85,16 +85,16 @@
                     echo $x->nama_produk." (".$x->jumlah_produk.")<br>";
                   } ?>
                 </td>
-                <td class="qty" style="color: black;padding-top: 40px">Rp <?=number_format($key->total_harga,2,',','.')?></td>
+                <td class="qty" style="color: black;padding-top: 40px">Rp <?=number_format($key->total_harga,0,',','.')?></td>
                 <td class="qty" style="color: black;padding-top: 40px">Rp 
                   <?php if (!is_null($key->besar_diskon)) {?>
-                    <?=number_format($key->total_harga,2,',','.')?>
+                    <?=number_format($key->total_harga,0,',','.')?>
                   <?php }else{ ?>
                     0
                   <?php } ?>
                 </td>
                 <td class="qty" style="padding-top: 40px; color: black">
-                  Rp <?=number_format($key->ongkos_kirim,2,',','.')?>
+                  Rp <?=number_format($key->ongkos_kirim,0,',','.')?>
                 </td>
                 <td>
                   <?=$key->ekspedisi_pengiriman."<br>".$key->estimasi_pengiriman?> hari
@@ -133,13 +133,13 @@
                     echo $x->nama_produk." (".$x->jumlah_produk.")<br>";
                   } ?>
                 </td>
-                <td class="qty" style="color: black;padding-top: 40px">Rp <?=number_format($key->total_harga,2,',','.')?></td>
+                <td class="qty" style="color: black;padding-top: 40px">Rp <?=number_format($key->total_harga,0,',','.')?></td>
                 <td class="qty" style="padding-top: 40px; color: black">
-                  Rp <?=number_format($key->ongkos_kirim,2,',','.')?>
+                  Rp <?=number_format($key->ongkos_kirim,0,',','.')?>
                 </td>
                 <td class="qty" style="color: black;padding-top: 40px">Rp 
                   <?php if (!is_null($key->besar_diskon)) {?>
-                    <?=number_format($key->total_harga,2,',','.')?>
+                    <?=number_format($key->total_harga,0,',','.')?>
                   <?php }else{ ?>
                     0
                   <?php } ?>
@@ -183,16 +183,16 @@
                     echo $x->nama_produk." ( ".$x->jumlah_produk." produk )<br>";
                   } ?>
                 </td>
-                <td class="qty" style="color: black;padding-top: 40px">Rp <?=number_format($key->total_harga,2,',','.')?></td>
+                <td class="qty" style="color: black;padding-top: 40px">Rp <?=number_format($key->total_harga,0,',','.')?></td>
                 <td class="qty" style="color: black;padding-top: 40px">Rp 
                   <?php if (!is_null($key->besar_diskon)) {?>
-                    <?=number_format($key->total_harga,2,',','.')?>
+                    <?=number_format($key->total_harga,0,',','.')?>
                   <?php }else{ ?>
                     0
                   <?php } ?>
                 </td>
                 <td class="qty" style="padding-top: 40px; color: black">
-                  Rp <?=number_format($key->ongkos_kirim,2,',','.')?>
+                  Rp <?=number_format($key->ongkos_kirim,0,',','.')?>
                 </td>
                 <td>
                   <?=$key->ekspedisi_pengiriman."<br>".$key->estimasi_pengiriman?> hari
@@ -243,16 +243,16 @@
                     echo $x->nama_produk." ( ".$x->jumlah_produk." produk )<br>";
                   } ?>
                 </td>
-                <td class="qty" style="color: black;padding-top: 40px">Rp <?=number_format($key->total_harga,2,',','.')?></td>
+                <td class="qty" style="color: black;padding-top: 40px">Rp <?=number_format($key->total_harga,0,',','.')?></td>
                 <td class="qty" style="color: black;padding-top: 40px">Rp 
                   <?php if (!is_null($key->besar_diskon)) {?>
-                    <?=number_format($key->total_harga,2,',','.')?>
+                    <?=number_format($key->total_harga,0,',','.')?>
                   <?php }else{ ?>
                     0
                   <?php } ?>
                 </td>
                 <td class="qty" style="padding-top: 40px; color: black">
-                  Rp <?=number_format($key->ongkos_kirim,2,',','.')?>
+                  Rp <?=number_format($key->ongkos_kirim,0,',','.')?>
                 </td>
                 <td>
                   <?=$key->ekspedisi_pengiriman."<br>".$key->estimasi_pengiriman?> hari

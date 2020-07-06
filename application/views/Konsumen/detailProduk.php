@@ -38,7 +38,7 @@
 							</div><!-- .availability_sku -->
 
 							<div class="price">
-								<div class="price_new" style="font-size: 30px">Rp <?=number_format($harga,2,',','.')?></div>
+								<div class="price_new" style="font-size: 30px">Rp <?=number_format($harga,0,',','.')?></div>
 							</div><!-- .price -->
 						</div><!-- .ava_price -->
 
@@ -48,8 +48,8 @@
 							<div class="cart">
 								<form action="<?=base_url()?>Konsumen/inputKeranjang/<?=$id_produk?>" method="POST">
 									<button type="submit" name="submit" class="bay" style="width: 110px; float: right;display: block;height: 33px;color: #fefefe;text-align: center;text-decoration: none;font-size: 13px Segoeui-Bold, Arial, Verdana, serif;background: #59b7c2; border-radius: 2px">Masukan keranjang</button>
-									<input type="text" name="qty" class="number"/>
-									<span style=" font-size: 13px">Quantity:</span>
+									<span style=" font-size: 13px">Quantity: &nbsp <input type="number" name="qty" min="1" max="<?=$stok?>" value="1" style="height: 30px" ></span>
+									
 								</form>
 							</div>
 							<div class="clear"></div>
@@ -80,11 +80,11 @@
 														<img src="<?=base_url()?>assets/foto_produk/produk_default.png" style="width: 250px; height: 250px" />
 													<?php } ?>
 												</div><!-- .prev -->
-												<h3 class="title"><?=$key->nama_produk?></h3>
+												<h3 class="title"><?= substr($key->nama_produk, 0, 20) ?><?php if (strlen($key->nama_produk) > 20) { echo "..."; } ?></h3>
 												<div class="cart">
 													<div class="price" style="width: 50%">
 														<div class="vert">
-															<div class="price_new">Rp <?=number_format($key->harga_produk,2,',','.')?></div>
+															<div class="price_new">Rp <?=number_format($key->harga_produk,0,',','.')?></div>
 														</div>
 													</div>
 													<div style="color: #2e9f9a; font-size: 13px" >
@@ -149,6 +149,9 @@
 								</a></li>
 							<?php } ?>
 						</ul>
+						<?php if ($jml_produk_lainnya > 6) {?>
+							<center><a href="<?=base_url()?>Konsumen/Produk/semua" style="text-decoration: none;">Lihat Lainnya</a></center>
+						<?php } ?>
 					</div><!-- .list_carousel -->
 				</aside><!-- #banners -->
 			<?php } ?>
