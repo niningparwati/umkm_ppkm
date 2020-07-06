@@ -21,21 +21,37 @@
     <header id="branding">
       <div class="grid_3">
         <hgroup>
-          <h1 id="site_logo" ><a href="/" title=""><img src="<?=base_url()?>assets/konsumen/ppkm/PPKMmart.png" style="width: 150px" /></a></h1>
+          <h1 id="site_logo"><a href="<?=base_url()?>Konsumen/Home" title=""><img src="<?=base_url()?>assets/konsumen/ppkm/PPKMmart.png" style="width: 150px" /></a></h1>
         </hgroup>
       </div><!-- .grid_3 -->
 
-      <div class="grid_3">
-        <form class="search">
-          <!-- <input type="text" name="search" class="entry_form" value="" placeholder="Search entire store here..."/> -->
-          <?php if ($this->session->userdata('id_konsumen')) { ?>
-            <center><h3><?= $this->session->userdata('nama_konsumen'); ?></h3></center>
-          <?php } ?>
+      <div class="grid_5">
+        <center>
+        <form class="search" style="margin-top:30px;" method="get" action="<?=base_url()?>Konsumen/Home">
+          <div class="input-group">
+            <input type="text" name="search" value="<?= (isset($_GET['search']))?$_GET['search']:'' ?>" placeholder="Search entire store here...." style="width:80%"/>
+            <div class="input-group-btn">
+              <button class="btn btn-primary" type="submit">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
         </form>
+        </center>
       </div><!-- .grid_3 -->
 
-      <div class="grid_6">
+      <!-- <div class="grid_2">
+        <form class="search">
+
+
+        </form>
+      </div> -->
+
+      <div class="grid_4">
         <nav class="private">
+          <?php if ($this->session->userdata('id_konsumen')) { ?>
+            <center><h3 style="padding:0px"><?= $this->session->userdata('nama_konsumen'); ?></h3></center>
+          <?php } ?>
           <ul>
             <?php if ($this->session->userdata('id_konsumen')) {?>
               <li><a href="<?=base_url()?>Konsumen/Profil">Profil</a></li>
@@ -44,7 +60,7 @@
               <li class="separator">|</li>
               <li><a href="<?=base_url()?>Konsumen/Pesanan">Pesanan</a></li>
               <li class="separator">|</li>
-              <li><a href="<?=base_url()?>Konsumen/Logout">Log Out</a></li>
+              <li><a href="#" onclick="logoutConfirm()">Log Out</a></li>
             <?php } ?>
             <?php if (!$this->session->userdata('id_konsumen')) {?>
               <li><a href="<?=base_url()?>Konsumen/index">Masuk</a></li>
@@ -86,3 +102,22 @@
     <div class="warning-flash" data-warning="<?= $this->session->flashdata('warning') ?>"></div>
   <?php } ?>
 <!-- End Sweet Alert -->
+
+<script type="text/javascript">
+
+  function logoutConfirm() {
+    Swal.fire({
+      title: 'Attention!',
+      text: "Are you sure want to log out?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Logout!'
+    }).then((result) => {
+      if (result.value) {
+        location.href = '<?=base_url()?>Konsumen/Logout'
+      }
+    })
+  }
+</script>

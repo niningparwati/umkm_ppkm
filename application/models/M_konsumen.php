@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -125,7 +125,7 @@ class M_konsumen extends CI_Model {
 	// PAGINATION SEBELUM LOGIN
 
 	function total_rows($q = NULL)	// pagination produk (search)
-	{	
+	{
 		$this->db->like('a.nama_produk', $q);
 		$this->db->from('tb_produk a');
 		$this->db->join('tb_umkm b', 'a.id_umkm=b.id_umkm');
@@ -149,7 +149,7 @@ class M_konsumen extends CI_Model {
 	}
 
 	function total_produk_kategori($q = NULL, $x)	// pagination produk (search)
-	{	
+	{
 		$this->db->where('a.id_kategori_produk', $x);
 		$this->db->where('c.status', 'aktif');
 		$this->db->like('a.nama_produk', $q);
@@ -175,7 +175,7 @@ class M_konsumen extends CI_Model {
 	}
 
 	function total_umkm($q = NULL)	// pagination umkm (search)
-	{	
+	{
 		$this->db->like('a.nama_umkm', $q);
 		$this->db->from('tb_umkm a');
 		$this->db->join('tb_user b', 'a.id_user=b.id_user');
@@ -205,7 +205,7 @@ class M_konsumen extends CI_Model {
 	}
 
 	function total_kategori($q = NULL, $x)	// pagination umkm (search)
-	{	
+	{
 		$this->db->where('a.id_kategori_umkm', $x);
 		$this->db->where('b.status', 'aktif');
 		$this->db->like('a.nama_umkm', $q);
@@ -226,7 +226,7 @@ class M_konsumen extends CI_Model {
 	}
 
 	function total_kota($q = NULL, $x)	// pagination umkm (search)
-	{	
+	{
 		$this->db->where('a.kota_asal', $x);
 		$this->db->where('b.status', 'aktif');
 		$this->db->like('a.nama_umkm', $q);
@@ -545,7 +545,7 @@ class M_konsumen extends CI_Model {
 	// INFORMASI
 
 	function total_informasi($q = NULL)	// pagination informasi (search)
-	{	
+	{
 		$this->db->like('a.judul_informasi', $q);
 		$this->db->from('tb_informasi a');
 		$this->db->join('tb_umkm b', 'a.id_umkm=b.id_umkm');
@@ -619,6 +619,17 @@ class M_konsumen extends CI_Model {
 	function getSlide()
 	{
 		return $this->db->query("SELECT* FROM tb_slide WHERE status='aktif'")->result();
+	}
+
+	// SEARCH
+	function searchProduk($search)
+	{
+		return $this->db->query("SELECT * FROM tb_produk WHERE (status_produk=1) AND (nama_produk LIKE '%$search%' OR deskripsi_produk LIKE '%$search%') LIMIT 8")->result();
+	}
+
+	function searchUmkm($search)
+	{
+		return $this->db->query("SELECT tb_umkm.*, tb_user.* FROM tb_umkm JOIN tb_user ON tb_umkm.id_user=tb_user.id_user WHERE (tb_user.status='aktif') AND (tb_umkm.nama_umkm LIKE '%$search%' OR tb_umkm.deskripsi_umkm LIKE '%$search%') LIMIT 8")->result();
 	}
 
 }

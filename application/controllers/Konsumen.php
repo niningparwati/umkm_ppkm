@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -68,7 +68,7 @@ class Konsumen extends CI_Controller {
 		$this->load->view('Konsumen/Header');
 		$this->load->view('Konsumen/Register', $data);
 		$this->load->view('Konsumen/Footer');
-	} 
+	}
 
 	function prosesRegister()
 	{
@@ -138,6 +138,20 @@ class Konsumen extends CI_Controller {
 
 	function Home()
 	{
+		if (isset($_GET['search'])) {
+			if ($_GET['search'] != '') {
+				$data = array(
+					'produk' => $this->M_konsumen->searchProduk($_GET['search']),
+					'umkm' => $this->M_konsumen->searchUmkm($_GET['search']),
+				);
+				$this->load->view('Konsumen/Head');
+				$this->load->view('Konsumen/Header');
+				$this->load->view('Konsumen/Search', $data);
+				$this->load->view('Konsumen/Footer');
+				return;
+			}
+		}
+
 		$data = array(
 			'produk' => $this->M_konsumen->getProdukHome(),
 			'umkm' => $this->M_konsumen->getUmkmHome(),
@@ -146,6 +160,7 @@ class Konsumen extends CI_Controller {
 			'banner' => $this->M_konsumen->getBanner(),
 			'slide' => $this->M_konsumen->getSlide(),
 		);
+
 		$this->load->view('Konsumen/Head');
 		$this->load->view('Konsumen/Header');
 		$this->load->view('Konsumen/Home', $data);
@@ -178,7 +193,7 @@ class Konsumen extends CI_Controller {
 				$data = array(
 					'produk' => $produk,
 					'jumlah_produk' => $this->M_konsumen->jumlahProduk()->jumlah,
-					'kategori' => $this->M_konsumen->kategoriProduk(),	
+					'kategori' => $this->M_konsumen->kategoriProduk(),
 					'jenis' => 'semua',
 					'q' => $q,												// pagination
 					'pagination' => $this->pagination->create_links(),		// pagination
@@ -211,7 +226,7 @@ class Konsumen extends CI_Controller {
 				$data = array(
 					'produk' => $produk,
 					'jumlah_produk' => $this->M_konsumen->jumlahProduk()->jumlah,
-					'kategori' => $this->M_konsumen->kategoriProduk(),	
+					'kategori' => $this->M_konsumen->kategoriProduk(),
 					'jenis' => $this->M_konsumen->getKategoriProduk($key)->nama_kategori_produk,
 					'q' => $q,												// pagination
 					'pagination' => $this->pagination->create_links(),		// pagination
@@ -280,7 +295,7 @@ class Konsumen extends CI_Controller {
 					'produk' => $produk,
 					'jumlah_produk' => $this->M_konsumen->jumlahProduk()->jumlah,
 					'kategori' => $this->M_konsumen->kategoriProduk(),
-					'jenis' => $this->M_konsumen->getKategoriProduk($key)->nama_kategori_produk,	
+					'jenis' => $this->M_konsumen->getKategoriProduk($key)->nama_kategori_produk,
 					'q' => $q,												// pagination
 					'pagination' => $this->pagination->create_links(),		// pagination
 					'start' => $start,										// pagination
@@ -293,7 +308,7 @@ class Konsumen extends CI_Controller {
 				$this->load->view('Konsumen/Footer');
 			}
 		}
-		
+
 	}
 
 	function detailProduk($idProduk)
@@ -315,7 +330,7 @@ class Konsumen extends CI_Controller {
 			'serupa' => $this->M_konsumen->produkSerupa($explode[0], $cek->nama_produk),
 			'kategori' => $this->M_konsumen->kategoriProduk(),
 			'produk_lain' => $this->M_konsumen->produkLain($cek->id_umkm, $idProduk),
-		);		
+		);
 		$this->load->view('Konsumen/Head');
 		$this->load->view('Konsumen/Header', $data);
 		$this->load->view('Konsumen/DetailProduk', $data);
@@ -675,7 +690,7 @@ class Konsumen extends CI_Controller {
 	// 				for($i=0 ;$i < count($idKeranjang); $i++) {
 	// 					$cekKeranjang = $this->M_konsumen->cekKeranjang($idKeranjang[$i]);
 	// 					$cekProduk = $this->M_konsumen->cekProduk($cekKeranjang->id_produk);	// mengambil data produk
-	// 					$hargaProduk = $cekProduk->harga_produk;	// mengambil harga per produk 
+	// 					$hargaProduk = $cekProduk->harga_produk;	// mengambil harga per produk
 	// 					$jumlahProduk = $cekKeranjang->jumlah_barang;
 	// 					$jumlahHarga = $hargaProduk*$jumlahProduk;
 	// 					$data = array(
@@ -754,7 +769,7 @@ class Konsumen extends CI_Controller {
 					for($i=0 ;$i < count($idKeranjang); $i++) {
 						$cekKeranjang = $this->M_konsumen->cekKeranjang($idKeranjang[$i]);
 						$cekProduk = $this->M_konsumen->cekProduk($cekKeranjang->id_produk);	// mengambil data produk
-						$hargaProduk = $cekProduk->harga_produk;	// mengambil harga per produk 
+						$hargaProduk = $cekProduk->harga_produk;	// mengambil harga per produk
 						$jumlahProduk = $cekKeranjang->jumlah_barang;
 						$jumlahHarga = $hargaProduk*$jumlahProduk;
 						$data = array(
@@ -820,7 +835,7 @@ class Konsumen extends CI_Controller {
 					for($i=0 ;$i < count($idKeranjang); $i++) {
 						$cekKeranjang = $this->M_konsumen->cekKeranjang($idKeranjang[$i]);
 						$cekProduk = $this->M_konsumen->cekProduk($cekKeranjang->id_produk);	// mengambil data produk
-						$hargaProduk = $cekProduk->harga_produk;	// mengambil harga per produk 
+						$hargaProduk = $cekProduk->harga_produk;	// mengambil harga per produk
 						$jumlahProduk = $cekKeranjang->jumlah_barang;
 						$jumlahHarga = $hargaProduk*$jumlahProduk;
 						$data = array(
@@ -1086,8 +1101,8 @@ function inputDiskon($idTransaksi)
 	{
 		if ($this->session->userdata('id_konsumen')) {
 			$cek = $this->M_konsumen->getDetailTransaksi($idTransaksi);
-			
-			for ($i=0; $i < COUNT($cek); $i++) { 
+
+			for ($i=0; $i < COUNT($cek); $i++) {
 				// echo $cek[$i]->id_produk.",".$cek[$i]->jumlah_produk.",<br>";
 				$jml = $cek[$i]->jumlah_produk;
 				$id = $cek[$i]->id_produk;
@@ -1158,7 +1173,7 @@ function inputDiskon($idTransaksi)
 						'tanggal_transaksi' => date('Y-m-d H-i-s'),
 						'status' => 'menunggu konfirmasi'
 					);
-					$this->M_konsumen->inputOngkir($data,$idTransaksi);	// update data 
+					$this->M_konsumen->inputOngkir($data,$idTransaksi);	// update data
 					$this->session->set_flashdata('success', 'Terima kasih sudah melakukan transaksi! Pesanan akan segera diproses!');
 					redirect('Konsumen/Produk/semua');
 				}else{
@@ -1308,7 +1323,7 @@ function inputDiskon($idTransaksi)
 						'jenis_kelamin' => $this->input->post('jenis_kelamin'),
 						'tanggal_lahir' => $this->input->post('tanggal_lahir'),
 					);
-					$this->M_konsumen->updateProfil($data,$this->session->userdata('id_konsumen'));	// update data 
+					$this->M_konsumen->updateProfil($data,$this->session->userdata('id_konsumen'));	// update data
 					$this->session->set_flashdata('success', 'Profil berhasil diupdate!');
 					redirect('Konsumen/Profil');
 				}else{
@@ -1324,7 +1339,7 @@ function inputDiskon($idTransaksi)
 					'jenis_kelamin' => $this->input->post('jenis_kelamin'),
 					'tanggal_lahir' => $this->input->post('tanggal_lahir'),
 				);
-				$this->M_konsumen->updateProfil($data,$this->session->userdata('id_konsumen'));	// update data 
+				$this->M_konsumen->updateProfil($data,$this->session->userdata('id_konsumen'));	// update data
 				$this->session->set_flashdata('success', 'Profil berhasil diupdate!');
 				redirect('Konsumen/Profil');
 			}
