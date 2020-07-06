@@ -1,5 +1,10 @@
 <?php
 	if($this->session->userdata('status') != 'login'){
-		redirect(base_url("Login"));
+		$message = "Maaf, anda harus login terlebih dahulu!";
+			$this->session->sess_destroy();
+	   	echo "<script type='text/javascript'>
+	   			alert('$message');
+	   			window.location.href = '". base_url() ."LoginAU/?to=$_SERVER[REQUEST_URI]';</script>";
+		//redirect(base_url("LoginAU"));
 	}
 ?>

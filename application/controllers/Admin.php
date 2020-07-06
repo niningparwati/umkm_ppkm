@@ -8,6 +8,7 @@ class Admin extends CI_Controller {
 		$this->load->model('M_admin');
 		$this->load->model('ModelRegister');
 		$this->load->library('form_validation');
+		require 'session.php';
 	}
 
 	public function index()
