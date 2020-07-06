@@ -284,7 +284,7 @@ class M_admin extends CI_Model {
 	}
 
 	public function getTransaksiUMKM(){
-		return $this->db->query("SELECT nama_umkm, nama_produk, harga_produk, jumlah_produk, id_transaksi, jumlah_harga, status FROM tb_transaksi JOIN tb_detail_transaksi USING(id_transaksi) JOIN tb_produk USING(id_produk) JOIN tb_umkm USING(id_umkm) WHERE status='diterima' OR status='selesai' OR status='dana dikirim'")->result();
+		return $this->db->query("SELECT nama_umkm, nama_produk, harga_produk, jumlah_produk, id_transaksi, jumlah_harga, status FROM tb_transaksi JOIN tb_detail_transaksi USING(id_transaksi) JOIN tb_produk USING(id_produk) JOIN tb_umkm USING(id_umkm) WHERE status='diterima' OR status='selesai' OR status='dana dikirim' GROUP BY id_transaksi")->result();
 	}
 
 //Kelola Informasi
