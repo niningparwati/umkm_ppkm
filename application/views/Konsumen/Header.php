@@ -38,7 +38,7 @@
         <br>
         <?php if ($this->session->userdata('id_konsumen')) { ?>
           <p style="padding-right: 10px">
-            Selamat datang, <span style="font-size: 20px;"><?= $this->session->userdata('nama_konsumen'); ?></span>
+            <span style="font-size: 20px;">Selamat datang, <?= $this->session->userdata('nama_konsumen'); ?></span>
           </p>
         <?php } ?>
       </div><!-- .grid_6 -->
