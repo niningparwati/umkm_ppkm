@@ -264,7 +264,12 @@ class M_konsumen extends CI_Model {
 
 	function produkLain($idumkm, $idProduk)
 	{
-		return $this->db->query("SELECT * FROM tb_produk WHERE id_umkm='$idumkm' AND id_produk!='$idProduk' AND status_produk=1 ")->result();
+		return $this->db->query("SELECT * FROM tb_produk WHERE id_umkm='$idumkm' AND id_produk!='$idProduk' AND status_produk=1 LIMIT 6")->result();
+	}
+
+	function jml_produk_lainnya($idumkm, $idProduk)
+	{
+		return $this->db->query("SELECT COUNT(id_produk) as jmlh FROM tb_produk WHERE id_umkm='$idumkm' AND id_produk!='$idProduk' AND status_produk=1 ")->row();
 	}
 
 	function jmlUMKM()
@@ -310,7 +315,12 @@ class M_konsumen extends CI_Model {
 
 	function cekInformasi($id)
 	{
-		return $this->db->query("SELECT * FROM tb_informasi WHERE id_umkm='$id'")->result();
+		return $this->db->query("SELECT * FROM tb_informasi WHERE id_umkm='$id' LIMIT 4")->result();
+	}
+
+	function jmlhInformasi($id)
+	{
+		return $this->db->query("SELECT COUNT(id_informasi) as jmlh FROM tb_informasi WHERE id_umkm='$id' ")->row();
 	}
 
 	function detailInformasi($id)

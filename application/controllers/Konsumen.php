@@ -315,6 +315,7 @@ class Konsumen extends CI_Controller {
 			'serupa' => $this->M_konsumen->produkSerupa($explode[0], $cek->nama_produk),
 			'kategori' => $this->M_konsumen->kategoriProduk(),
 			'produk_lain' => $this->M_konsumen->produkLain($cek->id_umkm, $idProduk),
+			'jml_produk_lainnya' => $this->M_konsumen->jml_produk_lainnya($cek->id_umkm, $idProduk)->jmlh,
 		);		
 		$this->load->view('Konsumen/Head');
 		$this->load->view('Konsumen/Header', $data);
@@ -446,6 +447,7 @@ class Konsumen extends CI_Controller {
 				'portofolio' => $this->M_konsumen->cekPortofolio($idUmkm),
 				'market' => $this->M_konsumen->cekMarket($idUmkm),
 				'informasi' => $this->M_konsumen->cekInformasi($idUmkm),
+				'jmlh_informasi' => $this->M_konsumen->jmlhInformasi($idUmkm)->jmlh,
 				'jenis' => 'semua'
 			);
 			$this->load->view('Konsumen/Head');
@@ -467,6 +469,7 @@ class Konsumen extends CI_Controller {
 				'portofolio' => $this->M_konsumen->cekPortofolio($idUmkm),
 				'market' => $this->M_konsumen->cekMarket($idUmkm),
 				'informasi' => $this->M_konsumen->cekInformasi($idUmkm),
+				'jmlh_informasi' => $this->M_konsumen->jmlhInformasi($idUmkm)->jmlh,
 				'jenis' => $this->M_konsumen->getKategoriProduk($key)->nama_kategori_produk
 			);
 			$this->load->view('Konsumen/Head');
