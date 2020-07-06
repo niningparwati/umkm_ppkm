@@ -80,7 +80,7 @@
 														<img src="<?=base_url()?>assets/foto_produk/produk_default.png" style="width: 250px; height: 250px" />
 													<?php } ?>
 												</div><!-- .prev -->
-												<h3 class="title"><?=$key->nama_produk?></h3>
+												<h3 class="title"><?= substr($key->nama_produk, 0, 20) ?><?php if (strlen($key->nama_produk) > 20) { echo "..."; } ?></h3>
 												<div class="cart">
 													<div class="price" style="width: 50%">
 														<div class="vert">

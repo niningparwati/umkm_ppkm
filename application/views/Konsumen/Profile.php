@@ -63,7 +63,7 @@
 					<div class="comment" style="width: 100%">
 						<br>
 						<strong>Tanggal Lahir</strong><sup class="surely">*</sup><br/>
-						<input type="date" name="tanggal_lahir" value="<?=$tanggal_lahir?>" max="<?=date('Y-m-d', strtotime('-1 days', strtotime(date('Y-m-d'))))?>" style="width: 98%; border: 1px solid #ccc; height: 30px" required />
+						<input type="date" name="tanggal_lahir" value="<?=$tanggal_lahir?>" max="<?=date('Y-m-d', strtotime('-1 days', strtotime(date('Y-m-d'))))?>" style="width: 98%; border: 1px solid #ccc; height: 30px" />
 					</div><!-- .comment -->
 
 					<div class="submit" style="float: right;">

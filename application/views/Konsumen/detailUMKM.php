@@ -9,7 +9,7 @@
 				<div class="grid_4 img_slid" id="products">
 					<div class="preview slides_container">
 						<div class="prev_bg" style="width: 270px; height: 275px">
-							<?php if ($foto) { ?>
+							<?php if (!empty($foto)) { ?>
 								<a class="jqzoom" rel="gal1" href="#">
 									<img src="<?=base_url()?>assets/foto_user/<?=$foto?>" style="width: 270px; height: 275px" title="" alt=""/>
 								</a>
@@ -68,7 +68,7 @@
 												<?php } ?>
 												<br><br>
 											</div><!-- .prev -->
-											<h3 class="title"><?=$key->nama_produk?></h3>
+											<h3 class="title"><?= substr($key->nama_produk, 0, 20) ?><?php if (strlen($key->nama_produk) > 20) { echo "..."; } ?></h3>
 											<div class="cart">
 												<div class="price" style="width: 50%">
 													<div class="vert">
@@ -87,7 +87,17 @@
 							<?php } ?>
 						</ul><!-- #list_product -->
 					</div><!-- .list_carousel -->
-				</div><!-- .carousel -->
+				</div><!-- .list_carousel-->
+				<div class="grid_9"><br></div>
+				<div class="clear"></div>
+				<?php if ($jumlah > $batas) { ?>
+					<div class="pagination grid_9">
+						<?=$pagination?>
+					</div><!-- .pagination -->
+				<?php }elseif(($jumlah < $batas) AND ($jumlah >0)){ ?>
+				<?php }else{ ?>
+					<center><h3>Produk tidak ditemukan</h3></center>
+				<?php } ?>
 			<?php } ?>
 		</div><!-- .product_page -->
 		<div class="clear"></div>
@@ -116,7 +126,11 @@
 						<?php foreach ($cekFoto as $key) { ?>
 							<li class="banner" style="width: 48%; height: 100px;"><a href="#">
 								<div class="prev">
-									<img src="<?php echo base_url()?>assets/galeri_umkm/<?=$key->foto?>" style="width: 80%; height: 80px; padding-bottom: 25px" />
+									<?php if (!empty($key->foto)) { ?>
+										<img src="<?php echo base_url()?>assets/galeri_umkm/<?=$key->foto?>" style="width: 80%; height: 80px; padding-bottom: 25px" />
+									<?php }else{ ?>
+										<img src="<?php echo base_url()?>assets/foto_produk/produk_default.png" style="width: 80%; height: 80px; padding-bottom: 25px" />
+									<?php } ?>
 								</div><!-- .prev -->
 							</a></li>
 						<?php } ?>
@@ -169,18 +183,18 @@
 				<h3>INFORMASI</h3>
 				<ul>
 					<?php foreach ($informasi as $key) { ?>
-						<li style="height: 100px; border: none;">
+						<li style="height: 150px; border: none;">
 							<a href="<?=base_url()?>Konsumen/DetailInformasi/<?=$key->id_informasi?>" style="text-decoration: none;color: black">
-								<div class="prev">
+								<div class="prev" style=" background-color: white; height: 100%">
 									<?php if (!empty($key->gambar)) { ?>
-										<img src="<?=base_url()?>assets/foto_informasi/<?=$key->gambar?>" style="width: 80px;height: 80px" />
+										<img src="<?=base_url()?>assets/foto_informasi/<?=$key->gambar?>" style="width: 80px;height: 80px;" />
 									<?php }else{ ?>
 										<img src="<?=base_url()?>assets/foto_informasi/informasi.png" style="width: 80px;height: 80px" />
 									<?php } ?>
 								</div>
-								<div class="cont"  style=" font-size: 13px">
-									<b><?=$key->judul_informasi?></b>
-									<div><?= substr($key->isi_informasi, 0, 100) ?> ... <br><br></div>
+								<div class="cont" style=" font-size: 13px;">
+									<b><?= substr($key->judul_informasi, 0, 20) ?><?php if (strlen($key->judul_informasi) > 20) { echo "..."; } ?></b>
+									<div><?= substr($key->isi_informasi, 0, 70) ?><?php if (strlen($key->isi_informasi) > 70) { echo "..."; } ?> <br><br></div>
 								</div>
 							</a>
 						</li>
@@ -188,7 +202,7 @@
 				</ul>
 			</aside><!-- #specials -->
 			<br><br>
-			<?php if ($jmlh_informasi > 4) {?>
+			<?php if ($jmlh_informasi > 3) {?>
 				<center><a href="<?=base_url()?>Konsumen/Informasi" style="text-decoration: none;">Lihat Lainnya</a></center>
 			<?php } ?>
 		<?php } ?>
