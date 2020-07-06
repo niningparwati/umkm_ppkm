@@ -75,7 +75,7 @@ class LoginAU extends CI_Controller {
 							'jumlahPortofolio' => $this->UMKM_Model->PortofolioByUMKM($id_user),
 							'jumlahMarket' => $this->UMKM_Model->MarketByUMKM($id_user),
 							'jumlahMenungguDikirim' => $this->UMKM_Model->menungguPengiriman($id_umkm),
-							'jumlahDikirim' => $this->UMKM_Model->dikirim($id_umkm),
+							'jumlahDanaDikirim' => $this->UMKM_Model->dana_dikirim($id_umkm),
 							'jumlahSelesai' => $this->UMKM_Model->selesai($id_umkm),
 						);
 

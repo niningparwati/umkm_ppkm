@@ -8,7 +8,7 @@
           <div class="col-xs-12">
             <div class="box">
               <div class="box-header">
-                <h3 class="box-title">Data Transaksi Masuk</h3><br><br>
+                <h3 class="box-title">Data Transaksi Dana Sudah Dikirim</h3><br><br>
               </div>
               <!-- /.box-header -->
               <div class="box-body">
@@ -20,7 +20,7 @@
                       <th style="text-align: center; width: 15%">Tgl Transaksi</th>
                       <th style="text-align: center; width: 15%">Konsumen</th>
                       <th style="text-align: center; width: 15%">Total Bayar</th>
-                      <th style="text-align: center; width: 10%">Status Pesanan</th>
+                      <th style="text-align: center; width: 10%">Status Transaksi</th>
                       <th style="text-align: center; width: 10%">Status Pengiriman</th>
                       <th style="text-align: center; width: 17%">Aksi</th>
                     </tr>
@@ -109,11 +109,11 @@
                                                    Konfirmasi Pesanan Selesai
                                                 </div>
                                                 <div class="modal-body">
-                                                   Apakah yakin Anda sudah menerima dana dan pesanan ini selesai?
+                                                   Apakah yakin Anda sudah menerima dana sesuai tagihan pesanan ini?
                                                 </div>
                                                 <div class="modal-footer">
                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                   <a href="<?php echo base_url() ?>UMKM/set_selesai/<?php echo $value->id_transaksi ?>" class="btn btn-success btn-ok" >Set Selesai</a>
+                                                   <a href="<?php echo base_url() ?>UMKM/set_selesai/<?php echo $value->id_pengiriman ?>/<?php echo $value->id_transaksi ?>" class="btn btn-success btn-ok" >Set Selesai</a>
                                                 </div>
                                              </div>
                                           </div>

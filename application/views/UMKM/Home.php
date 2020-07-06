@@ -30,23 +30,22 @@
             <div class="icon">
               <i class="fa fa-clock-o"></i>
             </div>
-           
+           <a href="<?=base_url()?>UMKM/Transaksi_MenungguPengiriman/<?= $id_umkm ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
 
-         <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
+         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-yellow">
+          <div class="small-box bg-orange">
             <div class="inner">
-              <h3><?= $jumlahDikirim->jumlahdikirim?></h3>
+              <h3><?= $jumlahDanaDikirim->jumlahdanadikirim ?></h3>
 
-              <p>TRANSAKSI DIKIRIM</p>
+              <p>KONFIRMASI DANA MASUK</p>
             </div>
             <div class="icon">
-              <i class="fa fa-truck"></i>
+              <i class="fa fa-money"></i>
             </div>
-           
+           <a href="<?=base_url()?>UMKM/Transaksi_DanaMasuk/<?= $id_umkm ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
 
@@ -62,7 +61,7 @@
             <div class="icon">
               <i class="fa fa-dropbox"></i>
             </div>
-           
+           <a href="<?=base_url()?>UMKM/Transaksi_Selesai/<?= $id_umkm?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
 
@@ -77,7 +76,7 @@
             <div class="icon">
               <i class="ion ion-bag"></i>
             </div>
-           
+           <a href="<?=base_url()?>UMKM/Produk/<?= $id_umkm?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
        

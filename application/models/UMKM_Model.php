@@ -65,7 +65,22 @@ class UMKM_Model extends CI_Model {
 
     ////////////TRANSAKSI////////
 
-    public function transaksiMasuk($id_umkm)
+    // public function transaksiMasuk($id_umkm)
+    // {
+
+    //      $this->db->select('a.*, d.*, e.* , c.nama_produk, b.jumlah_produk, c.harga_produk, SUM(b.jumlah_produk * c.harga_produk) as total');
+    //      $this->db->from('tb_transaksi a');
+    //      $this->db->join('tb_detail_transaksi b', 'b.id_transaksi = a.id_transaksi');
+    //      $this->db->join('tb_produk c', 'c.id_produk = b.id_produk');
+    //      $this->db->join('tb_konsumen d', 'd.id_konsumen = a.id_konsumen');
+    //      $this->db->join('tb_pengiriman e', 'e.id_transaksi = a.id_transaksi');
+    //      $this->db->where('c.id_umkm',$id_umkm);
+    //      $this->db->where('e.id_umkm',$id_umkm);
+    //      $this->db->group_by('a.id_transaksi');
+    //      return $this->db->get();
+    // }
+
+     public function transaksiMasuk($id_umkm)
     {
 
          $this->db->select('a.*, d.*, e.* , c.nama_produk, b.jumlah_produk, c.harga_produk, SUM(b.jumlah_produk * c.harga_produk) as total');
@@ -74,6 +89,40 @@ class UMKM_Model extends CI_Model {
          $this->db->join('tb_produk c', 'c.id_produk = b.id_produk');
          $this->db->join('tb_konsumen d', 'd.id_konsumen = a.id_konsumen');
          $this->db->join('tb_pengiriman e', 'e.id_transaksi = a.id_transaksi');
+         $this->db->where('a.status','diproses');
+         $this->db->where('c.id_umkm',$id_umkm);
+         $this->db->where('e.id_umkm',$id_umkm);
+         $this->db->group_by('a.id_transaksi');
+         return $this->db->get();
+    }
+
+     public function Transaksi_DanaMasuk($id_umkm)
+    {
+
+         $this->db->select('a.*, d.*, e.* , c.nama_produk, b.jumlah_produk, c.harga_produk, SUM(b.jumlah_produk * c.harga_produk) as total');
+         $this->db->from('tb_transaksi a');
+         $this->db->join('tb_detail_transaksi b', 'b.id_transaksi = a.id_transaksi');
+         $this->db->join('tb_produk c', 'c.id_produk = b.id_produk');
+         $this->db->join('tb_konsumen d', 'd.id_konsumen = a.id_konsumen');
+         $this->db->join('tb_pengiriman e', 'e.id_transaksi = a.id_transaksi');
+         $this->db->where('e.status_pengiriman','dikirim');
+         $this->db->where('a.status','dana dikirim');
+         $this->db->where('c.id_umkm',$id_umkm);
+         $this->db->where('e.id_umkm',$id_umkm);
+         $this->db->group_by('a.id_transaksi');
+         return $this->db->get();
+    }
+
+     public function Transaksi_Selesai($id_umkm)
+    {
+
+         $this->db->select('a.*, d.*, e.* , c.nama_produk, b.jumlah_produk, c.harga_produk, SUM(b.jumlah_produk * c.harga_produk) as total');
+         $this->db->from('tb_transaksi a');
+         $this->db->join('tb_detail_transaksi b', 'b.id_transaksi = a.id_transaksi');
+         $this->db->join('tb_produk c', 'c.id_produk = b.id_produk');
+         $this->db->join('tb_konsumen d', 'd.id_konsumen = a.id_konsumen');
+         $this->db->join('tb_pengiriman e', 'e.id_transaksi = a.id_transaksi');
+         $this->db->where('a.status','selesai');
          $this->db->where('c.id_umkm',$id_umkm);
          $this->db->where('e.id_umkm',$id_umkm);
          $this->db->group_by('a.id_transaksi');
@@ -111,9 +160,9 @@ class UMKM_Model extends CI_Model {
         return $this->db->query("SELECT COUNT(tb_pengiriman.id_pengiriman) as jumlahpengiriman FROM tb_pengiriman JOIN tb_umkm ON tb_pengiriman.id_umkm=tb_umkm.id_umkm WHERE tb_umkm.id_umkm='$id_umkm' AND tb_pengiriman.status_pengiriman='belum_dikirim'")->row();
     }
 
-    public function dikirim($id_umkm)
+     public function dana_dikirim($id_umkm)
     {
-        return $this->db->query("SELECT COUNT(tb_pengiriman.id_pengiriman) as jumlahdikirim FROM tb_pengiriman JOIN tb_umkm ON tb_pengiriman.id_umkm=tb_umkm.id_umkm JOIN tb_transaksi ON tb_transaksi.id_transaksi = tb_pengiriman.id_transaksi WHERE tb_umkm.id_umkm='$id_umkm' AND tb_pengiriman.status_pengiriman='dikirim' AND tb_transaksi.status='dikirim' ")->row();
+        return $this->db->query("SELECT COUNT(tb_pengiriman.id_pengiriman) as jumlahdanadikirim FROM tb_pengiriman JOIN tb_umkm ON tb_pengiriman.id_umkm=tb_umkm.id_umkm JOIN tb_transaksi ON tb_transaksi.id_transaksi = tb_pengiriman.id_transaksi WHERE tb_umkm.id_umkm='$id_umkm' AND tb_pengiriman.status_pengiriman='dikirim' AND tb_transaksi.status='dana dikirim' ")->row();
     }
 
      public function selesai($id_umkm)
