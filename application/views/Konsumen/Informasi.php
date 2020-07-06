@@ -4,13 +4,12 @@
   	<div class="container_12">      
   		<div id="content" class="grid_12">
   			<div>
-  				
-          <div>
-            <?php 
-            if (!empty($informasi)) {
-              foreach ($informasi as $key) {
-                ?>
-                <table style="border: none; margin-left: 10px" >
+          <?php 
+          if (!empty($informasi)) {
+            foreach ($informasi as $key) {
+              ?>
+              <table style="border: none; margin-left: 10px" >
+                <tr>
                   <td style="width: 20%; border: none;">
                     <?php if (!empty($key->gambar)) { ?>
                       <a href="<?=base_url()?>Konsumen/detailInformasi/<?=$key->id_informasi?>"><img src="<?=base_url()?>assets/foto_informasi/<?=$key->gambar?>" style="width: 190px; height: 190px;" /></a>
@@ -33,31 +32,32 @@
                       </div>
                     </article>
                   </td>
-                </table>
-              </div>
+                </tr>
+              </table>
               <?php 
             }
           }
           ?>
-        </div><!-- .c_header -->
+        </div>
+      </div><!-- .c_header -->
 
-        <div class="clear"></div>
-      </div><!-- .grid_product -->
+      <div class="clear"></div>
+    </div><!-- .grid_product -->
 
-      <!-- <div class="clear"></div> -->
-      <br><br>
-      <?php if ( $jumlah > $batas) { ?>
-        <div class="pagination">
-         <?=$pagination?>
-       </div><!-- .pagination -->
-     <?php }elseif(($jumlah < $batas) AND ($jumlah >0)){ ?>
+    <!-- <div class="clear"></div> -->
+    <br><br>
+    <?php if ( $jumlah > $batas) { ?>
+      <div class="pagination">
+       <?=$pagination?>
+     </div><!-- .pagination -->
+   <?php }elseif(($jumlah < $batas) AND ($jumlah >0)){ ?>
 
-     <?php } ?>
-   </div><!-- #content -->
+   <?php } ?>
+ </div><!-- #content -->
 
-   <div class="clear"></div>
+ <div class="clear"></div>
 
- </div><!-- .container_12 -->
+</div><!-- .container_12 -->
 </section><!-- #main -->
 
 <div class="clear"></div>

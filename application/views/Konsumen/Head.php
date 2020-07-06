@@ -15,12 +15,16 @@
   <link rel="stylesheet" href="<?=base_url()?>assets/konsumen/modal.css" type="text/css">
 
   <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/konsumen/vendor/bootstrap/css/bootstrap.min.css">
+
+  <script src="<?= base_url()?>assets/jquery.min.js"></script> 
+  <script src="<?= base_url()?>assets/jquery.mask.min.js"></script>
+
   <script type="text/javascript" src="<?=base_url()?>assets/konsumen/vendor/jquery/jquery.min.js"></script>
   <script type="text/javascript" src="<?=base_url()?>assets/konsumen/vendor/bootstrap/js/bootstrap.min.js"></script>
 
   <script src="<?=base_url()?>assets/konsumen/js/jquery-1.7.2.min.js"></script> 
   <script src="<?=base_url()?>assets/konsumen/js/html5.js"></script>
-  <script src="<?=base_url()?>assets/konsumen/js/main.js"></script>
+  <!-- <script src="<?=base_url()?>assets/konsumen/js/main.js"></script> -->
   <script src="<?=base_url()?>assets/konsumen/js/jquery.carouFredSel-6.2.0-packed.js"></script>
   <script src="<?=base_url()?>assets/konsumen/js/jquery.touchSwipe.min.js"></script>
   <script src="<?=base_url()?>assets/konsumen/js/checkbox.js"></script>

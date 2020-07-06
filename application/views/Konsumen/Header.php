@@ -2,33 +2,17 @@
   <div class="container_12">
     <div id="top">
       <div class="grid_3 ">
-        <div class="phone_top">
-          <!-- <span>Call Us +777 (100) 1234</span> -->
-        </div><!-- .phone_top -->
+        <div class="phone_top"></div><!-- .phone_top -->
       </div><!-- .grid_3 -->
 
       <div class="grid_6">
-        <div class="welcome">
-     <!--      Welcome visitor you can <a href="<?=base_url()?>Konsumen/index">login</a> or <a href="<?=base_url()?>Konsumen/Register">create an account</a>. -->
-        </div><!-- .welcome -->
+        <div class="welcome"></div><!-- .welcome -->
       </div><!-- .grid_6 -->
 
       <div class="grid_3">
-        <div class="valuta">
-          <!-- <ul>
-            <li class="curent"><a href="#">$</a></li>
-            <li><a href="#">&#8364;</a></li>
-            <li><a href="#">&#163;</a></li>
-          </ul> -->
-        </div><!-- .valuta -->
+        <div class="valuta"></div><!-- .valuta -->
 
-        <div class="lang">
-          <!-- <ul>
-            <li class="curent"><a href="#">EN</a></li>
-            <li><a href="#">FR</a></li>
-            <li><a href="#">GM</a></li>
-          </ul> -->
-        </div><!-- .lang -->
+        <div class="lang"></div><!-- .lang -->
       </div><!-- .grid_3 -->
     </div><!-- #top -->
 
@@ -37,8 +21,7 @@
     <header id="branding">
       <div class="grid_3">
         <hgroup>
-          <h1 id="site_logo" ><a href="/" title=""><img src="<?=base_url()?>assets/konsumen/images/logo.png" alt="Online Store Theme Logo"/></a></h1>
-          <h2 id="site_description">Online Store Theme</h2>
+          <h1 id="site_logo" ><a href="/" title=""><img src="<?=base_url()?>assets/konsumen/ppkm/PPKMmart.png" style="width: 150px" /></a></h1>
         </hgroup>
       </div><!-- .grid_3 -->
 
@@ -52,12 +35,8 @@
       </div><!-- .grid_3 -->
 
       <div class="grid_6">
-        <ul id="cart_nav">
-        </ul>
-
         <nav class="private">
           <ul>
-
             <?php if ($this->session->userdata('id_konsumen')) {?>
               <li><a href="<?=base_url()?>Konsumen/Profil">Profil</a></li>
               <li class="separator">|</li>

@@ -9,7 +9,6 @@ class Konsumen extends CI_Controller {
 		parent::__construct();
 		$this->load->model('M_konsumen');
 		$this->load->helper('form');
-		// $this->load->library('rajaongkir');
 	}
 
 	private $api_key = '590213f97cfe285c488355e8c2138907';
@@ -145,6 +144,7 @@ class Konsumen extends CI_Controller {
 			'informasi' => $this->M_konsumen->getInformasiHome(),
 			'promo' => $this->M_konsumen->getPromo(),
 			'banner' => $this->M_konsumen->getBanner(),
+			'slide' => $this->M_konsumen->getSlide(),
 		);
 		$this->load->view('Konsumen/Head');
 		$this->load->view('Konsumen/Header');
@@ -482,52 +482,46 @@ class Konsumen extends CI_Controller {
 	{
 		if ($this->session->userdata('id_konsumen')) {
 			$cek = $this->M_konsumen->produkById($idProduk);	// mengambil data produk dari tabel produk
-			$produk = $this->M_konsumen->cekKeranjangKonsumen($idProduk, $this->session->userdata('id_konsumen'));	// mengecek apakah produk sudah ada di keranjang atau belum
+			$produk = $this->M_konsumen->cekProdukKeranjang($idProduk, $this->session->userdata('id_konsumen'));	// mengecek apakah produk sudah ada di keranjang atau belum
 			// $cekCheckout = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'));	// mengecek apakah ada yang status transaksi menunggu pembayaran
 
-			if ($produk->id_produk != $idProduk) {		// jika produk belum ada di keranjang
+			if ($produk->id_produk != $idProduk AND $jumlah <= $cek->stok) {		// jika produk belum ada di keranjang
 				$jumlah = $this->input->post('qty');
-					if ($jumlah <= $cek->stok) {	// jika tidak melebihi stok
-						$data = array(
-							'id_konsumen' => $this->session->userdata('id_konsumen'),
-							'id_produk' => $idProduk,
-							'jumlah_barang' => $jumlah,
-						);
-						$insert = $this->M_konsumen->inputKeranjang($data);
-						$this->session->set_flashdata('success', $cek->nama_produk.' berhasil ditambahkan ke keranjang!');
-						redirect('Konsumen/detailProduk/'.$idProduk);
-					}else{		// 
-						$this->session->set_flashdata('warning', 'Stok '.$cek->nama_produk.' hanya '.$cek->stok.' produk. Anda sudah memasukan ke keranjang sebanyak '.$produk->jumlah_barang.' produk');
-						redirect('Konsumen/detailProduk/'.$idProduk);
-					}
-				}else{		// jika produk sudah ada di keranjang
-					$awal = $produk->jumlah_barang;
-					$tambah = $this->input->post('qty');
-					$jumlah = $awal+$tambah;
-					if ($jumlah <= $cek->stok) {
-						$data1 = array(
-							'jumlah_barang' => $jumlah,
-						);
-						$this->M_konsumen->updateProdukKonsumen($data1,$idProduk,$this->session->userdata('id_konsumen'));
-						$this->session->set_flashdata('success', ' berhasil menambah '.$cek->nama_produk.'ke keranjang!');
-						redirect('Konsumen/detailProduk/'.$idProduk);
-						print_r($data1);
-					}else{
-						$this->session->set_flashdata('warning', 'Stok '.$cek->nama_produk.' hanya '.$cek->stok.' produk. Anda sudah memasukan ke dalam keranjang sebanyak '.$produk->jumlah_barang.' produk');
-						redirect('Konsumen/detailProduk/'.$idProduk);
-					}
-				// echo $awal;
-				}
-			}else{
-				$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
-				redirect('Konsumen/index');
+				$data = array(
+					'id_konsumen' => $this->session->userdata('id_konsumen'),
+					'id_produk' => $idProduk,
+					'jumlah_barang' => $jumlah,
+				);
+				$insert = $this->M_konsumen->inputKeranjang($data);
+				$this->session->set_flashdata('success', $cek->nama_produk.' berhasil ditambahkan ke keranjang!');
+				redirect('Konsumen/detailProduk/'.$idProduk);
+			}elseif($produk->id_produk != $idProduk AND $jumlah > $cek->stok){
+				$this->session->set_flashdata('warning', 'Stok '.$cek->nama_produk.' hanya '.$cek->stok.' produk. Anda sudah memasukan ke keranjang sebanyak '.$produk->jumlah_barang.' produk');
+				redirect('Konsumen/detailProduk/'.$idProduk);
+			}elseif($produk->id_produk == $idProduk AND $jumlah <= $cek->stok){
+				$awal = $produk->jumlah_barang;
+				$tambah = $this->input->post('qty');
+				$jumlah = $awal+$tambah;
+				$data1 = array(
+					'jumlah_barang' => $jumlah,
+				);
+				$this->M_konsumen->updateProdukKonsumen($data1,$idProduk,$this->session->userdata('id_konsumen'));
+				$this->session->set_flashdata('success', ' berhasil menambah '.$cek->nama_produk.'ke keranjang!');
+				redirect('Konsumen/detailProduk/'.$idProduk);
+			}elseif ($produk->id_produk == $idProduk AND $jumlah > $cek->stok) {
+				$this->session->set_flashdata('warning', 'Stok '.$cek->nama_produk.' hanya '.$cek->stok.' produk. Anda sudah memasukan ke dalam keranjang sebanyak '.$produk->jumlah_barang.' produk');
+				redirect('Konsumen/detailProduk/'.$idProduk);
 			}
+		}else{
+			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			redirect('Konsumen/index');
 		}
+	}
 
-		function Keranjang()
-		{
-			if ($this->session->userdata('id_konsumen')) {
-				$idKonsumen = $this->session->userdata('id_konsumen');
+	function Keranjang()
+	{
+		if ($this->session->userdata('id_konsumen')) {
+			$idKonsumen = $this->session->userdata('id_konsumen');
 			$produk = $this->M_konsumen->cekKeranjangKonsumen($idKonsumen);	// mengecek keranjang produk yang dimasukan ke keranjang
 			if (!empty($produk)) {	// mengecek jika ada produk di keranjang
 				$data = array(
@@ -1229,7 +1223,7 @@ function inputDiskon($idTransaksi)
 			$config['base_url'] = base_url() . '/Konsumen/Informasi';
 			$config['first_url'] = base_url() . '/Konsumen/Informasi';
 		}
-		$config['per_page'] = 10;
+		$config['per_page'] = 6;
 		$config['page_query_string'] = TRUE;
 		$config['total_rows'] = $this->M_konsumen->total_informasi($q);
 		$informasi = $this->M_konsumen->get_informasi($config['per_page'], $start, $q);
@@ -1338,6 +1332,34 @@ function inputDiskon($idTransaksi)
 			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
 		}
+	}
+
+	function detailPromo($idPromo)
+	{
+		$cek = $this->M_konsumen->detailPromo($idPromo);
+		$data = array(
+			'id_promo' => $cek->id_promo,
+			'nama_promo' => $cek->nama_promo,
+			'kode_promo' => $cek->kode_promo,
+			'besar_promo' => $cek->besar_promo,
+			'minimal_belanja' => $cek->minimal_belanja,
+			'maksimum_potongan' => $cek->maksimum_potongan,
+			'foto_promo' => $cek->foto_promo,
+			'berlaku_sampai' => $cek->berlaku_sampai,
+			'id_umkm' => $cek->id_umkm,
+		);
+		$this->load->view('Konsumen/Head');
+		$this->load->view('Konsumen/Header', $data);
+		$this->load->view('Konsumen/DetailPromo', $data);
+		$this->load->view('Konsumen/Footer');
+	}
+
+	function SyaratKetentuan()
+	{
+		$this->load->view('Konsumen/Head');
+		$this->load->view('Konsumen/Header');
+		$this->load->view('Konsumen/SyaratKetentuan');
+		$this->load->view('Konsumen/Footer');
 	}
 
 }

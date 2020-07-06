@@ -96,31 +96,6 @@
         <?php } ?>
         <tr>
          <td colspan="7" class="cart_but" style="border: none;">
-
-          <!-- MODAL HAPUS KERANJANG-->
-          <!-- <div style="float: left;">
-            <label class="modal-open modal-label" for="modal-open" style="height: 30px"><p><img src="<?=base_url()?>assets/konsumen/images/delete.png" style="width: 12px;"> Kosongkan keranjang</p></label>
-            <input type="radio" name="modal" value="open" id="modal-open" class="modal-radio">
-
-            <div class="modal">
-              <label class="modal-label overlay"><input type="radio" name="modal" value="close" class="modal-radio"/></label>
-              <div class="content">
-                <div class="top">
-                  <b>Anda yakin semua produk dalam keranjang akan dihapus?</b>
-                  <label class="modal-label close-btn">
-                    <input type="radio" name="modal" value="close" class="modal-radio"/>
-                  </label>
-                </div>
-                <div class="footer">
-                  <br><br>
-                  <a href="<?=base_url()?>Konsumen/Keranjang/<?=$this->session->userdata('id_konsumen')?>"><button type="button" style="padding: 8px; background: #7b808a" class="btn btn-default pull-left" data-dismiss="modal-label">Tidak</button></a>
-                  <a href="<?=base_url()?>Konsumen/hapusKeranjang"><button type="button" style="padding: 8px;margin-left: 350px; width: 50px; text-align: center; background: #DD4B39" class="btn btn-default pull-right" data-dismiss="modal">Ya</button></a>
-                </div>
-              </div>
-            </div>
-          </div> -->
-          <!-- MODAL -->
-
           <button class="update" name="submit" type="submit" style="background: #59b7c2; color: #404040"><img src="<?=base_url()?>assets/konsumen/images/bg_cart_nav.png"> <b>Checkout Barang</b></button>
         </td>
       </tr>

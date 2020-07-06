@@ -4,7 +4,7 @@
 	<div class="container_12">      
 		<div id="content" class="grid_9">
 			<div class="options" style="border: none;">
-				<div class="grid_6" style="height: 50px">
+				<div class="grid_12" style="height: 50px">
 					<p style="font-size: 30px; font-family: Bitter, Myriad Pro, Verdana, serif; margin-top: 25px">
 						<?php 
 						if ($jenis == 'semua') {
