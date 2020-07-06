@@ -1,3 +1,13 @@
+<!--Sweet Alert -->
+<?php if($this->session->flashdata('success_p')) { ?>
+  <div class="success-flash" data-success="<?= $this->session->flashdata('success_p') ?>"></div>
+<?php } else if ($this->session->flashdata('error_p')) { ?>
+  <div class="error-flash" data-error="<?= $this->session->flashdata('error_p') ?>"></div>
+<?php }else if ($this->session->flashdata('warning_p')) {?>
+  <div class="warning-flash" data-warning="<?= $this->session->flashdata('warning_p') ?>"></div>
+<?php } ?>
+<!-- End Sweet Alert -->
+
 <div class="clear"></div>
 
 <section id="main">

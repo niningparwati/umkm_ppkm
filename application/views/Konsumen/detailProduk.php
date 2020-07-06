@@ -1,3 +1,13 @@
+<!--Sweet Alert -->
+<?php if($this->session->flashdata('success_produk')) { ?>
+  <div class="success-flash" data-success="<?= $this->session->flashdata('success_produk') ?>"></div>
+<?php } else if ($this->session->flashdata('error_produk')) { ?>
+  <div class="error-flash" data-error="<?= $this->session->flashdata('error_produk') ?>"></div>
+<?php }else if ($this->session->flashdata('warning_produk')) {?>
+  <div class="warning-flash" data-warning="<?= $this->session->flashdata('warning_produk') ?>"></div>
+<?php } ?>
+<!-- End Sweet Alert -->
+
 <div class="clear"></div>
 
 <section id="main">
@@ -47,9 +57,8 @@
 							</div>
 							<div class="cart">
 								<form action="<?=base_url()?>Konsumen/inputKeranjang/<?=$id_produk?>" method="POST">
-									<button type="submit" name="submit" class="bay" style="width: 110px; float: right;display: block;height: 33px;color: #fefefe;text-align: center;text-decoration: none;font-size: 13px Segoeui-Bold, Arial, Verdana, serif;background: #59b7c2; border-radius: 2px">Masukan keranjang</button>
-									<span style=" font-size: 13px">Quantity: &nbsp <input type="number" name="qty" min="1" max="<?=$stok?>" value="1" style="height: 30px" ></span>
-									
+									<span style=" font-size: 13px; float: left;">Quantity: &nbsp <input type="number" name="qty" min="1" max="<?=$stok?>" value="1" style="height: 30px" ></span>
+									<button type="submit" name="submit" class="bay" style="width: 110px; float: right;display: block;height: 33px;color: #fefefe;text-align: center;text-decoration: none;font-size: 13px Segoeui-Bold, Arial, Verdana, serif;background: #59b7c2; border-radius: 2px">Masukan keranjang</button>									
 								</form>
 							</div>
 							<div class="clear"></div>

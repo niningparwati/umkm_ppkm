@@ -33,7 +33,7 @@ class Konsumen extends CI_Controller {
 		$cek = $this->M_konsumen->cekAkun($username, $pass);
 		if (!is_null($cek)) {
 			if ($cek == 'tidak aktif') {
-				$this->session->set_flashdata('warning', 'akun sudah tidak aktif!');
+				$this->session->set_flashdata('warning_login', 'akun sudah tidak aktif!');
 				redirect('Konsumen/index');
 			}else{
 				$session_konsumen = array(
@@ -41,11 +41,11 @@ class Konsumen extends CI_Controller {
 					'nama_konsumen' => $cek->nama_konsumen,
 				);
 				$this->session->set_userdata($session_konsumen);
-				$this->session->set_flashdata('success','Selamat! Login berhasil!');
+				$this->session->set_flashdata('success_home','Selamat! Login berhasil!');
 				redirect('Konsumen/Home');
 			}
 		}else{
-			$this->session->set_flashdata('warning', 'username atau password salah!');
+			$this->session->set_flashdata('warning_login', 'username atau password salah!');
 			redirect('Konsumen/index');
 		}
 	}
@@ -53,7 +53,7 @@ class Konsumen extends CI_Controller {
 	function Logout()
 	{
 		$this->session->sess_destroy();
-		$this->session->set_flashdata('success','Anda telah keluar dari aplikasi');
+		$this->session->set_flashdata('success_login','Anda telah keluar dari aplikasi');
 		redirect('Konsumen/index');
 	}
 
@@ -76,7 +76,7 @@ class Konsumen extends CI_Controller {
 		$email = $this->input->post('email');
 		$saltid = md5($email);
 		if (!is_null($this->M_konsumen->cekUsername($username))) {
-			$this->session->set_flashdata('warning', 'username sudah terdaftar, silahkan gunakan username lain!');
+			$this->session->set_flashdata('warning_daftar', 'username sudah terdaftar, silahkan gunakan username lain!');
 			redirect('Konsumen/Register');
 		}else{
 			$data = array(
@@ -91,10 +91,10 @@ class Konsumen extends CI_Controller {
 			$this->M_konsumen->registrasi($data);
 			if (!empty($this->M_konsumen->cekByEmail($email))) {	// cek email untuk melanjutkan validasi
 				if ($this->sendEmail($email, $saltid)) {
-					$this->session->set_flashdata('success', 'silahkan cek email Anda untuk menyelesaikan proses registrasi!');
+					$this->session->set_flashdata('success_login', 'silahkan cek email Anda untuk menyelesaikan proses registrasi!');
 					redirect('Konsumen/index');
 				}else{
-					$this->session->set_flashdata('error','pendaftaran gagal');
+					$this->session->set_flashdata('error_daftar','pendaftaran gagal');
 					redirect('Konsumen/Register');
 				}
 			}
@@ -126,10 +126,10 @@ class Konsumen extends CI_Controller {
 	function Konfirmasi($key)
 	{
 		if ($this->M_konsumen->verifyEmail($key)) {
-			$this->session->set_flashdata('success', 'berhasil verifikasi email');
+			$this->session->set_flashdata('success_login', 'berhasil verifikasi email');
 			redirect('Konsumen/index');
 		}else{
-			$this->session->set_flashdata('warning', 'gagal verifikasi email');
+			$this->session->set_flashdata('warning_daftar', 'gagal verifikasi email');
 			redirect('Konsumen/Register');
 		}
 	}
@@ -546,36 +546,34 @@ class Konsumen extends CI_Controller {
 			$cek = $this->M_konsumen->produkById($idProduk);	// mengambil data produk dari tabel produk
 			$produk = $this->M_konsumen->cekProdukKeranjang($idProduk, $this->session->userdata('id_konsumen'));	// mengecek apakah produk sudah ada di keranjang atau belum
 			// $cekCheckout = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'));	// mengecek apakah ada yang status transaksi menunggu pembayaran
-
-			if ($produk->id_produk != $idProduk AND $jumlah <= $cek->stok) {		// jika produk belum ada di keranjang
-				$jumlah = $this->input->post('qty');
+			$jml_keranjang = $produk->jumlah;
+			$jumlah = $this->input->post('qty');
+			if ( (is_null($produk->id_produk)) AND ($jumlah+$jml_keranjang) <= $cek->stok) {		// jika produk belum ada di keranjang
 				$data = array(
 					'id_konsumen' => $this->session->userdata('id_konsumen'),
 					'id_produk' => $idProduk,
 					'jumlah_barang' => $jumlah,
 				);
 				$insert = $this->M_konsumen->inputKeranjang($data);
-				$this->session->set_flashdata('success', $cek->nama_produk.' berhasil ditambahkan ke keranjang!');
+				$this->session->set_flashdata('success_produk', $cek->nama_produk.' berhasil ditambahkan ke keranjang!');
+				redirect('Konsumen/detailProduk/'.$idProduk,'refresh');
+				// echo "belum ada";
+			}if( (!is_null($produk->id_produk)) AND ($jumlah+$jml_keranjang) > $cek->stok){	// jika produk sudah ada di keranjang, menginputkan lebih dari stok
+				$this->session->set_flashdata('warning_produk', 'Stok '.$cek->nama_produk.' hanya '.$cek->stok.' produk. Anda sudah memasukan ke keranjang sebanyak '.$jml_keranjang.' produk');
 				redirect('Konsumen/detailProduk/'.$idProduk);
-			}if($produk->id_produk != $idProduk AND $jumlah > $cek->stok){
-				$this->session->set_flashdata('warning', 'Stok '.$cek->nama_produk.' hanya '.$cek->stok.' produk. Anda sudah memasukan ke keranjang sebanyak '.$produk->jumlah_barang.' produk');
-				redirect('Konsumen/detailProduk/'.$idProduk);
-			}if($produk->id_produk == $idProduk AND $jumlah <= $cek->stok){
-				$awal = $produk->jumlah_barang;
-				$tambah = $this->input->post('qty');
-				$jumlah = $awal+$tambah;
+				// echo "penuh";
+			}if( (!is_null($produk->id_produk)) AND ($jumlah+$jml_keranjang) <= $cek->stok){ // menambahkan produk yang sudah ada
+				$jumlah = $jumlah+$jml_keranjang;
 				$data1 = array(
 					'jumlah_barang' => $jumlah,
 				);
 				$this->M_konsumen->updateProdukKonsumen($data1,$idProduk,$this->session->userdata('id_konsumen'));
-				$this->session->set_flashdata('success', ' berhasil menambah '.$cek->nama_produk.'ke keranjang!');
+				$this->session->set_flashdata('success_produk', ' berhasil menambah '.$cek->nama_produk.'ke keranjang!');
 				redirect('Konsumen/detailProduk/'.$idProduk);
-			}if ($produk->id_produk == $idProduk AND $jumlah > $cek->stok) {
-				$this->session->set_flashdata('warning', 'Stok '.$cek->nama_produk.' hanya '.$cek->stok.' produk. Anda sudah memasukan ke dalam keranjang sebanyak '.$produk->jumlah_barang.' produk');
-				redirect('Konsumen/detailProduk/'.$idProduk);
+				// echo "berhasil update jumlah";
 			}
 		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
 		}
 	}
@@ -593,7 +591,7 @@ class Konsumen extends CI_Controller {
 			$this->load->view('Konsumen/Keranjang', $data);
 			$this->load->view('Konsumen/Footer');
 		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
 		}
 	}
@@ -613,7 +611,7 @@ class Konsumen extends CI_Controller {
 				redirect('Konsumen/Keranjang/'.$this->session->userdata('id_konsumen'));
 			}
 		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
 		}
 	}
@@ -636,11 +634,11 @@ class Konsumen extends CI_Controller {
 					'jumlah_barang' => $stok
 				);
 				$this->M_konsumen->updateKeranjang($data, $idKeranjang);
-				$this->session->set_flashdata('warning', 'stok produk yang tersedia hanya '.$stok);
+				$this->session->set_flashdata('warning_keranjang', 'stok produk yang tersedia hanya '.$stok);
 				redirect('Konsumen/Keranjang/'.$this->session->userdata('id_konsumen'));
 			}
 		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
 		}
 	}
@@ -649,10 +647,10 @@ class Konsumen extends CI_Controller {
 	{
 		if ($this->session->userdata('id_konsumen')) {
 			$hapus = $this->M_konsumen->hapusKeranjang($this->session->userdata('id_konsumen'));
-			$this->session->set_flashdata('success', 'semua produk dalam keranjang berhasil dihapus!');
+			$this->session->set_flashdata('success_keranjang', 'semua produk dalam keranjang berhasil dihapus!');
 			redirect('Konsumen/Keranjang/'.$this->session->userdata('id_konsumen'));
 		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
 		}
 	}
@@ -661,10 +659,10 @@ class Konsumen extends CI_Controller {
 	{
 		if ($this->session->userdata('id_konsumen')) {
 			$this->M_konsumen->hapusProduk($idProduk, $this->session->userdata('id_konsumen'));
-			$this->session->set_flashdata('success', 'produk berhasil dihapus dari keranjang!');
+			$this->session->set_flashdata('success_keranjang', 'produk berhasil dihapus dari keranjang!');
 			redirect('Konsumen/Keranjang/'.$this->session->userdata('id_konsumen'));
 		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
 		}
 	}
@@ -689,11 +687,11 @@ class Konsumen extends CI_Controller {
 				$this->load->view('Konsumen/Pesanan', $data);
 				$this->load->view('Konsumen/Footer');
 			}else{
-				$this->session->set_flashdata('warning', 'Silahkan checkout produk terlebih dahulu');
+				$this->session->set_flashdata('warning_home', 'Silahkan checkout produk terlebih dahulu');
 				redirect('Konsumen/Home');
 			}
 		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
 		}
 	}
@@ -705,94 +703,15 @@ class Konsumen extends CI_Controller {
 				'status' => 'diterima'
 			);
 			$this->M_konsumen->terimaPesanan($idTransaksi,$data);
-			$this->session->set_flashdata('success', 'Terima kasih atas pesanan Anda!');
+			$this->session->set_flashdata('success_pesan', 'Terima kasih atas pesanan Anda!');
 			redirect('Konsumen/Pesanan');
 		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
 		}
 	}
 
 	// CHECKOUT & PEMBAYARAN
-
-	// function Checkout()
-	// {
-	// 	if ($this->session->userdata('id_konsumen')) {
-	// 		if (empty($this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen')))) {
-	// 			$data1 = array(
-	// 				'id_konsumen' => $this->session->userdata('id_konsumen'),
-	// 				'status' => 'menunggu pembayaran',
-	// 				'tanggal_transaksi' => date('Y-m-d H-i-s'),
-	// 			);
-	// 			$this->M_konsumen->createTransaksi($data1);	// Create ke tabel transaksi status menunggu pembayaran
-	// 			$idTransaksi = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'))->id_transaksi;
-	// 			$idKeranjang = $_POST['keranjang'];		// name checkbox di form, id keranjang yang akan di checkout
-	// 			if (count($idKeranjang)>1) {	// jika produk yang dicheckout lebih dari 1 produk
-	// 				// $result = array();
-	// 				for($i=0 ;$i < count($idKeranjang); $i++) {
-	// 					$cekKeranjang = $this->M_konsumen->cekKeranjang($idKeranjang[$i]);
-	// 					$cekProduk = $this->M_konsumen->cekProduk($cekKeranjang->id_produk);	// mengambil data produk
-	// 					$hargaProduk = $cekProduk->harga_produk;	// mengambil harga per produk
-	// 					$jumlahProduk = $cekKeranjang->jumlah_barang;
-	// 					$jumlahHarga = $hargaProduk*$jumlahProduk;
-	// 					$data = array(
-	// 						'id_transaksi' => $idTransaksi,
-	// 						'id_produk' => $cekProduk->id_produk,
-	// 						'jumlah_produk' => $jumlahProduk,
-	// 						'jumlah_harga' => $jumlahHarga,
-	// 					);
-	// 					$this->M_konsumen->detailTransaksi($data);	// insert ke tabel detail transaksi
-	// 					$this->M_konsumen->deleteKeranjangMultiple($idKeranjang[$i]);		// hapus produk dari tabel keranjang
-	// 					$stok = $cekProduk->stok;
-	// 					$data1 = array(
-	// 						'stok' => $stok-$jumlahProduk,
-	// 					);
-	// 					$this->M_konsumen->updateProdukById($data1, $cekProduk->id_produk);	// update jumlah stok di tabel produk
-	// 				}
-	// 				$totalHarga = $this->M_konsumen->getTotalHarga($idTransaksi)->total;	// mengambil total harga produk yang dicheckout
-	// 				$this->M_konsumen->updatetotalHarga($totalHarga, $idTransaksi);	// mengupdate total harga di tabel transaksi
-	// 				// print_r($data);
-	// 				$this->session->set_flashdata('success', 'produk berhasil dicheckout!');
-	// 				redirect('Konsumen/Pengiriman');
-
-	// 			}elseif(count($idKeranjang)==0){	// jika produk yang dicheckout tidak ada
-	// 				$this->session->set_flashdata('warning', 'silahkan pilih produk yang akan dicheckout!');
-	// 				redirect('Konsumen/Keranjang');
-	// 			}elseif(count($idKeranjang)==1){	// jika produk yang dicheckout hanya 1 produk
-	// 				$cekKeranjang = $this->M_konsumen->cekKeranjang($idKeranjang[0]);
-	// 				$cekProduk = $this->M_konsumen->cekProduk($cekKeranjang->id_produk);
-	// 				$hargaProduk = $cekProduk->harga_produk;
-	// 				$jumlahProduk = $cekKeranjang->jumlah_barang;
-	// 				$jumlahHarga = $hargaProduk*$jumlahProduk;
-	// 				$data = array(
-	// 					'id_transaksi' => $idTransaksi,
-	// 					'id_produk' => $cekProduk->id_produk,
-	// 					'jumlah_produk' => $jumlahProduk,
-	// 					'jumlah_harga' => $jumlahHarga,
-	// 				);
-	// 				$this->M_konsumen->detailTransaksi($data);	// insert ke tabel detail transaksi
-	// 				$this->M_konsumen->deleteKeranjangMultiple($idKeranjang[0]);		// hapus produk dari tabel keranjang
-	// 				$stok = $cekProduk->stok;
-	// 				$data1 = array(
-	// 					'stok' => $stok-$jumlahProduk,
-	// 				);
-	// 				$this->M_konsumen->updateProdukById($data1, $cekProduk->id_produk);		// update jumlah stok di tabel produk
-	// 				$totalHarga = $this->M_konsumen->getTotalHarga($idTransaksi)->total;
-	// 				$this->M_konsumen->updatetotalHarga($totalHarga, $idTransaksi);	// mengupdate total harga di tabel transaksi
-
-	// 				$this->session->set_flashdata('success', 'produk berhasil dicheckout!');
-	// 				redirect('Konsumen/Pengiriman');
-	// 			}
-	// 			// print_r($idKeranjang);
-	// 		}else{
-	// 			$this->session->set_flashdata('warning', 'Silahkan selesaikan transaksi sebelumnya terlebih dahulu!');
-	// 			redirect('Konsumen/Keranjang');
-	// 		}
-	// 	}else{
-	// 		$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
-	// 		redirect('Konsumen/index');
-	// 	}
-	// }
 
 	function Checkout()
 	{
@@ -831,11 +750,11 @@ class Konsumen extends CI_Controller {
 					$totalHarga = $this->M_konsumen->getTotalHarga($idTransaksi)->total;	// mengambil total harga produk yang dicheckout
 					$this->M_konsumen->updatetotalHarga($totalHarga, $idTransaksi);	// mengupdate total harga di tabel transaksi
 					// print_r($data);
-					$this->session->set_flashdata('success', 'produk berhasil dicheckout!');
+					$this->session->set_flashdata('success_checkout', 'produk berhasil dicheckout!');
 					redirect('Konsumen/Pengiriman/'.$idTransaksi);
 
 				}elseif(count($idKeranjang)==0){	// jika produk yang dicheckout tidak ada
-					$this->session->set_flashdata('warning', 'silahkan pilih produk yang akan dicheckout!');
+					$this->session->set_flashdata('warning_keranjang', 'silahkan pilih produk yang akan dicheckout!');
 					redirect('Konsumen/Keranjang');
 				}elseif(count($idKeranjang)==1){	// jika produk yang dicheckout hanya 1 produk
 					$cekKeranjang = $this->M_konsumen->cekKeranjang($idKeranjang[0]);
@@ -859,7 +778,7 @@ class Konsumen extends CI_Controller {
 					$totalHarga = $this->M_konsumen->getTotalHarga($idTransaksi)->total;
 					$this->M_konsumen->updatetotalHarga($totalHarga, $idTransaksi);	// mengupdate total harga di tabel transaksi
 
-					$this->session->set_flashdata('success', 'produk berhasil dicheckout!');
+					$this->session->set_flashdata('success_checkout', 'produk berhasil dicheckout!');
 					redirect('Konsumen/Pengiriman/'.$idTransaksi);
 				}
 				// print_r($idKeranjang);
@@ -897,11 +816,11 @@ class Konsumen extends CI_Controller {
 					$totalHarga = $this->M_konsumen->getTotalHarga($idTransaksi)->total;	// mengambil total harga produk yang dicheckout
 					$this->M_konsumen->updatetotalHarga($totalHarga, $idTransaksi);	// mengupdate total harga di tabel transaksi
 					// print_r($data);
-					$this->session->set_flashdata('success', 'produk berhasil dicheckout!');
+					$this->session->set_flashdata('success_checkout', 'produk berhasil dicheckout!');
 					redirect('Konsumen/Pengiriman/'.$idTransaksi);
 
 				}elseif(count($idKeranjang)==0){	// jika produk yang dicheckout tidak ada
-					$this->session->set_flashdata('warning', 'silahkan pilih produk yang akan dicheckout!');
+					$this->session->set_flashdata('warning_keranjang', 'silahkan pilih produk yang akan dicheckout!');
 					redirect('Konsumen/Keranjang');
 				}elseif(count($idKeranjang)==1){	// jika produk yang dicheckout hanya 1 produk
 					$cekKeranjang = $this->M_konsumen->cekKeranjang($idKeranjang[0]);
@@ -925,13 +844,13 @@ class Konsumen extends CI_Controller {
 					$totalHarga = $this->M_konsumen->getTotalHarga($idTransaksi)->total;
 					$this->M_konsumen->updatetotalHarga($totalHarga, $idTransaksi);	// mengupdate total harga di tabel transaksi
 
-					$this->session->set_flashdata('success', 'produk berhasil dicheckout!');
+					$this->session->set_flashdata('success_checkout', 'produk berhasil dicheckout!');
 					redirect('Konsumen/Pengiriman/'.$idTransaksi);
 				}
 				// print_r($idKeranjang);
 			}
 		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
 		}
 	}
@@ -1005,11 +924,11 @@ class Konsumen extends CI_Controller {
 			$this->load->view('Konsumen/Checkout', $data);
 			$this->load->view('Konsumen/Footer');
 		}else{
-			$this->session->set_flashdata('warning', 'Tidak ada produk yang dicheckout!');
+			$this->session->set_flashdata('warning_p', 'Tidak ada produk yang dicheckout!');
 			redirect('Konsumen/Produk/semua');
 		}
 	}else{
-		$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+		$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
 		redirect('Konsumen/index');
 	}
 }
@@ -1041,7 +960,7 @@ function inputDiskon($idTransaksi)
 									'tanggal_transaksi' => date('Y-m-d H-i-s'),
 								);
 								$this->M_konsumen->terimaPesanan($idTransaksi, $data2);	// masukan besar diskon yang diterima ke tabel transaksi
-								$this->session->set_flashdata('success', 'voucher diskon berhasil digunakan!');
+								$this->session->set_flashdata('success_checkout', 'voucher diskon berhasil digunakan!');
 								redirect('Konsumen/Pengiriman/'.$idTransaksi);
 							}else{		// jika diskon melebihi maksimal potongan
 								$data1 = array(
@@ -1055,15 +974,15 @@ function inputDiskon($idTransaksi)
 									'tanggal_transaksi' => date('Y-m-d H-i-s'),
 								);
 								$this->M_konsumen->terimaPesanan($idTransaksi, $data2);	// masukan besar diskon yang diterima ke tabel transaksi
-								$this->session->set_flashdata('success', 'voucher diskon berhasil digunakan!');
+								$this->session->set_flashdata('success_checkout', 'voucher diskon berhasil digunakan!');
 								redirect('Konsumen/Pengiriman/'.$idTransaksi);
 							}
 						}else{
-							$this->session->set_flashdata('warning', 'voucher diskon hanya dapat digunakan untuk pembelian produk minimall Rp '.number_format($cekKode->minimal_belanja,2,',','.'));
+							$this->session->set_flashdata('warning_checkout', 'voucher diskon hanya dapat digunakan untuk pembelian produk minimall Rp '.number_format($cekKode->minimal_belanja,2,',','.'));
 							redirect('Konsumen/Pengiriman/'.$idTransaksi);
 						}
 					}else{		// jika tidak ada produk dari umkm tersebut
-						$this->session->set_flashdata('warning', 'voucher diskon hanya dapat digunakan untuk pembelian produk dari '.$Umkm->nama_umkm);
+						$this->session->set_flashdata('warning_checkout', 'voucher diskon hanya dapat digunakan untuk pembelian produk dari '.$Umkm->nama_umkm);
 						redirect('Konsumen/Pengiriman/'.$idTransaksi);
 					}
 				}else{		// jika promo untuk semua umkm
@@ -1081,7 +1000,7 @@ function inputDiskon($idTransaksi)
 									'tanggal_transaksi' => date('Y-m-d H-i-s'),
 								);
 								$this->M_konsumen->terimaPesanan($idTransaksi, $data2);	// masukan besar diskon yang diterima ke tabel transaksi
-								$this->session->set_flashdata('success', 'voucher diskon berhasil digunakan!');
+								$this->session->set_flashdata('success_checkout', 'voucher diskon berhasil digunakan!');
 								redirect('Konsumen/Pengiriman/'.$idTransaksi);
 							}else{		// jika diskon melebihi maksimal potongan
 								$data1 = array(
@@ -1095,25 +1014,25 @@ function inputDiskon($idTransaksi)
 									'tanggal_transaksi' => date('Y-m-d H-i-s'),
 								);
 								$this->M_konsumen->terimaPesanan($idTransaksi, $data2);	// masukan besar diskon yang diterima ke tabel transaksi
-								$this->session->set_flashdata('success', 'voucher diskon berhasil digunakan!');
+								$this->session->set_flashdata('success_checkout', 'voucher diskon berhasil digunakan!');
 								redirect('Konsumen/Pengiriman/'.$idTransaksi);
 							}
 						}else{
-							$this->session->set_flashdata('warning', 'voucher diskon hanya dapat digunakan untuk pembelian produk minimal Rp '.number_format($cekKode->minimal_belanja,2,',','.'));
+							$this->session->set_flashdata('warning_checkout', 'voucher diskon hanya dapat digunakan untuk pembelian produk minimal Rp '.number_format($cekKode->minimal_belanja,2,',','.'));
 							redirect('Konsumen/Pengiriman/'.$idTransaksi);
 						}
 					}
 
 				}else{
-					$this->session->set_flashdata('warning', 'kode diskon tidak terdaftar!');
+					$this->session->set_flashdata('warning_checkout', 'kode diskon tidak terdaftar!');
 					redirect('Konsumen/Pengiriman/'.$idTransaksi);
 				}
 			}else{
-				$this->session->set_flashdata('warning', 'tidak ada kode diskon yang diinputkan!');
+				$this->session->set_flashdata('warning_checkout', 'tidak ada kode diskon yang diinputkan!');
 				redirect('Konsumen/Pengiriman/'.$idTransaksi);
 			}
 		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
 		}
 	}
@@ -1134,7 +1053,7 @@ function inputDiskon($idTransaksi)
 			$this->M_konsumen->inputOngkir($data,$idTransaksi);
 			redirect('Konsumen/Pengiriman/'.$idTransaksi);
 		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
 		}
 	}
@@ -1156,10 +1075,10 @@ function inputDiskon($idTransaksi)
 			}
 			$this->M_konsumen->BatalkanTransaksi1($idTransaksi);
 			$this->M_konsumen->BatalkanTransaksi2($idTransaksi);
-			$this->session->set_flashdata('success', 'Transaksi dibatalkan');
+			$this->session->set_flashdata('success_keranjang', 'Transaksi dibatalkan');
 			redirect('Konsumen/Keranjang');
 		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
 		}
 	}
@@ -1182,17 +1101,17 @@ function inputDiskon($idTransaksi)
 
 			}elseif (!empty($cek->ekspedisi_pengiriman) AND !empty($cek->estimasi_pengiriman) AND !empty($cek->ongkos_kirim) ) {	// ongkir belum diisi
 
-				$this->session->set_flashdata('warning', 'pastikan ekpedisi pengiriman sudah dipilih!');
+				$this->session->set_flashdata('warning_checkout', 'pastikan ekpedisi pengiriman sudah dipilih!');
 				redirect('Konsumen/Pengiriman/'.$idTransaksi);
 
 			}else{
 
-				$this->session->set_flashdata('warning', 'pastikan alamat sudah terisi dan ekpedisi pengiriman sudah dipilih!');
+				$this->session->set_flashdata('warning_checkout', 'pastikan alamat sudah terisi dan ekpedisi pengiriman sudah dipilih!');
 				redirect('Konsumen/Pengiriman/'.$idTransaksi);
 
 			}
 		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
 		}
 	}
@@ -1216,15 +1135,15 @@ function inputDiskon($idTransaksi)
 						'status' => 'menunggu konfirmasi'
 					);
 					$this->M_konsumen->inputOngkir($data,$idTransaksi);	// update data
-					$this->session->set_flashdata('success', 'Terima kasih sudah melakukan transaksi! Pesanan akan segera diproses!');
+					$this->session->set_flashdata('success_p', 'Terima kasih sudah melakukan transaksi! Pesanan akan segera diproses!');
 					redirect('Konsumen/Produk/semua');
 				}else{
-					$this->session->set_flashdata('warning', 'fotmat bukti pembayaran tidak sesuai!');
+					$this->session->set_flashdata('warning_bayar', 'fotmat bukti pembayaran tidak sesuai!');
 					redirect('Konsumen/Pembayaran/'.$idTransaksi);
 				}
 			}
 		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
 		}
 	}
@@ -1338,7 +1257,7 @@ function inputDiskon($idTransaksi)
 			$this->load->view('Konsumen/Profile', $data);
 			$this->load->view('Konsumen/Footer');
 		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
 		}
 	}
@@ -1366,10 +1285,10 @@ function inputDiskon($idTransaksi)
 						'tanggal_lahir' => $this->input->post('tanggal_lahir'),
 					);
 					$this->M_konsumen->updateProfil($data,$this->session->userdata('id_konsumen'));	// update data
-					$this->session->set_flashdata('success', 'Profil berhasil diupdate!');
+					$this->session->set_flashdata('success_profil', 'Profil berhasil diupdate!');
 					redirect('Konsumen/Profil');
 				}else{
-					$this->session->set_flashdata('warning', 'fotmat foto profile tidak sesuai!');
+					$this->session->set_flashdata('warning_profil', 'fotmat foto profile tidak sesuai!');
 					redirect('Konsumen/Profil');
 				}
 			}else{
@@ -1382,11 +1301,11 @@ function inputDiskon($idTransaksi)
 					'tanggal_lahir' => $this->input->post('tanggal_lahir'),
 				);
 				$this->M_konsumen->updateProfil($data,$this->session->userdata('id_konsumen'));	// update data
-				$this->session->set_flashdata('success', 'Profil berhasil diupdate!');
+				$this->session->set_flashdata('success_profil', 'Profil berhasil diupdate!');
 				redirect('Konsumen/Profil');
 			}
 		}else{
-			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
+			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
 		}
 	}

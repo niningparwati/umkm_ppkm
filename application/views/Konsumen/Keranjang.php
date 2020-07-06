@@ -1,3 +1,13 @@
+<!--Sweet Alert -->
+<?php if($this->session->flashdata('success_keranjang')) { ?>
+  <div class="success-flash" data-success="<?= $this->session->flashdata('success_keranjang') ?>"></div>
+<?php } else if ($this->session->flashdata('error_keranjang')) { ?>
+  <div class="error-flash" data-error="<?= $this->session->flashdata('error_keranjang') ?>"></div>
+<?php }else if ($this->session->flashdata('warning_keranjang')) {?>
+  <div class="warning-flash" data-warning="<?= $this->session->flashdata('warning_keranjang') ?>"></div>
+<?php } ?>
+<!-- End Sweet Alert -->
+
 <div class="clear"></div>
 
 <section id="main" class="entire_width">
