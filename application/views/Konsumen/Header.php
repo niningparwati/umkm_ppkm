@@ -35,8 +35,8 @@
       <div class="grid_4">
         <nav class="private">
           <?php if ($this->session->userdata('id_konsumen')) { ?>
-            <p style="padding-right: 10px">
-              Selamat datang, <span style="font-size: 20px;"><?= $this->session->userdata('nama_konsumen'); ?></span>
+            <p style="padding-right: 10px; text-align: right;">
+              Selamat datang, <span style="font-size: 14px; font-weight: bold;"><?= $this->session->userdata('nama_konsumen'); ?></span>
             </p>
           <?php } ?>
           <ul>

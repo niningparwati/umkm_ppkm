@@ -36,7 +36,7 @@ class M_konsumen extends CI_Model {
 
 	function cekAkun($username, $pass)
 	{
-		return $this->db->query("SELECT * FROM tb_konsumen WHERE username_konsumen='$username' AND password_konsumen='$pass'")->row();
+		return $this->db->query("SELECT * FROM tb_konsumen WHERE username_konsumen='$username' AND password_konsumen='$pass' AND status_konsumen='aktif' ")->row();
 	}
 
 	// PRODUK UMKM
