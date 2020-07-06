@@ -30,6 +30,7 @@ class LoginAU extends CI_Controller {
 				$data = array(
 					'akun'						=> $this->M_admin->getAkun($user),
 					'user'						=> $this->M_admin->getAkunUser(),
+					'status' => 'login',
 					'kategoriumkm' 		=> $this->M_admin->getjumKU(),
 					'kategoriproduk'	=> $this->M_admin->getjumPU(),
 					'produk'					=> $this->M_admin->getjumP(),
@@ -38,6 +39,13 @@ class LoginAU extends CI_Controller {
 					'portofolio'			=> $this->M_admin->getjumPo(),
 					'slide'						=> $this->M_admin->getjumS(),
 				);
+
+				$data_session = array(
+						'username' => $cek->username,
+						'level' => $cek->level,
+						'status' => 'login'
+					);
+				$this->session->set_userdata($data_session);
 				$this->load->view('admin/Dashboard',$data);
 			}else if($cek->level == 'UMKM'){
 
