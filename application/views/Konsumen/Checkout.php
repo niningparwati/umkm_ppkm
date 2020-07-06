@@ -34,17 +34,17 @@ if ($err) {
 <section id="main" class="entire_width">
   <div class="container_12">
     <div class="grid_12">
-      <h1 class="page_title" style="border: none;">Checkout</h1>
-      <table style="border:none; text-align: right;">
+       <table style="border:none; text-align: right;">
         <form action="<?=base_url()?>Konsumen/inputDiskon/<?=$transaksi->id_transaksi?>" method="POST">
-          <tr style="float: right;">
+          <tr>
+            <td style="border: none;text-align: left;font-size: 30px; width: 60%">Checkout</td>
             <td style="border: none;">
               Masukan kode voucher &nbsp
             </td>
-            <td style="border: none;">
+            <td style="border: none;text-align: right;">
               &nbsp &nbsp &nbsp <input type="text" name="kode_diskon" style="width: 80%; height: 30px">
             </td>
-            <td style="border: none;">
+            <td style="border: none;text-align: right;">
               <button name="submit" type="submit" style="height: 30px; padding-right: 10px; padding-left: 10px;">Kirim</button>
             </td>
           </tr>

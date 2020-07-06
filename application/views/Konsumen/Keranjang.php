@@ -61,8 +61,11 @@
             <td class="close" style="border: none;vertical-align: middle;">
               <!-- MODAL HAPUS PRODUK-->
               <div style="margin-left: 10px">
-                <label class="modal1-open modal1-label close1" for="modal1-open"><img src="<?=base_url()?>assets/konsumen/images/trash.png" style="width: 20px; margin-top: 35px;"></label>
-                <input type="radio" name="modal1" value="open" id="modal1-open" class="modal1-radio">
+                <a data-dynamic="true" href="#" onclick="hapusProduk(<?=$key->id_produk?>)"><img src="<?=base_url()?>assets/konsumen/images/trash.png" style="width: 20px; margin-top: 35px;"></a>
+                <!-- <label class="modal1-open modal1-label close1" for="modal1-open"> -->
+                  <!-- <img src="<?=base_url()?>assets/konsumen/images/trash.png" style="width: 20px; margin-top: 35px;"> -->
+                  <!-- </label> -->
+                <!-- <input type="radio" name="modal1" value="open" id="modal1-open" class="modal1-radio">
 
                 <div class="modal1">
                   <label class="modal1-label overlay"><input type="radio" name="modal1" value="close1" class="modal1-radio"/></label>
@@ -87,7 +90,7 @@
                       <br><br>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
               <!-- MODAL -->
 
@@ -113,3 +116,22 @@
 </section><!-- #main -->
 
 <div class="clear"></div>
+
+<!-- <script type="text/javascript">
+  function hapusProduk(id) {
+    swal({
+      title: "Hapus Produk",
+      text: "Yakin produk ini akan dihapus dari keranjang?",
+      type: warning,
+      showCancelButton : true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Ya",
+      closeOnConfirm: false
+      ),
+    function(isConfirm){
+      alert(isConfirm);
+      alert(id);
+      swal("Berhasil!", "Produk berhasil dihapus dari keranjang", "success");
+    });
+  }
+</script> -->

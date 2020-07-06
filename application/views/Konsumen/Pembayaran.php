@@ -8,9 +8,9 @@
 						<div class="list_body">
 							<div style="text-align: right;"><span style="font-size: 12px">Total yang harus dibayar : </span><span style="font-weight: bold;">
 								<?php if (!is_null($transaksi->besar_diskon)) { ?>
-									Rp <?=number_format($transaksi->total_harga+$transaksi->ongkos_kirim-$transaksi->besar_diskon,0,',','.')?>
+									<span style="color: red">Rp <?=number_format($transaksi->total_harga+$transaksi->ongkos_kirim-$transaksi->besar_diskon,0,',','.')?></span>
 								<?php }else{ ?>
-									Rp <?=number_format($transaksi->total_harga+$transaksi->ongkos_kirim,0,',','.')?>
+									<span style="color: red">Rp <?=number_format($transaksi->total_harga+$transaksi->ongkos_kirim,0,',','.')?></span>
 								<?php } ?>
 
 							</span></div>
