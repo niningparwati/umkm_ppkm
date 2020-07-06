@@ -49,8 +49,9 @@
           <div class="grid_12">
             <br>
             <div class="remember" style="padding-left: 25px">
-              <input type="checkbox" name="check" required />
-              <span class="rem">Saya menyetujui <a href="#">Syarat & Ketentuan</a></span>
+              <input type="checkbox" name="check" required /><!-- 
+              <span class="rem">Saya menyetujui <a href="#">Syarat & Ketentuan</a></span> -->
+              <span class="rem">Saya menyetujui <a data-dynamic="true" href="#" onclick="showModalSK()">Syarat & Ketentuan</a></span>
             </div>
             <div class="submit" style="padding-left: 40%">                    
               <input type="submit" name="submit" value="Daftar" />
@@ -58,6 +59,8 @@
             <br>
           </div>
         </form>
+
+
       
     </div><!-- #content -->
 
@@ -93,5 +96,13 @@
     if (!/^[0-9]+$/.test(e.value)) {
       e.value = e.value.substring(0,e.value.length-1);
     }
+  }
+
+  function showModalSK() {
+    Swal.fire(
+      'Syarat dan Ketentuan?',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis ultricies purus, at vehicula neque. Cras vestibulum velit et finibus dictum. Mauris laoreet tincidunt tellus nec sodales. Nulla facilisi. Donec fermentum rhoncus molestie. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras varius sapien nisl, eu feugiat lacus auctor ac. Sed pellentesque efficitur leo, eget semper sapien feugiat molestie. Vestibulum in accumsan leo. Vivamus molestie libero elit, ut posuere leo vestibulum a. Cras imperdiet hendrerit nibh, non posuere augue rhoncus luctus. Nulla facilisi. Fusce euismod porta diam. Vivamus laoreet tempus nisi, a egestas mi rhoncus ut.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis ultricies purus, at vehicula neque. Cras vestibulum velit et finibus dictum. Mauris laoreet tincidunt tellus nec sodales. Nulla facilisi. Donec fermentum rhoncus molestie. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras varius sapien nisl, eu feugiat lacus auctor ac. Sed pellentesque efficitur leo, eget semper sapien feugiat molestie. Vestibulum in accumsan leo. Vivamus molestie libero elit, ut posuere leo vestibulum a. Cras imperdiet hendrerit nibh, non posuere augue rhoncus luctus. Nulla facilisi. Fusce euismod porta diam. Vivamus laoreet tempus nisi, a egestas mi rhoncus ut.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis ultricies purus, at vehicula neque. Cras vestibulum velit et finibus dictum. Mauris laoreet tincidunt tellus nec sodales. Nulla facilisi. Donec fermentum rhoncus molestie. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras varius sapien nisl, eu feugiat lacus auctor ac. Sed pellentesque efficitur leo, eget semper sapien feugiat molestie. Vestibulum in accumsan leo. Vivamus molestie libero elit, ut posuere leo vestibulum a. Cras imperdiet hendrerit nibh, non posuere augue rhoncus luctus. Nulla facilisi. Fusce euismod porta diam. Vivamus laoreet tempus nisi, a egestas mi rhoncus ut.',
+      'info'
+    )
   }
 </script>
