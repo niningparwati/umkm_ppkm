@@ -55,17 +55,8 @@
               <li><a href="<?=base_url()?>Konsumen/Register">Daftar</a></li>
             <?php } ?>
           </ul>
-<<<<<<< HEAD
-        </nav><!-- .private -->
-=======
         </nav><!-- .private --> 
         <br>
-        <?php if ($this->session->userdata('id_konsumen')) { ?>
-          <p style="padding-right: 10px">
-            <span style="font-size: 20px;">Selamat datang, <?= $this->session->userdata('nama_konsumen'); ?></span>
-          </p>
-        <?php } ?>
->>>>>>> a8cccb11440f5a636ede7dc965b9115e6366687e
       </div><!-- .grid_6 -->
 
       <div class="clear"></div>

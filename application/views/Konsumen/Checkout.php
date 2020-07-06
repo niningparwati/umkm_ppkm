@@ -34,119 +34,100 @@ if ($err) {
 <section id="main" class="entire_width">
   <div class="container_12">
     <div class="grid_12">
-       <table style="border:none; text-align: right;">
-        <form action="<?=base_url()?>Konsumen/inputDiskon/<?=$transaksi->id_transaksi?>" method="POST">
-          <tr>
-            <td style="border: none;text-align: left;font-size: 30px; width: 60%">Checkout</td>
-            <td style="border: none;">
-              Masukan kode voucher &nbsp
-            </td>
-            <td style="border: none;text-align: right;">
-              &nbsp &nbsp &nbsp <input type="text" name="kode_diskon" style="width: 80%; height: 30px">
-            </td>
-            <td style="border: none;text-align: right;">
-              <button name="submit" type="submit" style="height: 30px; padding-right: 10px; padding-left: 10px;">Kirim</button>
-            </td>
-          </tr>
-        </form>
-      </table>
-      <table class="cart_product">
+     <table style="border:none; text-align: right;">
+      <form action="<?=base_url()?>Konsumen/inputDiskon/<?=$transaksi->id_transaksi?>" method="POST">
         <tr>
-          <th class="bg name" style="text-align: center;font-weight: bold;color: black">Gambar Produk</th>
-          <th class="bg name" style="text-align: center;font-weight: bold;color: black">Nama Produk</th>
-          <th class="bg price" style="text-align: center;font-weight: bold;color: black">Harga Produk</th>
-          <th class="bg name" style="text-align: center;font-weight: bold;color: black">Jumlah Produk</th>
-          <th colspan="2" class="bg subtotal" style="text-align: center;font-weight: bold;color: black">Subtotal</th>
+          <td style="border: none;text-align: left;font-size: 30px; width: 60%">Checkout</td>
+          <td style="border: none;">
+            Masukan kode voucher &nbsp
+          </td>
+          <td style="border: none;text-align: right;">
+            &nbsp &nbsp &nbsp <input type="text" name="kode_diskon" style="width: 80%; height: 30px">
+          </td>
+          <td style="border: none;text-align: right;">
+            <button name="submit" type="submit" style="height: 30px; padding-right: 10px; padding-left: 10px;">Kirim</button>
+          </td>
         </tr>
-        <!-- <form method="POST" action="<?=base_url()?>Konsumen/Transaksi"> -->
-          <?php
-          foreach ($produk as $key) {
-            ?>
-            <tr>
-              <td class="images" style="border: none; vertical-align: middle;">
-                <a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>">
-                  <?php if (!empty($key->foto_produk)) { ?>
-                    <img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" alt="Product Slide 1">
-                  <?php }else{ ?>
-                    <img src="<?=base_url()?>assets/foto_produk/produk_default.png" alt="Product Slide 1">
-                  <?php } ?>
-                </a>  
-              </td>
-              <td class="qty" style="border: none; vertical-align: middle;">
-                <a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>" style="text-decoration: none; color: black"><?=$key->nama_produk?></a>
-              </td>
-              <td class="qty" style="border: none; vertical-align: middle;">Rp <?=number_format($key->harga_produk,0,',','.')?></td>
-              <td class="qty" style="padding-top: 30px; border: none; vertical-align: middle;">
-                <?=$key->jumlah_produk?>
-              </td>
-              <td class="qty" colspan="2" style="border: none; vertical-align: middle;">
-                <?php 
-                $jml = $key->jumlah_produk;
-                $hrg = $key->harga_produk;
-                $total = $jml*$hrg;
-                echo 'Rp '.number_format($total,0,',','.');
-                ?>
-              </td>
-            </tr>
-          <?php } ?>
+      </form>
+    </table>
+    <table class="cart_product">
+      <tr>
+        <th class="bg name" style="text-align: center;font-weight: bold;color: black">Gambar Produk</th>
+        <th class="bg name" style="text-align: center;font-weight: bold;color: black">Nama Produk</th>
+        <th class="bg price" style="text-align: center;font-weight: bold;color: black">Harga Produk</th>
+        <th class="bg name" style="text-align: center;font-weight: bold;color: black">Jumlah Produk</th>
+        <th colspan="2" class="bg subtotal" style="text-align: center;font-weight: bold;color: black">Subtotal</th>
+      </tr>
+      <!-- <form method="POST" action="<?=base_url()?>Konsumen/Transaksi"> -->
+        <?php
+        foreach ($produk as $key) {
+          ?>
           <tr>
-            <td colspan="5" class="cart_but" style="text-align: right;font-size: 14px; border: none;">
-              <br>
-              <?php if (is_null($transaksi->besar_diskon)) { ?>
-                Total Harga &nbsp : 
-              <?php }else{ ?>
-                Total Harga &nbsp : <br>
-                Diskon &nbsp :
-              <?php } ?>
+            <td class="images" style="border: none; vertical-align: middle;">
+              <a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>">
+                <?php if (!empty($key->foto_produk)) { ?>
+                  <img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" alt="Product Slide 1">
+                <?php }else{ ?>
+                  <img src="<?=base_url()?>assets/foto_produk/produk_default.png" alt="Product Slide 1">
+                <?php } ?>
+              </a>  
             </td>
-            <td colspan="1" class="cart_but" style="text-align: center; font-size: 14px; border: none;">
-              <br>
-              <?php if (is_null($transaksi->besar_diskon)) { ?>
-                &nbsp &nbsp  <b> Rp <?=number_format($totalHarga,0,',','.')?></b>
-              <?php }else{ ?>
-                &nbsp &nbsp  <b>Rp <?=number_format($totalHarga,0,',','.')?></b>
-                <br>
-                &nbsp &nbsp  <b>Rp <?= number_format($transaksi->besar_diskon,0,',','.') ?></b>
-              <?php } ?>
+            <td class="qty" style="border: none; vertical-align: middle;">
+              <a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>" style="text-decoration: none; color: black"><?=$key->nama_produk?></a>
+            </td>
+            <td class="qty" style="border: none; vertical-align: middle;">Rp <?=number_format($key->harga_produk,0,',','.')?></td>
+            <td class="qty" style="padding-top: 30px; border: none; vertical-align: middle;">
+              <?=$key->jumlah_produk?>
+            </td>
+            <td class="qty" colspan="2" style="border: none; vertical-align: middle;">
+              <?php 
+              $jml = $key->jumlah_produk;
+              $hrg = $key->harga_produk;
+              $total = $jml*$hrg;
+              echo 'Rp '.number_format($total,0,',','.');
+              ?>
             </td>
           </tr>
-          <!-- </form> -->
-        </table>
-      </div><!-- .grid_12 -->
+        <?php } ?>
+        <tr>
+          <td colspan="5" class="cart_but" style="text-align: right;font-size: 14px; border: none;">
+            <br>
+            <?php if (is_null($transaksi->besar_diskon)) { ?>
+              Total Harga &nbsp : 
+            <?php }else{ ?>
+              Total Harga &nbsp : <br>
+              Diskon &nbsp :
+            <?php } ?>
+          </td>
+          <td colspan="1" class="cart_but" style="text-align: center; font-size: 14px; border: none;">
+            <br>
+            <?php if (is_null($transaksi->besar_diskon)) { ?>
+              &nbsp &nbsp  <b> Rp <?=number_format($totalHarga,0,',','.')?></b>
+            <?php }else{ ?>
+              &nbsp &nbsp  <b>Rp <?=number_format($totalHarga,0,',','.')?></b>
+              <br>
+              &nbsp &nbsp  <b>Rp <?= number_format($transaksi->besar_diskon,0,',','.') ?></b>
+            <?php } ?>
+          </td>
+        </tr>
+        <!-- </form> -->
+      </table>
+    </div><!-- .grid_12 -->
 
-      <div class="clear"></div>
+    <div class="clear"></div>
 
-      <div id="content_bottom" class="shopping_box">
-        <div class="grid_4">
-          <div class="bottom_block estimate">
-            <h3>Alamat Pengiriman</h3>
+    <div id="content_bottom" class="shopping_box">
+      <div class="grid_4">
+        <div class="bottom_block estimate">
+          <h3>Alamat Pengiriman</h3>
 
-            <p>Lengkapi alamat perngiriman produk!</p>
-            <form method="POST">
-              <p>
-                <!-- <strong>Provinsi Asal:</strong><sup class="surely">*</sup><br/> -->
-                <input type="hidden" name="provinsi" value="9" selected>
-                <!-- <select id="provinsi" name="provinsi" style="width: 100%" hidden> -->
-                  <!-- <option value="9" selected="selected" >Jawa Barat</option> -->
-                  <?php 
-                // $biaya = json_decode($ongkir);
-                // if ($provinsi['rajaongkir']['status']['code'] == '200') {
-                //   foreach ($provinsi['rajaongkir']['results'] as $prov) {
-                  ?>
-                  <!--       echo "<option value='".$prov['province_id']."' ".($prov['province_id'] == $this->input->post('provinsi') ? "selected" : "").">".$prov['province']."</option>"; -->
-                  <!-- <option value="<?=$prov['province_id']?>" <?php if( $prov['province_id'] ==  $this->input->post('provinsi') ){ ?> selected="selected" <?php }?>><?=$prov['province']?></option> -->
-                  <?php
-                //   }
-                // }
-                  ?>
-                  <!-- </select> -->
-                </p>
-                <p>
-                  <!-- <strong>Kota Asal:</strong><br/> -->
-                  <input type="hidden" name="kota" value="22" selected>
-              <!-- <select id="kota" name="kota" style="width: 100%" hidden>
-                <option>Bandung</option>
-              </select> -->
+          <p>Lengkapi alamat perngiriman produk!</p>
+          <form method="POST">
+            <p>
+              <input type="hidden" name="provinsi" value="9" selected>
+            </p>
+            <p>
+              <input type="hidden" name="kota" value="22" selected>
             </p>
             <p>
               <strong>Provinsi Tujuan:</strong><sup class="surely">*</sup><br/>
@@ -265,80 +246,23 @@ if ($err) {
           <?php } ?>
 
         </table>
-        <a href="<?=base_url()?>Konsumen/Pembayaran/<?=$transaksi->id_transaksi?>"><button class="checkout">LANJUTKAN PEMBAYARAN</button></a>
-       <!--  <p class="modal1-open modal1-label close1" for="modal1-open" style="color: #777777;font-size: 15px"><b>Batalkan Transaksi</b></p>
-        <input type="radio" name="modal1" value="open" id="modal1-open" class="modal1-radio"> -->
-        <!-- MODAL -->
-     <!--    <div class="modal1">
-          <label class="modal1-label overlay"><input type="radio" name="modal1" value="close1" class="modal1-radio"/></label>
-          <div class="content1">
-            <div class="top1">
-              <b>Anda yakin produk ini akan dihapus dari keranjang?</b>
-              <label class="modal1-label close-btn1">
-                <input type="radio" name="modal1" value="close1" class="modal1-radio"/>
-              </label>
-            </div>
-            <div class="footer1">
-              <br><br>
-              <a href="<?=base_url()?>Konsumen/Keranjang/<?=$this->session->userdata('id_konsumen')?>"><button type="button" style="padding: 8px; background: #7b808a" class="btn1 btn-default pull-left1" data-dismiss="modal1-label">Tidak</button></a>
-              <a href="<?=base_url()?>Konsumen/hapusProduk/<?=$key->id_produk?>"><button type="button" style="padding: 8px;margin-left: 350px; width: 50px; text-align: center; background: #DD4B39" class="btn1 btn-default pull-right" data-dismiss="modal1">Ya</button></a>
-            </div>
-          </div>
-        </div> -->
-        <!-- MODAL -->
+        <a href="<?=base_url()?>Konsumen/Pembayaran/<?=$transaksi->id_transaksi?>"><button class="checkout">LANJUTKAN PEMBAYARAN</button></a><br>
+        <a style="color: red; text-decoration: none;" href="#" onclick="BatalkanTransaksi(<?=$alamat->id_transaksi?>)">Batalkan Pesanan</a>
 
-        <div class="close">
-          <!-- MODAL HAPUS PRODUK-->
-          <!-- <div> -->
-            <label class="modal1-open modal1-label close1" for="modal1-open" style="color: #777777;font-size: 15px; margin-bottom: 30px">Batalkan Pesanan</label>
-            <input type="radio" name="modal1" value="open" id="modal1-open" class="modal1-radio">
+      </div><!-- .total -->
+    </div><!-- .grid_4 -->
 
-            <div class="modal1">
-              <label class="modal1-label overlay"><input type="radio" name="modal1" value="close1" class="modal1-radio"/></label>
-              <div class="content1" style="height: 200px">
-                <div class="top1" style="text-align: center;font-size: 14px">
-                  <b>Anda yakin membatalkan transaksi ini?</b><br><br>Jika transaksi dibatalkan, maka produk akan terhapus dari keranjang Anda!
-                  <label class="modal1-label close-btn1">
-                    <input type="radio" name="modal1" value="close1" class="modal1-radio"/>
-                  </label>
-                </div>
-                <div class="footer1">
-                  <br>
-                  <a href="<?=base_url()?>Konsumen/Pengiriman/<?=$transaksi->id_transaksi?>"><button type="button" style="padding: 8px; background: #7b808a" class="btn1 btn-default pull-left1" data-dismiss="modal1-label">Tidak</button></a>
-                  <a href="<?=base_url()?>Konsumen/BatalkanTransaksi/<?=$alamat->id_transaksi?>"><button type="button" style="padding: 8px; width: 50px; text-align: center; background: #DD4B39" class="btn1 btn-default" data-dismiss="modal1-label">Ya</button></a>
-                </div>
-              </div>
-            </div>
-            <!-- </div> -->
-            <!-- MODAL -->
-
-          </div>
-
-        </div><!-- .total -->
-      </div><!-- .grid_4 -->
-
-      <div class="clear"></div>
-
-    </div><!-- #content_bottom -->
     <div class="clear"></div>
 
-  </div><!-- .container_12 -->
+  </div><!-- #content_bottom -->
+  <div class="clear"></div>
+
+</div><!-- .container_12 -->
 </section><!-- #main -->
 
 <div class="clear"></div>
 
 <script type="text/javascript">
-  // document.getElementById('provinsi').addEventListener('change', function(){
-
-  //   fetch("<?= base_url('konsumen/kota/') ?>"+this.value,{
-  //     method:'GET'
-  //   })
-  //   .then((response) => response.text())
-  //   .then((data) => {
-  //     console.log(data)
-  //     document.getElementById('kota').innerHTML = data
-  //   })
-  // })
 
   document.getElementById('provinsi_tujuan').addEventListener('change', function(){
 
@@ -351,4 +275,24 @@ if ($err) {
       document.getElementById('kota_tujuan').innerHTML = data
     })
   })
+
+  function BatalkanTransaksi(id) {
+    var id = id;
+
+    Swal.fire({
+      title: 'Konfirmasi!',
+      text: "Anda yakin ingin membatalkan transaksi?",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText: "Tidak",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya!'
+    }).then((result) => {
+      if (result.value) {
+        location.href = '<?=base_url()?>Konsumen/BatalkanTransaksi/'+id
+      }
+    })
+  }
+
 </script>

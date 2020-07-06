@@ -585,18 +585,13 @@ class Konsumen extends CI_Controller {
 		if ($this->session->userdata('id_konsumen')) {
 			$idKonsumen = $this->session->userdata('id_konsumen');
 			$produk = $this->M_konsumen->cekKeranjangKonsumen($idKonsumen);	// mengecek keranjang produk yang dimasukan ke keranjang
-			if (!empty($produk)) {	// mengecek jika ada produk di keranjang
-				$data = array(
-					'produk' => $this->M_konsumen->keranjangByKonsumen($idKonsumen),
-				);
-				$this->load->view('Konsumen/Head');
-				$this->load->view('Konsumen/Header', $data);
-				$this->load->view('Konsumen/Keranjang', $data);
-				$this->load->view('Konsumen/Footer');
-			}else{
-				$this->session->set_flashdata('warning', 'Anda belum memasukan produk ke dalam keranjang');
-				redirect('Konsumen/Produk/semua');
-			}
+			$data = array(
+				'produk' => $this->M_konsumen->keranjangByKonsumen($idKonsumen),
+			);
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header', $data);
+			$this->load->view('Konsumen/Keranjang', $data);
+			$this->load->view('Konsumen/Footer');
 		}else{
 			$this->session->set_flashdata('warning', 'silahkan login terlebih dahulu!');
 			redirect('Konsumen/index');
@@ -1225,7 +1220,7 @@ function inputDiskon($idTransaksi)
 					redirect('Konsumen/Produk/semua');
 				}else{
 					$this->session->set_flashdata('warning', 'fotmat bukti pembayaran tidak sesuai!');
-					redirect('Konsumen/Pembayaran');
+					redirect('Konsumen/Pembayaran/'.$idTransaksi);
 				}
 			}
 		}else{

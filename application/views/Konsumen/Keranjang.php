@@ -7,7 +7,7 @@
     <?php 
     $cek1 = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'));  // cek produk di tabel transaksi status menunggu konfirmasi
 
-    if (!is_null($produk)) {
+    if (!empty($produk)) {
       ?>
       <table class="cart_product">
        <tr>
@@ -34,7 +34,7 @@
             // print_r($data);
           }
           ?>
-          <tr>
+          <tr id="<?=$key->id_produk?>">
             <td style="border: none;"><input type="checkbox" name="keranjang[]" id="undefined" value="<?=$key->id_keranjang?>" tabindex="0" style="margin-top: 20px"></td>
             <td class="images" style="border: none;"><a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>">
               <?php if (!empty($key->foto_produk)) { ?>
@@ -61,36 +61,7 @@
             <td class="close" style="border: none;vertical-align: middle;">
               <!-- MODAL HAPUS PRODUK-->
               <div style="margin-left: 10px">
-                <a data-dynamic="true" href="#" onclick="hapusProduk(<?=$key->id_produk?>)"><img src="<?=base_url()?>assets/konsumen/images/trash.png" style="width: 20px; margin-top: 35px;"></a>
-                <!-- <label class="modal1-open modal1-label close1" for="modal1-open"> -->
-                  <!-- <img src="<?=base_url()?>assets/konsumen/images/trash.png" style="width: 20px; margin-top: 35px;"> -->
-                  <!-- </label> -->
-                <!-- <input type="radio" name="modal1" value="open" id="modal1-open" class="modal1-radio">
-
-                <div class="modal1">
-                  <label class="modal1-label overlay"><input type="radio" name="modal1" value="close1" class="modal1-radio"/></label>
-                  <div class="content1" style="height: 150px">
-                    <div class="top1">
-                      <b>Anda yakin produk ini akan dihapus dari keranjang?</b>
-                      <label class="modal1-label close-btn1">
-                        <input type="radio" name="modal1" value="close1" class="modal1-radio"/>
-                      </label>
-                    </div>
-                    <div class="footer1">
-                      <table>
-                        <tr>
-                          <td style="border: none;">
-                            <a href="<?=base_url()?>Konsumen/Keranjang/<?=$this->session->userdata('id_konsumen')?>"><button type="button" style="padding: 8px; background: #7b808a" class="btn1 btn-default pull-left1" data-dismiss="modal1-label">Tidak</button></a>
-                          </td>
-                          <td style="border: none;">
-                            <a href="<?=base_url()?>Konsumen/hapusProduk/<?=$key->id_produk?>"><button type="button" style="padding: 8px;margin-left: 300px; width: 50px; text-align: center; background: #DD4B39" class="btn1 btn-default pull-right" data-dismiss="modal1">Ya</button></a>
-                          </td>
-                        </tr>
-                      </table>
-                      <br><br>
-                    </div>
-                  </div>
-                </div> -->
+                <a href="#" onclick="hapusProduk(<?=$key->id_produk?>)"><img src="<?=base_url()?>assets/konsumen/images/trash.png" style="width: 20px; margin-top: 35px;"></a>
               </div>
               <!-- MODAL -->
 
@@ -117,21 +88,24 @@
 
 <div class="clear"></div>
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
+
   function hapusProduk(id) {
-    swal({
-      title: "Hapus Produk",
-      text: "Yakin produk ini akan dihapus dari keranjang?",
-      type: warning,
-      showCancelButton : true,
-      confirmButtonColor: "#DD6B55",
-      confirmButtonText: "Ya",
-      closeOnConfirm: false
-      ),
-    function(isConfirm){
-      alert(isConfirm);
-      alert(id);
-      swal("Berhasil!", "Produk berhasil dihapus dari keranjang", "success");
-    });
+    var id = id;
+
+    Swal.fire({
+      title: 'Hapus Produk!',
+      text: "Hapus dari keranjang?",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText: "Tidak",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya!'
+    }).then((result) => {
+      if (result.value) {
+        location.href = '<?=base_url()?>Konsumen/hapusProduk/'+id
+      }
+    })
   }
-</script> -->
+</script>

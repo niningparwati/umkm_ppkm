@@ -49,6 +49,7 @@
 
 <!-- Sweetalert -->
 <script src="<?= base_url() ?>assets/plugins/sweetalert/dist/sweetalert2.all.min.js"></script>
+<script src="<?= base_url() ?>assets/plugins/sweetalert/dist/sweetalert2.min.js"></script>
 <script src="<?= base_url() ?>assets/js/sweetalert.js"></script>
 
 <!-- <script src="<?= base_url()?>assets/jquery.min.js"></script> 
