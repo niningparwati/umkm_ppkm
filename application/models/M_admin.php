@@ -246,14 +246,14 @@ class M_admin extends CI_Model {
 						")->result();
 	}
 
-	public function hitung($id)
-	{
-		return $this->db->query("SELECT COUNT(id_umkm) as hasil FROM tb_produk
-								JOIN tb_detail_transaksi USING(id_produk)
-								WHERE id_transaksi = '$id'
-								GROUP BY id_umkm
-								")->row();
-	}
+	// public function hitung($id)
+	// {
+	// 	return $this->db->query("SELECT COUNT(id_umkm) as hasil FROM tb_produk
+	// 							JOIN tb_detail_transaksi USING(id_produk)
+	// 							WHERE id_transaksi = '$id'
+	// 							GROUP BY id_umkm
+	// 							")->row();
+	// }
 
 	public function ambil_umkm($id_transaksi)
 	{
