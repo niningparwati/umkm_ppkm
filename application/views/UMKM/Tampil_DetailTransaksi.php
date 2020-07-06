@@ -10,7 +10,7 @@
               <div class="box-header">
                 <h3 class="box-title">Data Transaksi</h3><br><br>
                 <div class="tombol">
-									<a href="<?php echo base_url(); ?>UMKM/Transaksi/<?php echo $id_umkm ?>"><button type="submit" class="btn btn-primary"> <i class="fa fa-arrow-left"></i> Back</button></a>
+									<a href="<?php echo base_url(); ?>UMKM/<?= $back ?>/<?php echo $id_umkm ?>"><button type="submit" class="btn btn-primary"> <i class="fa fa-arrow-left"></i> Back</button></a>
 								</div>
               </div>
               <!-- /.box-header -->

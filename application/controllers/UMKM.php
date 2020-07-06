@@ -45,7 +45,7 @@ class UMKM extends CI_Controller {
 					$data = array(
 							'jumlahProduk' => $this->UMKM_Model->ProdukByUMKM($user["id_user"]),
 							'jumlahMenungguDikirim' => $this->UMKM_Model->menungguPengiriman($user["id_umkm"]),
-							'jumlahDikirim' => $this->UMKM_Model->dikirim($user["id_umkm"]),
+							'jumlahDanaDikirim' => $this->UMKM_Model->dana_dikirim($user["id_umkm"]),
 							'jumlahSelesai' => $this->UMKM_Model->selesai($user["id_umkm"]),
 						);
 
@@ -890,11 +890,26 @@ class UMKM extends CI_Controller {
 
 	////////////TRANSAKSI////////////
 
-	public function Transaksi($id_umkm)
+	// public function Transaksi($id_umkm)
+	// {
+	// 	$user = $this->user_umkm();
+
+	// 	$data["transaksi"]   = $this->UMKM_Model->transaksiMasuk($id_umkm)->result();
+		
+	// 	$this->load->view('Head', $user);
+	// 	$this->load->view('Header', $user);
+	// 	$this->load->view('Sidebar', $user);
+	// 	$this->load->view('UMKM/Tampil_TransaksiMasuk', $data);
+	// 	$this->load->view('Footer');
+	// 	//print_r($data["transaksi"]);
+	// }
+
+	public function Transaksi_MenungguPengiriman($id_umkm)
 	{
 		$user = $this->user_umkm();
 
 		$data["transaksi"]   = $this->UMKM_Model->transaksiMasuk($id_umkm)->result();
+		$data["back"]		 = "Transaksi_MenungguPengiriman";
 		
 		$this->load->view('Head', $user);
 		$this->load->view('Header', $user);
@@ -904,11 +919,43 @@ class UMKM extends CI_Controller {
 		//print_r($data["transaksi"]);
 	}
 
-	public function detail_transaksi($id_transaksi,$id_pengiriman)
+
+	public function Transaksi_DanaMasuk($id_umkm)
+	{
+		$user = $this->user_umkm();
+
+		$data["transaksi"]   = $this->UMKM_Model->Transaksi_DanaMasuk($id_umkm)->result();
+		$data["back"]		 = "Transaksi_DanaMasuk";
+		
+		$this->load->view('Head', $user);
+		$this->load->view('Header', $user);
+		$this->load->view('Sidebar', $user);
+		$this->load->view('UMKM/Tampil_Transaksi_DanaMasuk', $data);
+		$this->load->view('Footer');
+		//print_r($data["transaksi"]);
+	}
+
+	public function Transaksi_Selesai($id_umkm)
+	{
+		$user = $this->user_umkm();
+
+		$data["transaksi"]   = $this->UMKM_Model->Transaksi_Selesai($id_umkm)->result();
+		$data["back"]		 = "Transaksi_Selesai";
+		
+		$this->load->view('Head', $user);
+		$this->load->view('Header', $user);
+		$this->load->view('Sidebar', $user);
+		$this->load->view('UMKM/Tampil_Transaksi_Selesai', $data);
+		$this->load->view('Footer');
+		//print_r($data["transaksi"]);
+	}
+
+	public function detail_transaksi($id_transaksi,$id_pengiriman,$back)
 	{
 		$user = $this->user_umkm();
 		$data["detail_transaksi"] = $this->UMKM_Model->detail_transaksi($id_transaksi,$user["id_umkm"],$id_pengiriman)->result();
-		$data["id_umkm"] = $user['id_umkm'];
+		$data["id_umkm"] 		  = $user['id_umkm'];
+		$data["back"]	 		  = $back;
 
 		$this->load->view('Head', $user);
 		$this->load->view('Header', $user);
@@ -935,7 +982,7 @@ class UMKM extends CI_Controller {
 				$this->db->query("UPDATE tb_transaksi SET status = 'dikirim' WHERE id_transaksi = '$id_transaksi'");
 			}
 
-			redirect('UMKM/Transaksi/'.$user['id_umkm'],'refresh');
+			redirect('UMKM/Transaksi_MenungguPengiriman/'.$user['id_umkm'],'refresh');
 			// echo "$no_resi";
 			
 		}else{
@@ -946,20 +993,30 @@ class UMKM extends CI_Controller {
 					Anda Harus Input Resi!
 					</div>'
 				); 
-			redirect('UMKM/Transaksi/'.$user['id_umkm'],'refresh');
+			redirect('UMKM/Transaksi_MenungguPengiriman/'.$user['id_umkm'],'refresh');
 			
 		}
 
 		
 	}
 
-	public function set_selesai($id_transaksi)
+	public function set_selesai($id_pengiriman,$id_transaksi)
 	{
 		$user = $this->user_umkm();
 
-		$this->db->query("UPDATE tb_transaksi SET status = 'selesai' WHERE id_transaksi = '$id_transaksi'");
+			$this->db->query("UPDATE tb_pengiriman SET status_pengiriman = 'selesai' WHERE id_pengiriman = '$id_pengiriman'");
 
-		redirect('UMKM/Transaksi/'.$user['id_umkm'],'refresh');
+			$count_pengiriman = $this->db->query("SELECT COUNT(id_pengiriman) as jml_shipment FROM tb_pengiriman WHERE id_transaksi = '$id_transaksi' ")->row();
+
+			$count_status = $this->db->query("SELECT COUNT(status_pengiriman) as jml_terkirim FROM tb_pengiriman WHERE status_pengiriman = 'selesai' AND id_transaksi = '$id_transaksi' ")->row();
+
+			if($count_pengiriman->jml_shipment == $count_status->jml_terkirim){
+				$this->db->query("UPDATE tb_transaksi SET status = 'selesai' WHERE id_transaksi = '$id_transaksi'");
+			}
+
+		//$this->db->query("UPDATE tb_transaksi SET status = 'selesai' WHERE id_transaksi = '$id_transaksi'");
+
+		redirect('UMKM/Transaksi_DanaMasuk/'.$user['id_umkm'],'refresh');
 	}
 	
 

@@ -170,8 +170,22 @@
           <li >
             <a href="<?= base_url()?>UMKM/Dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
           </li>
-            <li >
-            <a href="<?php echo base_url()?>UMKM/Transaksi/<?= $id_umkm?>"><i class="fa fa-shopping-cart"></i> <span>Kelola Transaksi</span></a>
+         <!--  <li >
+            <a href="<?php //echo base_url()?>UMKM/Transaksi/<?= $id_umkm?>"><i class="fa fa-shopping-cart"></i> <span>Kelola Transaksi</span></a>
+          </li> -->
+          <li class="treeview">
+              <a href="#">
+                <i class="fa fa-shopping-cart"></i>
+                <span>Kelola Transaksi</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="<?php echo base_url()?>UMKM/Transaksi_MenungguPengiriman/<?= $id_umkm?>"><i class="fa fa-clock-o"></i>Menunggu Pengiriman</a></li>
+               <li><a href="<?php echo base_url()?>UMKM/Transaksi_DanaMasuk/<?= $id_umkm?>"><i class="fa fa-money"></i>Konfirmasi Dana Masuk</a></li>
+               <li><a href="<?php echo base_url()?>UMKM/Transaksi_Selesai/<?= $id_umkm?>"><i class="fa fa-dropbox"></i>Selesai</a></li>
+              </ul>
           </li>
           <li >
             <a href="<?php echo base_url()?>UMKM/Produk/<?= $id_umkm?>"><i class="fa fa-bitbucket-square"></i> <span>Kelola Produk</span></a>
