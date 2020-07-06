@@ -44,7 +44,7 @@
               <?php } ?>
             </a></td>
             <td class="qty" style="color: black; border: none;vertical-align: middle;"><b><?=$key->nama_produk?></b><br/><?=$key->deskripsi_produk?></td>
-            <td class="qty" style="color: black;padding-top: 40px; border: none;vertical-align: middle;">Rp <?=number_format($key->harga_produk,2,',','.')?></td>
+            <td class="qty" style="color: black;padding-top: 40px; border: none;vertical-align: middle;">Rp <?=number_format($key->harga_produk,0,',','.')?></td>
             <td class="qty" style="padding-top: 40px; color: black;border: none;vertical-align: middle;">
               <a href="<?=base_url()?>Konsumen/kurangiBarang/<?=$key->id_keranjang?>"><img src="<?=base_url()?>assets/konsumen/images/primary-minus.png" style="width: 18px; padding-right: 10px"></a>
               <?=$key->jumlah_barang?>
@@ -55,7 +55,7 @@
               $jml = $key->jumlah_barang;
               $hrg = $key->harga_produk;
               $total = $jml*$hrg;
-              echo 'Rp '.number_format($total,2,',','.');
+              echo 'Rp '.number_format($total,0,',','.');
               ?>
             </td>
             <td class="close" style="border: none;vertical-align: middle;">

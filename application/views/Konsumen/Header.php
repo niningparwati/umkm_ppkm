@@ -1,23 +1,8 @@
 <body>
   <div class="container_12">
     <div id="top">
-      <div class="grid_3 ">
-        <div class="phone_top"></div><!-- .phone_top -->
-      </div><!-- .grid_3 -->
-
-      <div class="grid_6">
-        <div class="welcome"></div><!-- .welcome -->
-      </div><!-- .grid_6 -->
-
-      <div class="grid_3">
-        <div class="valuta"></div><!-- .valuta -->
-
-        <div class="lang"></div><!-- .lang -->
-      </div><!-- .grid_3 -->
-    </div><!-- #top -->
-
+    </div><!-- #top -->    
     <div class="clear"></div>
-
     <header id="branding">
       <div class="grid_3">
         <hgroup>
@@ -28,15 +13,12 @@
       <div class="grid_3">
         <form class="search">
           <!-- <input type="text" name="search" class="entry_form" value="" placeholder="Search entire store here..."/> -->
-          <?php if ($this->session->userdata('id_konsumen')) { ?>
-            <center><h3><?= $this->session->userdata('nama_konsumen'); ?></h3></center>
-          <?php } ?>
         </form>
       </div><!-- .grid_3 -->
 
-      <div class="grid_6">
-        <nav class="private">
-          <ul>
+      <div class="grid_9"style="text-align: right;">
+        <nav class="private grid_9">
+          <ul style="float: right;">
             <?php if ($this->session->userdata('id_konsumen')) {?>
               <li><a href="<?=base_url()?>Konsumen/Profil">Profil</a></li>
               <li class="separator">|</li>
@@ -52,8 +34,16 @@
               <li><a href="<?=base_url()?>Konsumen/Register">Daftar</a></li>
             <?php } ?>
           </ul>
-        </nav><!-- .private -->
+        </nav><!-- .private --> 
+        <br>
+        <?php if ($this->session->userdata('id_konsumen')) { ?>
+          <p style="padding-right: 10px">
+            Selamat datang, <span style="font-size: 20px;"><?= $this->session->userdata('nama_konsumen'); ?></span>
+          </p>
+        <?php } ?>
       </div><!-- .grid_6 -->
+
+      <div class="clear"></div>
     </header><!-- #branding -->
   </div><!-- .container_12 -->
 
@@ -65,10 +55,10 @@
         <nav class="primary">
           <a class="menu-select" href="#">Catalog</a>
           <ul>
-            <li class="<?php echo ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'Home') ? 'curent' : ''; ?>"><a href="<?=base_url()?>Konsumen/Home">Beranda</a></li>
-            <li class="<?php echo ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'Umkm' AND $this->uri->segment(3) == 'semua') ? 'curent' : ''; ?>"><a href="<?=base_url()?>Konsumen/Umkm/semua/0">UMKM</a></li>
-            <li  class="<?php echo ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'Produk' AND $this->uri->segment(3) == 'semua') ? 'curent' : ''; ?>"><a href="<?=base_url()?>Konsumen/Produk/semua">Produk</a></li>
-            <li  class="<?php echo ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'Informasi') ? 'curent' : ''; ?>"><a href="<?=base_url()?>Konsumen/Informasi">Informasi UMKM</a></li>
+            <li class="<?php echo ( ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'Home') OR ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'detailPromo') ) ? 'curent' : ''; ?>"><a href="<?=base_url()?>Konsumen/Home">Beranda</a></li>
+            <li class="<?php echo ( ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'Umkm' AND $this->uri->segment(3) == 'semua') OR ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'detailUmkm') ) ? 'curent' : ''; ?>"><a href="<?=base_url()?>Konsumen/Umkm/semua/0">UMKM</a></li>
+            <li  class="<?php echo ( ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'Produk' AND $this->uri->segment(3) == 'semua') OR ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'detailProduk') ) ? 'curent' : ''; ?>"><a href="<?=base_url()?>Konsumen/Produk/semua">Produk</a></li>
+            <li  class="<?php echo ( ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'Informasi') OR ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'detailInformasi') ) ? 'curent' : ''; ?>"><a href="<?=base_url()?>Konsumen/Informasi">Informasi UMKM</a></li>
             <!-- <li><a href="<?=base_url()?>Konsumen/About">Tentang Kami</a></li> -->
           </ul>
         </nav><!-- .primary -->

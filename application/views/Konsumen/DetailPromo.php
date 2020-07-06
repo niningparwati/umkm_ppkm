@@ -26,15 +26,15 @@
 
 								<?php if ($minimal_belanja!=0 AND $maksimum_potongan!=0 ) { ?>
 
-									Voucher diskon sebesar <?=$besar_promo?>% <?php if(!is_null($id_umkm)) { ?> hanya untuk pembelian produk di <a href="<?=base_url()?>Konsumen/detailUmkm/<?=$id_umkm?>/semua" style="text-decoration: none;"> <?=$nama_umkm?> </a> <?php } ?> . Berlaku untuk transaksi dengan minimal pembelian Rp <?= number_format($minimal_belanja,2,',','.') ?> dengan maksimum diskon yang dapat digunakan sebesar Rp <?= number_format($maksimum_potongan,2,',','.') ?>. Voucher diskon hanya berlaku sampai <?= tgl_indo($berlaku_sampai) ?> .
+									Voucher diskon sebesar <?=$besar_promo?>% <?php if(!is_null($id_umkm)) { ?> hanya untuk pembelian produk di <a href="<?=base_url()?>Konsumen/detailUmkm/<?=$id_umkm?>/semua" style="text-decoration: none;"> <?=$nama_umkm?> </a> <?php } ?> . Berlaku untuk transaksi dengan minimal pembelian Rp <?= number_format($minimal_belanja,0,',','.') ?> dengan maksimum diskon yang dapat digunakan sebesar Rp <?= number_format($maksimum_potongan,0,',','.') ?>. Voucher diskon hanya berlaku sampai <?= tgl_indo($berlaku_sampai) ?> .
 
 								<?php }elseif ($minimal_belanja!=0) { ?>
 
-									Voucher diskon sebesar <?=$besar_promo?>% <?php if(!is_null($id_umkm)) { ?> hanya untuk pembelian produk di <a href="<?=base_url()?>Konsumen/detailUmkm/<?=$id_umkm?>/semua" style="text-decoration: none;"> <?=$nama_umkm?> </a> <?php } ?> . Berlaku untuk transaksi dengan minimal pembelian Rp <?= number_format($minimal_belanja,2,',','.') ?> . Voucher diskon hanya berlaku sampai <?= tgl_indo($berlaku_sampai) ?> .
+									Voucher diskon sebesar <?=$besar_promo?>% <?php if(!is_null($id_umkm)) { ?> hanya untuk pembelian produk di <a href="<?=base_url()?>Konsumen/detailUmkm/<?=$id_umkm?>/semua" style="text-decoration: none;"> <?=$nama_umkm?> </a> <?php } ?> . Berlaku untuk transaksi dengan minimal pembelian Rp <?= number_format($minimal_belanja,0,',','.') ?> . Voucher diskon hanya berlaku sampai <?= tgl_indo($berlaku_sampai) ?> .
 
 								<?php }elseif ($maksimum_potongan!=0) { ?>
 
-									Voucher diskon sebesar <?=$besar_promo?>% <?php if(!is_null($id_umkm)) { ?> hanya untuk pembelian produk di <a href="<?=base_url()?>Konsumen/detailUmkm/<?=$id_umkm?>/semua" style="text-decoration: none;"> <?=$nama_umkm?> </a> <?php } ?> . Maksimum diskon yang dapat digunakan sebesar Rp <?= number_format($maksimum_potongan,2,',','.') ?>. Voucher diskon hanya berlaku sampai <?= tgl_indo($berlaku_sampai) ?> .
+									Voucher diskon sebesar <?=$besar_promo?>% <?php if(!is_null($id_umkm)) { ?> hanya untuk pembelian produk di <a href="<?=base_url()?>Konsumen/detailUmkm/<?=$id_umkm?>/semua" style="text-decoration: none;"> <?=$nama_umkm?> </a> <?php } ?> . Maksimum diskon yang dapat digunakan sebesar Rp <?= number_format($maksimum_potongan,0,',','.') ?>. Voucher diskon hanya berlaku sampai <?= tgl_indo($berlaku_sampai) ?> .
 
 								<?php }else{ ?>
 

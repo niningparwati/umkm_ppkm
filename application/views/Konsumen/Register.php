@@ -20,29 +20,29 @@
         <form class="registed" style="border: none;" method="POST" action="<?=base_url()?>Konsumen/prosesRegister">
           <div class="grid_6" style="margin: 0px">
             <div class="nama_lengkap">
-              <strong>Nama Lengkap :</strong><sup class="surely">*</sup><br/>
+              <strong>Nama Lengkap :</strong><br/>
               <input type="text" name="nama_konsumen" style="width: 90%" required/>
             </div>
             <div class="email">
-              <strong>Email :</strong><sup class="surely">*</sup><br/>
+              <strong>Email :</strong><br/>
               <input type="email" name="email" style="width: 90%" required />
             </div>
             <div class="no_telp">
-              <strong>Nomor Telp :</strong><sup class="surely">*</sup><br/>
+              <strong>Nomor Telp :</strong><br/>
               <input type="text" name="no_telp" style="width: 90%" onkeyup="angka(this);" required />
             </div>
           </div>
           <div class="grid_6" style="margin: 0px">
             <div class="username">
-              <strong>Username :</strong><sup class="surely">*</sup><br/>
+              <strong>Username :</strong><br/>
               <input type="text" name="username" style="width: 90%" required />
             </div>
             <div class="password">
-              <strong>Password :</strong><sup class="surely">*</sup><br/>
+              <strong>Password :</strong><br/>
               <input type="password" name="password1" id="pw1" required style="height: 33px; width: 90%; padding: 0 10px; border: 1px solid #ccc; color: #777; border-radius: 2px" class="form-control"/>
             </div><br>
             <div class="password">
-              <strong>Konfirmasi Password :</strong><sup class="surely">*</sup><br/>
+              <strong>Konfirmasi Password :</strong><br/>
               <input type="password" name="password2" id="pw2" required style="height: 33px; width: 90%; padding: 0 10px; border: 1px solid #ccc; color: #777; border-radius: 2px" class="form-control"/>
             </div>
           </div>
