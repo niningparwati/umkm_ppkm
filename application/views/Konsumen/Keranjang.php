@@ -45,7 +45,7 @@
                 }
                 ?>
                 <tr id="<?=$key->id_produk?>" style="border-bottom: 1px solid black;">
-                  <td style="border: none;"><input type="checkbox" name="keranjang[]" id="undefined" value="<?=$key->id_keranjang?>" tabindex="0" style="margin-top: 20px"></td>
+                  <td style="border: none;"><input type="checkbox" name="keranjang[]" id="undefined" value="<?=$key->id_keranjang?>" tabindex="0" style="margin-top: 20px" checked></td>
                   <td class="images" style="border: none;"><a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>">
                     <?php if (!empty($key->foto_produk)) { ?>
                       <img src="<?=base_url()?>assets/foto_produk/<?=$key->foto_produk?>" alt="Product Slide 1" style="width: 100px; height: 100px">
