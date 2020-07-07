@@ -78,7 +78,7 @@
           </div><!-- #top_button -->
         <?php } ?>
         <div class="carousel">
-          <div>
+          <div class="c_header">
             <div class="grid_10">
               <h2>Produk UMKM</h2>
             </div><!-- .grid_10 -->
@@ -90,7 +90,7 @@
 
           <div class="list_carousel">
 
-            <ul id="list_product" class="list_product">
+            <ul id="list_product" class="list_product" style="display: block;overflow: auto;">
               <?php
               if (!empty($produk)) {
                 foreach ($produk as $key) {
@@ -115,7 +115,7 @@
                             </div>
                           </div>
                           <div style="color: #2e9f9a;">
-                            <span style="padding-left: 10px">Stok : <br></span>
+                            <span style="padding-left: 10px">Stok :</span><br>
                             <span style="padding-left: 10px"><?=$key->stok?> produk</span>
                           </div>
                         </div><!-- .cart -->
@@ -131,20 +131,18 @@
         </div><!-- .carousel -->
 
         <div class="carousel">
-          <div>
+          <div class="c_header">
             <div class="grid_10">
-              <br><br><br>
               <h2>UMKM</h2>
             </div><!-- .grid_10 -->
 
             <div class="grid_2">
-              <br><br><br>
               <a id="next_c2" class="next arows" href="<?=base_url()?>Konsumen/Umkm/semua/0"><span>Next</span></a>
             </div><!-- .grid_2 -->
           </div><!-- .c_header -->
 
           <div class="list_carousel">
-            <ul id="list_product2" class="list_product">
+            <ul id="list_product2" class="list_product" style="display: block;overflow: auto;">
               <?php
               if (!empty($umkm)) {
                foreach ($umkm as $key) {
@@ -222,16 +220,16 @@
       <?php } ?>
 
       <div id="content_bottom">
-        <div  class="container_12">
-          <div class="grid_10">
-            <br><br><br>
-            <h2>INFORMASI</h2>
-          </div><!-- .grid_10 -->
+        <div class="container_12">
 
-          <div class="grid_2">
-            <br><br><br>
-            <a id="next_c2" class="next arows" href="<?=base_url()?>Konsumen/Informasi"><span>Next</span></a>
-          </div><!-- .grid_2 -->
+        <div class="grid_12" style="float:left;">
+          <h2>INFORMASI <a id="next_c2" class="next arows" href="<?=base_url()?>Konsumen/Informasi"><span>Next</span></a></h2>
+        </div><!-- .grid_10 -->
+
+        <!-- <div class="grid_2">
+          <a id="next_c2" class="next arows" href="<?=base_url()?>Konsumen/Informasi"><span>Next</span></a>
+        </div> -->
+
 
           <?php
           if (!empty($informasi)) {
@@ -265,11 +263,11 @@
                     <!-- </tr> -->
                   </table>
                 </div>
-              </div><!-- .c_header -->
               <?php
             }
           }
           ?>
+          </div><!-- .c_header -->
 
           <div class="clear"></div>
         </div><!-- #content_bottom -->
