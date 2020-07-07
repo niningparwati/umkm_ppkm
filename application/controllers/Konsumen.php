@@ -1075,7 +1075,7 @@ function inputDiskon($idTransaksi)
 				if (!is_null($cekKode->id_umkm)) {		// jika promo dari umkm tertentu
 					$total_belanja = $this->M_konsumen->getProduk($idTransaksi, $cekKode->id_umkm)->total;
 					$Umkm = $this->M_konsumen->umkmById($cekKode->id_umkm);
-					if (!empty($total_belanja)) {		// jika ada produk dari umkm tersebut
+					if (!is_null($total_belanja)) {		// jika ada produk dari umkm tersebut
 						if ($total_belanja >= $cekKode->minimal_belanja) {		// cek belanja maksimum dan minimum
 							$besarDiskon = ($transaksi->total_harga*$cekKode->besar_promo)/100;
 							if ($besarDiskon <= $cekKode->maksimum_potongan) {	// jika diskon kurang dari maksimal potongan
@@ -1108,7 +1108,7 @@ function inputDiskon($idTransaksi)
 								redirect('Konsumen/Pengiriman/'.$idTransaksi);
 							}
 						}else{
-							$this->session->set_flashdata('warning_checkout', 'voucher diskon hanya dapat digunakan untuk pembelian produk minimall Rp '.number_format($cekKode->minimal_belanja,2,',','.'));
+							$this->session->set_flashdata('warning_checkout', 'voucher diskon hanya dapat digunakan untuk pembelian produk minimal Rp '.number_format($cekKode->minimal_belanja,2,',','.'));
 							redirect('Konsumen/Pengiriman/'.$idTransaksi);
 						}
 					}else{		// jika tidak ada produk dari umkm tersebut
