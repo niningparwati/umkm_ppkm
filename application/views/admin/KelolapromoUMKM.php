@@ -43,7 +43,7 @@
               <th>Kode Promo</th>
               <th>Besar Promo</th>
               <th>Minimal Belanja</th>
-              <th>Maksimum Belanja</th>
+              <th>Maksimum Potongan</th>
               <th>Status Promo</th>
               <th>Foto Promo</th>
               <th>Berlaku Sampai</th>
@@ -81,7 +81,7 @@
                       Expired
                   </a>
                 <?php }else{ ?>
-                    
+
                 <?php } ?>
                 <a class="btn btn-danger" data-toggle="modal" href="#" data-target="#hapus<?php echo $s->id_promo?>">
                     <i class="fa fa-fw fa-trash"></i> Hapus

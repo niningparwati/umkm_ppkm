@@ -42,7 +42,7 @@
               <th>Kode Promo</th>
               <th>Besar Promo</th>
               <th>Minimal Belanja</th>
-              <th>Maksimum Belanja</th>
+              <th>Maksimum Potongan</th>
               <th>Status Promo</th>
               <th>Foto Promo</th>
               <th>Berlaku Sampai</th>
