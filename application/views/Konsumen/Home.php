@@ -17,7 +17,7 @@
 
           <!-- Indicators -->
           <ul class="carousel-indicators">
-            <?php 
+            <?php
             $no=0;
             foreach ($promo as $key) {
               ?>
@@ -34,8 +34,8 @@
                   <div class="carousel-caption">
                     <h3><?=$key->nama_promo?></h3>
                     <h2><span style="background: white"></span></h2>
-                    <span style="color: black; background: white">
-                      Kode Voucher : <b style="font-size: 18px"><?=$key->kode_promo?></b><br>
+                    <span style="color: black; background: white; padding:10px; border-radius:10px;">
+                      Kode Voucher : <b style="font-size: 18px;"><?=$key->kode_promo?></b><br>
                     </span>
                   </div>
                 </a>
@@ -94,7 +94,7 @@
           <div class="list_carousel">
 
             <ul id="list_product" class="list_product">
-              <?php 
+              <?php
               if (!empty($produk)) {
                 foreach ($produk as $key) {
                   ?>
@@ -125,11 +125,11 @@
                       </div><!-- .grid_3 -->
                     </li>
                   </a>
-                  <?php 
-                } 
-              } 
+                  <?php
+                }
+              }
               ?>
-            </ul><!-- #list_product --> 
+            </ul><!-- #list_product -->
           </div><!-- .list_carousel -->
         </div><!-- .carousel -->
 
@@ -169,7 +169,7 @@
                     <center>memiliki <?=$jml?> jenis produk</center>
                   </div><!-- .grid_3 -->
                 </li>
-                <?php 
+                <?php
               }
             }
             ?>
@@ -186,7 +186,7 @@
 
               <!-- Indicators -->
               <ul class="carousel-indicators">
-                <?php 
+                <?php
                 $no=0;
                 foreach ($slide as $key) {
                   ?>
@@ -236,7 +236,7 @@
             <a id="next_c2" class="next arows" href="<?=base_url()?>Konsumen/Informasi"><span>Next</span></a>
           </div><!-- .grid_2 -->
 
-          <?php 
+          <?php
           if (!empty($informasi)) {
             foreach ($informasi as $key) {
               ?>
@@ -269,7 +269,7 @@
                   </table>
                 </div>
               </div><!-- .c_header -->
-              <?php 
+              <?php
             }
           }
           ?>

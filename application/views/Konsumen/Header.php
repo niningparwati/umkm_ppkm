@@ -14,7 +14,7 @@
         <center>
           <form class="search" style="margin-top:30px;" method="get" action="<?=base_url()?>Konsumen/Home">
             <div class="input-group">
-              <input type="text" name="search" value="<?= (isset($_GET['search']))?$_GET['search']:'' ?>" placeholder="Search entire store here...." style="width:80%"/>
+              <input type="text" name="search" value="<?= (isset($_GET['search']))?$_GET['search']:'' ?>" placeholder="Cari Produk atau UMKM disini..." style="width:80%"/>
               <div class="input-group-btn">
                 <button class="btn btn-primary" type="submit">
                   <i class="fa fa-search" aria-hidden="true"></i>
@@ -48,7 +48,7 @@
               <li><a href="<?=base_url()?>Konsumen/Register">Daftar</a></li>
             <?php } ?>
           </ul>
-        </nav><!-- .private --> 
+        </nav><!-- .private -->
         <br>
       </div><!-- .grid_6 -->
 
@@ -79,8 +79,8 @@
 
     function logoutConfirm() {
       Swal.fire({
-        title: 'Attention!',
-        text: "Are you sure want to log out?",
+        title: 'Perhatian!',
+        text: "Apakah anda yakin ingin keluar?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
