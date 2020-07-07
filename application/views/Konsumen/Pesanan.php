@@ -73,10 +73,9 @@
         <table class="cart_product">
           <tr>
             <th class="edit" style="background: #f7f7f7; text-align: center;color: black"><b>No</b></th>
+            <th class="edit" style="background: #f7f7f7; text-align: center;color: black"><b>Tanggal Order</b></th>
             <th class="images" style="background: #f7f7f7;  text-align: center; color: black"><b>Nama Produk</b></th>
             <th class="bg price" style="background: #f7f7f7; text-align: center; color: black"><b>Total Harga</b></th>
-            <th class="bg price" style="background: #f7f7f7; text-align: center; color: black"><b>Diskon</b></th>
-            <th class="qty" style="background: #f7f7f7; text-align: center; color: black"><b>Ongkos Kirim</b></th>
             <th class="bg subtotal" style="background: #f7f7f7; text-align: center; color: black"><b>Ekspedisi Pengiriman</b></th>
             <th class="bg subtotal" style="background: #f7f7f7; text-align: center; color: black"><b>Alamat Pengiriman</b></th>
           </tr>
@@ -88,6 +87,7 @@
               ?>
               <tr>
                 <td><?=$no++?></td>
+                <td><?php $time = strtotime($key->tanggal_transaksi); echo date('d F Y',$time); ?></td>
                 <td class="images">
                   <?php 
                   $produk = $this->M_konsumen->getProdukPesanan($key->id_transaksi);
@@ -96,16 +96,7 @@
                   } ?>
                 </td>
                 <td class="qty" style="color: black;padding-top: 40px">Rp <?=number_format($key->total_harga,0,',','.')?></td>
-                <td class="qty" style="color: black;padding-top: 40px">Rp 
-                  <?php if (!is_null($key->besar_diskon)) {?>
-                    <?=number_format($key->total_harga,0,',','.')?>
-                  <?php }else{ ?>
-                    0
-                  <?php } ?>
-                </td>
-                <td class="qty" style="padding-top: 40px; color: black">
-                  Rp <?=number_format($key->ongkos_kirim,0,',','.')?>
-                </td>
+                
                 <td>
                   <?=$key->ekspedisi_pengiriman."<br>".$key->estimasi_pengiriman?> hari
                 </td>
@@ -230,12 +221,9 @@
         <table class="cart_product">
           <tr>
             <th class="edit" style="background: #f7f7f7; text-align: center;color: black"><b>No</b></th>
+            <th class="edit" style="background: #f7f7f7; text-align: center;color: black"><b>Tanggal Order</b></th>
             <th class="images" style="background: #f7f7f7;  text-align: center; color: black"><b>Nama Produk</b></th>
             <th class="bg price" style="background: #f7f7f7; text-align: center; color: black"><b>Total Harga</b></th>
-            <th class="bg price" style="background: #f7f7f7; text-align: center; color: black"><b>Diskon</b></th>
-            <th class="qty" style="background: #f7f7f7; text-align: center; color: black"><b>Ongkos Kirim</b></th>
-            <th class="bg subtotal" style="background: #f7f7f7; text-align: center; color: black"><b>Ekspedisi Pengiriman</b></th>
-            <th class="bg subtotal" style="background: #f7f7f7; text-align: center; color: black"><b>Alamat Pengiriman</b></th>
             <th class="bg subtotal" style="background: #f7f7f7; text-align: center; color: black"><b>Status</b></th>
           </tr>
           <form method="POST" action="<?=base_url()?>Konsumen/Checkout">
@@ -246,6 +234,7 @@
               ?>
               <tr>
                 <td><?=$no++?></td>
+                <td><?php $time = strtotime($key->tanggal_transaksi); echo date('d F Y',$time); ?></td>
                 <td class="images">
                   <?php 
                   $produk = $this->M_konsumen->getProdukPesanan($key->id_transaksi);
@@ -254,22 +243,7 @@
                   } ?>
                 </td>
                 <td class="qty" style="color: black;padding-top: 40px">Rp <?=number_format($key->total_harga,0,',','.')?></td>
-                <td class="qty" style="color: black;padding-top: 40px">Rp 
-                  <?php if (!is_null($key->besar_diskon)) {?>
-                    <?=number_format($key->total_harga,0,',','.')?>
-                  <?php }else{ ?>
-                    0
-                  <?php } ?>
-                </td>
-                <td class="qty" style="padding-top: 40px; color: black">
-                  Rp <?=number_format($key->ongkos_kirim,0,',','.')?>
-                </td>
-                <td>
-                  <?=$key->ekspedisi_pengiriman."<br>".$key->estimasi_pengiriman?> hari
-                </td>
-                <td>
-                  <?=$key->detail_alamat.", ".$key->kota.", ".$key->provinsi?>
-                </td>
+                
                 <td>
                   <span style="color: red">Sudah Diterima</span>
                 </td>
