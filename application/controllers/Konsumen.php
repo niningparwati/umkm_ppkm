@@ -58,10 +58,7 @@ class Konsumen extends CI_Controller {
 	{
 		$this->session->sess_destroy();
 		$this->session->set_flashdata('success_login','Anda telah keluar dari aplikasi');
-		$this->load->view('Konsumen/Head');
-		$this->load->view('Konsumen/Header');
-		$this->load->view('Konsumen/Login');
-		$this->load->view('Konsumen/Footer');
+		redirect('Konsumen/index','refresh');
 	}
 
 	// REGISTRASI
