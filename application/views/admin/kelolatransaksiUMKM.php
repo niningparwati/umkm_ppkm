@@ -176,7 +176,7 @@
             <?php $ini = $this->M_admin->iniprodukk($key->id_transaksi,$key->nama_umkm);
               foreach ($ini as $e) { ?>
                 <ul>
-                  <li><?php echo $e->nama_umkm ?><br>
+                  <li>
                       <img src="<?=base_url()?>assets/foto_produk/<?php echo $e->foto_produk ?>" width="100px"><br>
                       <p><?php echo $e->nama_produk ?> - <span style="color:red"><?php echo $e->harga_produk ?></span></p>
                   </li>
