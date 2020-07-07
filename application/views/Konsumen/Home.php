@@ -17,7 +17,7 @@
 
           <!-- Indicators -->
           <ul class="carousel-indicators">
-            <?php 
+            <?php
             $no=0;
             foreach ($promo as $key) {
               ?>
@@ -91,7 +91,7 @@
           <div class="list_carousel">
 
             <ul id="list_product" class="list_product">
-              <?php 
+              <?php
               if (!empty($produk)) {
                 foreach ($produk as $key) {
                   ?>
@@ -122,11 +122,11 @@
                       </div><!-- .grid_3 -->
                     </li>
                   </a>
-                  <?php 
-                } 
-              } 
+                  <?php
+                }
+              }
               ?>
-            </ul><!-- #list_product --> 
+            </ul><!-- #list_product -->
           </div><!-- .list_carousel -->
         </div><!-- .carousel -->
 
@@ -166,7 +166,7 @@
                     <center>memiliki <?=$jml?> jenis produk</center>
                   </div><!-- .grid_3 -->
                 </li>
-                <?php 
+                <?php
               }
             }
             ?>
@@ -183,7 +183,7 @@
 
               <!-- Indicators -->
               <ul class="carousel-indicators">
-                <?php 
+                <?php
                 $no=0;
                 foreach ($slide as $key) {
                   ?>
@@ -233,7 +233,7 @@
             <a id="next_c2" class="next arows" href="<?=base_url()?>Konsumen/Informasi"><span>Next</span></a>
           </div><!-- .grid_2 -->
 
-          <?php 
+          <?php
           if (!empty($informasi)) {
             foreach ($informasi as $key) {
               ?>
@@ -266,7 +266,7 @@
                   </table>
                 </div>
               </div><!-- .c_header -->
-              <?php 
+              <?php
             }
           }
           ?>

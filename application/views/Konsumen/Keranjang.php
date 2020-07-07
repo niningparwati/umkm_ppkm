@@ -10,11 +10,11 @@
 
 <div class="clear"></div>
 
-<section id="main" class="entire_width">
+<section id="main" class="entire_width" style="margin-top:30px">
   <div class="container_12">
    <div class="grid_12">
     <h1 class="page_title" style="border-bottom: none;">Keranjang Belanja</h1>
-    <?php 
+    <?php
     $cek1 = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'));  // cek produk di tabel transaksi status menunggu konfirmasi
 
     if (!empty($produk)) {
@@ -44,7 +44,7 @@
             // print_r($data);
           }
           ?>
-          <tr id="<?=$key->id_produk?>">
+          <tr id="<?=$key->id_produk?>" style="border-bottom: 1px solid black;">
             <td style="border: none;"><input type="checkbox" name="keranjang[]" id="undefined" value="<?=$key->id_keranjang?>" tabindex="0" style="margin-top: 20px"></td>
             <td class="images" style="border: none;"><a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>">
               <?php if (!empty($key->foto_produk)) { ?>
@@ -53,26 +53,26 @@
                 <img src="<?=base_url()?>assets/foto_produk/produk_default.png" alt="Product Slide 1" style="width: 100px; height: 100px">
               <?php } ?>
             </a></td>
-            <td class="qty" style="color: black; border: none;vertical-align: middle;"><b><?=$key->nama_produk?></b></td>
-            <td class="qty" style="color: black;padding-top: 40px; border: none;vertical-align: middle;">Rp <?=number_format($key->harga_produk,0,',','.')?></td>
-            <td class="qty" style="padding-top: 40px; color: black;border: none;vertical-align: middle;">
+            <td class="qty" style="color: black;border: none;vertical-align: middle;"><a style="color: black;" href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>"><b><?=$key->nama_produk?></b></a></td>
+            <td class="qty" style="color: black;border: none;vertical-align: middle;">Rp <?=number_format($key->harga_produk,0,',','.')?></td>
+            <td class="qty" style="color: black;border: none;vertical-align: middle;">
               <a href="<?=base_url()?>Konsumen/kurangiBarang/<?=$key->id_keranjang?>"><img src="<?=base_url()?>assets/konsumen/images/primary-minus.png" style="width: 18px; padding-right: 10px"></a>
               <?=$key->jumlah_barang?>
               <a href="<?=base_url()?>Konsumen/tambahBarang/<?=$key->id_keranjang?>"><img src="<?=base_url()?>assets/konsumen/images/primary-plus.png" style="width: 18px; padding-left: 10px"></a>
             </td>
-            <td class="qty" style="border: none;vertical-align: middle;">
-              <?php 
+            <td class="qty" style="color: black; border: none;vertical-align: middle;">
+              <?php
               $jml = $key->jumlah_barang;
               $hrg = $key->harga_produk;
               $total = $jml*$hrg;
               echo 'Rp '.number_format($total,0,',','.');
               ?>
             </td>
-            <td class="close" style="border: none;vertical-align: middle;">
+            <td class="qty" style="border: none;vertical-align: middle;">
               <!-- MODAL HAPUS PRODUK-->
-              <div style="margin-left: 10px">
-                <a href="#" onclick="hapusProduk(<?=$key->id_produk?>)"><img src="<?=base_url()?>assets/konsumen/images/trash.png" style="width: 20px; margin-top: 35px;"></a>
-              </div>
+              <a href="#" title="Hapus Barang" onclick="hapusProduk(<?=$key->id_produk?>)"><img src="<?=base_url()?>assets/konsumen/images/trash.png" style="width: 20px;"></a>
+              <!-- <div>
+              </div> -->
               <!-- MODAL -->
 
             </td>

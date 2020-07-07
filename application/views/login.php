@@ -1,15 +1,21 @@
-  <?php $this->load->view('admin/head') ?>
-<body class="hold-transition login-page" style="background-image: url('<?php echo base_url()?>uploads/background.jpg');background-repeat: no-repeat;background-attachment: fixed;background-size: cover;">
+<body class="hold-transition login-page">
   <div class="login-box">
     <div class="login-logo">
-      <a href="#"><b>UMKM </b>PPKM</a>
+      <a href="#"><b>UMKM </b>Katalog</a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-      <p style="color:red"><?php echo $berita ?></p>
-      <p class="login-box-msg">Login Sebagai UMKM atau Admin</p>
+      <p class="login-box-msg">Login Sebagai UMKM atau Paguyuban</p>
       <?= $this->session->flashdata('notif')?>
-      <form action="<?=base_url()?>LoginAU/login" method="post">
+      <form action="<?= $action ?>" method="post">
+       <!--  <div class="form-group">
+          <label>Login sebagai</label>
+          <select class="form-control" name="level">
+            <option value="UMKM">UMKM</option>
+            <option value="Paguyuban">Paguyuban</option>
+            <option value="Admin">Admin</option>
+          </select>
+        </div> -->
         <div class="form-group has-feedback">
           <input type="text" name="username" class="form-control" placeholder="Username" required oninvalid="this.setCustomValidity('Username belum diisi')" oninput="setCustomValidity('')">
           <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
