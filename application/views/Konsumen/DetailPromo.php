@@ -20,7 +20,9 @@
 					<div>
 						<div><br><br>
 							<span style="font-size: 30px;font-weight: bold;"><?=$nama_promo?></span><br><br>
-							Kode Voucher : <span style="font-weight: bold;"><?=$kode_promo?></span><br><br>
+							Kode Voucher : <span style="font-weight: bold;" id="kodevoucher"><?=$kode_promo?></span>
+							<button id="buttonCopy" type="button" onclick="copyVoucher('#kodevoucher')">Copy Voucher</button>
+							<br><br>
 							<div style="width: 100%; text-align: justify;">
 								<?php if ($id_umkm) { $nama_umkm = $this->M_konsumen->umkmById($id_umkm)->nama_umkm; } ?>
 
@@ -58,6 +60,20 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-	// $('[data-toggle="tooltip"]').tooltip();
+
 });
+
+function copyVoucher(element) {
+	var $temp = $("<input>");
+	$("body").append($temp);
+	$temp.val($(element).text()).select();
+	document.execCommand("copy");
+	$temp.remove();
+
+	$('#buttonCopy').after('<p id="pesan-copy">Kode Berhasil di Copy</p>')
+	setTimeout(()=>{
+		$('#pesan-copy').hide();
+	}, 3000)
+
+}
 </script>

@@ -35,4 +35,11 @@
   <!-- Bootstrap CSS-->
   <!-- <link rel="stylesheet" href="<?=base_url()?>assets/konsumen/vendor/bootstrap/css/bootstrap.min.css"> -->
 
+  <style media="screen">
+    .private ul li.curent a{
+      background-color: #78c4cd;
+      color: white;
+    }
+  </style>
+
 </head>

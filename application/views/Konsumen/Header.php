@@ -34,11 +34,11 @@
           <?php } ?>
           <ul>
             <?php if ($this->session->userdata('id_konsumen')) {?>
-              <li><a href="<?=base_url()?>Konsumen/Profil">Profil</a></li>
+              <li class="<?php echo ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'Profil') ? 'curent' : ''; ?>"><a href="<?=base_url()?>Konsumen/Profil">Profil</a></li>
               <li class="separator">|</li>
-              <li  class="<?php echo ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'Informasi') ? 'curent' : ''; ?>"><a href="<?=base_url()?>Konsumen/Keranjang">Keranjang</a></li>
+              <li class="<?php echo ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'Keranjang') ? 'curent' : ''; ?>"><a href="<?=base_url()?>Konsumen/Keranjang">Keranjang</a></li>
               <li class="separator">|</li>
-              <li><a href="<?=base_url()?>Konsumen/Pesanan">Pesanan</a></li>
+              <li class="<?php echo ($this->uri->segment(1) == 'Konsumen' AND $this->uri->segment(2) == 'Pesanan') ? 'curent' : ''; ?>"><a href="<?=base_url()?>Konsumen/Pesanan">Pesanan</a></li>
               <li class="separator">|</li>
               <li><a href="#" onclick="logoutConfirm()">Log Out</a></li>
             <?php } ?>
@@ -76,6 +76,23 @@
   </div><!-- .block_nav_primary -->
 
   <script type="text/javascript">
+    $(function(){
+        $('.primary .menu-select').toggle(function(){
+          $('.primary > ul').slideDown('slow');
+        	$(this).addClass('minus');
+        }, function(){
+          	$('.primary > ul').slideUp('slow');
+          	$(this).removeClass('minus');
+        });
+
+        $('.primary .parent > a').toggle(function(){
+            $(this).next('ul.sub').slideDown('slow');
+          	$(this).parent('.parent').addClass('minus');}
+              , function(){
+          	$(this).next('ul.sub').slideUp('slow');
+          	$(this).parent('.parent').removeClass('minus');
+        });
+    });
 
     function logoutConfirm() {
       Swal.fire({
