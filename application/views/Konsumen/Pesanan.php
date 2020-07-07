@@ -279,7 +279,7 @@
         </table>
       <?php }if(empty($menunggu_pembayaran) AND empty($menunggu_konfirmasi) AND empty($diproses) AND empty($dikirim) AND empty($selesai) ){ ?>
         <br><br>
-        <center><h5>Belum ada produk yang Anda masukan ke dalam keranjang!</h5></center>
+        <center><h3>Anda belum melakukan transaksi. Silahkan checkout barang terlebih dahulu!</h3></center>
       <?php } ?>
     </div><!-- .grid_12 -->
     <div class="clear"></div>

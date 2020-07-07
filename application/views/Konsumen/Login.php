@@ -36,7 +36,7 @@
           <div class="password">
             <strong>Password:</strong><br/>
             <input type="password" name="password" style="height: 33px; width: 255px; padding: 0 10px; border: 1px solid #ccc; color: #777; border-radius: 2px" class="form-control"/>
-            <a class="forgot" href="#">Forgot Your Password?</a>
+            <a class="forgot" href="<?=base_url()?>Konsumen/UbahPassword">Forgot Your Password?</a>
           </div><!-- .password -->
           <div class="submit">										
             <input type="submit" name="submit" value="Masuk" />

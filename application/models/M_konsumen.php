@@ -23,6 +23,18 @@ class M_konsumen extends CI_Model {
 		return $this->db->query($sql)->row();
 	}
 
+	function cekByPass($pass, $id)
+	{
+		$sql = "SELECT password_konsumen FROM tb_konsumen WHERE password_konsumen='$pass' AND id_konsumen='$id' ";
+		return $this->db->query($sql)->row();
+	}
+
+	function cekUserEmail($username, $email)
+	{
+		$sql = "SELECT * FROM tb_konsumen WHERE email_konsumen='$email' AND username_konsumen='$username' ";
+		return $this->db->query($sql)->row();
+	}
+
 	function verifyEmail($key)
 	{
 		$data = array(

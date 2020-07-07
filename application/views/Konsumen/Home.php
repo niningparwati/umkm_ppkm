@@ -31,12 +31,9 @@
               <div class="carousel-item <?php if ($no == 1) { ?> active  <?php } ?>" >
                 <a href="<?=base_url()?>Konsumen/detailPromo/<?=$key->id_promo?>">
                   <img src="<?=base_url()?>assets/foto_promo/<?=$key->foto_promo?>" alt="Gambar - <?=$no++?>" width="1000" height="300">
-                  <div class="carousel-caption">
-                    <h3><?=$key->nama_promo?></h3>
-                    <h2><span style="background: white"></span></h2>
-                    <span style="color: black; background: white; padding:10px; border-radius:10px;">
-                      Kode Voucher : <b style="font-size: 18px;"><?=$key->kode_promo?></b><br>
-                    </span>
+                  <div class="carousel-caption" style="color: black; background-color: white">
+                    <span style="font-size: 20px; font-weight: bold;"><?=$key->nama_promo?></span><br><br>
+                    <span>Kode Voucher : <b style="font-size: 16px"><?=$key->kode_promo?></b></span>
                   </div>
                 </a>
               </div>
@@ -198,14 +195,14 @@
               <div class="carousel-inner">
                 <?php $no=1; foreach ($slide as $key) { ?>
                   <div class="carousel-item <?php if ($no == 1) { ?> active  <?php } ?>" >
-                    <a href="<?=$key->url?>">
+                    <a href="<?=$key->url?>" target="_blank">
                       <?php if (!empty($key->gambar)) {?>
                         <img src="<?=base_url()?>assets/gambar_slide/<?=$key->gambar?>" alt="Gambar - <?=$no++?>" width="1000" height="300">
                       <?php }else{ ?>
                         <img src="<?=base_url()?>assets/foto_produk/produk_default.png" alt="Gambar - <?=$no++?>" width="1000" height="300">
                       <?php } ?>
-                      <div class="carousel-caption">
-                        <span style="color: black; background: white; font-weight: bold; padding: 10px; font-size: 30px"><?=$key->judul?></span>
+                      <div class="carousel-caption"  style="color: black; background-color: white; font-weight: bold; padding: 10px; font-size: 20px">
+                        <span><?=$key->judul?></span>
                       </div>
                     </a>
                   </div>

@@ -17,12 +17,9 @@ class Konsumen extends CI_Controller {
 
 	function index()
 	{
-		$data = array(
-
-		);
 		$this->load->view('Konsumen/Head');
 		$this->load->view('Konsumen/Header');
-		$this->load->view('Konsumen/Login', $data);
+		$this->load->view('Konsumen/Login');
 		$this->load->view('Konsumen/Footer');
 	}
 
@@ -34,11 +31,15 @@ class Konsumen extends CI_Controller {
 		if (!is_null($cek)) {
 			if ($cek == 'tidak aktif') {
 				$this->session->set_flashdata('warning_login', 'akun sudah tidak aktif!');
-				redirect('Konsumen/index');
+				$this->load->view('Konsumen/Head');
+				$this->load->view('Konsumen/Header');
+				$this->load->view('Konsumen/Login');
+				$this->load->view('Konsumen/Footer');
 			}else{
 				$session_konsumen = array(
 					'id_konsumen' => $cek->id_konsumen,
 					'nama_konsumen' => $cek->nama_konsumen,
+					'status' => 'login'
 				);
 				$this->session->set_userdata($session_konsumen);
 				$this->session->set_flashdata('success_home','Selamat! Login berhasil!');
@@ -46,7 +47,10 @@ class Konsumen extends CI_Controller {
 			}
 		}else{
 			$this->session->set_flashdata('warning_login', 'username atau password salah!');
-			redirect('Konsumen/index');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
 		}
 	}
 
@@ -54,19 +58,16 @@ class Konsumen extends CI_Controller {
 	{
 		$this->session->sess_destroy();
 		$this->session->set_flashdata('success_login','Anda telah keluar dari aplikasi');
-		redirect('Konsumen/index');
+		redirect('Konsumen/index','refresh');
 	}
 
 	// REGISTRASI
 
 	function Register()
 	{
-		$data = array(
-
-		);
 		$this->load->view('Konsumen/Head');
 		$this->load->view('Konsumen/Header');
-		$this->load->view('Konsumen/Register', $data);
+		$this->load->view('Konsumen/Register');
 		$this->load->view('Konsumen/Footer');
 	}
 
@@ -77,7 +78,10 @@ class Konsumen extends CI_Controller {
 		$saltid = md5($email);
 		if (!is_null($this->M_konsumen->cekUsername($username))) {
 			$this->session->set_flashdata('warning_daftar', 'username sudah terdaftar, silahkan gunakan username lain!');
-			redirect('Konsumen/Register');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Register');
+			$this->load->view('Konsumen/Footer');
 		}else{
 			$data = array(
 				'nama_konsumen' => $this->input->post('nama_konsumen'),
@@ -92,10 +96,16 @@ class Konsumen extends CI_Controller {
 			if (!empty($this->M_konsumen->cekByEmail($email))) {	// cek email untuk melanjutkan validasi
 				if ($this->sendEmail($email, $saltid)) {
 					$this->session->set_flashdata('success_login', 'silahkan cek email Anda untuk menyelesaikan proses registrasi!');
-					redirect('Konsumen/index');
+					$this->load->view('Konsumen/Head');
+					$this->load->view('Konsumen/Header');
+					$this->load->view('Konsumen/Login');
+					$this->load->view('Konsumen/Footer');
 				}else{
 					$this->session->set_flashdata('error_daftar','pendaftaran gagal');
-					redirect('Konsumen/Register');
+					$this->load->view('Konsumen/Head');
+					$this->load->view('Konsumen/Header');
+					$this->load->view('Konsumen/Register');
+					$this->load->view('Konsumen/Footer');
 				}
 			}
 		}
@@ -115,10 +125,10 @@ class Konsumen extends CI_Controller {
 		$config['newline'] = "\r\n";
 		$this->email->initialize($config);
 		$url = base_url()."Konsumen/Konfirmasi/".$saltid;
-		$this->email->from('umkmppkm@gmail.com', 'UMKM PPKM');
+		$this->email->from('umkmppkm@gmail.com', 'PPKM Mart');
 		$this->email->to($email);
 		$this->email->subject('Please Verify Your Email Address');
-		$message = "<html><head></head><body><p>Hai, </p><p>Thanks for registration with UMKM PPKM APPS. </p><p>Please click below link to verify your email. </p>".$url."<br/><p>Sincerely, </p><p>UMKM PPKM</p></body></html>";
+		$message = "<html><head></head><body><p>Hai, </p><p>Thanks for registration with PPKM Mart. </p><p>Please click below link to verify your email. </p>".$url."<br/><p>Sincerely, </p><p>PPKM Mart</p></body></html>";
 		$this->email->message($message);
 		return $this->email->send();
 	}
@@ -127,10 +137,101 @@ class Konsumen extends CI_Controller {
 	{
 		if ($this->M_konsumen->verifyEmail($key)) {
 			$this->session->set_flashdata('success_login', 'berhasil verifikasi email');
-			redirect('Konsumen/index');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
 		}else{
 			$this->session->set_flashdata('warning_daftar', 'gagal verifikasi email');
-			redirect('Konsumen/Register');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Register');
+			$this->load->view('Konsumen/Footer');
+		}
+	}
+
+	// UBAH PASSWORD
+
+	function UbahPassword()
+	{
+		$this->load->view('Konsumen/Head');
+		$this->load->view('Konsumen/Header');
+		$this->load->view('Konsumen/UbahPassword');
+		$this->load->view('Konsumen/Footer');
+	}
+
+	function ProsesUbahPassword()
+	{
+		$username = $this->input->post('username');
+		$email = $this->input->post('email');
+		$password = md5($this->input->post('password1'));
+		$cekAkun = $this->M_konsumen->cekUserEmail($username, $email);
+		$saltid = md5($email);
+		if (!empty($cekAkun)) {
+			$id = $cekAkun->id_konsumen;
+			if ($this->konfirmasiUbahPass($email, $saltid, $password, $id)) {
+				$this->session->set_flashdata('success_login', 'silahkan cek email Anda untuk konfirmasi password Anda!');
+				$this->load->view('Konsumen/Head');
+				$this->load->view('Konsumen/Header');
+				$this->load->view('Konsumen/Login');
+				$this->load->view('Konsumen/Footer');
+			}else{
+				$this->session->set_flashdata('error_pass','ubah password gagal');
+				$this->load->view('Konsumen/Head');
+				$this->load->view('Konsumen/Header');
+				$this->load->view('Konsumen/UbahPassword');
+				$this->load->view('Konsumen/Footer');
+			}
+		}else{
+			$this->session->set_flashdata('warning_pass', 'Username atau email tidak terdaftar! Pastikan username dan email benar!');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/UbahPassword');
+			$this->load->view('Konsumen/Footer');
+		}
+	}
+
+	function konfirmasiUbahPass($email, $saltid, $password, $id)
+	{
+		// konfigurasi email
+		$config['protocol'] = 'smtp';
+		$config['smtp_host'] = 'ssl://smtp.gmail.com';
+		$config['smtp_port'] = '465';
+		$config['smtp_user'] = 'umkmppkm@gmail.com';
+		$config['smtp_pass'] = 'umkmppkm2020';
+		$config['mailtype'] = 'html';
+		$config['charset'] = 'iso-8859-1';
+		$config['wordwrap'] = TRUE;
+		$config['newline'] = "\r\n";
+		$this->email->initialize($config);
+		$url = base_url()."Konsumen/VerifResetPassword/".$id."/".$password;
+		$this->email->from('umkmppkm@gmail.com', 'PPKM Mart');
+		$this->email->to($email);
+		$this->email->subject('Konfirmasi Ubah Password');
+		$message = "<html><head></head><body><p>Hai, </p><p>Silahkan klik tombol berikut untuk konfirmasi ubah password pada aplikasi PPKM Mart</p>".$url."<br/><p>Sincerely, </p><p>PPKM Mart</p></body></html>";
+		$this->email->message($message);
+		return $this->email->send();
+	}
+
+	function VerifResetPassword($id, $password)
+	{
+		$data = array(
+			'password_konsumen' => $password
+		);
+		$this->M_konsumen->updateProfil($data, $id);
+		$pass = $this->M_konsumen->cekByPass($password, $id)->password_konsumen;
+		if ($password == $pass) {
+			$this->session->set_flashdata('success_login', 'berhasil ubah password');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
+		}else{
+			$this->session->set_flashdata('warning_pass', 'ubah password gagal dilakukan');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/UbahPassword');
+			$this->load->view('Konsumen/Footer');
 		}
 	}
 
@@ -545,7 +646,6 @@ class Konsumen extends CI_Controller {
 		if ($this->session->userdata('id_konsumen')) {
 			$cek = $this->M_konsumen->produkById($idProduk);	// mengambil data produk dari tabel produk
 			$produk = $this->M_konsumen->cekProdukKeranjang($idProduk, $this->session->userdata('id_konsumen'));	// mengecek apakah produk sudah ada di keranjang atau belum
-			// $cekCheckout = $this->M_konsumen->cekIdTransaksi($this->session->userdata('id_konsumen'));	// mengecek apakah ada yang status transaksi menunggu pembayaran
 			$jml_keranjang = $produk->jumlah;
 			$jumlah = $this->input->post('qty');
 			if ( (is_null($produk->id_produk)) AND ($jumlah+$jml_keranjang) <= $cek->stok) {		// jika produk belum ada di keranjang
@@ -574,7 +674,10 @@ class Konsumen extends CI_Controller {
 			}
 		}else{
 			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
 		}
 	}
 
@@ -592,7 +695,10 @@ class Konsumen extends CI_Controller {
 			$this->load->view('Konsumen/Footer');
 		}else{
 			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
 		}
 	}
 
@@ -612,7 +718,10 @@ class Konsumen extends CI_Controller {
 			}
 		}else{
 			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
 		}
 	}
 
@@ -639,7 +748,10 @@ class Konsumen extends CI_Controller {
 			}
 		}else{
 			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
 		}
 	}
 
@@ -651,7 +763,10 @@ class Konsumen extends CI_Controller {
 			redirect('Konsumen/Keranjang/'.$this->session->userdata('id_konsumen'));
 		}else{
 			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
 		}
 	}
 
@@ -663,7 +778,10 @@ class Konsumen extends CI_Controller {
 			redirect('Konsumen/Keranjang/'.$this->session->userdata('id_konsumen'));
 		}else{
 			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
 		}
 	}
 
@@ -692,7 +810,10 @@ class Konsumen extends CI_Controller {
 			}
 		}else{
 			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
 		}
 	}
 
@@ -707,7 +828,10 @@ class Konsumen extends CI_Controller {
 			redirect('Konsumen/Pesanan');
 		}else{
 			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
 		}
 	}
 
@@ -851,7 +975,10 @@ class Konsumen extends CI_Controller {
 			}
 		}else{
 			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
 		}
 	}
 
@@ -929,7 +1056,10 @@ class Konsumen extends CI_Controller {
 		}
 	}else{
 		$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
-		redirect('Konsumen/index');
+		$this->load->view('Konsumen/Head');
+		$this->load->view('Konsumen/Header');
+		$this->load->view('Konsumen/Login');
+		$this->load->view('Konsumen/Footer');
 	}
 }
 
@@ -1033,7 +1163,10 @@ function inputDiskon($idTransaksi)
 			}
 		}else{
 			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
 		}
 	}
 
@@ -1054,7 +1187,10 @@ function inputDiskon($idTransaksi)
 			redirect('Konsumen/Pengiriman/'.$idTransaksi);
 		}else{
 			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
 		}
 	}
 
@@ -1079,7 +1215,10 @@ function inputDiskon($idTransaksi)
 			redirect('Konsumen/Keranjang');
 		}else{
 			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
 		}
 	}
 
@@ -1112,7 +1251,10 @@ function inputDiskon($idTransaksi)
 			}
 		}else{
 			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
 		}
 	}
 
@@ -1144,7 +1286,10 @@ function inputDiskon($idTransaksi)
 			}
 		}else{
 			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
 		}
 	}
 
@@ -1258,7 +1403,10 @@ function inputDiskon($idTransaksi)
 			$this->load->view('Konsumen/Footer');
 		}else{
 			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
 		}
 	}
 
@@ -1306,7 +1454,10 @@ function inputDiskon($idTransaksi)
 			}
 		}else{
 			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
-			redirect('Konsumen/index');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
 		}
 	}
 
