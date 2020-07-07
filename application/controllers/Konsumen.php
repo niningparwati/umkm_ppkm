@@ -785,6 +785,30 @@ class Konsumen extends CI_Controller {
 		}
 	}
 
+	// DETAIL TRANSAKSI
+
+	function DetailTransaksi($idTransaksi)
+	{
+		if ($this->session->userdata('id_konsumen')) {
+			$data = array(
+				'produk' => $this->M_konsumen->getProdukDetail($idTransaksi),
+				'alamat' => $this->M_konsumen->getTransaksi($idTransaksi),
+				'totalHarga' => $this->M_konsumen->getTotalHarga($idTransaksi)->total,
+				'transaksi' => $this->M_konsumen->getTransaksi($idTransaksi),
+			);
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/DetailTransaksi', $data);
+			$this->load->view('Konsumen/Footer');
+		}else{
+			$this->session->set_flashdata('warning_login', 'silahkan login terlebih dahulu!');
+			$this->load->view('Konsumen/Head');
+			$this->load->view('Konsumen/Header');
+			$this->load->view('Konsumen/Login');
+			$this->load->view('Konsumen/Footer');
+		}
+	}
+
 	// PESANAN
 
 	function Pesanan()
@@ -821,7 +845,8 @@ class Konsumen extends CI_Controller {
 	{
 		if ($this->session->userdata('id_konsumen')) {
 			$data = array(
-				'status' => 'diterima'
+				'status' => 'diterima',
+				'tanggal_terima' => date('Y-m-d')
 			);
 			$this->M_konsumen->terimaPesanan($idTransaksi,$data);
 			$this->session->set_flashdata('success_pesan', 'Terima kasih atas pesanan Anda!');
@@ -1116,10 +1141,10 @@ function inputDiskon($idTransaksi)
 						// 	$this->session->set_flashdata('warning_checkout', 'voucher diskon hanya dapat digunakan untuk pembelian produk dari '.$Umkm->nama_umkm);
 						// 	redirect('Konsumen/Pengiriman/'.$idTransaksi);
 						// }
-					}else{
-						$this->session->set_flashdata('warning_checkout', 'Voucher tidak berlaku untuk pembelian produk ini');
-						redirect('Konsumen/Pengiriman/'.$idTransaksi);
-					}
+						}else{
+							$this->session->set_flashdata('warning_checkout', 'Voucher tidak berlaku untuk pembelian produk ini');
+							redirect('Konsumen/Pengiriman/'.$idTransaksi);
+						}
 				}else{		// jika promo untuk semua umkm
 					if ($transaksi->total_harga >= $cekKode->minimal_belanja) {		// cek belanja maksimum dan minimum
 						$besarDiskon = ($transaksi->total_harga*$cekKode->besar_promo)/100;

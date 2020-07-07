@@ -82,7 +82,7 @@ if ($err) {
                 <?php } ?>
               </a>  
             </td>
-            <td class="qty" style="border: none; vertical-align: middle;">
+            <td class="qty" style="border: none; vertical-align: middle;word-wrap: break-word;">
               <a href="<?=base_url()?>Konsumen/detailProduk/<?=$key->id_produk?>" style="text-decoration: none; color: black"><?=$key->nama_produk?></a>
             </td>
             <td class="qty" style="border: none; vertical-align: middle;">Rp <?=number_format($key->harga_produk,0,',','.')?></td>

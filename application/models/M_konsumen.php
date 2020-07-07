@@ -530,6 +530,11 @@ class M_konsumen extends CI_Model {
 		return $this->db->query("SELECT SUM(jumlah_harga) as total FROM tb_detail_transaksi JOIN tb_produk ON tb_detail_transaksi.id_produk=tb_produk.id_produk WHERE tb_detail_transaksi.id_transaksi='$idTransaksi' AND tb_produk.id_umkm='$idUmkm' GROUP BY id_detail_transaksi")->row();
 	}
 
+	function getProdukDetail($id)	// mengambil data produk yang akan di checkout
+	{
+		return $this->db->query("SELECT a.*, b.*, c.*, d.* FROM tb_detail_transaksi a JOIN tb_produk b ON a.id_produk=b.id_produk JOIN tb_umkm c ON b.id_umkm=c.id_umkm JOIN tb_transaksi d ON a.id_transaksi=d.id_transaksi WHERE a.id_transaksi='$id' ")->result();
+	}
+
 	function updateTransaksi($data,$idTransaksi)
 	{
 		$this->db->where('id_transaksi', $idTransaksi);
