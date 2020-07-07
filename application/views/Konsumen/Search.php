@@ -39,7 +39,7 @@
                         <div class="cart">
                           <div class="price" style="width: 50%">
                             <div class="vert">
-                              <div class="price_new">Rp <?=number_format($key->harga_produk,2,',','.')?></div>
+                              <div class="price_new">Rp <?=number_format($key->harga_produk,0,',','.')?></div>
                             </div>
                           </div>
                           <div style="color: #2e9f9a;">
