@@ -36,6 +36,7 @@
               <th>Nama Produk</th>
               <th>Jumlah Produk</th>
               <th>Total</th>
+              <th>Detail</th>
               <th>Status</th>
               <th>Aksi</th>
             </tr>
@@ -50,6 +51,11 @@
               <td><?php echo $u->nama_produk ?></td>
               <td><?php echo $u->jumlah_produk ?></td>
               <td><?php echo $u->jumlah_harga ?></td>
+              <td>
+                <a class="btn btn-info" data-toggle="modal" href="#" data-target="#detail<?=$u->id_transaksi?>">
+                  <i class="fa fa-fw fa-camera"></i> Detail
+                </a>
+              </td>
               <td>
                 <?php
                 if ($u->status == 'diterima') {
@@ -134,6 +140,61 @@
      }else{?>
     <img src="<?=base_url()?>assets/foto_bukti/<?= $key->bukti_pembayaran ?>" width="300px">
   <?php } ?>
+   </div>
+   <div class="modal-footer justify-content-between">
+     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tutup</button>
+   </div>
+ </div>
+ <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<?php } ?>
+
+<!-- ini bagian detail barang dibeli -->
+<?php foreach ($transaksi as $key) { ?>
+<div class="modal fade" id="detail<?=$key->id_transaksi?>" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="ExampleModalLabel">
+<div class="modal-dialog" role="document">
+ <div class="modal-content">
+   <div class="modal-header">
+     <h4 class="modal-title" id="ExampleModalLabel">Detail Transaksi ID <?=$key->id_transaksi?></h4>
+     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+     </button>
+     <div class="" style="float:right;color:red;margin-top:20px">
+       <p style=""><?=$key->tanggal_transaksi ?></p>
+     </div>
+   </div>
+
+   <div class="modal-body">
+      <table border="1" cellpadding="10" width="100%" class="table table-bordered">
+        <tr>
+          <td>Detail barang yang Diorder</td>
+          <td>:</td>
+          <td>
+            <?php $ini = $this->M_admin->iniprodukk($key->id_transaksi,$key->nama_umkm);
+              foreach ($ini as $e) { ?>
+                <ul>
+                  <li><?php echo $e->nama_umkm ?><br>
+                      <img src="<?=base_url()?>assets/foto_produk/<?php echo $e->foto_produk ?>" width="100px"><br>
+                      <p><?php echo $e->nama_produk ?> - <span style="color:red"><?php echo $e->harga_produk ?></span></p>
+                  </li>
+                </ul>
+              <?php } ?>
+          </td>
+        </tr>
+        <tr>
+          <td>Total Bayar</td>
+          <td>:</td>
+          <td> <b style="color:red"><?php echo "Rp ".number_format($key->total_harga) ?></b> </td>
+        </tr>
+        <tr>
+          <td>Status Order</td>
+          <td>:</td>
+          <td><?php echo $key->status ?></td>
+        </tr>
+      </table>
    </div>
    <div class="modal-footer justify-content-between">
      <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tutup</button>

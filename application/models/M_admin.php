@@ -272,6 +272,12 @@ class M_admin extends CI_Model {
 		return $this->db->query("SELECT * FROM tb_detail_transaksi JOIN tb_produk USING(id_produk) JOIN tb_umkm USING (id_umkm) WHERE id_transaksi = $id")->result();
 	}
 
+//baru
+	public function iniprodukk($id,$i)
+	{
+		return $this->db->query("SELECT * FROM tb_detail_transaksi JOIN tb_produk USING(id_produk) JOIN tb_umkm USING (id_umkm) WHERE id_transaksi = $id AND nama_umkm = '$i'")->result();
+	}
+
 
 	public function create_pengiriman($data){
 		return $this->db->insert('tb_pengiriman',$data);
@@ -283,8 +289,9 @@ class M_admin extends CI_Model {
 	 return $o;
 	}
 
+//baru
 	public function getTransaksiUMKM(){
-		return $this->db->query("SELECT nama_umkm, nama_produk, harga_produk, jumlah_produk, id_transaksi, jumlah_harga, status FROM tb_transaksi JOIN tb_detail_transaksi USING(id_transaksi) JOIN tb_produk USING(id_produk) JOIN tb_umkm USING(id_umkm) WHERE status='diterima' OR status='selesai' OR status='dana dikirim' GROUP BY id_transaksi")->result();
+		return $this->db->query("SELECT total_harga,tanggal_transaksi,nama_umkm, nama_produk, harga_produk, jumlah_produk, id_transaksi, jumlah_harga, status FROM tb_transaksi JOIN tb_detail_transaksi USING(id_transaksi) JOIN tb_produk USING(id_produk) JOIN tb_umkm USING(id_umkm) WHERE status='diterima' OR status='selesai' OR status='dana dikirim' GROUP BY id_transaksi")->result();
 	}
 
 //Kelola Informasi
